@@ -128,7 +128,9 @@ namespace SimpleTrueTable
             return 0;
         }
         public static int ifonlyif(int condition1, int condition2) {
-            if(condition1==0 | condition2==1) return 1;
+            if((condition1==1 & condition2==1) | (condition1==0 & condition2==0)){
+                return 1;
+            }
             return 0;
         }
     }
