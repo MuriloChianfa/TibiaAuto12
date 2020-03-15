@@ -24,34 +24,46 @@ namespace SimpleTrueTable
 
         public static int operators, result, condition1value, condition2value, option, amount;
         public static string condition1, condition2, resultValue, stringOperators;
+        public static bool success;
         public static void Main()
         {
             Console.Clear();
-            Console.WriteLine("Main Menu\n\n1 - Calculate\n2 - Calculate All Possibilities\n3 - Show Table\n\n4 - Create a Poposition\n\n0 - Exit");
-            option = int.Parse(Console.ReadLine());
-            if(option == 1){
-                Calculator();
+            Console.WriteLine("Main Menu\n\n1 - Calculate\n2 - Calculate All Possibilities\n3 - Show Table\n\n4 - Create a Poposition\n\n0 - Exit\n");
+            success = int.TryParse(Console.ReadLine(), out option);
+            if(success){
+
+                
+                if(option == 1){
+                    Calculator();
+                }
+                else if(option == 2){
+                    ExpressionCalculator();
+                }
+                else if(option == 3){
+                    Table();
+                }
+                else if(option == 4){
+                    CreateProposition();
+                }
+                else if(option == 0){
+                    Exit();
+                }
+                else{
+                    Console.Clear();
+                    Console.WriteLine("Invalid option..");
+                    Thread.Sleep(500);
+                    Console.WriteLine("Invalid option...");
+                    Thread.Sleep(500);
+                    Console.WriteLine("Invalid option....");
+                    Thread.Sleep(500);
+                    Main();
+                }
             }
-            else if(option == 2){
-                ExpressionCalculator();
-            }
-            else if(option == 3){
-                Table();
-            }
-            else if(option == 4){
-                CreateProposition();
-            }
-            else if(option == 0){
-                Exit();
-            }
-            else{
+            else
+            {
                 Console.Clear();
-                Console.WriteLine("Invalid option..");
-                Thread.Sleep(500);
-                Console.WriteLine("Invalid option...");
-                Thread.Sleep(500);
-                Console.WriteLine("Invalid option....");
-                Thread.Sleep(500);
+                Console.WriteLine("Please... Enter With A Valid Number.");
+                Thread.Sleep(2000);
                 Main();
             }
         }
@@ -193,37 +205,350 @@ namespace SimpleTrueTable
             Console.Clear();
 
             Console.WriteLine("How Many Propositions Will You Use ? (0 - Return)");
-            amount = int.Parse(Console.ReadLine());
+            success = int.TryParse(Console.ReadLine(), out amount);
 
-            #region twoPropositions
-            if(amount == 2){
+            if(success){
 
-                ShowTable2();
+            
+                #region twoPropositions
+                if(amount == 2){
 
-                Console.WriteLine("Enter The 1st Proposition:");
-                Console.WriteLine("p, q, np, nq\n");
-                condition1 = Console.ReadLine();
+                    ShowTable2();
 
-                int[] possibility1 = new int[4];
-                if(condition1 == "p"){
-                    for(int i = 0; i < 4; i++){
-                        possibility1[i] = p2[i];
+                    Console.WriteLine("Enter The 1st Proposition:");
+                    Console.WriteLine("p, q, np, nq\n");
+                    condition1 = Console.ReadLine();
+
+                    int[] possibility1 = new int[4];
+                    if(condition1 == "p"){
+                        for(int i = 0; i < 4; i++){
+                            possibility1[i] = p2[i];
+                        }
+                    }
+                    else if(condition1 == "q"){
+                        for(int i = 0; i < 4; i++){
+                            possibility1[i] = q2[i];
+                        }
+                    }
+                    else if(condition1 == "np"){
+                        for(int i = 0; i < 4; i++){
+                            possibility1[i] = np2[i];
+                        }
+                    }
+                    else if(condition1 == "nq"){
+                        for(int i = 0; i < 4; i++){
+                            possibility1[i] = nq2[i];
+                        }
+                    }
+                    else{
+                        Console.Clear();
+                        Console.WriteLine("Invalid option....");
+                        Thread.Sleep(1500);
+                        ExpressionCalculator();
+                    }
+
+                    Console.Clear();
+                    Console.WriteLine("Whatch Operator Will You Use ?");
+                    Console.WriteLine("1 - ^\n2 - v\n3 - v_\n4 - ->\n5 - <->\n\n");
+                    success = int.TryParse(Console.ReadLine(), out operators);
+
+                    if(success){
+
+                        ShowTable2();
+
+                        Console.WriteLine("Enter The 2nd Proposition:");
+                        Console.WriteLine("p, q, np, nq\n");
+                        condition2 = Console.ReadLine();
+
+                        int[] possibility2 = new int[4];
+                        if(condition2 == "p"){
+                            for(int i = 0; i < 4; i++){
+                                possibility2[i] = p2[i];
+                            }
+                        }
+                        else if(condition2 == "q"){
+                            for(int i = 0; i < 4; i++){
+                                possibility2[i] = q2[i];
+                            }
+                        }
+                        else if(condition2 == "np"){
+                            for(int i = 0; i < 4; i++){
+                                possibility2[i] = np2[i];
+                            }
+                        }
+                        else if(condition2 == "nq"){
+                            for(int i = 0; i < 4; i++){
+                                possibility2[i] = nq2[i];
+                            }
+                        }
+                        else{
+                            Console.Clear();
+                            Console.WriteLine("Invalid option....");
+                            Thread.Sleep(1500);
+                            ExpressionCalculator();
+                        }  
+
+                        //-----------Calculation---------------
+
+                        int[] result1Return = new int[4];
+                        if(operators == 1){
+                            stringOperators = "^";
+                            for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = and(condition1value, condition2value);
+                            }
+                        }
+                        else if(operators == 2){
+                            stringOperators = "v";
+                            for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = or(condition1value, condition2value);
+                            }
+                        }
+                        else if(operators == 3){
+                            stringOperators = "v_";
+                            for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = xor(condition1value, condition2value);
+                            }
+                        }
+                        else if(operators == 4){
+                            stringOperators = "->";
+                            for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = ifthen(condition1value, condition2value);
+                            }
+                        }
+                        else if(operators == 5){
+                            stringOperators = "<->";
+                            for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = ifonlyif(condition1value, condition2value);
+                            }
+                        }
+                        else{
+                            Console.Clear();
+                            Console.WriteLine("Invalid option....");
+                            Thread.Sleep(1500);
+                            ExpressionCalculator();
+                        }
+                        
+                        //-----------Show Result of Calcule-----------
+
+                        Console.Clear();
+                        Console.WriteLine("+------+ +------+  +--------+");
+                        Console.WriteLine($"¦   {condition1}  ¦ ¦   {condition2}  ¦  ¦  {condition1} {stringOperators} {condition2} ¦");
+                        Console.WriteLine("+------+ +------+  +--------+");
+                        Console.WriteLine("+------+ +------+  +--------+");
+                        for(int i = 0; i < result1Return.Length; i++)
+                        {
+                            Console.WriteLine("¦   {0}  ¦ ¦   {1}  ¦  ¦    " + result1Return[i] + "   ¦", possibility1[i], possibility2[i]);
+                        }
+                        Console.WriteLine("+------+ +------+  +--------+\n");
+
+                        Console.WriteLine("Press ENTER to Continue...");
+                        Console.ReadKey();
+                        ExpressionCalculator();
+                    }
+                    else{
+                        Console.Clear();
+                        Console.WriteLine("Please... Enter With A Valid Number.");
+                        Thread.Sleep(2000);
+                        ExpressionCalculator();
                     }
                 }
-                else if(condition1 == "q"){
-                    for(int i = 0; i < 4; i++){
-                        possibility1[i] = q2[i];
+                #endregion
+                #region ThreePropositions
+                else if(amount == 3){
+
+                    ShowTable3();
+
+                    Console.WriteLine("Enter The 1st Proposition:");
+                    Console.WriteLine("p, q, r, np, nq, nr\n");
+                    condition1 = Console.ReadLine();
+
+                    int[] possibility1 = new int[8];
+                    if(condition1 == "p"){
+                        for(int i = 0; i < 8; i++){
+                            possibility1[i] = p3[i];
+                        }
+                    }
+                    else if(condition1 == "q"){
+                        for(int i = 0; i < 8; i++){
+                            possibility1[i] = q3[i];
+                        }
+                    }
+                    else if(condition1 == "r"){
+                        for(int i = 0; i < 8; i++){
+                            possibility1[i] = r3[i];
+                        }
+                    }
+                    else if(condition1 == "np"){
+                        for(int i = 0; i < 8; i++){
+                            possibility1[i] = np3[i];
+                        }
+                    }
+                    else if(condition1 == "nq"){
+                        for(int i = 0; i < 8; i++){
+                            possibility1[i] = nq3[i];
+                        }
+                    }
+                    else if(condition1 == "nr"){
+                        for(int i = 0; i < 8; i++){
+                            possibility1[i] = nr3[i];
+                        }
+                    }
+                    else{
+                        Console.Clear();
+                        Console.WriteLine("Invalid option....");
+                        Thread.Sleep(1500);
+                        ExpressionCalculator();
+                    }
+
+                    Console.Clear();
+                    Console.WriteLine("Whatch Operator Will You Use ?");
+                    Console.WriteLine("1 - ^\n2 - v\n3 - v_\n4 - ->\n5 - <->\n\n");
+                    success = int.TryParse(Console.ReadLine(), out operators);
+
+                    if(success){
+                    
+                        ShowTable3();
+
+                        Console.WriteLine("Enter The 2nd Proposition:");
+                        Console.WriteLine("p, q, r, np, nq, nr\n");
+                        condition2 = Console.ReadLine();
+
+                        int[] possibility2 = new int[8];
+                        if(condition2 == "p"){
+                            for(int i = 0; i < 8; i++){
+                                possibility2[i] = p3[i];
+                            }
+                        }
+                        else if(condition2 == "q"){
+                            for(int i = 0; i < 8; i++){
+                                possibility2[i] = q3[i];
+                            }
+                        }
+                        else if(condition2 == "r"){
+                            for(int i = 0; i < 8; i++){
+                                possibility2[i] = r3[i];
+                            }
+                        }
+                        else if(condition2 == "np"){
+                            for(int i = 0; i < 8; i++){
+                                possibility2[i] = np3[i];
+                            }
+                        }
+                        else if(condition2 == "nq"){
+                            for(int i = 0; i < 8; i++){
+                                possibility2[i] = nq3[i];
+                            }
+                        }
+                        else if(condition2 == "nr"){
+                            for(int i = 0; i < 8; i++){
+                                possibility2[i] = nr3[i];
+                            }
+                        }
+                        else{
+                            Console.Clear();
+                            Console.WriteLine("Invalid option....");
+                            Thread.Sleep(1500);
+                            ExpressionCalculator();
+                        }  
+
+                        //-----------Calculation---------------
+
+                        int[] result1Return = new int[8];
+                        if(operators == 1){
+                            stringOperators = "^";
+                            for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = and(condition1value, condition2value);
+                            }
+                        }
+                        else if(operators == 2){
+                            stringOperators = "v";
+                            for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = or(condition1value, condition2value);
+                            }
+                        }
+                        else if(operators == 3){
+                            stringOperators = "v_";
+                            for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = xor(condition1value, condition2value);
+                            }
+                        }
+                        else if(operators == 4){
+                            stringOperators = "->";
+                            for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = ifthen(condition1value, condition2value);
+                            }
+                        }
+                        else if(operators == 5){
+                            stringOperators = "<->";
+                            for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                            {
+                                condition1value = possibility1[i];
+                                condition2value = possibility2[j];
+                                result1Return[k] = ifonlyif(condition1value, condition2value);
+                            }
+                        }
+                        else{
+                            Console.Clear();
+                            Console.WriteLine("Invalid option....");
+                            Thread.Sleep(1500);
+                            ExpressionCalculator();
+                        }
+                        
+                        //-----------Show Result of Calcule-----------
+
+                        Console.Clear();
+                        Console.WriteLine("+------+ +------+  +--------+");
+                        Console.WriteLine($"¦   {condition1}  ¦ ¦   {condition2}  ¦  ¦  {condition1} {stringOperators} {condition2} ¦");
+                        Console.WriteLine("+------+ +------+  +--------+");
+                        Console.WriteLine("+------+ +------+  +--------+");
+                        for(int i = 0; i < result1Return.Length; i++)
+                        {
+                            Console.WriteLine("¦   {0}  ¦ ¦   {1}  ¦  ¦    " + result1Return[i] + "   ¦", possibility1[i], possibility2[i]);
+                        }
+                        Console.WriteLine("+------+ +------+  +--------+\n");
+
+                        Console.WriteLine("Press ENTER to Continue...");
+                        Console.ReadKey();
+                        ExpressionCalculator();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please... Enter With A Valid Number.");
+                        Thread.Sleep(2000);
+                        ExpressionCalculator();
                     }
                 }
-                else if(condition1 == "np"){
-                    for(int i = 0; i < 4; i++){
-                        possibility1[i] = np2[i];
-                    }
-                }
-                else if(condition1 == "nq"){
-                    for(int i = 0; i < 4; i++){
-                        possibility1[i] = nq2[i];
-                    }
+                #endregion
+                else if(amount == 0){
+                    Main();
                 }
                 else{
                     Console.Clear();
@@ -231,297 +556,11 @@ namespace SimpleTrueTable
                     Thread.Sleep(1500);
                     ExpressionCalculator();
                 }
-
+            }else
+            {
                 Console.Clear();
-                Console.WriteLine("Whatch Operator Will You Use ?");
-                Console.WriteLine("1 - ^\n2 - v\n3 - v_\n4 - ->\n5 - <->\n\n");
-                operators = int.Parse(Console.ReadLine());
-
-
-                ShowTable2();
-
-                Console.WriteLine("Enter The 2nd Proposition:");
-                Console.WriteLine("p, q, np, nq\n");
-                condition2 = Console.ReadLine();
-
-                int[] possibility2 = new int[4];
-                if(condition2 == "p"){
-                    for(int i = 0; i < 4; i++){
-                        possibility2[i] = p2[i];
-                    }
-                }
-                else if(condition2 == "q"){
-                    for(int i = 0; i < 4; i++){
-                        possibility2[i] = q2[i];
-                    }
-                }
-                else if(condition2 == "np"){
-                    for(int i = 0; i < 4; i++){
-                        possibility2[i] = np2[i];
-                    }
-                }
-                else if(condition2 == "nq"){
-                    for(int i = 0; i < 4; i++){
-                        possibility2[i] = nq2[i];
-                    }
-                }
-                else{
-                    Console.Clear();
-                    Console.WriteLine("Invalid option....");
-                    Thread.Sleep(1500);
-                    ExpressionCalculator();
-                }  
-
-                //-----------Calculation---------------
-
-                int[] result1Return = new int[4];
-                if(operators == 1){
-                    stringOperators = "^";
-                    for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = and(condition1value, condition2value);
-                    }
-                }
-                else if(operators == 2){
-                    stringOperators = "v";
-                    for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = or(condition1value, condition2value);
-                    }
-                }
-                else if(operators == 3){
-                    stringOperators = "v_";
-                    for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = xor(condition1value, condition2value);
-                    }
-                }
-                else if(operators == 4){
-                    stringOperators = "->";
-                    for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = ifthen(condition1value, condition2value);
-                    }
-                }
-                else if(operators == 5){
-                    stringOperators = "<->";
-                    for(int i = 0, j = 0, k = 0; i < p2.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = ifonlyif(condition1value, condition2value);
-                    }
-                }
-                else{
-                    Console.Clear();
-                    Console.WriteLine("Invalid option....");
-                    Thread.Sleep(1500);
-                    ExpressionCalculator();
-                }
-                
-                //-----------Show Result of Calcule-----------
-
-                Console.Clear();
-                Console.WriteLine("+------+ +------+  +--------+");
-                Console.WriteLine($"¦   {condition1}  ¦ ¦   {condition2}  ¦  ¦  {condition1} {stringOperators} {condition2} ¦");
-                Console.WriteLine("+------+ +------+  +--------+");
-                Console.WriteLine("+------+ +------+  +--------+");
-                for(int i = 0; i < result1Return.Length; i++)
-                {
-                    Console.WriteLine("¦   {0}  ¦ ¦   {1}  ¦  ¦    " + result1Return[i] + "   ¦", possibility1[i], possibility2[i]);
-                }
-                Console.WriteLine("+------+ +------+  +--------+\n");
-
-                Console.WriteLine("Press ENTER to Continue...");
-                Console.ReadKey();
-                ExpressionCalculator();
-            }
-            #endregion
-            #region ThreePropositions
-            else if(amount == 3){
-
-                ShowTable3();
-
-                Console.WriteLine("Enter The 1st Proposition:");
-                Console.WriteLine("p, q, r, np, nq, nr\n");
-                condition1 = Console.ReadLine();
-
-                int[] possibility1 = new int[8];
-                if(condition1 == "p"){
-                    for(int i = 0; i < 8; i++){
-                        possibility1[i] = p3[i];
-                    }
-                }
-                else if(condition1 == "q"){
-                    for(int i = 0; i < 8; i++){
-                        possibility1[i] = q3[i];
-                    }
-                }
-                else if(condition1 == "r"){
-                    for(int i = 0; i < 8; i++){
-                        possibility1[i] = r3[i];
-                    }
-                }
-                else if(condition1 == "np"){
-                    for(int i = 0; i < 8; i++){
-                        possibility1[i] = np3[i];
-                    }
-                }
-                else if(condition1 == "nq"){
-                    for(int i = 0; i < 8; i++){
-                        possibility1[i] = nq3[i];
-                    }
-                }
-                else if(condition1 == "nr"){
-                    for(int i = 0; i < 8; i++){
-                        possibility1[i] = nr3[i];
-                    }
-                }
-                else{
-                    Console.Clear();
-                    Console.WriteLine("Invalid option....");
-                    Thread.Sleep(1500);
-                    ExpressionCalculator();
-                }
-
-                Console.Clear();
-                Console.WriteLine("Whatch Operator Will You Use ?");
-                Console.WriteLine("1 - ^\n2 - v\n3 - v_\n4 - ->\n5 - <->\n\n");
-                operators = int.Parse(Console.ReadLine());
-
-
-                ShowTable3();
-
-                Console.WriteLine("Enter The 2nd Proposition:");
-                Console.WriteLine("p, q, r, np, nq, nr\n");
-                condition2 = Console.ReadLine();
-
-                int[] possibility2 = new int[8];
-                if(condition2 == "p"){
-                    for(int i = 0; i < 8; i++){
-                        possibility2[i] = p3[i];
-                    }
-                }
-                else if(condition2 == "q"){
-                    for(int i = 0; i < 8; i++){
-                        possibility2[i] = q3[i];
-                    }
-                }
-                else if(condition2 == "r"){
-                    for(int i = 0; i < 8; i++){
-                        possibility2[i] = r3[i];
-                    }
-                }
-                else if(condition2 == "np"){
-                    for(int i = 0; i < 8; i++){
-                        possibility2[i] = np3[i];
-                    }
-                }
-                else if(condition2 == "nq"){
-                    for(int i = 0; i < 8; i++){
-                        possibility2[i] = nq3[i];
-                    }
-                }
-                else if(condition2 == "nr"){
-                    for(int i = 0; i < 8; i++){
-                        possibility2[i] = nr3[i];
-                    }
-                }
-                else{
-                    Console.Clear();
-                    Console.WriteLine("Invalid option....");
-                    Thread.Sleep(1500);
-                    ExpressionCalculator();
-                }  
-
-                //-----------Calculation---------------
-
-                int[] result1Return = new int[8];
-                if(operators == 1){
-                    stringOperators = "^";
-                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = and(condition1value, condition2value);
-                    }
-                }
-                else if(operators == 2){
-                    stringOperators = "v";
-                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = or(condition1value, condition2value);
-                    }
-                }
-                else if(operators == 3){
-                    stringOperators = "v_";
-                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = xor(condition1value, condition2value);
-                    }
-                }
-                else if(operators == 4){
-                    stringOperators = "->";
-                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = ifthen(condition1value, condition2value);
-                    }
-                }
-                else if(operators == 5){
-                    stringOperators = "<->";
-                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
-                    {
-                        condition1value = possibility1[i];
-                        condition2value = possibility2[j];
-                        result1Return[k] = ifonlyif(condition1value, condition2value);
-                    }
-                }
-                else{
-                    Console.Clear();
-                    Console.WriteLine("Invalid option....");
-                    Thread.Sleep(1500);
-                    ExpressionCalculator();
-                }
-                
-                //-----------Show Result of Calcule-----------
-
-                Console.Clear();
-                Console.WriteLine("+------+ +------+  +--------+");
-                Console.WriteLine($"¦   {condition1}  ¦ ¦   {condition2}  ¦  ¦  {condition1} {stringOperators} {condition2} ¦");
-                Console.WriteLine("+------+ +------+  +--------+");
-                Console.WriteLine("+------+ +------+  +--------+");
-                for(int i = 0; i < result1Return.Length; i++)
-                {
-                    Console.WriteLine("¦   {0}  ¦ ¦   {1}  ¦  ¦    " + result1Return[i] + "   ¦", possibility1[i], possibility2[i]);
-                }
-                Console.WriteLine("+------+ +------+  +--------+\n");
-
-                Console.WriteLine("Press ENTER to Continue...");
-                Console.ReadKey();
-                ExpressionCalculator();
-            }
-            #endregion
-            else if(amount == 0){
-                Main();
-            }
-            else{
-                Console.Clear();
-                Console.WriteLine("Invalid option....");
-                Thread.Sleep(1500);
+                Console.WriteLine("Please... Enter With A Valid Number.");
+                Thread.Sleep(2000);
                 ExpressionCalculator();
             }
         }
@@ -532,30 +571,39 @@ namespace SimpleTrueTable
             Console.Clear();
 
             Console.WriteLine("How Many Propositions Will You Use ? (0 - Return)");
-            option = int.Parse(Console.ReadLine());
+            success = int.TryParse(Console.ReadLine(), out option);
 
-            if(option == 2){
-                ShowTable2();
+            if(success){
 
-                Console.WriteLine("Press Enter to Continue...");
-                Console.ReadKey();
+                if(option == 2){
+                    ShowTable2();
 
-                Main();
-            }
-            else if(option == 3){
-                ShowTable3();
+                    Console.WriteLine("Press Enter to Continue...");
+                    Console.ReadKey();
 
-                Console.WriteLine("Press Enter to Continue...");
-                Console.ReadKey();
+                    Main();
+                }
+                else if(option == 3){
+                    ShowTable3();
 
-                Main();
-            }
-            else if(option == 0){
-                Main();
+                    Console.WriteLine("Press Enter to Continue...");
+                    Console.ReadKey();
+
+                    Main();
+                }
+                else if(option == 0){
+                    Main();
+                }
+                else{
+                    Console.Clear();
+                    Console.WriteLine("Invalid option....");
+                    Thread.Sleep(2000);
+                    Table();
+                }
             }
             else{
                 Console.Clear();
-                Console.WriteLine("Invalid option....");
+                Console.WriteLine("Please... Enter With A Valid Number.");
                 Thread.Sleep(2000);
                 Table();
             }
