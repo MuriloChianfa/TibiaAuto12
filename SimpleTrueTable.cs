@@ -51,20 +51,24 @@ namespace SimpleTrueTable
                 }
                 else{
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid option..");
                     Thread.Sleep(500);
                     Console.WriteLine("Invalid option...");
                     Thread.Sleep(500);
                     Console.WriteLine("Invalid option....");
                     Thread.Sleep(500);
+                    Console.ResetColor();
                     Main();
                 }
             }
             else
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Please... Enter With A Valid Number.");
                 Thread.Sleep(2000);
+                Console.ResetColor();
                 Main();
             }
         }
@@ -85,8 +89,10 @@ namespace SimpleTrueTable
             }
             else{
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Please Enter a Valid Option.");
                 Thread.Sleep(2000);
+                Console.ResetColor();
                 Calculator();
             }
 
@@ -140,8 +146,10 @@ namespace SimpleTrueTable
             }
             else{
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Sorry, We Dont Find This Option ...");
                 Thread.Sleep(2000);
+                Console.ResetColor();
                 Calculator();
             }
         }
@@ -243,8 +251,10 @@ namespace SimpleTrueTable
                     }
                     else{
                         Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid option....");
                         Thread.Sleep(1500);
+                        Console.ResetColor();
                         ExpressionCalculator();
                     }
 
@@ -284,8 +294,10 @@ namespace SimpleTrueTable
                         }
                         else{
                             Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Invalid option....");
                             Thread.Sleep(1500);
+                            Console.ResetColor();
                             ExpressionCalculator();
                         }  
 
@@ -339,8 +351,10 @@ namespace SimpleTrueTable
                         }
                         else{
                             Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Invalid option....");
                             Thread.Sleep(1500);
+                            Console.ResetColor();
                             ExpressionCalculator();
                         }
                         
@@ -363,8 +377,10 @@ namespace SimpleTrueTable
                     }
                     else{
                         Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Please... Enter With A Valid Number.");
                         Thread.Sleep(2000);
+                        Console.ResetColor();
                         ExpressionCalculator();
                     }
                 }
@@ -411,8 +427,10 @@ namespace SimpleTrueTable
                     }
                     else{
                         Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid option....");
                         Thread.Sleep(1500);
+                        Console.ResetColor();
                         ExpressionCalculator();
                     }
 
@@ -420,7 +438,7 @@ namespace SimpleTrueTable
                     Console.WriteLine("Whatch Operator Will You Use ?");
                     Console.WriteLine("1 - ^ (AND)\n2 - v (OR)\n3 - v_ (XOR)\n4 - -> (IF THEN)\n5 - <-> (IF ONLY IF)\n");
                     success = int.TryParse(Console.ReadLine(), out operators);
-
+                    
                     if(success){
                     
                         ShowTable3();
@@ -462,8 +480,10 @@ namespace SimpleTrueTable
                         }
                         else{
                             Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Invalid option....");
                             Thread.Sleep(1500);
+                            Console.ResetColor();
                             ExpressionCalculator();
                         }  
 
@@ -516,8 +536,10 @@ namespace SimpleTrueTable
                         }
                         else{
                             Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Invalid option....");
                             Thread.Sleep(1500);
+                            Console.ResetColor();
                             ExpressionCalculator();
                         }
                         
@@ -561,8 +583,10 @@ namespace SimpleTrueTable
                     else
                     {
                         Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Please... Enter With A Valid Number.");
                         Thread.Sleep(2000);
+                        Console.ResetColor();
                         ExpressionCalculator();
                     }
                 }
@@ -572,15 +596,19 @@ namespace SimpleTrueTable
                 }
                 else{
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid option....");
                     Thread.Sleep(1500);
+                    Console.ResetColor();
                     ExpressionCalculator();
                 }
             }else
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Please... Enter With A Valid Number.");
                 Thread.Sleep(2000);
+                Console.ResetColor();
                 ExpressionCalculator();
             }
         }
@@ -828,15 +856,19 @@ namespace SimpleTrueTable
                 }
                 else{
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid option....");
                     Thread.Sleep(2000);
+                    Console.ResetColor();
                     Table();
                 }
             }
             else{
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Please... Enter With A Valid Number.");
                 Thread.Sleep(2000);
+                Console.ResetColor();
                 Table();
             }
         }
