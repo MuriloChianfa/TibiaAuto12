@@ -21,9 +21,10 @@ namespace SimpleTrueTable
         public static int[] nq3 = new[] { 0, 0, 1, 1, 0, 0, 1, 1};
         public static int[] nr3 = new[] { 0, 1, 0, 1, 0, 1, 0, 1};
         #endregion
+        public static int[] result3Return = new int[8];
 
-        public static int operators, result, condition1value, condition2value, option, amount;
-        public static string condition1, condition2, resultValue, stringOperators;
+        public static int operators, result, condition1value, condition2value, option, amount, lengthExpression, lengthExpression2;
+        public static string condition1, condition2, resultValue, stringOperators, comPl = "-";
         public static bool success;
         public static void Main()
         {
@@ -216,7 +217,7 @@ namespace SimpleTrueTable
                     ShowTable2();
 
                     Console.WriteLine("Enter The 1st Proposition:");
-                    Console.WriteLine("p, q, np, nq\n");
+                    Console.WriteLine("p, q, ~p, ~q\n");
                     condition1 = Console.ReadLine();
 
                     int[] possibility1 = new int[4];
@@ -230,12 +231,12 @@ namespace SimpleTrueTable
                             possibility1[i] = q2[i];
                         }
                     }
-                    else if(condition1 == "np"){
+                    else if(condition1 == "~p"){
                         for(int i = 0; i < 4; i++){
                             possibility1[i] = np2[i];
                         }
                     }
-                    else if(condition1 == "nq"){
+                    else if(condition1 == "~q"){
                         for(int i = 0; i < 4; i++){
                             possibility1[i] = nq2[i];
                         }
@@ -257,7 +258,7 @@ namespace SimpleTrueTable
                         ShowTable2();
 
                         Console.WriteLine("Enter The 2nd Proposition:");
-                        Console.WriteLine("p, q, np, nq\n");
+                        Console.WriteLine("p, q, ~p, ~q\n");
                         condition2 = Console.ReadLine();
 
                         int[] possibility2 = new int[4];
@@ -271,12 +272,12 @@ namespace SimpleTrueTable
                                 possibility2[i] = q2[i];
                             }
                         }
-                        else if(condition2 == "np"){
+                        else if(condition2 == "~p"){
                             for(int i = 0; i < 4; i++){
                                 possibility2[i] = np2[i];
                             }
                         }
-                        else if(condition2 == "nq"){
+                        else if(condition2 == "~q"){
                             for(int i = 0; i < 4; i++){
                                 possibility2[i] = nq2[i];
                             }
@@ -374,7 +375,7 @@ namespace SimpleTrueTable
                     ShowTable3();
 
                     Console.WriteLine("Enter The 1st Proposition:");
-                    Console.WriteLine("p, q, r, np, nq, nr\n");
+                    Console.WriteLine("p, q, r, ~p, ~q, ~r\n");
                     condition1 = Console.ReadLine();
 
                     int[] possibility1 = new int[8];
@@ -393,17 +394,17 @@ namespace SimpleTrueTable
                             possibility1[i] = r3[i];
                         }
                     }
-                    else if(condition1 == "np"){
+                    else if(condition1 == "~p"){
                         for(int i = 0; i < 8; i++){
                             possibility1[i] = np3[i];
                         }
                     }
-                    else if(condition1 == "nq"){
+                    else if(condition1 == "~q"){
                         for(int i = 0; i < 8; i++){
                             possibility1[i] = nq3[i];
                         }
                     }
-                    else if(condition1 == "nr"){
+                    else if(condition1 == "~r"){
                         for(int i = 0; i < 8; i++){
                             possibility1[i] = nr3[i];
                         }
@@ -417,7 +418,7 @@ namespace SimpleTrueTable
 
                     Console.Clear();
                     Console.WriteLine("Whatch Operator Will You Use ?");
-                    Console.WriteLine("1 - ^\n2 - v\n3 - v_\n4 - ->\n5 - <->\n\n");
+                    Console.WriteLine("1 - ^ (AND)\n2 - v (OR)\n3 - v_ (XOR)\n4 - -> (IF THEN)\n5 - <-> (IF ONLY IF)\n");
                     success = int.TryParse(Console.ReadLine(), out operators);
 
                     if(success){
@@ -425,7 +426,7 @@ namespace SimpleTrueTable
                         ShowTable3();
 
                         Console.WriteLine("Enter The 2nd Proposition:");
-                        Console.WriteLine("p, q, r, np, nq, nr\n");
+                        Console.WriteLine("p, q, r, ~p, ~q, ~r\n");
                         condition2 = Console.ReadLine();
 
                         int[] possibility2 = new int[8];
@@ -444,17 +445,17 @@ namespace SimpleTrueTable
                                 possibility2[i] = r3[i];
                             }
                         }
-                        else if(condition2 == "np"){
+                        else if(condition2 == "~p"){
                             for(int i = 0; i < 8; i++){
                                 possibility2[i] = np3[i];
                             }
                         }
-                        else if(condition2 == "nq"){
+                        else if(condition2 == "~q"){
                             for(int i = 0; i < 8; i++){
                                 possibility2[i] = nq3[i];
                             }
                         }
-                        else if(condition2 == "nr"){
+                        else if(condition2 == "~r"){
                             for(int i = 0; i < 8; i++){
                                 possibility2[i] = nr3[i];
                             }
@@ -468,14 +469,13 @@ namespace SimpleTrueTable
 
                         //-----------Calculation---------------
 
-                        int[] result1Return = new int[8];
                         if(operators == 1){
                             stringOperators = "^";
                             for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
                             {
                                 condition1value = possibility1[i];
                                 condition2value = possibility2[j];
-                                result1Return[k] = and(condition1value, condition2value);
+                                result3Return[k] = and(condition1value, condition2value);
                             }
                         }
                         else if(operators == 2){
@@ -484,7 +484,7 @@ namespace SimpleTrueTable
                             {
                                 condition1value = possibility1[i];
                                 condition2value = possibility2[j];
-                                result1Return[k] = or(condition1value, condition2value);
+                                result3Return[k] = or(condition1value, condition2value);
                             }
                         }
                         else if(operators == 3){
@@ -493,7 +493,7 @@ namespace SimpleTrueTable
                             {
                                 condition1value = possibility1[i];
                                 condition2value = possibility2[j];
-                                result1Return[k] = xor(condition1value, condition2value);
+                                result3Return[k] = xor(condition1value, condition2value);
                             }
                         }
                         else if(operators == 4){
@@ -502,7 +502,7 @@ namespace SimpleTrueTable
                             {
                                 condition1value = possibility1[i];
                                 condition2value = possibility2[j];
-                                result1Return[k] = ifthen(condition1value, condition2value);
+                                result3Return[k] = ifthen(condition1value, condition2value);
                             }
                         }
                         else if(operators == 5){
@@ -511,7 +511,7 @@ namespace SimpleTrueTable
                             {
                                 condition1value = possibility1[i];
                                 condition2value = possibility2[j];
-                                result1Return[k] = ifonlyif(condition1value, condition2value);
+                                result3Return[k] = ifonlyif(condition1value, condition2value);
                             }
                         }
                         else{
@@ -523,20 +523,40 @@ namespace SimpleTrueTable
                         
                         //-----------Show Result of Calcule-----------
 
+                        string currentExpression = "(" + condition1 + " " + stringOperators + " " + condition2+ ")";
+                        
+                        lengthExpression = currentExpression.Length;
+
                         Console.Clear();
-                        Console.WriteLine("+------+ +------+  +--------+");
-                        Console.WriteLine($"¦   {condition1}  ¦ ¦   {condition2}  ¦  ¦  {condition1} {stringOperators} {condition2} ¦");
-                        Console.WriteLine("+------+ +------+  +--------+");
-                        Console.WriteLine("+------+ +------+  +--------+");
-                        for(int i = 0; i < result1Return.Length; i++)
+
+                        PrintPl(lengthExpression);
+                        Console.WriteLine($"¦   {condition1}  ¦ ¦   {condition2}  ¦ ¦  {currentExpression} ¦");
+                        PrintPl(lengthExpression);
+                        PrintPl(lengthExpression);
+                        for(int i = 0; i < result3Return.Length; i++)
                         {
-                            Console.WriteLine("¦   {0}  ¦ ¦   {1}  ¦  ¦    " + result1Return[i] + "   ¦", possibility1[i], possibility2[i]);
+                            if(condition1.Length == 2)
+                                Console.Write("¦    {0}  ¦ ", possibility1[i]);
+                            else
+                                Console.Write("¦   {0}  ¦ ", possibility1[i]);
+                                
+                            if(condition2.Length == 2)
+                                Console.Write("¦    {0}  ¦ ", possibility2[i]);
+                            else
+                                Console.Write("¦   {0}  ¦ ", possibility2[i]);
+
+                            Console.Write("¦  ");
+                            for (int j = 5; j < lengthExpression; j++)
+                            {
+                                Console.Write(" ");
+                            }
+                            Console.WriteLine("{0}     ¦", result3Return[i]);
                         }
-                        Console.WriteLine("+------+ +------+  +--------+\n");
+                        PrintPl(lengthExpression);
 
                         Console.WriteLine("Press ENTER to Continue...");
                         Console.ReadKey();
-                        ExpressionCalculator();
+                        ContinueExpression(currentExpression);
                     }
                     else
                     {
@@ -564,6 +584,218 @@ namespace SimpleTrueTable
                 ExpressionCalculator();
             }
         }
+
+        public static void PrintPl(int lengthExpression){
+            if(condition1.Length == 2)
+                Console.Write("+-------+");
+            else
+                Console.Write("+------+");
+
+            Console.Write(" ");
+
+            if(condition2.Length == 2)
+                Console.Write("+-------+");
+            else
+                Console.Write("+------+");
+
+            Console.Write(" ");
+
+            Console.Write("+");
+            for (int i = -3; i < lengthExpression; i++)
+            {
+                Console.Write("-");
+            }
+            Console.WriteLine("+");
+        }
+
+            #region ContinueThreeExpressions
+        public static void ContinueExpression(string currentExpression){
+            int[] possibility1 = new int[8];
+            for(int i = 0; i < 8; i++){
+                possibility1[i] = result3Return[i];
+            }
+            
+            Console.Clear();
+            Console.WriteLine("Whatch Operator Will You Use ?");
+            Console.WriteLine("1 - ^ (AND)\n2 - v (OR)\n3 - v_ (XOR)\n4 - -> (IF THEN)\n5 - <-> (IF ONLY IF)\n\n0 - Return\n");
+            success = int.TryParse(Console.ReadLine(), out operators);
+
+            if(operators == 0){
+                Main();
+            }
+
+            Console.Clear();
+            
+            ShowTable3();
+
+            Console.WriteLine("Enter The Other Proposition:");
+            Console.WriteLine("p, q, r, ~p, ~q, ~r\n");
+            condition2 = Console.ReadLine();
+
+            int[] possibility2 = new int[8];
+            if(condition2 == "p"){
+                for(int i = 0; i < 8; i++){
+                    possibility2[i] = p3[i];
+                }
+            }
+            else if(condition2 == "q"){
+                for(int i = 0; i < 8; i++){
+                    possibility2[i] = q3[i];
+                }
+            }
+            else if(condition2 == "r"){
+                for(int i = 0; i < 8; i++){
+                    possibility2[i] = r3[i];
+                }
+            }
+            else if(condition2 == "~p"){
+                for(int i = 0; i < 8; i++){
+                    possibility2[i] = np3[i];
+                }
+            }
+            else if(condition2 == "~q"){
+                for(int i = 0; i < 8; i++){
+                    possibility2[i] = nq3[i];
+                }
+            }
+            else if(condition2 == "~r"){
+                for(int i = 0; i < 8; i++){
+                    possibility2[i] = nr3[i];
+                }
+            }
+            else{
+                Console.Clear();
+                Console.WriteLine("Invalid option....");
+                Thread.Sleep(1500);
+                ExpressionCalculator();
+            }
+
+            if(success){
+
+                //-----------Calculation---------------
+
+                if(operators == 1){
+                    stringOperators = "^";
+                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                    {
+                        condition1value = possibility1[i];
+                        condition2value = possibility2[j];
+                        result3Return[k] = and(condition1value, condition2value);
+                    }
+                }
+                else if(operators == 2){
+                    stringOperators = "v";
+                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                    {
+                        condition1value = possibility1[i];
+                        condition2value = possibility2[j];
+                        result3Return[k] = or(condition1value, condition2value);
+                    }
+                }
+                else if(operators == 3){
+                    stringOperators = "v_";
+                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                    {
+                        condition1value = possibility1[i];
+                        condition2value = possibility2[j];
+                        result3Return[k] = xor(condition1value, condition2value);
+                    }
+                }
+                else if(operators == 4){
+                    stringOperators = "->";
+                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                    {
+                        condition1value = possibility1[i];
+                        condition2value = possibility2[j];
+                        result3Return[k] = ifthen(condition1value, condition2value);
+                    }
+                }
+                else if(operators == 5){
+                    stringOperators = "<->";
+                    for(int i = 0, j = 0, k = 0; i < p3.Length; i++, j++, k++) 
+                    {
+                        condition1value = possibility1[i];
+                        condition2value = possibility2[j];
+                        result3Return[k] = ifonlyif(condition1value, condition2value);
+                    }
+                }
+                else{
+                    Console.Clear();
+                    Console.WriteLine("Invalid option....");
+                    Thread.Sleep(1500);
+                    ExpressionCalculator();
+                }
+                
+                //-----------Show Result of Calcule-----------
+
+                string currentExpression2 = "(" + currentExpression + " " + stringOperators + " " + condition2+ ")";
+
+                lengthExpression = currentExpression.Length;
+                lengthExpression2 = currentExpression2.Length;
+
+                Console.Clear();
+                PrintComPL(lengthExpression, lengthExpression2);
+                Console.WriteLine($"¦   {currentExpression}  ¦ ¦   {condition2}  ¦ ¦ {currentExpression2} ¦");
+                PrintComPL(lengthExpression, lengthExpression2);
+                PrintComPL(lengthExpression, lengthExpression2);
+                for(int i = 0; i < result3Return.Length; i++)
+                {
+                    Console.Write("¦  ");
+                    for (int j = 3; j < lengthExpression; j++)
+                    {
+                        Console.Write(" ");
+                    }
+                    Console.Write("{0}     ¦ ", possibility1[i]);
+
+                    //----------------------------
+                        
+                    if(condition2.Length == 2)
+                        Console.Write("¦    {0}  ¦ ", possibility2[i]);
+                    else
+                        Console.Write("¦   {0}  ¦ ", possibility2[i]);
+
+                    //--------------------------
+
+                    Console.Write("¦       {0}", result3Return[i]);
+                    for (int j = 6; j < lengthExpression2; j++)
+                    {
+                        Console.Write(" ");
+                    }
+                    Console.WriteLine("¦");
+                    //Console.WriteLine("¦   {0}  ¦ ¦   {1}  ¦ ¦    " + result3Return[i] + "   ¦", possibility1[i], possibility2[i]);
+                }
+                PrintComPL(lengthExpression, lengthExpression2);
+
+                Console.WriteLine("\nPress ENTER to Continue...");
+                Console.ReadKey();
+                ContinueExpression(currentExpression2);
+            }
+        }
+        public static void PrintComPL(int lengthExpression, int lengthExpression2){
+            Console.Write("+");
+            for (int i = -5; i < lengthExpression; i++)
+            {
+                Console.Write("-");
+            }
+            Console.Write("+");
+
+            Console.Write(" ");
+
+            if(condition2.Length == 2)
+                Console.Write("+-------+");
+            else
+                Console.Write("+------+");
+
+            Console.Write(" ");
+
+            Console.Write("+");
+            for (int i = -2; i < lengthExpression2; i++)
+            {
+                Console.Write("-");
+            }
+            Console.WriteLine("+");
+        }
+            #endregion
         #endregion
         
         #region Table
