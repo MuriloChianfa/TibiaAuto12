@@ -213,7 +213,8 @@ namespace SimpleTrueTable
         public static void ExpressionCalculator(){
             Console.Clear();
 
-            Console.WriteLine("How Many Propositions Will You Use ? (0 - Return)");
+            Console.WriteLine("How Many Propositions Will You Use ?");
+            Console.WriteLine("\n2 -  2 Propositions (4 Possibilities)\n3 -  3 Propositions (8 Possibilities)\n\n0 -  Return\n");
             success = int.TryParse(Console.ReadLine(), out amount);
 
             if(success){
@@ -636,7 +637,7 @@ namespace SimpleTrueTable
             Console.WriteLine("+");
         }
 
-            #region ContinueThreeExpressions
+        #region ContinueThreeExpressions
         public static void ContinueExpression(string currentExpression){
             int[] possibility1 = new int[8];
             for(int i = 0; i < 8; i++){
@@ -693,8 +694,10 @@ namespace SimpleTrueTable
             }
             else{
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid option....");
                 Thread.Sleep(1500);
+                Console.ResetColor();
                 ExpressionCalculator();
             }
 
@@ -749,8 +752,10 @@ namespace SimpleTrueTable
                 }
                 else{
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid option....");
                     Thread.Sleep(1500);
+                    Console.ResetColor();
                     ExpressionCalculator();
                 }
                 
@@ -823,14 +828,15 @@ namespace SimpleTrueTable
             }
             Console.WriteLine("+");
         }
-            #endregion
+        #endregion
         #endregion
         
         #region Table
         public static void Table(){
             Console.Clear();
 
-            Console.WriteLine("How Many Propositions Will You Use ? (0 - Return)");
+            Console.WriteLine("How Many Propositions Will You Use ?");
+            Console.WriteLine("\n2 -  2 Propositions (4 Possibilities)\n3 -  3 Propositions (8 Possibilities)\n\n0 -  Return\n");
             success = int.TryParse(Console.ReadLine(), out option);
 
             if(success){
@@ -915,9 +921,26 @@ namespace SimpleTrueTable
         #region CreateProposition
         public static void CreateProposition(){
             Console.Clear();
-            
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Option In Development.");
+            Thread.Sleep(800);
+            Console.ResetColor();
+
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Option In Development..");
+            Thread.Sleep(800);
+            Console.ResetColor();
+
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Option In Development...");
-            Thread.Sleep(2000);
+            Thread.Sleep(800);
+            Console.ResetColor();
+            
             Main();
         }
         #endregion
