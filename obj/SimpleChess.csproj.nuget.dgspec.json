@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleTrueTable\\SimpleTrueTable.csproj": {}
+    "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleChess\\SimpleChess.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleTrueTable\\SimpleTrueTable.csproj": {
+    "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleChess\\SimpleChess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleTrueTable\\SimpleTrueTable.csproj",
-        "projectName": "SimpleTrueTable",
-        "projectPath": "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleTrueTable\\SimpleTrueTable.csproj",
+        "projectUniqueName": "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleChess\\SimpleChess.csproj",
+        "projectName": "SimpleChess",
+        "projectPath": "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleChess\\SimpleChess.csproj",
         "packagesPath": "C:\\Users\\Murilo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleTrueTable\\obj\\",
+        "outputPath": "C:\\Users\\Murilo\\Desktop\\Nova pasta\\GITHUB\\SimpleChess\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Murilo\\AppData\\Roaming\\NuGet\\NuGet.Config",

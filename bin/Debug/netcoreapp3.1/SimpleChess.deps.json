@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "SimpleTrueTable/1.0.0": {
+      "SimpleChess/1.0.0": {
         "runtime": {
-          "SimpleTrueTable.dll": {}
+          "SimpleChess.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "SimpleTrueTable/1.0.0": {
+    "SimpleChess/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
