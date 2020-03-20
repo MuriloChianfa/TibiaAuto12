@@ -1,2 +1,2 @@
-# SimpleChess
-A very simple multplayer chess
+# TibiaAuto12
+A very simple pixel bot for taleon servers

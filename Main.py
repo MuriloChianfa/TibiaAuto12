@@ -6,12 +6,9 @@ import pyautogui
 from PIL import Image, ImageTk
 from PIL import ImageGrab
 
-print("Start in 1 Seconds...")
-time.sleep(1)
+print("Start in 2 Seconds...")
+time.sleep(2)
 
-screen = screen
-pass_mouse_position = pass_mouse_position
-root = root
 bool_life = False
 bool_hur = False
 bool_mana = False
@@ -70,10 +67,10 @@ def main():
         global master_start
         if master_start == False:
             master_start = True
-            enable_master_key.configure(text='Disable Master Key')
+            enable_master_key.configure(text='Disable Master Key "J"')
         else:
             master_start = False
-            enable_master_key.configure(text='Enable Master Key')
+            enable_master_key.configure(text='Enable Master Key "J"')
 
     def init_key_check():
         if keyboard.is_pressed('j'):
@@ -87,7 +84,7 @@ def main():
 
         root.after(75, init_key_check)
 
-    enable_master_key = tk.Button(root, text='Enable Master Key',
+    enable_master_key = tk.Button(root, text='Enable Master Key "J"',
                                   font=('Microsoft Sans Serif', 10),
                                   bg=_from_rgb((127, 17, 8)), fg='white',
                                   command=combine_funcs(init_key_check, func_config_masterkey),
