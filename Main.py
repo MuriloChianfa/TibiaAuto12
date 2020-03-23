@@ -5,10 +5,12 @@ import keyboard
 import pyautogui
 from PIL import Image, ImageTk
 from PIL import ImageGrab
+import cv2
 
 print("Start in 2 Seconds...")
 time.sleep(2)
 
+print_health = False
 bool_life = False
 bool_hur = False
 bool_mana = False
@@ -273,45 +275,74 @@ def auto_life():
             bool_life = True
             auto_life_button.configure(text='AutoHealing: ON')
             print("AutoHealing: ON")
-            scanning_auto_life()
+            global print_health
+            if not print_health:
+                print_health = True
+                health = pyautogui.locateOnScreen('images/health.png', grayscale=True, confidence=0.8)
+                print("Your health location is:", health)
+                healthXc, healthYc = pyautogui.center(health)
+                global healthX
+                global healthY
+                healthX = int(healthXc)
+                healthY = int(healthYc)
+                if health:
+                    if bool_life and master_key_start:
+                        scanning_auto_life()
+                    else:
+                        print("Non Activated!")
+                else:
+                    print("ERROR!")
+            else:
+                if bool_life and master_key_start:
+                    scanning_auto_life()
+                else:
+                    print("Non Activated!")
         else:
             bool_life = False
             print("AutoHealing: OFF")
             auto_life_button.configure(text='AutoHealing: OFF')
 
     def scanning_auto_life():
-        if bool_life and master_key_start:
-            health = pyautogui.locateOnScreen("images/health.png")
-            if pyautogui.pixelMatchesColor((health.left + 104), (health.top + 3), (192, 74, 74)):
-                print("Life: 100")
-            elif pyautogui.pixelMatchesColor((health.left + 94), (health.top + 7), (220, 113, 113)):
-                print("Life: 90")
-                pyautogui.press(var_dropdown_stage_one.get())
-            elif pyautogui.pixelMatchesColor((health.left + 84), (health.top + 7), (220, 113, 113)):
-                print("Life: 80")
-                pyautogui.press("f1")
-            elif pyautogui.pixelMatchesColor((health.left + 74), (health.top + 7), (220, 113, 113)):
-                print("Life: 70")
-                pyautogui.press("f2")
-            elif pyautogui.pixelMatchesColor((health.left + 54), (health.top + 7), (220, 113, 113)):
-                print("Life: 50")
-                pyautogui.press("f2")
-            elif pyautogui.pixelMatchesColor((health.left + 34), (health.top + 7), (220, 113, 113)):
-                print("Life: 30")
-                pyautogui.press("f2")
-            elif pyautogui.pixelMatchesColor((health.left + 24), (health.top + 7), (220, 113, 113)):
-                print("Life: 20")
-                pyautogui.press("f2")
-            elif pyautogui.pixelMatchesColor((health.left + 14), (health.top + 7), (220, 113, 113)):
-                print("Life: 15")
-                pyautogui.press("f2")
-            elif pyautogui.pixelMatchesColor((health.left + 5), (health.top + 7), (220, 113, 113)):
-                print("Life: 10")
-                pyautogui.press("f2")
-            else:
-                print("Life: 0")
+        if pyautogui.pixelMatchesColor(healthX + 100, healthY + 3, (110, 58, 58)):
+            print("Life: 100")
+        elif pyautogui.pixelMatchesColor(healthX + 90, healthY + 3, (255, 125, 125)):
+            print("Life: 90")
+            if var_check_three.get() == "on":
+                pyautogui.press(var_dropdown_stage_two.get())
+                print("Pressed ", var_dropdown_stage_two.get())
+        elif pyautogui.pixelMatchesColor(healthX + 80, healthY + 3, (255, 125, 125)):
+            print("Life: 80")
+            pyautogui.press(var_dropdown_stage_two.get())
+            print("Pressed ", var_dropdown_stage_two.get())
+        elif pyautogui.pixelMatchesColor(healthX + 70, healthY + 3, (255, 125, 125)):
+            print("Life: 70")
+            pyautogui.press(var_dropdown_stage_four.get())
+            print("Pressed ", var_dropdown_stage_four.get())
+        elif pyautogui.pixelMatchesColor(healthX + 50, healthY + 3, (255, 125, 125)):
+            print("Life: 50")
+            pyautogui.press(var_dropdown_stage_four.get())
+            print("Pressed ", var_dropdown_stage_four.get())
+        elif pyautogui.pixelMatchesColor(healthX + 30, healthY + 3, (255, 125, 125)):
+            print("Life: 30")
+            pyautogui.press(var_dropdown_stage_four.get())
+            print("Pressed ", var_dropdown_stage_four.get())
+        elif pyautogui.pixelMatchesColor(healthX + 20, healthY + 3, (255, 125, 125)):
+            print("Life: 20")
+            pyautogui.press(var_dropdown_stage_four.get())
+            print("Pressed ", var_dropdown_stage_four.get())
+        elif pyautogui.pixelMatchesColor(healthX + 14, healthY + 3, (255, 125, 125)):
+            print("Life: 15")
+            pyautogui.press(var_dropdown_stage_six.get())
+            print("Pressed ", var_dropdown_stage_six.get())
+        elif pyautogui.pixelMatchesColor(healthX + 10, healthY + 3, (255, 125, 125)):
+            print("Life: 10")
+            pyautogui.press(var_dropdown_stage_six.get())
+            print("Pressed ", var_dropdown_stage_six.get())
+        else:
+            print("Life: 0")
 
-            root.after(100, scanning_auto_life)
+        if bool_life and master_key_start:
+            root.after(200, scanning_auto_life)
 
     # Buttons
 
@@ -366,15 +397,15 @@ def auto_life():
     var_check_eleven = tk.StringVar()
     var_check_twelve = tk.StringVar()
     var_dropdown_stage_one = tk.StringVar()
-    var_dropdown_stage_one.set("90%")
+    var_dropdown_stage_one.set("90")
     var_dropdown_stage_two = tk.StringVar()
     var_dropdown_stage_two.set("f1")
     var_dropdown_stage_three = tk.StringVar()
-    var_dropdown_stage_three.set("75%")
+    var_dropdown_stage_three.set("75")
     var_dropdown_stage_four = tk.StringVar()
     var_dropdown_stage_four.set("f2")
     var_dropdown_stage_five = tk.StringVar()
-    var_dropdown_stage_five.set("35%")
+    var_dropdown_stage_five.set("35")
     var_dropdown_stage_six = tk.StringVar()
     var_dropdown_stage_six.set("f12")
     img_poison = ImageTk.PhotoImage(Image.open('images/poison.webp'))
@@ -575,8 +606,10 @@ def auto_hur():
                 if hur == (254, 110, 0):
                     if hur2 != (161, 127, 73):
                         pyautogui.press('f6')
+                        print("Pressed Key f6")
                 elif hur != (197, 170, 126):
                     pyautogui.press('f6')
+                    print("Pressed Key f6")
 
         root.after(1500, scanning_auto_hur)
 
