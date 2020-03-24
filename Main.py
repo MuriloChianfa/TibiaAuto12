@@ -942,14 +942,14 @@ def auto_attack():
                 battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
                 if battle_start_x:
                     if bool_auto_attack and master_key_start:
-                        scanning_auto_attack()
+                        combine_funcs(scanning_auto_attack(), scanning_follow_mode())
                     else:
                         print("Master Key Non Activated!")
                 else:
                     print("ERROR!")
             else:
                 if bool_auto_attack and master_key_start:
-                    scanning_auto_attack()
+                    combine_funcs(scanning_auto_attack(), scanning_follow_mode())
                 else:
                     print("Master Key Non Activated!")
         else:
@@ -969,12 +969,28 @@ def auto_attack():
             else:
                 attacking = GetTargetPosition.attaking(battle_log, battle_start_x, battle_end_x,
                                                                            battle_start_y, battle_end_y)
-                if attacking
+                if not attacking:
+                    print("You Have One Target");
                     past_mouse_position = pyautogui.position()
                     pyautogui.leftClick(target_x, target_y)
                     pyautogui.moveTo(past_mouse_position)
+                else:
+                    print("You are attacking")
 
         root.after(1000, scanning_auto_attack)
+
+
+    def scanning_follow_mode():
+        if bool_auto_attack and master_key_start:
+            follow_x_pos, follow_y_pos = GetTargetPosition.scanning_follow_mode()
+
+            if follow_x_pos != 0 and follow_y_pos !=0:
+                past_mouse_position = pyautogui.position()
+                pyautogui.leftClick(follow_x_pos, follow_y_pos)
+                pyautogui.moveTo(past_mouse_position)
+
+
+        root.after(3000, scanning_follow_mode)
 
     # Buttons
 

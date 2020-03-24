@@ -18,7 +18,6 @@ class GetTargetPosition:
         none = 0
         if has_target:
             target_x, target_y = pyautogui.center(has_target)
-            print("You Have One Target In:", has_target)
             return target_x - 41, target_y
         else:
             return 0, 0
@@ -27,12 +26,26 @@ class GetTargetPosition:
     def attaking(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y):
         attaking = pyautogui.locateOnScreen('images/attacking.png', confidence=0.8, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))
-        if attaking:
-            print("You are attacking")
+        attaking2 = pyautogui.locateOnScreen('images/attacking2.png', confidence=0.8, region=(
+            battle_start_x, battle_start_y, battle_end_x, battle_end_y))
+        if attaking or attaking2:
             return True
         else:
             return False
 
+
+# --------------------------- Arrumar Depois ------------------------------
+    
+    def scanning_follow_mode():
+        follow = pyautogui.locateOnScreen('images/follow.png', confidence=0.8, region=(0, 0, 1826, 1024))
+        if follow:
+            follow_x, follow_y = pyautogui.center(follow)
+            follow_x = int(follow_x)
+            follow_y = int(follow_y)
+            print("Clicking in Follow")
+            return follow_x, follow_y
+        else:
+            return 0, 0
 
 
 
