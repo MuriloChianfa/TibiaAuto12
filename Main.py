@@ -8,11 +8,18 @@ from PIL import ImageGrab
 import cv2
 
 from Functions.getStages import *
+from Functions.getTarget import *
 
 print("Start in 2 Seconds...")
 time.sleep(2)
 
-print_health = False
+battle_start_x = 0
+battle_end_x = 0
+battle_start_y = 0
+battle_end_y = 0
+get_health_location = False
+get_mana_location = False
+get_attack_location = False
 bool_life = False
 bool_hur = False
 bool_mana = False
@@ -315,9 +322,9 @@ def auto_life():
             bool_life = True
             auto_life_button.configure(text='AutoHealing: ON')
             print("AutoHealing: ON")
-            global print_health
-            if not print_health:
-                print_health = True
+            global get_health_location
+            if not get_health_location:
+                get_health_location = True
                 health = pyautogui.locateOnScreen('images/health.png', grayscale=True, confidence=0.8)
                 print("Your health location is:", health)
                 healthXc, healthYc = pyautogui.center(health)
@@ -668,9 +675,9 @@ def auto_mana():
             bool_mana = True
             auto_mana_button.configure(text='AutoMana: ON')
             print("AutoMana: ON")
-            global print_health
-            if not print_health:
-                print_health = True
+            global get_mana_location
+            if not get_mana_location:
+                get_mana_location = True
                 manaLoc = pyautogui.locateOnScreen('images/mana.png', grayscale=True, confidence=0.8)
                 print("Your mana location is:", manaLoc)
                 manaLocXc, manaLocYc = pyautogui.center(manaLoc)
@@ -927,26 +934,47 @@ def auto_attack():
         if not bool_auto_attack:
             bool_auto_attack = True
             auto_attack_button.configure(text='AutoAttack: ON')
-            scanning_auto_attack()
+            print("AutoAttack: ON")
+            global get_attack_location
+            if not get_attack_location:
+                get_attack_location = True
+                global battle_start_x, battle_end_x, battle_start_y, battle_end_y
+                battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
+                if battle_start_x:
+                    if bool_auto_attack and master_key_start:
+                        scanning_auto_attack()
+                    else:
+                        print("Master Key Non Activated!")
+                else:
+                    print("ERROR!")
+            else:
+                if bool_auto_attack and master_key_start:
+                    scanning_auto_attack()
+                else:
+                    print("Master Key Non Activated!")
         else:
             bool_auto_attack = False
+            print("AutoAttack: OFF")
             auto_attack_button.configure(text='AutoAttack: OFF')
+
 
     def scanning_auto_attack():
         if bool_auto_attack and master_key_start:
-            screencp = capture_screen()
-            color = screencp.getpixel((1703, 414))
-            color2 = screencp.getpixel((1653, 420))
-            color3 = screencp.getpixel((1653, 420))
-            mouse_position = pyautogui.position()
-            print(mouse_position)
-            print("Check Monster", color)
-            if color == (0, 0, 0) and color2 != (224, 64, 64) and color3 != (248, 164, 164):
-                past_mouse_position = pyautogui.position()
-                pyautogui.leftClick(1678, 415)
-                pyautogui.moveTo(past_mouse_position)
+            battle_log = 0
+            global battle_start_x, battle_end_x, battle_start_y, battle_end_y
+            target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
+                                                                       battle_start_y, battle_end_y)
+            if target_x == 0 and target_y ==0:
+                print("You Dont Have Any Target")
+            else:
+                attacking = GetTargetPosition.attaking(battle_log, battle_start_x, battle_end_x,
+                                                                           battle_start_y, battle_end_y)
+                if attacking
+                    past_mouse_position = pyautogui.position()
+                    pyautogui.leftClick(target_x, target_y)
+                    pyautogui.moveTo(past_mouse_position)
 
-        root.after(150, scanning_auto_attack)
+        root.after(1000, scanning_auto_attack)
 
     # Buttons
 
