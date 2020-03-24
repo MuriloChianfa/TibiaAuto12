@@ -70,6 +70,28 @@ percentage = [
     5,
 ]
 
+monsters = [
+    "Rat",
+    "CaveRat",
+    "Orc",
+    "OrcWarrior",
+    "OrcSpearman",
+    "Rotworm"
+]
+
+priority = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+]
+
 
 def _from_rgb(rgb):  # Function to translate color to RGB
     return "#%02x%02x%02x" % rgb
@@ -962,8 +984,9 @@ def auto_attack():
         if bool_auto_attack and master_key_start:
             battle_log = 0
             global battle_start_x, battle_end_x, battle_start_y, battle_end_y
+            monster = var_dropdown_stage_one.get()
             target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
-                                                                       battle_start_y, battle_end_y)
+                                                                       battle_start_y, battle_end_y, monster)
             if target_x == 0 and target_y ==0:
                 print("You Dont Have Any Target")
             else:
@@ -996,6 +1019,11 @@ def auto_attack():
 
     var_check_one = tk.StringVar()
     var_check_two = tk.StringVar()
+    var_check_three = tk.StringVar()
+    var_dropdown_stage_one = tk.StringVar()
+    var_dropdown_stage_one.set("Rat")
+    var_dropdown_stage_two = tk.StringVar()
+    var_dropdown_stage_two.set(1)
 
     ''' ok button '''
 
@@ -1028,6 +1056,24 @@ def auto_attack():
                                variable=var_check_two, onvalue="on", offvalue="off")
     check_two.place(x=10, y=440)
     check_two.deselect()
+
+    check_three = tk.Checkbutton(screen_auto_attack, bg=_from_rgb((130, 16, 6)), text="Attack Monster",
+                                 variable=var_check_three, onvalue="on", offvalue="off",
+                                 activebackground=_from_rgb((130, 16, 6)))
+    check_three.place(x=32, y=94)
+    check_three.select()
+
+    dropdown_stage_one = tk.OptionMenu(screen_auto_attack, var_dropdown_stage_one, *monsters)
+    dropdown_stage_one["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_one["activebackground"] = _from_rgb((103, 13, 5))
+    dropdown_stage_one["width"] = 4
+    dropdown_stage_one.place(x=165, y=90)
+
+    dropdown_stage_two = tk.OptionMenu(screen_auto_attack, var_dropdown_stage_two, *priority)
+    dropdown_stage_two["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_two["activebackground"] = _from_rgb((103, 13, 5))
+    dropdown_stage_two["width"] = 4
+    dropdown_stage_two.place(x=250, y=90)
 
     screen_auto_attack.mainloop()
 

@@ -12,8 +12,8 @@ class GetTargetPosition:
         return int(battle_start_x), int(battle_end_x), int(battle_start_y), int(battle_end_y)
 
 
-    def scanning_for_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y):
-        has_target = pyautogui.locateOnScreen('images/Targets/Rotworm.png', confidence=0.8, region=(
+    def scanning_for_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
+        has_target = pyautogui.locateOnScreen('images/Targets/' + monster + '.png', confidence=0.8, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))
         none = 0
         if has_target:
@@ -35,7 +35,7 @@ class GetTargetPosition:
 
 
 # --------------------------- Arrumar Depois ------------------------------
-    
+
     def scanning_follow_mode():
         follow = pyautogui.locateOnScreen('images/follow.png', confidence=0.8, region=(0, 0, 1826, 1024))
         if follow:
