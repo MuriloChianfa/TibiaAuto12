@@ -7,6 +7,8 @@ from PIL import Image, ImageTk
 from PIL import ImageGrab
 import cv2
 
+from Functions.getStages import GetLifeStage
+
 print("Start in 2 Seconds...")
 time.sleep(2)
 
@@ -285,6 +287,9 @@ def auto_life():
                 global healthY
                 healthX = int(healthXc)
                 healthY = int(healthYc)
+                life = 0
+                glife = GetLifeStage.scanning_auto_life(life, healthX, healthY)
+                print(glife)
                 if health:
                     if bool_life and master_key_start:
                         scanning_auto_life()
@@ -303,43 +308,26 @@ def auto_life():
             auto_life_button.configure(text='AutoHealing: OFF')
 
     def scanning_auto_life():
-        if pyautogui.pixelMatchesColor(healthX + 100, healthY + 3, (110, 58, 58)):
-            print("Life: 100")
-        elif pyautogui.pixelMatchesColor(healthX + 90, healthY + 3, (255, 125, 125)):
-            print("Life: 90")
-            if var_check_three.get() == "on":
+        glife = 0
+        life = GetLifeStage.scanning_auto_life(glife, healthX, healthY)
+
+        if var_check_five.get() == "on":
+            stage_three = var_dropdown_stage_five.get()
+            if int(stage_three) > life:
+                pyautogui.press(var_dropdown_stage_six.get())
+                print("Pressed ", var_dropdown_stage_six.get())
+        elif var_check_four.get() == "on":
+            stage_two = var_dropdown_stage_three.get()
+            if int(stage_two) > life:
+                pyautogui.press(var_dropdown_stage_four.get())
+                print("Pressed ", var_dropdown_stage_four.get())
+        elif var_check_three.get() == "on":
+            stage_one = var_dropdown_stage_one.get()
+            if int(stage_one) > life:
                 pyautogui.press(var_dropdown_stage_two.get())
                 print("Pressed ", var_dropdown_stage_two.get())
-        elif pyautogui.pixelMatchesColor(healthX + 80, healthY + 3, (255, 125, 125)):
-            print("Life: 80")
-            pyautogui.press(var_dropdown_stage_two.get())
-            print("Pressed ", var_dropdown_stage_two.get())
-        elif pyautogui.pixelMatchesColor(healthX + 70, healthY + 3, (255, 125, 125)):
-            print("Life: 70")
-            pyautogui.press(var_dropdown_stage_four.get())
-            print("Pressed ", var_dropdown_stage_four.get())
-        elif pyautogui.pixelMatchesColor(healthX + 50, healthY + 3, (255, 125, 125)):
-            print("Life: 50")
-            pyautogui.press(var_dropdown_stage_four.get())
-            print("Pressed ", var_dropdown_stage_four.get())
-        elif pyautogui.pixelMatchesColor(healthX + 30, healthY + 3, (255, 125, 125)):
-            print("Life: 30")
-            pyautogui.press(var_dropdown_stage_four.get())
-            print("Pressed ", var_dropdown_stage_four.get())
-        elif pyautogui.pixelMatchesColor(healthX + 20, healthY + 3, (255, 125, 125)):
-            print("Life: 20")
-            pyautogui.press(var_dropdown_stage_four.get())
-            print("Pressed ", var_dropdown_stage_four.get())
-        elif pyautogui.pixelMatchesColor(healthX + 14, healthY + 3, (255, 125, 125)):
-            print("Life: 15")
-            pyautogui.press(var_dropdown_stage_six.get())
-            print("Pressed ", var_dropdown_stage_six.get())
-        elif pyautogui.pixelMatchesColor(healthX + 10, healthY + 3, (255, 125, 125)):
-            print("Life: 10")
-            pyautogui.press(var_dropdown_stage_six.get())
-            print("Pressed ", var_dropdown_stage_six.get())
         else:
-            print("Life: 0")
+            print("Modulo Not Configured")
 
         if bool_life and master_key_start:
             root.after(200, scanning_auto_life)
@@ -362,26 +350,26 @@ def auto_life():
     ]
 
     percentage = [
-        "100",
-        "95",
-        "90",
-        "85",
-        "80",
-        "75",
-        "70",
-        "65",
-        "60",
-        "55",
-        "50",
-        "45",
-        "40",
-        "35",
-        "30",
-        "25",
-        "20",
-        "15",
-        "10",
-        "5",
+        100,
+        95,
+        90,
+        85,
+        80,
+        75,
+        70,
+        65,
+        60,
+        55,
+        50,
+        45,
+        40,
+        35,
+        30,
+        25,
+        20,
+        15,
+        10,
+        5,
     ]
 
     var_check_one = tk.StringVar()
@@ -397,15 +385,15 @@ def auto_life():
     var_check_eleven = tk.StringVar()
     var_check_twelve = tk.StringVar()
     var_dropdown_stage_one = tk.StringVar()
-    var_dropdown_stage_one.set("90")
+    var_dropdown_stage_one.set(90)
     var_dropdown_stage_two = tk.StringVar()
     var_dropdown_stage_two.set("f1")
     var_dropdown_stage_three = tk.StringVar()
-    var_dropdown_stage_three.set("75")
+    var_dropdown_stage_three.set(75)
     var_dropdown_stage_four = tk.StringVar()
     var_dropdown_stage_four.set("f2")
     var_dropdown_stage_five = tk.StringVar()
-    var_dropdown_stage_five.set("35")
+    var_dropdown_stage_five.set(35)
     var_dropdown_stage_six = tk.StringVar()
     var_dropdown_stage_six.set("f12")
     img_poison = ImageTk.PhotoImage(Image.open('images/poison.webp'))
@@ -479,49 +467,49 @@ def auto_life():
     check_six = tk.Checkbutton(screen_auto_life, bg=_from_rgb((130, 16, 6)), text="Enable Cure Statments",
                                variable=var_check_six, onvalue="on", offvalue="off",
                                activebackground=_from_rgb((130, 16, 6)))
-    check_six.place(x=105, y=244)
+    check_six.place(x=105, y=334)
     check_six.deselect()
 
     check_seven = tk.Checkbutton(screen_auto_life, bg=_from_rgb((130, 16, 6)),
                                  variable=var_check_seven, onvalue="on", offvalue="off",
                                  activebackground=_from_rgb((130, 16, 6)),
                                  image=img_paralyze)
-    check_seven.place(x=52, y=274)
+    check_seven.place(x=52, y=364)
     check_seven.deselect()
 
     check_eight = tk.Checkbutton(screen_auto_life, bg=_from_rgb((130, 16, 6)),
                                  variable=var_check_eight, onvalue="on", offvalue="off",
                                  activebackground=_from_rgb((130, 16, 6)),
                                  image=img_poison)
-    check_eight.place(x=92, y=274)
+    check_eight.place(x=92, y=364)
     check_eight.deselect()
 
     check_nine = tk.Checkbutton(screen_auto_life, bg=_from_rgb((130, 16, 6)),
                                 variable=var_check_nine, onvalue="on", offvalue="off",
                                 activebackground=_from_rgb((130, 16, 6)),
                                 image=img_fire)
-    check_nine.place(x=132, y=274)
+    check_nine.place(x=132, y=364)
     check_nine.deselect()
 
     check_ten = tk.Checkbutton(screen_auto_life, bg=_from_rgb((130, 16, 6)),
                                variable=var_check_ten, onvalue="on", offvalue="off",
                                activebackground=_from_rgb((130, 16, 6)),
                                image=img_electrify)
-    check_ten.place(x=172, y=274)
+    check_ten.place(x=172, y=364)
     check_ten.deselect()
 
     check_eleven = tk.Checkbutton(screen_auto_life, bg=_from_rgb((130, 16, 6)),
                                   variable=var_check_eleven, onvalue="on", offvalue="off",
                                   activebackground=_from_rgb((130, 16, 6)),
                                   image=img_mort)
-    check_eleven.place(x=212, y=274)
+    check_eleven.place(x=212, y=364)
     check_eleven.deselect()
 
     check_twelve = tk.Checkbutton(screen_auto_life, bg=_from_rgb((130, 16, 6)),
                                   variable=var_check_twelve, onvalue="on", offvalue="off",
                                   activebackground=_from_rgb((130, 16, 6)),
                                   image=img_blood)
-    check_twelve.place(x=252, y=274)
+    check_twelve.place(x=252, y=364)
     check_twelve.deselect()
 
     dropdown_stage_one = tk.OptionMenu(screen_auto_life, var_dropdown_stage_one, *percentage)
@@ -685,6 +673,8 @@ def auto_mana():
             bool_mana = False
             auto_mana_button.configure(text='AutoMana: OFF')
 
+
+    # color for Y 165[54, 74, 117]
     def scanning_auto_mana():
         if bool_mana and master_key_start:
             screencp = capture_screen()
