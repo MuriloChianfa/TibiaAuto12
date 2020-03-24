@@ -7,7 +7,7 @@ from PIL import Image, ImageTk
 from PIL import ImageGrab
 import cv2
 
-from Functions.getStages import GetLifeStage
+from Functions.getStages import *
 
 print("Start in 2 Seconds...")
 time.sleep(2)
@@ -24,6 +24,44 @@ bool_color_change = False
 master_key_start = False
 
 master_start = False
+
+hotkeys = [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5",
+        "f6",
+        "f7",
+        "f8",
+        "f9",
+        "f10",
+        "f11",
+        "f12"
+    ]
+
+percentage = [
+    100,
+    95,
+    90,
+    85,
+    80,
+    75,
+    70,
+    65,
+    60,
+    55,
+    50,
+    45,
+    40,
+    35,
+    30,
+    25,
+    20,
+    15,
+    10,
+    5,
+]
 
 
 def _from_rgb(rgb):  # Function to translate color to RGB
@@ -294,14 +332,14 @@ def auto_life():
                     if bool_life and master_key_start:
                         scanning_auto_life()
                     else:
-                        print("Non Activated!")
+                        print("Master Key Non Activated!")
                 else:
                     print("ERROR!")
             else:
                 if bool_life and master_key_start:
                     scanning_auto_life()
                 else:
-                    print("Non Activated!")
+                    print("Master Key Non Activated!")
         else:
             bool_life = False
             print("AutoHealing: OFF")
@@ -313,17 +351,17 @@ def auto_life():
 
         if var_check_five.get() == "on":
             stage_three = var_dropdown_stage_five.get()
-            if int(stage_three) > life:
+            if int(stage_three) >= life:
                 pyautogui.press(var_dropdown_stage_six.get())
                 print("Pressed ", var_dropdown_stage_six.get())
         elif var_check_four.get() == "on":
             stage_two = var_dropdown_stage_three.get()
-            if int(stage_two) > life:
+            if int(stage_two) >= life:
                 pyautogui.press(var_dropdown_stage_four.get())
                 print("Pressed ", var_dropdown_stage_four.get())
         elif var_check_three.get() == "on":
             stage_one = var_dropdown_stage_one.get()
-            if int(stage_one) > life:
+            if int(stage_one) >= life:
                 pyautogui.press(var_dropdown_stage_two.get())
                 print("Pressed ", var_dropdown_stage_two.get())
         else:
@@ -332,45 +370,6 @@ def auto_life():
         if bool_life and master_key_start:
             root.after(200, scanning_auto_life)
 
-    # Buttons
-
-    hotkeys = [
-        "f1",
-        "f2",
-        "f3",
-        "f4",
-        "f5",
-        "f6",
-        "f7",
-        "f8",
-        "f9",
-        "f10",
-        "f11",
-        "f12"
-    ]
-
-    percentage = [
-        100,
-        95,
-        90,
-        85,
-        80,
-        75,
-        70,
-        65,
-        60,
-        55,
-        50,
-        45,
-        40,
-        35,
-        30,
-        25,
-        20,
-        15,
-        10,
-        5,
-    ]
 
     var_check_one = tk.StringVar()
     var_check_two = tk.StringVar()
@@ -668,27 +667,73 @@ def auto_mana():
         if not bool_mana:
             bool_mana = True
             auto_mana_button.configure(text='AutoMana: ON')
-            scanning_auto_mana()
+            print("AutoMana: ON")
+            global print_health
+            if not print_health:
+                print_health = True
+                manaLoc = pyautogui.locateOnScreen('images/mana.png', grayscale=True, confidence=0.8)
+                print("Your mana location is:", manaLoc)
+                manaLocXc, manaLocYc = pyautogui.center(manaLoc)
+                global manaLocX
+                global manaLocY
+                manaLocX = int(manaLocXc)
+                manaLocY = int(manaLocYc)
+                # 100% = 45 45 105
+                # % = 83 80 218
+                if manaLoc:
+                    if bool_mana and master_key_start:
+                        scanning_auto_mana()
+                    else:
+                        print("Master Key Non Activated!")
+                else:
+                    print("ERROR!")
+            else:
+                if bool_mana and master_key_start:
+                    scanning_auto_mana()
+                else:
+                    print("Master Key Non Activated!")
         else:
             bool_mana = False
+            print("AutoMana: OFF")
             auto_mana_button.configure(text='AutoMana: OFF')
 
 
     # color for Y 165[54, 74, 117]
     def scanning_auto_mana():
-        if bool_mana and master_key_start:
-            screencp = capture_screen()
-            stage_mana = screencp.getpixel((1757, 165))
-            print("Check Mana", stage_mana, "\n")
-            if stage_mana == (54, 74, 117):
-                pyautogui.press('f3')
+        gmana = 0
+        mana = GetManaStage.scanning_auto_mana(gmana, manaLocX, manaLocY)
 
-        root.after(100, scanning_auto_mana)
+        if var_check_four.get() == "on":
+            stage_two = var_dropdown_stage_three.get()
+            if int(stage_two) >= mana:
+                pyautogui.press(var_dropdown_stage_four.get())
+                print("Pressed ", var_dropdown_stage_four.get())
+        elif var_check_three.get() == "on":
+            stage_one = var_dropdown_stage_one.get()
+            if int(stage_one) >= mana:
+                pyautogui.press(var_dropdown_stage_two.get())
+                print("Pressed ", var_dropdown_stage_two.get())
+        else:
+            print("Modulo Not Configured")
+
+        if bool_mana and master_key_start:
+            root.after(400, scanning_auto_mana)
 
     # Buttons
 
     var_check_one = tk.StringVar()
     var_check_two = tk.StringVar()
+    var_check_three = tk.StringVar()
+    var_check_four = tk.StringVar()
+    var_check_five = tk.StringVar()
+    var_dropdown_stage_one = tk.StringVar()
+    var_dropdown_stage_one.set(50)
+    var_dropdown_stage_two = tk.StringVar()
+    var_dropdown_stage_two.set("f3")
+    var_dropdown_stage_three = tk.StringVar()
+    var_dropdown_stage_three.set(25)
+    var_dropdown_stage_four = tk.StringVar()
+    var_dropdown_stage_four.set("f4")
 
     ''' ok button '''
 
@@ -720,6 +765,42 @@ def auto_mana():
                                variable=var_check_two, onvalue="on", offvalue="off")
     check_two.place(x=10, y=440)
     check_two.deselect()
+
+    check_three = tk.Checkbutton(screen_auto_mana, bg=_from_rgb((130, 16, 6)), text="Enable Stage One",
+                                 variable=var_check_three, onvalue="on", offvalue="off",
+                                 activebackground=_from_rgb((130, 16, 6)))
+    check_three.place(x=32, y=94)
+    check_three.deselect()
+
+    check_four = tk.Checkbutton(screen_auto_mana, bg=_from_rgb((130, 16, 6)), text="Enable Stage Two",
+                                variable=var_check_four, onvalue="on", offvalue="off",
+                                activebackground=_from_rgb((130, 16, 6)))
+    check_four.place(x=32, y=144)
+    check_four.deselect()
+
+    dropdown_stage_one = tk.OptionMenu(screen_auto_mana, var_dropdown_stage_one, *percentage)
+    dropdown_stage_one["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_one["activebackground"] = _from_rgb((103, 13, 5))
+    dropdown_stage_one["width"] = 4
+    dropdown_stage_one.place(x=165, y=90)
+
+    dropdown_stage_two = tk.OptionMenu(screen_auto_mana, var_dropdown_stage_two, *hotkeys)
+    dropdown_stage_two["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_two["activebackground"] = _from_rgb((103, 13, 5))
+    dropdown_stage_two["width"] = 4
+    dropdown_stage_two.place(x=250, y=90)
+
+    dropdown_stage_three = tk.OptionMenu(screen_auto_mana, var_dropdown_stage_three, *percentage)
+    dropdown_stage_three["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_three["activebackground"] = _from_rgb((103, 13, 5))
+    dropdown_stage_three["width"] = 4
+    dropdown_stage_three.place(x=165, y=140)
+
+    dropdown_stage_four = tk.OptionMenu(screen_auto_mana, var_dropdown_stage_four, *hotkeys)
+    dropdown_stage_four["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_four["activebackground"] = _from_rgb((103, 13, 5))
+    dropdown_stage_four["width"] = 4
+    dropdown_stage_four.place(x=250, y=140)
 
     screen_auto_mana.mainloop()
 

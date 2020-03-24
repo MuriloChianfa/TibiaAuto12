@@ -67,65 +67,65 @@ class GetLifeStage:
             return 0
         
 class GetManaStage:
-    def scanning_auto_mana(gmana, manaX, manaY):
-        if pyautogui.pixelMatchesColor(manaX + 100, manaY + 3, (110, 58, 58)):
+    def scanning_auto_mana(gmana, manaLocX, manaLocY):
+        if pyautogui.pixelMatchesColor(manaLocX + 100, manaLocY, (45, 45, 105)):
             print("Get Mana: 100")
             return 100
-        elif pyautogui.pixelMatchesColor(manaX + 95, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 95, manaLocY, (83, 80, 218)):
             print("Get Mana: 95")
             return 95
-        elif pyautogui.pixelMatchesColor(manaX + 90, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 90, manaLocY, (83, 80, 218)):
             print("Get Mana: 90")
             return 90
-        elif pyautogui.pixelMatchesColor(manaX + 85, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 85, manaLocY, (83, 80, 218)):
             print("Get Mana: 85")
             return 85
-        elif pyautogui.pixelMatchesColor(manaX + 80, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 80, manaLocY, (83, 80, 218)):
             print("Get Mana: 80")
             return 80
-        elif pyautogui.pixelMatchesColor(manaX + 75, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 75, manaLocY, (83, 80, 218)):
             print("Get Mana: 75")
             return 75
-        elif pyautogui.pixelMatchesColor(manaX + 70, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 70, manaLocY, (83, 80, 218)):
             print("Get Mana: 70")
             return 70
-        elif pyautogui.pixelMatchesColor(manaX + 65, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 65, manaLocY, (83, 80, 218)):
             print("Get Mana: 65")
             return 65
-        elif pyautogui.pixelMatchesColor(manaX + 60, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 60, manaLocY, (83, 80, 218)):
             print("Get Mana: 60")
             return 60
-        elif pyautogui.pixelMatchesColor(manaX + 55, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 55, manaLocY, (83, 80, 218)):
             print("Get Mana: 55")
             return 55
-        elif pyautogui.pixelMatchesColor(manaX + 50, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 50, manaLocY, (83, 80, 218)):
             print("Get Mana: 50")
             return 50
-        elif pyautogui.pixelMatchesColor(manaX + 45, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 45, manaLocY, (83, 80, 218)):
             print("Get Mana: 45")
             return 45
-        elif pyautogui.pixelMatchesColor(manaX + 40, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 40, manaLocY, (83, 80, 218)):
             print("Get Mana: 40")
             return 40
-        elif pyautogui.pixelMatchesColor(manaX + 35, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 35, manaLocY, (83, 80, 218)):
             print("Get Mana: 35")
             return 35
-        elif pyautogui.pixelMatchesColor(manaX + 30, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 30, manaLocY, (83, 80, 218)):
             print("Get Mana: 30")
             return 30
-        elif pyautogui.pixelMatchesColor(manaX + 25, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 25, manaLocY, (83, 80, 218)):
             print("Get Mana: 25")
             return 25
-        elif pyautogui.pixelMatchesColor(manaX + 20, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 20, manaLocY, (83, 80, 218)):
             print("Get Mana: 20")
             return 20
-        elif pyautogui.pixelMatchesColor(manaX + 14, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 14, manaLocY, (83, 80, 218)):
             print("Get Mana: 15")
             return 15
-        elif pyautogui.pixelMatchesColor(manaX + 10, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 10, manaLocY, (83, 80, 218)):
             print("Get Mana: 10")
             return 10
-        elif pyautogui.pixelMatchesColor(manaX + 5, manaY + 3, (255, 125, 125)):
+        elif pyautogui.pixelMatchesColor(manaLocX + 5, manaLocY, (83, 80, 218)):
             print("Get Mana: 5")
             return 5
         else:
