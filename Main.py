@@ -17,9 +17,13 @@ battle_start_x = 0
 battle_end_x = 0
 battle_start_y = 0
 battle_end_y = 0
+username_field_X = 0
+username_field_Y = 0
 get_health_location = False
 get_mana_location = False
+get_login_location = False
 get_attack_location = False
+bool_adjust_config = False
 bool_life = False
 bool_hur = False
 bool_mana = False
@@ -33,19 +37,19 @@ master_key_start = False
 master_start = False
 
 hotkeys = [
-        "f1",
-        "f2",
-        "f3",
-        "f4",
-        "f5",
-        "f6",
-        "f7",
-        "f8",
-        "f9",
-        "f10",
-        "f11",
-        "f12"
-    ]
+    "f1",
+    "f2",
+    "f3",
+    "f4",
+    "f5",
+    "f6",
+    "f7",
+    "f8",
+    "f9",
+    "f10",
+    "f11",
+    "f12"
+]
 
 percentage = [
     100,
@@ -149,6 +153,9 @@ def main():
             if master_key_start == False and master_start == True:
                 master_key_start = True
                 status_game_label.configure(text='Status Game: ON')
+            elif master_key_start == True and master_start == False:
+                master_key_start = True
+                status_game_label.configure(text='Status Game: ON')
             else:
                 master_key_start = False
                 status_game_label.configure(text='Status Game: OFF')
@@ -226,7 +233,7 @@ def main():
                                  activebackground=_from_rgb((123, 13, 5)))
     open_auto_looter.place(w=105, h=27, x=23, y=198)
 
-    open_auto_uh = tk.Button(root, text='Auto UH', font=('Microsoft Sans Serif', 10),
+    open_auto_uh = tk.Button(root, text='Healer Friend', font=('Microsoft Sans Serif', 10),
                              bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
                              activebackground=_from_rgb((123, 13, 5)))
     open_auto_uh.place(w=105, h=27, x=23, y=70)
@@ -286,8 +293,8 @@ def main():
                                  activebackground=_from_rgb((123, 13, 5)))
     open_load_config.place(w=105, h=27, x=165, y=420)
 
-    open_item_config = tk.Button(root, text='Item Config', font=('Microsoft Sans Serif', 10),
-                                 bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
+    open_item_config = tk.Button(root, text='Adjust Config', font=('Microsoft Sans Serif', 10),
+                                 bg=_from_rgb((127, 17, 8)), fg='white', command=adjust_config,
                                  activebackground=_from_rgb((123, 13, 5)))
     open_item_config.place(w=105, h=27, x=165, y=452)
 
@@ -354,9 +361,6 @@ def auto_life():
                 global healthY
                 healthX = int(healthXc)
                 healthY = int(healthYc)
-                life = 0
-                glife = GetLifeStage.scanning_auto_life(life, healthX, healthY)
-                print(glife)
                 if health:
                     if bool_life and master_key_start:
                         scanning_auto_life()
@@ -398,7 +402,6 @@ def auto_life():
 
         if bool_life and master_key_start:
             root.after(200, scanning_auto_life)
-
 
     var_check_one = tk.StringVar()
     var_check_two = tk.StringVar()
@@ -451,15 +454,15 @@ def auto_life():
         auto_life_button.place(w=328, h=29, x=12, y=469)
 
     name_label = tk.Label(screen_auto_life, text='Healing', font=('Microsoft Sans Serif', 10),
-                          bg=_from_rgb((120, 98, 51)), fg='black')
+                          bg=_from_rgb((120, 98, 51)), fg='white')
     name_label.place(x=32, y=3)
 
     percentage_label = tk.Label(screen_auto_life, text='% Percentage', font=('Microsoft Sans Serif', 10),
-                                bg=_from_rgb((130, 16, 6)), fg='black')
+                                bg=_from_rgb((130, 16, 6)), fg='white')
     percentage_label.place(x=153, y=54)
 
     hotkey_label = tk.Label(screen_auto_life, text='HotKey', font=('Microsoft Sans Serif', 10),
-                            bg=_from_rgb((130, 16, 6)), fg='black')
+                            bg=_from_rgb((130, 16, 6)), fg='white')
     hotkey_label.place(x=259, y=54)
 
     check_one = tk.Checkbutton(screen_auto_life, bg=_from_rgb((120, 98, 51)), height=2, text="Print on Tibia's screen",
@@ -541,6 +544,7 @@ def auto_life():
     check_twelve.deselect()
 
     dropdown_stage_one = tk.OptionMenu(screen_auto_life, var_dropdown_stage_one, *percentage)
+    dropdown_stage_one["fg"] = 'white'
     dropdown_stage_one["bg"] = _from_rgb((127, 17, 8))
     dropdown_stage_one["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_one["width"] = 4
@@ -548,30 +552,35 @@ def auto_life():
 
     dropdown_stage_two = tk.OptionMenu(screen_auto_life, var_dropdown_stage_two, *hotkeys)
     dropdown_stage_two["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_two["fg"] = 'white'
     dropdown_stage_two["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_two["width"] = 4
     dropdown_stage_two.place(x=250, y=90)
 
     dropdown_stage_three = tk.OptionMenu(screen_auto_life, var_dropdown_stage_three, *percentage)
     dropdown_stage_three["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_three["fg"] = 'white'
     dropdown_stage_three["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_three["width"] = 4
     dropdown_stage_three.place(x=165, y=140)
 
     dropdown_stage_four = tk.OptionMenu(screen_auto_life, var_dropdown_stage_four, *hotkeys)
     dropdown_stage_four["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_four["fg"] = 'white'
     dropdown_stage_four["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_four["width"] = 4
     dropdown_stage_four.place(x=250, y=140)
 
     dropdown_stage_five = tk.OptionMenu(screen_auto_life, var_dropdown_stage_five, *percentage)
     dropdown_stage_five["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_five["fg"] = 'white'
     dropdown_stage_five["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_five["width"] = 4
     dropdown_stage_five.place(x=165, y=190)
 
     dropdown_stage_six = tk.OptionMenu(screen_auto_life, var_dropdown_stage_six, *hotkeys)
     dropdown_stage_six["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_six["fg"] = 'white'
     dropdown_stage_six["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_six["width"] = 4
     dropdown_stage_six.place(x=250, y=190)
@@ -726,7 +735,6 @@ def auto_mana():
             print("AutoMana: OFF")
             auto_mana_button.configure(text='AutoMana: OFF')
 
-
     # color for Y 165[54, 74, 117]
     def scanning_auto_mana():
         gmana = 0
@@ -809,24 +817,28 @@ def auto_mana():
 
     dropdown_stage_one = tk.OptionMenu(screen_auto_mana, var_dropdown_stage_one, *percentage)
     dropdown_stage_one["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_one["fg"] = 'white'
     dropdown_stage_one["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_one["width"] = 4
     dropdown_stage_one.place(x=165, y=90)
 
     dropdown_stage_two = tk.OptionMenu(screen_auto_mana, var_dropdown_stage_two, *hotkeys)
     dropdown_stage_two["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_two["fg"] = 'white'
     dropdown_stage_two["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_two["width"] = 4
     dropdown_stage_two.place(x=250, y=90)
 
     dropdown_stage_three = tk.OptionMenu(screen_auto_mana, var_dropdown_stage_three, *percentage)
     dropdown_stage_three["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_three["fg"] = 'white'
     dropdown_stage_three["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_three["width"] = 4
     dropdown_stage_three.place(x=165, y=140)
 
     dropdown_stage_four = tk.OptionMenu(screen_auto_mana, var_dropdown_stage_four, *hotkeys)
     dropdown_stage_four["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_four["fg"] = 'white'
     dropdown_stage_four["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_four["width"] = 4
     dropdown_stage_four.place(x=250, y=140)
@@ -862,37 +874,70 @@ def auto_login():
         if not bool_login:
             bool_login = True
             auto_login_button.configure(text='AutoLogin: ON')
-            scanning_auto_login()
+            print("AutoLogin: ON")
+            global get_login_location
+            if not get_login_location:
+                get_login_location = True
+                username_field = pyautogui.locateOnScreen('images/AccountName.png', grayscale=True, confidence=0.8)
+                print("Your Login location is:", username_field)
+                username_field_Xc, username_field_Yc = pyautogui.center(username_field)
+                global username_field_X
+                global username_field_Y
+                username_field_X = int(username_field_Xc)
+                username_field_Y = int(username_field_Yc)
+                login = pyautogui.locateOnScreen('images/Login.png', grayscale=True, confidence=0.8)
+                print("Your Login location is:", login)
+                loginXc, loginYc = pyautogui.center(login)
+                global loginX
+                global loginY
+                loginX = int(loginXc)
+                loginY = int(loginYc)
+                if login:
+                    if bool_login and master_key_start:
+                        scanning_auto_login()
+                    else:
+                        print("Master Key Non Activated!")
+                else:
+                    print("ERROR!")
+            else:
+                if bool_login and master_key_start:
+                    scanning_auto_login()
+                else:
+                    print("Master Key Non Activated!")
         else:
             bool_login = False
+            print("AutoLogin: OFF")
             auto_login_button.configure(text='AutoLogin: OFF')
 
     def scanning_auto_login():
-        if bool_login and master_key_start:
-            global pass_mouse_position
-            screencp = capture_screen()
-            check_login = screencp.getpixel((50, 780))
-            check_login2 = screencp.getpixel((330, 660))
-            print("Check Login", check_login, check_login2, "\n")
-            if check_login == (64, 64, 64) and check_login2 == (9, 30, 58):
-                pass_mouse_position = pyautogui.position()
-                pyautogui.click(x=50, y=780)
-                pyautogui.click(x=935, y=440)
-                pyautogui.write('murilochianfa12', interval=0.15)
-                pyautogui.press('tab')
-                pyautogui.write('qazwsxedc1231212', interval=0.15)
-                pyautogui.click(x=935, y=590)
-                pyautogui.moveTo(880, 374, 0.3)
-                pyautogui.click(x=880, y=374)
-                pyautogui.click(x=990, y=681)
-                pyautogui.moveTo(pass_mouse_position)
+        global bool_login
+        username_field_check = pyautogui.locateOnScreen('images/AccountName.png', grayscale=True, confidence=0.8)
+        if username_field_check:
+            print("You Are Offline... Trying To Login")
+            time.sleep(1)
+            if bool_login and master_key_start:
+                global pass_mouse_position
+                if username_field_X != 0 and username_field_Y != 0:
+                    pass_mouse_position = pyautogui.position()
+                    pyautogui.click(x=username_field_X, y=username_field_Y)
+                    pyautogui.write(username_value, interval=0.15)
+                    pyautogui.press('tab')
+                    pyautogui.write(passwd_value, interval=0.15)
+                    pyautogui.click(loginX, loginY)
+                    time.sleep(2)
+                    pyautogui.press('enter')
+                    pyautogui.moveTo(pass_mouse_position)
+                    print("You Are Logged")
+                    username_field_check = None
 
-        root.after(3000, scanning_auto_login)
+        if bool_login and master_key_start:
+            root.after(3000, scanning_auto_login)
 
     # Buttons
 
     var_check_one = tk.StringVar()
     var_check_two = tk.StringVar()
+    var_check_three = tk.StringVar()
 
     ''' ok button '''
 
@@ -924,6 +969,26 @@ def auto_login():
                                variable=var_check_two, onvalue="on", offvalue="off")
     check_two.place(x=10, y=440)
     check_two.deselect()
+
+    username_label = tk.Label(screen_auto_login, text='Username', font=('Microsoft Sans Serif', 10),
+                            bg=_from_rgb((130, 16, 6)), fg='white')
+    username_label.place(x=69, y=84)
+
+    username = tk.Entry(screen_auto_login)
+    username.place(x=149, y=86)
+    username.insert(1, "murilochianfa12345")
+    global username_value
+    username_value = username.get()
+
+    passwd_label = tk.Label(screen_auto_login, text='Password', font=('Microsoft Sans Serif', 10),
+                              bg=_from_rgb((130, 16, 6)), fg='white')
+    passwd_label.place(x=69, y=124)
+
+    passwd = tk.Entry(screen_auto_login)
+    passwd.place(x=149, y=126)
+    passwd.insert(1, "projetoX12345")
+    global passwd_value
+    passwd_value = passwd.get()
 
     screen_auto_login.mainloop()
 
@@ -979,7 +1044,6 @@ def auto_attack():
             print("AutoAttack: OFF")
             auto_attack_button.configure(text='AutoAttack: OFF')
 
-
     def scanning_auto_attack():
         if bool_auto_attack and master_key_start:
             battle_log = 0
@@ -987,11 +1051,11 @@ def auto_attack():
             monster = var_dropdown_stage_one.get()
             target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
                                                                        battle_start_y, battle_end_y, monster)
-            if target_x == 0 and target_y ==0:
+            if target_x == 0 and target_y == 0:
                 print("You Dont Have Any Target")
             else:
                 attacking = GetTargetPosition.attaking(battle_log, battle_start_x, battle_end_x,
-                                                                           battle_start_y, battle_end_y)
+                                                       battle_start_y, battle_end_y)
                 if not attacking:
                     print("You Have One Target");
                     past_mouse_position = pyautogui.position()
@@ -1002,16 +1066,14 @@ def auto_attack():
 
         root.after(1000, scanning_auto_attack)
 
-
     def scanning_follow_mode():
         if bool_auto_attack and master_key_start:
             follow_x_pos, follow_y_pos = GetTargetPosition.scanning_follow_mode()
 
-            if follow_x_pos != 0 and follow_y_pos !=0:
+            if follow_x_pos != 0 and follow_y_pos != 0:
                 past_mouse_position = pyautogui.position()
                 pyautogui.leftClick(follow_x_pos, follow_y_pos)
                 pyautogui.moveTo(past_mouse_position)
-
 
         root.after(3000, scanning_follow_mode)
 
@@ -1065,12 +1127,14 @@ def auto_attack():
 
     dropdown_stage_one = tk.OptionMenu(screen_auto_attack, var_dropdown_stage_one, *monsters)
     dropdown_stage_one["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_one["fg"] = 'white'
     dropdown_stage_one["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_one["width"] = 4
     dropdown_stage_one.place(x=165, y=90)
 
     dropdown_stage_two = tk.OptionMenu(screen_auto_attack, var_dropdown_stage_two, *priority)
     dropdown_stage_two["bg"] = _from_rgb((127, 17, 8))
+    dropdown_stage_two["fg"] = 'white'
     dropdown_stage_two["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_two["width"] = 4
     dropdown_stage_two.place(x=250, y=90)
@@ -1324,6 +1388,74 @@ def color_change():
         color_change_button.place(w=328, h=29, x=12, y=469)
 
     screen_color_change.mainloop()
+
+
+def adjust_config():
+    screen_adjust_config = tk.Toplevel(root)
+    screen_adjust_config.focus_force()
+    screen_adjust_config.grab_set()
+    w = 348
+    h = 546
+    sw = screen_adjust_config.winfo_screenwidth()
+    sh = screen_adjust_config.winfo_screenheight()
+    x = (sw - w) / 1.325
+    y = (sh - h) / 2.36
+    screen_adjust_config.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    screen_adjust_config.resizable(width=False, height=False)
+    screen_adjust_config.title('Module: Adjust Config')
+    screen_adjust_config.configure(background='#000', takefocus=True)
+    image = Image.open('images/FundoHealingEdited.jpg')
+    photo = ImageTk.PhotoImage(image)
+    label = tk.Label(screen_adjust_config, image=photo, bg='#000')
+    label.image = photo
+    label.pack()
+
+    def exit_button():
+        screen_adjust_config.destroy()
+
+    def func_adjust_config():
+        global bool_adjust_config
+        if not bool_adjust_config:
+            bool_adjust_config = True
+            adjust_config_button.configure(text='Adjust Config: ON')
+            scanning_adjust_config()
+        else:
+            bool_adjust_config = False
+            adjust_config_button.configure(text='Adjust Config: OFF')
+
+    def scanning_adjust_config():
+        if bool_adjust_config and master_key_start:
+            if keyboard.is_pressed("c"):
+                return
+
+        root.after(65, scanning_adjust_config)
+
+    # Buttons
+
+    ''' ok button '''
+
+    button_exit = tk.Button(screen_adjust_config, text='Ok', font=('Microsoft Sans Serif', 10),
+                            bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
+                            activebackground=_from_rgb((123, 13, 5)))
+    button_exit.place(w=84, h=29, x=130, y=504)
+
+    ''' button auto login '''
+
+    global bool_color_change
+    if not bool_color_change:
+        adjust_config_button = tk.Button(screen_adjust_config, text='Adjust Config: OFF',
+                                         font=('Microsoft Sans Serif', 10),
+                                         bg=_from_rgb((127, 17, 8)), fg='white', command=func_adjust_config,
+                                         activebackground=_from_rgb((123, 13, 5)))
+        adjust_config_button.place(w=328, h=29, x=12, y=469)
+    else:
+        adjust_config_button = tk.Button(screen_adjust_config, text='Adjust Config: ON',
+                                         font=('Microsoft Sans Serif', 10),
+                                         bg=_from_rgb((127, 17, 8)), fg='white', command=func_adjust_config,
+                                         activebackground=_from_rgb((123, 13, 5)))
+        adjust_config_button.place(w=328, h=29, x=12, y=469)
+
+    screen_adjust_config.mainloop()
 
 
 if __name__ == '__main__':
