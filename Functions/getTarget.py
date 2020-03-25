@@ -22,6 +22,11 @@ class GetTargetPosition:
         else:
             return 0, 0
 
+    def test_scan_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
+        h23 = list(pyautogui.locateAllOnScreen('images/Targets/' + monster + '.png', confidence=0.8, region=(
+            battle_start_x, battle_start_y, battle_end_x, battle_end_y)))
+        return h23
+
     def attaking(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y):
         attaking = pyautogui.locateOnScreen('images/attacking.png', confidence=0.8, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))

@@ -1138,6 +1138,10 @@ def auto_attack():
             monster = var_dropdown_stage_one.get()
             target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
                                                                        battle_start_y, battle_end_y, monster)
+            h23 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
+                                                                       battle_start_y, battle_end_y, monster)
+            print(h23)
+            print("Number of Monsters: ", len(h23))
             if target_x == 0 and target_y == 0:
                 print("You Dont Have Any Target")
             else:
