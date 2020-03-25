@@ -9,9 +9,11 @@ import cv2
 
 from Functions.getStages import *
 from Functions.getTarget import *
+from Functions.getPlayer import *
+from Functions.getLoot import *
 
-print("Start in 2 Seconds...")
-time.sleep(2)
+print("Start in 1 Seconds...")
+time.sleep(1)
 
 battle_start_x = 0
 battle_end_x = 0
@@ -19,10 +21,14 @@ battle_start_y = 0
 battle_end_y = 0
 username_field_X = 0
 username_field_Y = 0
+player_X = None
+player_Y = None
 get_health_location = False
 get_mana_location = False
 get_login_location = False
+get_player_location = False
 get_attack_location = False
+bool_auto_looter = False
 bool_adjust_config = False
 bool_life = False
 bool_hur = False
@@ -34,7 +40,15 @@ bool_auto_ring = False
 bool_color_change = False
 master_key_start = False
 
+seted_sqm = False
+
 master_start = False
+
+SQM1_X, SQM1_Y, SQM2_X, SQM2_Y = 0, 0, 0, 0
+SQM3_X, SQM3_Y, SQM4_X, SQM4_Y = 0, 0, 0, 0
+SQM5_X, SQM5_Y, SQM6_X, SQM6_Y = 0, 0, 0, 0
+SQM7_X, SQM7_Y, SQM8_X, SQM8_Y = 0, 0, 0, 0
+SQM9_X, SQM9_Y = 0, 0
 
 hotkeys = [
     "f1",
@@ -113,6 +127,55 @@ def capture_screen():
     global screen
     screen = ImageGrab.grab()
     return screen
+
+
+def set_sqms():
+    '''
+    1 - [player_X - 70, player_Y - 70]
+    2 - [player_X, player_Y - 70]
+    3 - [player_X + 70, player_Y - 70]
+    4 - [player_X - 70, player_Y]
+    5 - [player_X, player_Y]
+    6 - [player_X + 70, player_Y]
+    7 - [player_X - 70, player_Y + 70]
+    8 - [player_X, player_Y + 70]
+    9 - [player_X + 70, player_Y + 70]
+    '''
+    global player_X, player_Y
+    global SQM1_X, SQM1_Y
+    global SQM2_X, SQM2_Y
+    global SQM3_X, SQM3_Y
+    global SQM4_X, SQM4_Y
+    global SQM5_X, SQM5_Y
+    global SQM6_X, SQM6_Y
+    global SQM7_X, SQM7_Y
+    global SQM8_X, SQM8_Y
+    global SQM9_X, SQM9_Y
+    global seted_sqm
+    if player_X and player_Y is not None:
+        seted_sqm = True
+        SQM1_X = player_X - 70
+        SQM1_Y = player_Y + 70
+        SQM2_X = player_X
+        SQM2_Y = player_Y + 70
+        SQM3_X = player_X + 70
+        SQM3_Y = player_Y + 70
+        SQM4_X = player_X - 70
+        SQM4_Y = player_Y
+        SQM5_X = player_X
+        SQM5_Y = player_Y
+        SQM6_X = player_X + 70
+        SQM6_Y = player_Y
+        SQM7_X = player_X - 70
+        SQM7_Y = player_Y - 70
+        SQM8_X = player_X
+        SQM8_Y = player_Y - 70
+        SQM9_X = player_X + 70
+        SQM9_Y = player_Y - 70
+    else:
+        seted_sqm = False
+        print("Error To Set SQMS, Try Again Later")
+        player_X, player_Y = GetPlayerPosition.get_player_pos()
 
 
 def main():
@@ -229,7 +292,7 @@ def main():
     open_ammo_restack.place(w=105, h=27, x=23, y=166)
 
     open_auto_looter = tk.Button(root, text='Auto Looter', font=('Microsoft Sans Serif', 10),
-                                 bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
+                                 bg=_from_rgb((127, 17, 8)), fg='white', command=auto_looter,
                                  activebackground=_from_rgb((123, 13, 5)))
     open_auto_looter.place(w=105, h=27, x=23, y=198)
 
@@ -886,7 +949,7 @@ def auto_login():
                 username_field_X = int(username_field_Xc)
                 username_field_Y = int(username_field_Yc)
                 login = pyautogui.locateOnScreen('images/Login.png', grayscale=True, confidence=0.8)
-                print("Your Login location is:", login)
+                print("Your Login Button location is:", login)
                 loginXc, loginYc = pyautogui.center(login)
                 global loginX
                 global loginY
@@ -927,8 +990,16 @@ def auto_login():
                     time.sleep(2)
                     pyautogui.press('enter')
                     pyautogui.moveTo(pass_mouse_position)
-                    print("You Are Logged")
-                    username_field_check = None
+                    username_field_check2 = pyautogui.locateOnScreen('images/AccountName.png', grayscale=True,
+                                                                     confidence=0.8)
+                    if username_field_check2:
+                        print("Error To Login !!!!")
+                        username_field_check2 = None
+                        username_field_check = None
+                    else:
+                        print("You Are Logged")
+                        username_field_check = None
+                        username_field_check2 = None
 
         if bool_login and master_key_start:
             root.after(3000, scanning_auto_login)
@@ -971,7 +1042,7 @@ def auto_login():
     check_two.deselect()
 
     username_label = tk.Label(screen_auto_login, text='Username', font=('Microsoft Sans Serif', 10),
-                            bg=_from_rgb((130, 16, 6)), fg='white')
+                              bg=_from_rgb((130, 16, 6)), fg='white')
     username_label.place(x=69, y=84)
 
     username = tk.Entry(screen_auto_login)
@@ -981,7 +1052,7 @@ def auto_login():
     username_value = username.get()
 
     passwd_label = tk.Label(screen_auto_login, text='Password', font=('Microsoft Sans Serif', 10),
-                              bg=_from_rgb((130, 16, 6)), fg='white')
+                            bg=_from_rgb((130, 16, 6)), fg='white')
     passwd_label.place(x=69, y=124)
 
     passwd = tk.Entry(screen_auto_login)
@@ -1027,13 +1098,26 @@ def auto_attack():
                 get_attack_location = True
                 global battle_start_x, battle_end_x, battle_start_y, battle_end_y
                 battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
-                if battle_start_x:
+                global get_player_location
+                if not get_player_location:
+                    get_player_location = True
+                    global player_X, player_Y
+                    player_X, player_Y = GetPlayerPosition.get_player_pos()
+                    if player_X and player_Y is not None:
+                        if battle_start_x:
+                            if bool_auto_attack and master_key_start:
+                                combine_funcs(scanning_auto_attack(), scanning_follow_mode())
+                            else:
+                                print("Master Key Non Activated!")
+                        else:
+                            print("Not Battle Position")
+                    else:
+                        print("Not Player Position!")
+                else:
                     if bool_auto_attack and master_key_start:
                         combine_funcs(scanning_auto_attack(), scanning_follow_mode())
                     else:
                         print("Master Key Non Activated!")
-                else:
-                    print("ERROR!")
             else:
                 if bool_auto_attack and master_key_start:
                     combine_funcs(scanning_auto_attack(), scanning_follow_mode())
@@ -1048,6 +1132,9 @@ def auto_attack():
         if bool_auto_attack and master_key_start:
             battle_log = 0
             global battle_start_x, battle_end_x, battle_start_y, battle_end_y
+            global SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y
+            global SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y
+            global SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y
             monster = var_dropdown_stage_one.get()
             target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
                                                                        battle_start_y, battle_end_y, monster)
@@ -1056,15 +1143,40 @@ def auto_attack():
             else:
                 attacking = GetTargetPosition.attaking(battle_log, battle_start_x, battle_end_x,
                                                        battle_start_y, battle_end_y)
+
                 if not attacking:
-                    print("You Have One Target");
+                    print("You Have One Target")
                     past_mouse_position = pyautogui.position()
                     pyautogui.leftClick(target_x, target_y)
                     pyautogui.moveTo(past_mouse_position)
+                    killing = time.time()
+                    end_killing = time.time() - killing
+                    '''if seted_sqm:
+                        log = 0
+                        GetLoot.take_loot(log, SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y,
+                                          SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y,
+                                          SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y)
+                    else:
+                        set_sqms()
+                        print("Setuping SQMS Localizations...")
+                        time.sleep(0.5)
+                        print("1° SQM Is In: ", SQM1_X, SQM1_Y)
+                        print("2° SQM Is In: ", SQM2_X, SQM2_Y)
+                        print("3° SQM Is In: ", SQM3_X, SQM3_Y)
+                        print("4° SQM Is In: ", SQM4_X, SQM4_Y)
+                        print("5° SQM Is In: ", SQM5_X, SQM5_Y)
+                        print("6° SQM Is In: ", SQM6_X, SQM6_Y)
+                        print("7° SQM Is In: ", SQM7_X, SQM7_Y)
+                        print("8° SQM Is In: ", SQM8_X, SQM8_Y)
+                        print("9° SQM Is In: ", SQM9_X, SQM9_Y)
+                        time.sleep(0.5)
+                        print("SQMS Localizations Seted !!!")'''
+
                 else:
                     print("You are attacking")
 
-        root.after(1000, scanning_auto_attack)
+        if bool_auto_attack and master_key_start:
+            root.after(1000, scanning_auto_attack)
 
     def scanning_follow_mode():
         if bool_auto_attack and master_key_start:
@@ -1122,7 +1234,7 @@ def auto_attack():
     check_three = tk.Checkbutton(screen_auto_attack, bg=_from_rgb((130, 16, 6)), text="Attack Monster",
                                  variable=var_check_three, onvalue="on", offvalue="off",
                                  activebackground=_from_rgb((130, 16, 6)))
-    check_three.place(x=32, y=94)
+    check_three.place(x=32, y=74)
     check_three.select()
 
     dropdown_stage_one = tk.OptionMenu(screen_auto_attack, var_dropdown_stage_one, *monsters)
@@ -1130,14 +1242,14 @@ def auto_attack():
     dropdown_stage_one["fg"] = 'white'
     dropdown_stage_one["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_one["width"] = 4
-    dropdown_stage_one.place(x=165, y=90)
+    dropdown_stage_one.place(x=155, y=70)
 
     dropdown_stage_two = tk.OptionMenu(screen_auto_attack, var_dropdown_stage_two, *priority)
     dropdown_stage_two["bg"] = _from_rgb((127, 17, 8))
     dropdown_stage_two["fg"] = 'white'
     dropdown_stage_two["activebackground"] = _from_rgb((103, 13, 5))
     dropdown_stage_two["width"] = 4
-    dropdown_stage_two.place(x=250, y=90)
+    dropdown_stage_two.place(x=240, y=70)
 
     screen_auto_attack.mainloop()
 
@@ -1346,9 +1458,19 @@ def color_change():
     def func_color_change():
         global bool_color_change
         if not bool_color_change:
-            bool_color_change = True
-            color_change_button.configure(text='Color Change: ON')
-            scanning_color_change()
+            global get_player_location
+            if not get_player_location:
+                get_player_location = True
+                global player_X, player_Y
+                player_X, player_Y = GetPlayerPosition.get_player_pos()
+                if player_X and player_Y is not None:
+                    bool_color_change = True
+                    color_change_button.configure(text='Color Change: ON')
+                    scanning_color_change()
+            else:
+                bool_color_change = True
+                color_change_button.configure(text='Color Change: ON')
+                scanning_color_change()
         else:
             bool_color_change = False
             color_change_button.configure(text='Color Change: OFF')
@@ -1356,9 +1478,17 @@ def color_change():
     def scanning_color_change():
         if bool_color_change and master_key_start:
             if keyboard.is_pressed("c"):
-                return
+                pyautogui.keyDown('ctrl')
+                pyautogui.click(player_X, player_Y, button='right')
+                pyautogui.keyUp('ctrl')
 
         root.after(65, scanning_color_change)
+
+    def dancing():
+        pyautogui.hotkey("ctrl", "up")
+        pyautogui.hotkey("ctrl", "left")
+        pyautogui.hotkey("ctrl", "right")
+        pyautogui.hotkey("ctrl", "down")
 
     # Buttons
 
@@ -1441,8 +1571,8 @@ def adjust_config():
 
     ''' button auto login '''
 
-    global bool_color_change
-    if not bool_color_change:
+    global bool_adjust_config
+    if not bool_adjust_config:
         adjust_config_button = tk.Button(screen_adjust_config, text='Adjust Config: OFF',
                                          font=('Microsoft Sans Serif', 10),
                                          bg=_from_rgb((127, 17, 8)), fg='white', command=func_adjust_config,
@@ -1456,6 +1586,125 @@ def adjust_config():
         adjust_config_button.place(w=328, h=29, x=12, y=469)
 
     screen_adjust_config.mainloop()
+
+
+def auto_looter():
+    screen_auto_looter = tk.Toplevel(root)
+    screen_auto_looter.focus_force()
+    screen_auto_looter.grab_set()
+    w = 348
+    h = 546
+    sw = screen_auto_looter.winfo_screenwidth()
+    sh = screen_auto_looter.winfo_screenheight()
+    x = (sw - w) / 1.325
+    y = (sh - h) / 2.36
+    screen_auto_looter.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    screen_auto_looter.resizable(width=False, height=False)
+    screen_auto_looter.title('Module: Auto Looter')
+    screen_auto_looter.configure(background='#000', takefocus=True)
+    image = Image.open('images/FundoHealingEdited.jpg')
+    photo = ImageTk.PhotoImage(image)
+    label = tk.Label(screen_auto_looter, image=photo, bg='#000')
+    label.image = photo
+    label.pack()
+
+    def exit_button():
+        screen_auto_looter.destroy()
+
+    def func_auto_looter():
+        global bool_auto_looter
+        if not bool_auto_looter:
+            bool_auto_looter = True
+            auto_looter_button.configure(text='Auto Looter: ON')
+            print("Auto Looter: ON")
+            global get_player_location
+            if not get_player_location:
+                get_player_location = True
+                global player_X, player_Y
+                player_X, player_Y = GetPlayerPosition.get_player_pos()
+                if player_X and player_Y is not None:
+                    if bool_auto_looter and master_key_start:
+                        scanning_auto_looter()
+                    else:
+                        print("Master Key Non Activated!")
+                else:
+                    print("ERROR!")
+            else:
+                if bool_auto_looter and master_key_start:
+                    scanning_auto_looter()
+                else:
+                    print("Master Key Non Activated!")
+        else:
+            bool_auto_looter = False
+            print("Auto Looter: OFF")
+            auto_looter_button.configure(text='Auto Looter: OFF')
+
+    def scanning_auto_looter():
+        global seted_sqm
+        global SQM1_X, SQM1_Y
+        global SQM2_X, SQM2_Y
+        global SQM3_X, SQM3_Y
+        global SQM4_X, SQM4_Y
+        global SQM5_X, SQM5_Y
+        global SQM6_X, SQM6_Y
+        global SQM7_X, SQM7_Y
+        global SQM8_X, SQM8_Y
+        global SQM9_X, SQM9_Y
+        if seted_sqm:
+            print("Scanning for loot")
+            if bool_auto_looter and master_key_start:
+                log = 0
+                GetLoot.take_loot(log, SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y,
+                                  SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y,
+                                  SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y)
+                time.sleep(4)
+            else:
+                print("Marster Key not enabled")
+        else:
+            set_sqms()
+            print("Setuping SQMS Localizations...")
+            time.sleep(0.5)
+            print("1° SQM Is In: ", SQM1_X, SQM1_Y)
+            print("2° SQM Is In: ", SQM2_X, SQM2_Y)
+            print("3° SQM Is In: ", SQM3_X, SQM3_Y)
+            print("4° SQM Is In: ", SQM4_X, SQM4_Y)
+            print("5° SQM Is In: ", SQM5_X, SQM5_Y)
+            print("6° SQM Is In: ", SQM6_X, SQM6_Y)
+            print("7° SQM Is In: ", SQM7_X, SQM7_Y)
+            print("8° SQM Is In: ", SQM8_X, SQM8_Y)
+            print("9° SQM Is In: ", SQM9_X, SQM9_Y)
+            time.sleep(0.5)
+            print("SQMS Localizations Seted !!!")
+
+        if bool_auto_looter and master_key_start:
+            root.after(400, scanning_auto_looter)
+
+    # Buttons
+
+    ''' ok button '''
+
+    button_exit = tk.Button(screen_auto_looter, text='Ok', font=('Microsoft Sans Serif', 10),
+                            bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
+                            activebackground=_from_rgb((123, 13, 5)))
+    button_exit.place(w=84, h=29, x=130, y=504)
+
+    ''' button auto login '''
+
+    global bool_auto_looter
+    if not bool_auto_looter:
+        auto_looter_button = tk.Button(screen_auto_looter, text='Auto Looter: OFF',
+                                       font=('Microsoft Sans Serif', 10),
+                                       bg=_from_rgb((127, 17, 8)), fg='white', command=func_auto_looter,
+                                       activebackground=_from_rgb((123, 13, 5)))
+        auto_looter_button.place(w=328, h=29, x=12, y=469)
+    else:
+        auto_looter_button = tk.Button(screen_auto_looter, text='Auto Looter: ON',
+                                       font=('Microsoft Sans Serif', 10),
+                                       bg=_from_rgb((127, 17, 8)), fg='white', command=func_auto_looter,
+                                       activebackground=_from_rgb((123, 13, 5)))
+        auto_looter_button.place(w=328, h=29, x=12, y=469)
+
+    screen_auto_looter.mainloop()
 
 
 if __name__ == '__main__':

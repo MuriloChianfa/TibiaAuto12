@@ -1,5 +1,6 @@
 import pyautogui
 
+
 class GetTargetPosition:
     def find_battle():
         battle_initial_position = pyautogui.locateOnScreen('images/BattleList.png', grayscale=True, confidence=0.8)
@@ -11,7 +12,6 @@ class GetTargetPosition:
         battle_end_y = int(battle_start_y) + 415
         return int(battle_start_x), int(battle_end_x), int(battle_start_y), int(battle_end_y)
 
-
     def scanning_for_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
         has_target = pyautogui.locateOnScreen('images/Targets/' + monster + '.png', confidence=0.8, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))
@@ -22,7 +22,6 @@ class GetTargetPosition:
         else:
             return 0, 0
 
-
     def attaking(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y):
         attaking = pyautogui.locateOnScreen('images/attacking.png', confidence=0.8, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))
@@ -32,7 +31,6 @@ class GetTargetPosition:
             return True
         else:
             return False
-
 
 # --------------------------- Arrumar Depois ------------------------------
 
@@ -47,16 +45,12 @@ class GetTargetPosition:
         else:
             return 0, 0
 
-
-
-
-
-
-
-
-
-#def get_monster_list():
-    #targets = gui.config.get('MONSTERS', 'list').split(', ')
-    #targets = map(lambda target:target.replace(" ", "_"), targets)
-    #targets = map(lambda target: 'assets/monsters/'+target+'.png', targets)
-    #return list(targets)
+    '''
+    
+    def get_monster_list():
+        targets = gui.config.get('MONSTERS', 'list').split(', ')
+        targets = map(lambda target:target.replace(" ", "_"), targets)
+        targets = map(lambda target: 'assets/monsters/'+target+'.png', targets)
+        return list(targets)
+        
+        '''
