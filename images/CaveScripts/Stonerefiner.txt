@@ -1,0 +1,58 @@
+WAYPOINTS = [
+    {
+        "mark": "checkmark",
+        "type": "stand"
+    },
+    {
+        "mark": "questionmark",
+        "type": "rope"
+    },
+    {
+        "mark": "cross",
+        "type": "shovel"
+    },
+    {
+        "mark": "cross",
+        "type": "rope"
+    },
+    {
+        "mark": "exclimationmark",
+        "type": "stand"
+    },
+    {
+        "mark": "star",
+        "type": "shovel"
+    },
+    {
+        "mark": "exclimationmark",
+        "type": "rope"
+    },
+    {
+        "mark": "checkmark",
+        "type": "stand"
+    },
+    {
+        "mark": "cross",
+        "type": "shovel"
+    },
+    {
+        "mark": "questionmark",
+        "type": "rope"
+    },
+    {
+        "mark": "checkmark",
+        "type": "stand"
+    },
+    {
+        "mark": "cross",
+        "type": "stand"
+    },
+    {
+        "mark": "questionmark",
+        "type": "stand"
+    },
+    {
+        "mark": "star",
+        "type": "shovel"
+    },
+]

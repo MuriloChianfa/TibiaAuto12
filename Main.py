@@ -10,11 +10,29 @@ import cv2
 
 from Functions.getStages import *
 from Functions.getTarget import *
-from Functions.getPlayer import *
 from Functions.getLoot import *
+from Functions.getMapPosition import *
+from Functions.getPlayerPosition import *
+
+
 
 print("Start in 1 Seconds...")
 time.sleep(1)
+
+get_life_stage = GetStage("Life")
+get_mana_stage = GetStage("Mana")
+get_map_position = GetMapPosition()
+get_player_position = GetPlayerPosition()
+
+lifeColorFull = [194, 74, 74]
+
+lifeColor = [219, 79, 79]
+
+manaColorFull = [45, 45, 105]
+
+manaColor = [83, 80, 218]
+
+#region GlobalVariables
 
 target_number = 0
 target_number2 = 0
@@ -24,8 +42,6 @@ battle_start_y = 0
 battle_end_y = 0
 username_field_X = 0
 username_field_Y = 0
-player_X = None
-player_Y = None
 get_health_location = False
 get_mana_location = False
 get_login_location = False
@@ -33,6 +49,7 @@ get_player_location = False
 get_attack_location = False
 bool_auto_looter = False
 bool_adjust_config = False
+player_X, player_Y = None, None
 get_marks = False
 bool_life = False
 bool_hur = False
@@ -54,6 +71,8 @@ SQM3_X, SQM3_Y, SQM4_X, SQM4_Y = 0, 0, 0, 0
 SQM5_X, SQM5_Y, SQM6_X, SQM6_Y = 0, 0, 0, 0
 SQM7_X, SQM7_Y, SQM8_X, SQM8_Y = 0, 0, 0, 0
 SQM9_X, SQM9_Y = 0, 0
+
+#endregion
 
 hotkeys = [
     "f1",
@@ -100,7 +119,12 @@ monsters = [
     "OrcWarrior",
     "OrcSpearman",
     "Cyclops",
-    "Rotworm"
+    "Rotworm",
+    "AnyCorym",
+    "CorymCharlatan",
+    "CorymSkirmisher",
+    "CorymVanguard",
+    "Stonerefiner"
 ]
 
 priority = [
@@ -448,8 +472,7 @@ def auto_life():
             auto_life_button.configure(text='AutoHealing: OFF')
 
     def scanning_auto_life():
-        glife = 0
-        life = GetLifeStage.scanning_auto_life(glife, healthX, healthY)
+        life = get_life_stage.scanning_stage(healthX, healthY, lifeColor, lifeColorFull)
 
         if var_check_five.get() == "on":
             stage_three = var_dropdown_stage_five.get()
@@ -778,16 +801,14 @@ def auto_mana():
             global get_mana_location
             if not get_mana_location:
                 get_mana_location = True
-                manaLoc = pyautogui.locateOnScreen('images/mana.png', grayscale=True, confidence=0.8)
-                print("Your mana location is:", manaLoc)
-                manaLocXc, manaLocYc = pyautogui.center(manaLoc)
+                manaLocation = pyautogui.locateOnScreen('images/mana.png', grayscale=True, confidence=0.9)
+                print("Your health location is:", manaLocation)
+                manaXc, manaYc = pyautogui.center(manaLocation)
                 global manaLocX
                 global manaLocY
-                manaLocX = int(manaLocXc)
-                manaLocY = int(manaLocYc)
-                # 100% = 45 45 105
-                # % = 83 80 218
-                if manaLoc:
+                manaLocX = int(manaXc)
+                manaLocY = int(manaYc)
+                if manaLocX and manaLocY:
                     if bool_mana and master_key_start:
                         scanning_auto_mana()
                     else:
@@ -804,26 +825,26 @@ def auto_mana():
             print("AutoMana: OFF")
             auto_mana_button.configure(text='AutoMana: OFF')
 
-    # color for Y 165[54, 74, 117]
     def scanning_auto_mana():
-        gmana = 0
-        mana = GetManaStage.scanning_auto_mana(gmana, manaLocX, manaLocY)
+        mana = get_mana_stage.scanning_stage(manaLocX, manaLocY, manaColor, manaColorFull)
 
         if var_check_four.get() == "on":
             stage_two = var_dropdown_stage_three.get()
             if int(stage_two) >= mana:
-                pyautogui.press(var_dropdown_stage_four.get())
-                print("Pressed ", var_dropdown_stage_four.get())
+                mana_button2 = var_dropdown_stage_four.get()
+                pyautogui.press(mana_button2)
+                print("Pressed ", mana_button2)
         elif var_check_three.get() == "on":
             stage_one = var_dropdown_stage_one.get()
             if int(stage_one) >= mana:
-                pyautogui.press(var_dropdown_stage_two.get())
-                print("Pressed ", var_dropdown_stage_two.get())
+                mana_button1 = var_dropdown_stage_two.get()
+                pyautogui.press(mana_button1)
+                print("Pressed ", mana_button1)
         else:
             print("Modulo Not Configured")
 
         if bool_mana and master_key_start:
-            root.after(400, scanning_auto_mana)
+            root.after(300, scanning_auto_mana)
 
     # Buttons
 
@@ -831,7 +852,6 @@ def auto_mana():
     var_check_two = tk.StringVar()
     var_check_three = tk.StringVar()
     var_check_four = tk.StringVar()
-    var_check_five = tk.StringVar()
     var_dropdown_stage_one = tk.StringVar()
     var_dropdown_stage_one.set(50)
     var_dropdown_stage_two = tk.StringVar()
@@ -1110,7 +1130,7 @@ def auto_attack():
                 if not get_player_location:
                     get_player_location = True
                     global player_X, player_Y
-                    player_X, player_Y = GetPlayerPosition.get_player_pos()
+                    player_X, player_Y = get_player_position.getxy()
                     if player_X and player_Y is not None:
                         if battle_start_x:
                             if bool_auto_attack and master_key_start:
@@ -1748,29 +1768,6 @@ def cave_bot():
     label.image = photo
     label.pack()
 
-    def set_marks():
-        mark1 = ImageTk.PhotoImage(Image.open('images/Marks/1.png'))
-        mark2 = ImageTk.PhotoImage(Image.open('images/Marks/2.png'))
-        mark3 = ImageTk.PhotoImage(Image.open('images/Marks/3.png'))
-        mark4 = ImageTk.PhotoImage(Image.open('images/Marks/4.png'))
-        mark5 = ImageTk.PhotoImage(Image.open('images/Marks/5.png'))
-        mark6 = ImageTk.PhotoImage(Image.open('images/Marks/6.png'))
-        mark7 = ImageTk.PhotoImage(Image.open('images/Marks/7.png'))
-        mark8 = ImageTk.PhotoImage(Image.open('images/Marks/8.png'))
-        mark9 = ImageTk.PhotoImage(Image.open('images/Marks/9.png'))
-        mark10 = ImageTk.PhotoImage(Image.open('images/Marks/10.png'))
-        mark11 = ImageTk.PhotoImage(Image.open('images/Marks/11.png'))
-        mark12 = ImageTk.PhotoImage(Image.open('images/Marks/12.png'))
-        mark13 = ImageTk.PhotoImage(Image.open('images/Marks/13.png'))
-        mark14 = ImageTk.PhotoImage(Image.open('images/Marks/14.png'))
-        mark15 = ImageTk.PhotoImage(Image.open('images/Marks/15.png'))
-        mark16 = ImageTk.PhotoImage(Image.open('images/Marks/16.png'))
-        mark17 = ImageTk.PhotoImage(Image.open('images/Marks/17.png'))
-        mark18 = ImageTk.PhotoImage(Image.open('images/Marks/18.png'))
-        mark19 = ImageTk.PhotoImage(Image.open('images/Marks/19.png'))
-        mark20 = ImageTk.PhotoImage(Image.open('images/Marks/20.png'))
-
-
     def exit_button():
         screen_cave_bot.destroy()
 
@@ -1783,7 +1780,6 @@ def cave_bot():
             global get_marks
             if not get_marks:
                 get_marks = True
-                set_marks()
             else:
                 if bool_Cave_Bot and master_key_start:
                     scanning_cave_bot()
