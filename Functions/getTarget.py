@@ -18,19 +18,23 @@ class GetTargetPosition:
         none = 0
         if has_target:
             target_x, target_y = pyautogui.center(has_target)
-            return target_x - 41, target_y
+            target_x = target_x - 40
+            if target_x < battle_start_x:
+                return target_x + 10, target_y
+            else:
+                return target_x, target_y
         else:
             return 0, 0
 
     def test_scan_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
-        h23 = list(pyautogui.locateAllOnScreen('images/Targets/' + monster + '.png', confidence=0.8, region=(
+        target_number = list(pyautogui.locateAllOnScreen('images/Targets/' + monster + '.png', confidence=0.8, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y)))
-        return h23
+        return len(target_number)
 
     def attaking(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y):
-        attaking = pyautogui.locateOnScreen('images/attacking.png', confidence=0.8, region=(
+        attaking = pyautogui.locateOnScreen('images/attacking.png', confidence=0.7, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))
-        attaking2 = pyautogui.locateOnScreen('images/attacking2.png', confidence=0.8, region=(
+        attaking2 = pyautogui.locateOnScreen('images/attacking2.png', confidence=0.7, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))
         if attaking or attaking2:
             return True

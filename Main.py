@@ -15,6 +15,8 @@ from Functions.getLoot import *
 print("Start in 1 Seconds...")
 time.sleep(1)
 
+target_number = 0
+target_number2 = 0
 battle_start_x = 0
 battle_end_x = 0
 battle_start_y = 0
@@ -1131,6 +1133,7 @@ def auto_attack():
     def scanning_auto_attack():
         if bool_auto_attack and master_key_start:
             battle_log = 0
+            global target_number, target_number2
             global battle_start_x, battle_end_x, battle_start_y, battle_end_y
             global SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y
             global SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y
@@ -1138,49 +1141,57 @@ def auto_attack():
             monster = var_dropdown_stage_one.get()
             target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
                                                                        battle_start_y, battle_end_y, monster)
-            h23 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
-                                                                       battle_start_y, battle_end_y, monster)
-            print(h23)
-            print("Number of Monsters: ", len(h23))
-            if target_x == 0 and target_y == 0:
-                print("You Dont Have Any Target")
-            else:
+            target_number2 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
+                                                               battle_start_y, battle_end_y, monster)
+            print("Number of " + monster + "s: ", target_number2)
+            if target_number2 < target_number:
+                if seted_sqm:
+                    log = 0
+                    GetLoot.take_loot(log, SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y,
+                                      SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y,
+                                      SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y)
+                    target_number = 0
+                else:
+                    set_sqms()
+                    print("Setuping SQMS Localizations...")
+                    time.sleep(0.1)
+                    print("1° SQM Is In: ", SQM1_X, SQM1_Y)
+                    print("2° SQM Is In: ", SQM2_X, SQM2_Y)
+                    print("3° SQM Is In: ", SQM3_X, SQM3_Y)
+                    print("4° SQM Is In: ", SQM4_X, SQM4_Y)
+                    print("5° SQM Is In: ", SQM5_X, SQM5_Y)
+                    print("6° SQM Is In: ", SQM6_X, SQM6_Y)
+                    print("7° SQM Is In: ", SQM7_X, SQM7_Y)
+                    print("8° SQM Is In: ", SQM8_X, SQM8_Y)
+                    print("9° SQM Is In: ", SQM9_X, SQM9_Y)
+                    time.sleep(0.1)
+                    print("SQMS Localizations Seted !!!")
+
+            if target_x != 0 and target_y != 0:
+                target_number = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
+                                                                   battle_start_y, battle_end_y, monster)
+
                 attacking = GetTargetPosition.attaking(battle_log, battle_start_x, battle_end_x,
                                                        battle_start_y, battle_end_y)
 
                 if not attacking:
-                    print("You Have One Target")
+                    print("Attacking a Target")
                     past_mouse_position = pyautogui.position()
                     pyautogui.leftClick(target_x, target_y)
                     pyautogui.moveTo(past_mouse_position)
-                    killing = time.time()
-                    end_killing = time.time() - killing
-                    '''if seted_sqm:
-                        log = 0
-                        GetLoot.take_loot(log, SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y,
-                                          SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y,
-                                          SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y)
-                    else:
-                        set_sqms()
-                        print("Setuping SQMS Localizations...")
-                        time.sleep(0.5)
-                        print("1° SQM Is In: ", SQM1_X, SQM1_Y)
-                        print("2° SQM Is In: ", SQM2_X, SQM2_Y)
-                        print("3° SQM Is In: ", SQM3_X, SQM3_Y)
-                        print("4° SQM Is In: ", SQM4_X, SQM4_Y)
-                        print("5° SQM Is In: ", SQM5_X, SQM5_Y)
-                        print("6° SQM Is In: ", SQM6_X, SQM6_Y)
-                        print("7° SQM Is In: ", SQM7_X, SQM7_Y)
-                        print("8° SQM Is In: ", SQM8_X, SQM8_Y)
-                        print("9° SQM Is In: ", SQM9_X, SQM9_Y)
-                        time.sleep(0.5)
-                        print("SQMS Localizations Seted !!!")'''
-
+                    target_number2 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
+                                                                        battle_start_y, battle_end_y, monster)
+                    target_x = 0
+                    target_y = 0
                 else:
                     print("You are attacking")
+                    target_number2 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
+                                                                        battle_start_y, battle_end_y, monster)
+                    target_x = 0
+                    target_y = 0
 
         if bool_auto_attack and master_key_start:
-            root.after(1000, scanning_auto_attack)
+            root.after(250, scanning_auto_attack)
 
     def scanning_follow_mode():
         if bool_auto_attack and master_key_start:

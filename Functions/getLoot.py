@@ -7,15 +7,13 @@ class GetLoot:
                     SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y):
         defaul_autogui_temp = pyautogui.PAUSE
         start_loot_time = time.time()
-        pyautogui.PAUSE = 0.15
+        pyautogui.PAUSE = 0.08
         pyautogui.click(SQM1_X, SQM1_Y, button='right')
         pyautogui.click(SQM2_X, SQM2_Y, button='right')
         pyautogui.click(SQM3_X, SQM3_Y, button='right')
-        time.sleep(0.1)
         pyautogui.click(SQM4_X, SQM4_Y, button='right')
         pyautogui.click(SQM5_X, SQM5_Y, button='right')
         pyautogui.click(SQM6_X, SQM6_Y, button='right')
-        time.sleep(0.1)
         pyautogui.click(SQM7_X, SQM7_Y, button='right')
         pyautogui.click(SQM8_X, SQM8_Y, button='right')
         pyautogui.click(SQM9_X, SQM9_Y, button='right')
