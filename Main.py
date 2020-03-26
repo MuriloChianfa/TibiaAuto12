@@ -96,6 +96,7 @@ monsters = [
     "Orc",
     "OrcWarrior",
     "OrcSpearman",
+    "Cyclops",
     "Rotworm"
 ]
 
@@ -205,7 +206,7 @@ def main():
 
     def func_config_masterkey():
         global master_start
-        if master_start == False:
+        if not master_start:
             master_start = True
             enable_master_key.configure(text='Disable Master Key "J"')
         else:
@@ -1143,7 +1144,7 @@ def auto_attack():
                                                                        battle_start_y, battle_end_y, monster)
             target_number2 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
                                                                battle_start_y, battle_end_y, monster)
-            print("Number of " + monster + "s: ", target_number2)
+            print("Number of " + monster + ": ", target_number2)
             if target_number2 < target_number:
                 if seted_sqm:
                     log = 0

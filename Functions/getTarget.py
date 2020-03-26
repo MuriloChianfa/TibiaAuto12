@@ -32,10 +32,10 @@ class GetTargetPosition:
         return len(target_number)
 
     def attaking(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y):
-        attaking = pyautogui.locateOnScreen('images/attacking.png', confidence=0.7, region=(
-            battle_start_x, battle_start_y, battle_end_x, battle_end_y))
-        attaking2 = pyautogui.locateOnScreen('images/attacking2.png', confidence=0.7, region=(
-            battle_start_x, battle_start_y, battle_end_x, battle_end_y))
+        attaking = pyautogui.locateOnScreen('images/attacking.png', confidence=0.6, region=(
+            battle_start_x - 10, battle_start_y, battle_end_x, battle_end_y))
+        attaking2 = pyautogui.locateOnScreen('images/attacking2.png', confidence=0.6, region=(
+            battle_start_x - 10, battle_start_y, battle_end_x, battle_end_y))
         if attaking or attaking2:
             return True
         else:
