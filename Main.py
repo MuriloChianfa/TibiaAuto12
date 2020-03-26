@@ -195,7 +195,7 @@ def main():
     y = (sh - h) / 2
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     root.resizable(width=False, height=False)
-    root.title('Mouse Tibia Auto')
+    root.title('Tibia Auto V12')
     root.wm_iconbitmap('images/icone2.ico')
     root.configure(background='#000')
     image = Image.open('images/FundoTibiaAuto.jpg')
@@ -980,6 +980,10 @@ def auto_login():
 
     def scanning_auto_login():
         global bool_login
+        global username_value
+        username_value = username.get()
+        global passwd_value
+        passwd_value = passwd.get()
         username_field_check = pyautogui.locateOnScreen('images/AccountName.png', grayscale=True, confidence=0.8)
         if username_field_check:
             print("You Are Offline... Trying To Login")
@@ -1053,7 +1057,6 @@ def auto_login():
 
     username = tk.Entry(screen_auto_login)
     username.place(x=149, y=86)
-    username.insert(1, "murilochianfa12345")
     global username_value
     username_value = username.get()
 
@@ -1063,7 +1066,6 @@ def auto_login():
 
     passwd = tk.Entry(screen_auto_login)
     passwd.place(x=149, y=126)
-    passwd.insert(1, "projetoX12345")
     global passwd_value
     passwd_value = passwd.get()
 
