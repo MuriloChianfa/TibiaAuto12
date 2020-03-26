@@ -87,15 +87,15 @@ WAYPOINTS = [
 
 class GetMapPosition:
     def __init__(self):
-        self.map_localization = None
+        self.map_start = None
+        self.map_end = None
 
-
-    def getxy(self):
+    def get_map_xy(self):
         top_right = pyautogui.locateOnScreen("images/MapSettings/MapSettings.png", confidence=0.8)
         map_size = 110  # 110px square
-        map_start = (top_right[0] - map_size, top_right[1])
-        map_end = (top_right[0], top_right[1] + map_size)
+        self.map_start = top_right[0] - map_size, top_right[1]
+        self.map_end = top_right[0], top_right[1] + map_size
         if top_right[0] != -1:
-            return map_start[0], map_start[1], map_end[0], map_end[1]
+            return self.map_start[0], self.map_start[1], self.map_end[0], self.map_end[1]
         return -1, -1, -1, -1
 

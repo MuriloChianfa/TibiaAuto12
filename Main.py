@@ -205,7 +205,7 @@ def set_sqms():
     else:
         seted_sqm = False
         print("Error To Set SQMS, Try Again Later")
-        player_X, player_Y = GetPlayerPosition.get_player_pos()
+        player_X, player_Y = get_player_position.get_gw_xy()
 
 
 def main():
@@ -1128,9 +1128,8 @@ def auto_attack():
                 battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
                 global get_player_location
                 if not get_player_location:
-                    get_player_location = True
                     global player_X, player_Y
-                    player_X, player_Y = get_player_position.getxy()
+                    player_X, player_Y = get_player_position.get_gw_xy()
                     if player_X and player_Y is not None:
                         if battle_start_x:
                             if bool_auto_attack and master_key_start:
