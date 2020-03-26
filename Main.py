@@ -2,6 +2,7 @@ import time
 import tkinter as tk
 
 import keyboard
+from random import randint
 import pyautogui
 from PIL import Image, ImageTk
 from PIL import ImageGrab
@@ -32,6 +33,7 @@ get_player_location = False
 get_attack_location = False
 bool_auto_looter = False
 bool_adjust_config = False
+get_marks = False
 bool_life = False
 bool_hur = False
 bool_mana = False
@@ -40,6 +42,7 @@ bool_auto_attack = False
 bool_auto_ssa = False
 bool_auto_ring = False
 bool_color_change = False
+bool_Cave_Bot = False
 master_key_start = False
 
 seted_sqm = False
@@ -269,10 +272,10 @@ def main():
                                activebackground=_from_rgb((123, 13, 5)))
     open_auto_mana.place(w=105, h=27, x=165, y=102)
 
-    open_strike_spells = tk.Button(root, text='Strike Spells', font=('Microsoft Sans Serif', 10),
-                                   bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
+    open_cave_bot = tk.Button(root, text='Cave Bot', font=('Microsoft Sans Serif', 10),
+                                   bg=_from_rgb((127, 17, 8)), fg='white', command=cave_bot,
                                    activebackground=_from_rgb((123, 13, 5)))
-    open_strike_spells.place(w=105, h=27, x=165, y=359)
+    open_cave_bot.place(w=105, h=27, x=165, y=359)
 
     open_timed_spells = tk.Button(root, text='Timed Spells', font=('Microsoft Sans Serif', 10),
                                   bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
@@ -493,12 +496,12 @@ def auto_life():
     var_dropdown_stage_five.set(35)
     var_dropdown_stage_six = tk.StringVar()
     var_dropdown_stage_six.set("f12")
-    img_poison = ImageTk.PhotoImage(Image.open('images/poison.webp'))
-    img_paralyze = ImageTk.PhotoImage(Image.open('images/paralyze.webp'))
-    img_fire = ImageTk.PhotoImage(Image.open('images/fire.webp'))
-    img_electrify = ImageTk.PhotoImage(Image.open('images/electrify.webp'))
-    img_mort = ImageTk.PhotoImage(Image.open('images/mort.webp'))
-    img_blood = ImageTk.PhotoImage(Image.open('images/blood.webp'))
+    img_poison = ImageTk.PhotoImage(Image.open('images/Stats/poison.webp'))
+    img_paralyze = ImageTk.PhotoImage(Image.open('images/Stats/paralyze.webp'))
+    img_fire = ImageTk.PhotoImage(Image.open('images/Stats/fire.webp'))
+    img_electrify = ImageTk.PhotoImage(Image.open('images/Stats/electrify.webp'))
+    img_mort = ImageTk.PhotoImage(Image.open('images/Stats/mort.webp'))
+    img_blood = ImageTk.PhotoImage(Image.open('images/Stats/blood.webp'))
 
     button_exit = tk.Button(screen_auto_life, text='Ok', font=('Microsoft Sans Serif', 10),
                             bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
@@ -1721,6 +1724,107 @@ def auto_looter():
         auto_looter_button.place(w=328, h=29, x=12, y=469)
 
     screen_auto_looter.mainloop()
+
+
+def cave_bot():
+    screen_cave_bot = tk.Toplevel(root)
+    screen_cave_bot.focus_force()
+    screen_cave_bot.grab_set()
+    w = 348
+    h = 546
+    sw = screen_cave_bot.winfo_screenwidth()
+    sh = screen_cave_bot.winfo_screenheight()
+    x = (sw - w) / 1.325
+    y = (sh - h) / 2.36
+    screen_cave_bot.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    screen_cave_bot.resizable(width=False, height=False)
+    screen_cave_bot.title('Module: Cave Bot')
+    screen_cave_bot.configure(background='#000', takefocus=True)
+    image = Image.open('images/FundoHealingEdited.jpg')
+    photo = ImageTk.PhotoImage(image)
+    label = tk.Label(screen_cave_bot, image=photo, bg='#000')
+    label.image = photo
+    label.pack()
+
+    def set_marks():
+        mark1 = ImageTk.PhotoImage(Image.open('images/Marks/1.png'))
+        mark2 = ImageTk.PhotoImage(Image.open('images/Marks/2.png'))
+        mark3 = ImageTk.PhotoImage(Image.open('images/Marks/3.png'))
+        mark4 = ImageTk.PhotoImage(Image.open('images/Marks/4.png'))
+        mark5 = ImageTk.PhotoImage(Image.open('images/Marks/5.png'))
+        mark6 = ImageTk.PhotoImage(Image.open('images/Marks/6.png'))
+        mark7 = ImageTk.PhotoImage(Image.open('images/Marks/7.png'))
+        mark8 = ImageTk.PhotoImage(Image.open('images/Marks/8.png'))
+        mark9 = ImageTk.PhotoImage(Image.open('images/Marks/9.png'))
+        mark10 = ImageTk.PhotoImage(Image.open('images/Marks/10.png'))
+        mark11 = ImageTk.PhotoImage(Image.open('images/Marks/11.png'))
+        mark12 = ImageTk.PhotoImage(Image.open('images/Marks/12.png'))
+        mark13 = ImageTk.PhotoImage(Image.open('images/Marks/13.png'))
+        mark14 = ImageTk.PhotoImage(Image.open('images/Marks/14.png'))
+        mark15 = ImageTk.PhotoImage(Image.open('images/Marks/15.png'))
+        mark16 = ImageTk.PhotoImage(Image.open('images/Marks/16.png'))
+        mark17 = ImageTk.PhotoImage(Image.open('images/Marks/17.png'))
+        mark18 = ImageTk.PhotoImage(Image.open('images/Marks/18.png'))
+        mark19 = ImageTk.PhotoImage(Image.open('images/Marks/19.png'))
+        mark20 = ImageTk.PhotoImage(Image.open('images/Marks/20.png'))
+
+
+    def exit_button():
+        screen_cave_bot.destroy()
+
+    def func_cave_bot():
+        global bool_Cave_Bot
+        if not bool_Cave_Bot:
+            bool_Cave_Bot = True
+            cave_bot_button.configure(text='Cave Bot: ON')
+            print("Cave Bot: ON")
+            global get_marks
+            if not get_marks:
+                get_marks = True
+                set_marks()
+            else:
+                if bool_Cave_Bot and master_key_start:
+                    scanning_cave_bot()
+                else:
+                    print("Master Key Non Activated!")
+        else:
+            bool_Cave_Bot = False
+            print("Cave Bot: OFF")
+            cave_bot_button.configure(text='Cave Bot: OFF')
+
+    def scanning_cave_bot():
+        if bool_Cave_Bot and master_key_start:
+            if keyboard.is_pressed("c"):
+                print("Pressed")
+
+        root.after(65, scanning_cave_bot)
+
+    # Buttons
+
+    ''' ok button '''
+
+    button_exit = tk.Button(screen_cave_bot, text='Ok', font=('Microsoft Sans Serif', 10),
+                            bg=_from_rgb((127, 17, 8)), fg='white', command=exit_button,
+                            activebackground=_from_rgb((123, 13, 5)))
+    button_exit.place(w=84, h=29, x=130, y=504)
+
+    ''' button auto login '''
+
+    global bool_Cave_Bot
+    if not bool_Cave_Bot:
+        cave_bot_button = tk.Button(screen_cave_bot, text='Cave Bot: OFF',
+                                         font=('Microsoft Sans Serif', 10),
+                                         bg=_from_rgb((127, 17, 8)), fg='white', command=func_cave_bot,
+                                         activebackground=_from_rgb((123, 13, 5)))
+        cave_bot_button.place(w=328, h=29, x=12, y=469)
+    else:
+        cave_bot_button = tk.Button(screen_cave_bot, text='Cave Bot: ON',
+                                         font=('Microsoft Sans Serif', 10),
+                                         bg=_from_rgb((127, 17, 8)), fg='white', command=func_cave_bot,
+                                         activebackground=_from_rgb((123, 13, 5)))
+        cave_bot_button.place(w=328, h=29, x=12, y=469)
+
+    screen_cave_bot.mainloop()
 
 
 if __name__ == '__main__':

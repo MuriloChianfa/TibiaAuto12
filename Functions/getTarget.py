@@ -13,7 +13,7 @@ class GetTargetPosition:
         return int(battle_start_x), int(battle_end_x), int(battle_start_y), int(battle_end_y)
 
     def scanning_for_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
-        has_target = pyautogui.locateOnScreen('images/Targets/' + monster + '.png', confidence=0.8, region=(
+        has_target = pyautogui.locateOnScreen('images/Targets/' + monster + '.png', confidence=0.9, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))
         none = 0
         if has_target:
