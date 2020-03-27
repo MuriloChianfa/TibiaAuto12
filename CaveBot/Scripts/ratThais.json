@@ -1,7 +1,7 @@
 [
     {
         "mark": "images/MapSettings/CheckMark.png",
-        "status": false
+        "status": true
     },
     {
         "mark": "images/MapSettings/QuestionMark.png",
@@ -9,7 +9,7 @@
     },
     {
         "mark": "images/MapSettings/ExclimationMark.png",
-        "status": true
+        "status": false
     },
     {
         "mark": "images/MapSettings/Star.png",

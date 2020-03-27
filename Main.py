@@ -1689,9 +1689,13 @@ def cave_bot():
         if bool_Cave_Bot and master_key_start:
             print("CAVE BOT PRINT...")
             for i in range(len(data)):
-                print(data[i]["mark"])
                 mark_box = pyautogui.locateOnScreen(f'{data[i]["mark"]}', region=(map_positions[0], map_positions[1], map_positions[2], map_positions[3]), confidence=0.9)
+                print(data[i]["mark"])
+                print(data[i]["status"])
+                print(mark_box)
                 if data[i]['status']:
+                    mark_box = pyautogui.locateOnScreen(f'{data[i]["mark"]}', region=(
+                    map_positions[0], map_positions[1], map_positions[2], map_positions[3]), confidence=0.9)
                     pyautogui.click(mark_box[0], mark_box[1])
                     # atacar os mobs e aguardar todos morrerem
 
@@ -1746,6 +1750,11 @@ def cave_bot():
                             json.dump(data, wJson, indent=4)
                 else:
                     print("Error on Cave Bot")
+                    data[i - i]['status'] = False
+                    data[0]['status'] = True
+                    with open('CaveBot/Scripts/ratThais.json', 'w') as wJson:
+                        json.dump(data, wJson, indent=4)
+
 
             if bool_Cave_Bot and master_key_start:
                 root.after(300, scanning_cave_bot)
