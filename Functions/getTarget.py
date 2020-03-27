@@ -9,10 +9,10 @@ class GetTargetPosition:
         battle_start_x = battle_start_x - 40
         battle_start_y = battle_start_y - 5
         battle_end_x = int(battle_start_x) + 155
-        battle_end_y = int(battle_start_y) + 415
+        battle_end_y = 415
         return int(battle_start_x), int(battle_end_x), int(battle_start_y), int(battle_end_y)
 
-    def scanning_for_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
+    def scanning_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
         has_target = pyautogui.locateOnScreen('images/Targets/' + monster + '.png', confidence=0.9, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y))
         none = 0
@@ -26,7 +26,7 @@ class GetTargetPosition:
         else:
             return 0, 0
 
-    def test_scan_target(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
+    def number_of_targets(battle_log, battle_start_x, battle_end_x, battle_start_y, battle_end_y, monster):
         target_number = list(pyautogui.locateAllOnScreen('images/Targets/' + monster + '.png', confidence=0.8, region=(
             battle_start_x, battle_start_y, battle_end_x, battle_end_y)))
         return len(target_number)
@@ -42,17 +42,19 @@ class GetTargetPosition:
             return False
 
 
-# --------------------------- Arrumar Depois ------------------------------
+class GetFollow:
+    def __init__(self):
+        self.follow = None
+        self.follow_x = 0
+        self.follow_y = 0
 
-
-    def scanning_follow_mode():
-        follow = pyautogui.locateOnScreen('images/TibiaSettings/follow.png', confidence=0.8, region=(0, 0, 1826, 1024))
-        if follow:
-            follow_x, follow_y = pyautogui.center(follow)
-            follow_x = int(follow_x)
-            follow_y = int(follow_y)
+    def scanning_follow_mode(self):
+        self.follow = pyautogui.locateOnScreen('images/TibiaSettings/follow.png', confidence=0.8)
+        if self.follow:
+            self.follow_x, self.follow_y = pyautogui.center(self.follow)
+            self.follow_x = int(self.follow_x)
+            self.follow_y = int(self.follow_y)
             print("Clicking in Follow")
-            return follow_x, follow_y
+            return self.follow_x, self.follow_y
         else:
             return 0, 0
-

@@ -18,16 +18,23 @@ from Functions.getPlayerPosition import *
 from Functions.getPositions import *
 from Functions.getSQM import *
 
-print("Start in 1 Seconds...")
+print('\033[33m' + "Start in 1 Seconds...")
 time.sleep(1)
 
 set_SQMs = SetSQMs()
-get_life_position = GetHealthPosition()
+get_target_position = GetTargetPosition()
+get_number_targets = GetTargetPosition()
+GetHealthPosition = GetHealthPosition()
+get_battle_position = GetBattlePosition()
 get_life_stage = GetStage("Life")
 get_mana_position = GetManaPosition()
 get_mana_stage = GetStage("Mana")
 get_map_position = GetMapPosition()
 get_player_position = GetPlayerPosition()
+take_loot = GetLoot('right')
+
+
+#region Arrays
 
 lifeColorFull = [194, 74, 74]
 
@@ -45,82 +52,17 @@ Player = [0, 0]
 
 SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-# region GlobalVariables
+Target = [0, 0]
 
-TibiaName = ""
-target_number = 0
-target_number2 = 0
-battle_start_x = 0
-battle_end_x = 0
-battle_start_y = 0
-battle_end_y = 0
-username_field_X = 0
-username_field_Y = 0
-horizontal_SQM_size, vertical_SQM_size = 0, 0
-get_health_location = False
-get_mana_location = False
-get_login_location = False
-get_player_location = False
-get_attack_location = False
-bool_auto_looter = False
-bool_adjust_config = False
-healthX, healthY = 0, 0
-manaLocX, manaLocY = 0, 0
-get_marks = False
-bool_life = False
-bool_hur = False
-bool_mana = False
-bool_login = False
-bool_auto_attack = False
-bool_auto_ssa = False
-bool_auto_ring = False
-bool_color_change = False
-bool_Cave_Bot = False
-master_key_start = False
+HealthLocation = [0, 0]
 
-seted_sqm = False
+ManaLocation = [0, 0]
 
-master_start = False
+battle_location = [0, 0, 0, 0]
 
-# endregion
+hotkeys = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"]
 
-hotkeys = [
-    "f1",
-    "f2",
-    "f3",
-    "f4",
-    "f5",
-    "f6",
-    "f7",
-    "f8",
-    "f9",
-    "f10",
-    "f11",
-    "f12"
-]
-
-percentage = [
-    100,
-    95,
-    90,
-    85,
-    80,
-    75,
-    70,
-    65,
-    60,
-    55,
-    50,
-    45,
-    40,
-    35,
-    30,
-    25,
-    20,
-    15,
-    10,
-    5,
-]
+percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 
 monsters = [
     "Rat",
@@ -137,18 +79,48 @@ monsters = [
     "Stonerefiner"
 ]
 
-priority = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10
-]
+priority = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+#endregion
+
+
+# region GlobalVariables
+
+TibiaName = ""
+
+target_number = 0
+target_number2 = 0
+
+username_field_X = 0
+username_field_Y = 0
+
+horizontal_SQM_size, vertical_SQM_size = 0, 0
+
+get_health_location = False
+get_mana_location = False
+get_login_location = False
+get_player_location = False
+get_attack_location = False
+get_SQMs_location = False
+get_battle_location = False
+
+bool_auto_looter = False
+bool_adjust_config = False
+bool_life = False
+bool_hur = False
+bool_mana = False
+bool_login = False
+bool_auto_attack = False
+bool_auto_ssa = False
+bool_auto_ring = False
+bool_color_change = False
+bool_Cave_Bot = False
+
+master_key_start = False
+
+master_start = False
+
+# endregion
 
 
 def _from_rgb(rgb):  # Function to translate color to RGB
@@ -405,11 +377,11 @@ def auto_life():
             bool_life = True
             auto_life_button.configure(text='AutoHealing: ON')
             print("AutoHealing: ON")
-            global get_health_location, healthX, healthY
+            global get_health_location
             if not get_health_location:
-                healthX, healthY = get_life_position.get_health_xy()
+                HealthLocation[0], HealthLocation[1] = GetHealthPosition.get_health_xy()
                 get_health_location = True
-                if healthX and healthY != 0:
+                if HealthLocation[0] and HealthLocation[1] != 0:
                     if bool_life and master_key_start:
                         scanning_auto_life()
                     else:
@@ -427,7 +399,7 @@ def auto_life():
             auto_life_button.configure(text='AutoHealing: OFF')
 
     def scanning_auto_life():
-        life = get_life_stage.scanning_stage(healthX, healthY, lifeColor, lifeColorFull)
+        life = get_life_stage.scanning_stage(HealthLocation, lifeColor, lifeColorFull)
 
         if var_check_five.get() == "on":
             stage_three = var_dropdown_stage_five.get()
@@ -755,10 +727,9 @@ def auto_mana():
             print("AutoMana: ON")
             global get_mana_location
             if not get_mana_location:
-                global manaLocY, manaLocX
-                manaLocX, manaLocY = get_mana_position.get_mana_xy()
+                ManaLocation[0], ManaLocation[1] = get_mana_position.get_mana_xy()
                 get_mana_location = True
-                if manaLocX and manaLocY != 0:
+                if ManaLocation[0] and ManaLocation[1] != 0:
                     if bool_mana and master_key_start:
                         scanning_auto_mana()
                     else:
@@ -776,7 +747,7 @@ def auto_mana():
             auto_mana_button.configure(text='AutoMana: OFF')
 
     def scanning_auto_mana():
-        mana = get_mana_stage.scanning_stage(manaLocX, manaLocY, manaColor, manaColorFull)
+        mana = get_mana_stage.scanning_stage(ManaLocation, manaColor, manaColorFull)
 
         if var_check_four.get() == "on":
             stage_two = var_dropdown_stage_three.get()
@@ -1074,15 +1045,14 @@ def auto_attack():
             global get_attack_location
             if not get_attack_location:
                 get_attack_location = True
-                global battle_start_x, battle_end_x, battle_start_y, battle_end_y
-                battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
+                battle_location[0], battle_location[2], battle_location[1], battle_location[3] = get_battle_position.get_battle_xy()
                 global get_player_location
                 if not get_player_location:
                     Player[0], Player[1] = get_player_position.get_gw_xy()
                     if Player[0] and Player[1] != 0:
-                        if battle_start_x:
+                        if battle_location[0] != 0:
                             if bool_auto_attack and master_key_start:
-                                combine_funcs(scanning_auto_attack(), scanning_follow_mode())
+                                combine_funcs(scanning_auto_attack(), scanning_follow_modee())
                             else:
                                 print("Master Key Non Activated!")
                         else:
@@ -1091,12 +1061,12 @@ def auto_attack():
                         print("Not Player Position!")
                 else:
                     if bool_auto_attack and master_key_start:
-                        combine_funcs(scanning_auto_attack(), scanning_follow_mode())
+                        combine_funcs(scanning_auto_attack(), scanning_follow_modee())
                     else:
                         print("Master Key Non Activated!")
             else:
                 if bool_auto_attack and master_key_start:
-                    combine_funcs(scanning_auto_attack(), scanning_follow_mode())
+                    combine_funcs(scanning_auto_attack(), scanning_follow_modee())
                 else:
                     print("Master Key Non Activated!")
         else:
@@ -1106,61 +1076,48 @@ def auto_attack():
 
     def scanning_auto_attack():
         if bool_auto_attack and master_key_start:
-            battle_log = 0
-            global target_number, target_number2
-            global battle_start_x, battle_end_x, battle_start_y, battle_end_y
+            global target_number, target_number2, battle_location
             monster = var_dropdown_stage_one.get()
-            target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
-                                                                       battle_start_y, battle_end_y, monster)
-            target_number2 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
-                                                                battle_start_y, battle_end_y, monster)
+            Target[0], Target[1] = get_target_position.scanning_target(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
+            target_number2 = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
             print("Number of " + monster + ": ", target_number2)
             if target_number2 < target_number:
-                if seted_sqm:
-                    log = 0
-                    GetLoot.take_loot(log, SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7],
-                                      SQMs[8], SQMs[9], SQMs[10], SQMs[
-                                          11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17])
+                if get_SQMs_location:
+                    take_loot.take_loot(SQMs)
                     target_number = 0
                 else:
                     set_SQMs.set_SQMs()
 
-            if target_x != 0 and target_y != 0:
-                target_number = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
-                                                                   battle_start_y, battle_end_y, monster)
+            if Target[0] != 0 and Target[1] != 0:
+                target_number = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
 
-                attacking = GetTargetPosition.attaking(battle_log, battle_start_x, battle_end_x,
-                                                       battle_start_y, battle_end_y)
+                attacking = get_target_position.attaking(battle_location[0], battle_location[1], battle_location[2], battle_location[3])
 
                 if not attacking:
                     print("Attacking a Target")
                     past_mouse_position = pyautogui.position()
-                    pyautogui.leftClick(target_x, target_y)
+                    pyautogui.leftClick(Target[0], Target[1])
                     pyautogui.moveTo(past_mouse_position)
-                    target_number2 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
-                                                                        battle_start_y, battle_end_y, monster)
-                    target_x = 0
-                    target_y = 0
+                    target_number2 = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
                 else:
                     print("You are attacking")
-                    target_number2 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
-                                                                        battle_start_y, battle_end_y, monster)
-                    target_x = 0
-                    target_y = 0
+                    target_number2 = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
 
         if bool_auto_attack and master_key_start:
             root.after(250, scanning_auto_attack)
 
-    def scanning_follow_mode():
+    def scanning_follow_modee():
         if bool_auto_attack and master_key_start:
-            follow_x_pos, follow_y_pos = GetTargetPosition.scanning_follow_mode()
+            battle_log = 0
+            follow_x_pos, follow_y_pos = GetFollow().scanning_follow_mode()
 
             if follow_x_pos != 0 and follow_y_pos != 0:
                 past_mouse_position = pyautogui.position()
                 pyautogui.leftClick(follow_x_pos, follow_y_pos)
                 pyautogui.moveTo(past_mouse_position)
 
-        root.after(3000, scanning_follow_mode)
+        if bool_auto_attack and master_key_start:
+            root.after(3000, scanning_follow_modee)
 
     # Buttons
 
@@ -1639,14 +1596,11 @@ def auto_looter():
             auto_looter_button.configure(text='Auto Looter: OFF')
 
     def scanning_auto_looter():
-        global seted_sqm
-        if seted_sqm:
+        global get_SQMs_location
+        if get_SQMs_location:
             print("Scanning for loot")
             if bool_auto_looter and master_key_start:
-                log = 0
-                GetLoot.take_loot(log, SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8],
-                                  SQMs[9], SQMs[10], SQMs[
-                                      11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17])
+                take_loot.take_loot(SQMs)
                 time.sleep(4)
             else:
                 print("Marster Key not enabled")
@@ -1775,6 +1729,7 @@ def main():
     config_master.configure(background=_from_rgb((120, 98, 51)), takefocus=True)
 
     def set_title():
+        start_configuration = time.time()
         global TibiaName
         try:
             TibiaName = windowTitles.find_tibia_title()
@@ -1786,10 +1741,14 @@ def main():
             TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
             TibiaAuto.minimize()
             TibiaWindow.maximize()
+
             time.sleep(2)
 
-            global battle_start_x, battle_end_x, battle_start_y, battle_end_y, get_attack_location
-            battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
+            pyautogui.PAUSE = 0.005
+
+            global get_attack_location
+            battle_location[0], battle_location[2], battle_location[1], battle_location[3] = get_battle_position.get_battle_xy()
+            print(f"Your Battle Box location X: {battle_location[0]} Y: {battle_location[1]}")
             get_attack_location = True
 
             Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[3] = get_player_position.get_gw_xy()
@@ -1802,7 +1761,7 @@ def main():
             print("Game Window Start X:", gameWindow[0], " Start Y:", gameWindow[1])
             print("Game Window End X:", gameWindow[2], " End Y", gameWindow[3])
 
-            global seted_sqm
+            global get_SQMs_location
             SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
                 11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = set_SQMs.set_SQMs()
             time.sleep(0.1)
@@ -1816,22 +1775,25 @@ def main():
             print("8° SQM Is In: ", SQMs[14], SQMs[15])
             print("9° SQM Is In: ", SQMs[16], SQMs[17])
             time.sleep(0.1)
-            seted_sqm = True
+            get_SQMs_location = True
 
-            global get_health_location, healthX, healthY
-            healthX, healthY = get_life_position.get_health_xy()
-            healthX, healthY = int(healthX), int(healthY)
-            print(f"Your Health Box location X: {healthX} Y: {healthY}")
+            global get_health_location
+            HealthLocation[0], HealthLocation[1] = GetHealthPosition.get_health_xy()
+            HealthLocation[0], HealthLocation[1] = int(HealthLocation[0]), int(HealthLocation[1])
+            print(f"Your Health Box location X: {HealthLocation[0]} Y: {HealthLocation[1]}")
             get_health_location = True
 
-            global get_mana_location, manaLocX, manaLocY
-            manaLocX, manaLocY = get_mana_position.get_mana_xy()
-            manaLocX, manaLocY = int(manaLocX), int(manaLocY)
-            print(f"Your Mana Box location X: {manaLocX} Y: {manaLocY}")
+            global get_mana_location
+            ManaLocation[0], ManaLocation[1] = get_mana_position.get_mana_xy()
+            ManaLocation[0], ManaLocation[1] = int(ManaLocation[0]), int(ManaLocation[1])
+            print(f"Your Mana Box location X: {ManaLocation[0]} Y: {ManaLocation[1]}")
             get_mana_location = True
 
             global map_positions
             map_positions[0], map_positions[1], map_positions[2], map_positions[3] = get_map_position.get_map_xy()
+
+            end_configurantion = time.time() - start_configuration
+            print(f"Your Setup Time Is: {end_configurantion:.2f} Seconds")
 
             print("Oppening TibiaAuto...")
 

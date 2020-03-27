@@ -2,14 +2,20 @@
   <dictionary name="Murilo">
     <words>
       <w>activebackground</w>
+      <w>attaking</w>
+      <w>corym</w>
       <w>dropdown</w>
       <w>exclimation</w>
       <w>fundo</w>
+      <w>hotkeys</w>
       <w>icone</w>
       <w>mana</w>
       <w>masterkey</w>
+      <w>rotworm</w>
       <w>screencp</w>
       <w>seted</w>
+      <w>spearman</w>
+      <w>stonerefiner</w>
     </words>
   </dictionary>
 </component>

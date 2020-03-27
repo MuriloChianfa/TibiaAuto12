@@ -1,22 +1,19 @@
 import pyautogui
 import time
 
+
 class GetLoot:
-    def take_loot(log, SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y,
-                    SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y,
-                    SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y):
-        pass_mouse_position = pyautogui.position()
-        start_loot_time = time.time()
-        pyautogui.PAUSE = 0.005
-        pyautogui.click(SQM1_X, SQM1_Y, button='right')
-        pyautogui.click(SQM2_X, SQM2_Y, button='right')
-        pyautogui.click(SQM3_X, SQM3_Y, button='right')
-        pyautogui.click(SQM4_X, SQM4_Y, button='right')
-        pyautogui.click(SQM5_X, SQM5_Y, button='right')
-        pyautogui.click(SQM6_X, SQM6_Y, button='right')
-        pyautogui.click(SQM7_X, SQM7_Y, button='right')
-        pyautogui.click(SQM8_X, SQM8_Y, button='right')
-        pyautogui.click(SQM9_X, SQM9_Y, button='right')
-        end_loot_time = time.time() - start_loot_time
-        pyautogui.moveTo(pass_mouse_position)
-        print("Looted In: ", end_loot_time)
+    def __init__(self, button):
+        self.pass_mouse_position = 0
+        self.start_loot_time = 0
+        self.end_loot_time = 0
+        self.button = button
+
+    def take_loot(self, SQMs):
+        self.pass_mouse_position = pyautogui.position()
+        self.start_loot_time = time.time()
+        for i, j in zip(range(0, 18, + 2), range(1, 19, + 2)):
+            pyautogui.click(SQMs[i], SQMs[j], button=self.button)
+        self.end_loot_time = time.time() - self.start_loot_time
+        pyautogui.moveTo(self.pass_mouse_position)
+        print("Looted In: ", self.end_loot_time)
