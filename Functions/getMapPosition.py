@@ -16,7 +16,7 @@ class GetMapPosition:
             print(f"End X: {self.map_positions[2]} End Y: {self.map_positions[3]}")
             print(f"Size of X: {self.map_positions[2] - self.map_positions[0]}")
             print(f"Size of Y: {self.map_positions[3] - self.map_positions[1]}")
-            return self.map_positions[0], self.map_positions[1], self.map_positions[0], self.map_positions[1]
+            return self.map_positions[0], self.map_positions[1], self.map_positions[2], self.map_positions[3]
         else:
             print("Error to get Map positions")
             return 0, 0, 0, 0

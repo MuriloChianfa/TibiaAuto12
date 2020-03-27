@@ -2,11 +2,10 @@ import time
 import tkinter as tk
 
 import keyboard
-from random import randint
 import pyautogui
 from PIL import Image, ImageTk
 from PIL import ImageGrab
-import cv2
+import json
 import windowTitles
 import pygetwindow
 
@@ -64,6 +63,8 @@ hotkeys = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "
 
 percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 
+mark = [0, 0]
+
 monsters = [
     "Rat",
     "CaveRat",
@@ -115,6 +116,8 @@ bool_auto_ssa = False
 bool_auto_ring = False
 bool_color_change = False
 bool_Cave_Bot = False
+
+monster = "Rat"
 
 master_key_start = False
 
@@ -1076,7 +1079,7 @@ def auto_attack():
 
     def scanning_auto_attack():
         if bool_auto_attack and master_key_start:
-            global target_number, target_number2, battle_location
+            global target_number, target_number2, battle_location, monster
             monster = var_dropdown_stage_one.get()
             Target[0], Target[1] = get_target_position.scanning_target(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
             target_number2 = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
@@ -1124,8 +1127,9 @@ def auto_attack():
     var_check_one = tk.StringVar()
     var_check_two = tk.StringVar()
     var_check_three = tk.StringVar()
+    global monster
     var_dropdown_stage_one = tk.StringVar()
-    var_dropdown_stage_one.set("Rat")
+    var_dropdown_stage_one.set(monster)
     var_dropdown_stage_two = tk.StringVar()
     var_dropdown_stage_two.set(1)
 
@@ -1667,25 +1671,84 @@ def cave_bot():
             bool_Cave_Bot = True
             cave_bot_button.configure(text='Cave Bot: ON')
             print("Cave Bot: ON")
-            global get_marks
-            if not get_marks:
-                get_marks = True
+            if bool_Cave_Bot and master_key_start:
+                scanning_cave_bot()
             else:
-                if bool_Cave_Bot and master_key_start:
-                    scanning_cave_bot()
-                else:
-                    print("Master Key Non Activated!")
+                print("Master Key Non Activated!")
         else:
             bool_Cave_Bot = False
             print("Cave Bot: OFF")
             cave_bot_button.configure(text='Cave Bot: OFF')
 
+    with open('CaveBot/Scripts/ratThais.json', 'r') as rJson:
+        data = json.load(rJson)
+        print(len(data))
+    print(data)
+
     def scanning_cave_bot():
         if bool_Cave_Bot and master_key_start:
-            if keyboard.is_pressed("c"):
-                print("Pressed")
+            print("CAVE BOT PRINT...")
+            for i in range(len(data)):
+                print(data[i]["mark"])
+                mark_box = pyautogui.locateOnScreen(f'{data[i]["mark"]}', region=(map_positions[0], map_positions[1], map_positions[2], map_positions[3]), confidence=0.9)
+                if data[i]['status']:
+                    pyautogui.click(mark_box[0], mark_box[1])
+                    # atacar os mobs e aguardar todos morrerem
 
-        root.after(65, scanning_cave_bot)
+                    global target_number, target_number2, battle_location, monster
+                    Target[0], Target[1] = get_target_position.scanning_target(battle_location[0], battle_location[1],
+                                                                               battle_location[2], battle_location[3],
+                                                                               monster)
+                    target_number2 = get_target_position.number_of_targets(battle_location[0], battle_location[1],
+                                                                           battle_location[2], battle_location[3],
+                                                                           monster)
+                    print("Number of " + monster + ": ", target_number2)
+                    if target_number2 < target_number:
+                        if get_SQMs_location:
+                            take_loot.take_loot(SQMs)
+                            target_number = 0
+                        else:
+                            set_SQMs.set_SQMs()
+
+                    if Target[0] != 0 and Target[1] != 0:
+                        target_number = get_target_position.number_of_targets(battle_location[0], battle_location[1],
+                                                                              battle_location[2], battle_location[3],
+                                                                              monster)
+
+                        attacking = get_target_position.attaking(battle_location[0], battle_location[1],
+                                                                 battle_location[2], battle_location[3])
+
+                        if not attacking:
+                            print("Attacking a Target")
+                            past_mouse_position = pyautogui.position()
+                            pyautogui.leftClick(Target[0], Target[1])
+                            pyautogui.moveTo(past_mouse_position)
+                            target_number2 = get_target_position.number_of_targets(battle_location[0],
+                                                                                   battle_location[1],
+                                                                                   battle_location[2],
+                                                                                   battle_location[3], monster)
+                        else:
+                            print("You are attacking")
+                            target_number2 = get_target_position.number_of_targets(battle_location[0],
+                                                                                   battle_location[1],
+                                                                                   battle_location[2],
+                                                                                   battle_location[3], monster)
+
+                    # bloco ----
+                    time.sleep(3)
+                    if pyautogui.locateOnScreen(data[i]["mark"], region=(map_positions[0], map_positions[1], map_positions[2], map_positions[3]), confidence=0.9):
+                        data[i]['status'] = False
+                        if i + 1 >= len(data):
+                            data[i - i]['status'] = True
+                        else:
+                            data[i + 1]['status'] = True
+                        with open('CaveBot/Scripts/ratThais.json', 'w') as wJson:
+                            json.dump(data, wJson, indent=4)
+                else:
+                    print("Error on Cave Bot")
+
+            if bool_Cave_Bot and master_key_start:
+                root.after(300, scanning_cave_bot)
 
     # Buttons
 

@@ -1,0 +1,22 @@
+[
+    {
+        "mark": "images/MapSettings/CheckMark.png",
+        "status": false
+    },
+    {
+        "mark": "images/MapSettings/QuestionMark.png",
+        "status": false
+    },
+    {
+        "mark": "images/MapSettings/ExclimationMark.png",
+        "status": true
+    },
+    {
+        "mark": "images/MapSettings/Star.png",
+        "status": false
+    },
+    {
+        "mark": "images/MapSettings/Cross.png",
+        "status": false
+    }
+]
