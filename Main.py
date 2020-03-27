@@ -15,11 +15,16 @@ from Functions.getTarget import *
 from Functions.getLoot import *
 from Functions.getMapPosition import *
 from Functions.getPlayerPosition import *
+from Functions.getPositions import *
+from Functions.getSQM import *
 
 print("Start in 1 Seconds...")
 time.sleep(1)
 
+set_SQMs = SetSQMs()
+get_life_position = GetHealthPosition()
 get_life_stage = GetStage("Life")
+get_mana_position = GetManaPosition()
 get_mana_stage = GetStage("Mana")
 get_map_position = GetMapPosition()
 get_player_position = GetPlayerPosition()
@@ -33,6 +38,12 @@ manaColorFull = [45, 45, 105]
 manaColor = [83, 80, 218]
 
 gameWindow = [0, 0, 0, 0]
+
+map_positions = [0, 0, 0, 0]
+
+Player = [0, 0]
+
+SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 # region GlobalVariables
 
@@ -53,7 +64,8 @@ get_player_location = False
 get_attack_location = False
 bool_auto_looter = False
 bool_adjust_config = False
-player_X, player_Y = None, None
+healthX, healthY = 0, 0
+manaLocX, manaLocY = 0, 0
 get_marks = False
 bool_life = False
 bool_hur = False
@@ -69,12 +81,6 @@ master_key_start = False
 seted_sqm = False
 
 master_start = False
-
-SQM1_X, SQM1_Y, SQM2_X, SQM2_Y = 0, 0, 0, 0
-SQM3_X, SQM3_Y, SQM4_X, SQM4_Y = 0, 0, 0, 0
-SQM5_X, SQM5_Y, SQM6_X, SQM6_Y = 0, 0, 0, 0
-SQM7_X, SQM7_Y, SQM8_X, SQM8_Y = 0, 0, 0, 0
-SQM9_X, SQM9_Y = 0, 0
 
 # endregion
 
@@ -161,79 +167,6 @@ def capture_screen():
     global screen
     screen = ImageGrab.grab()
     return screen
-
-
-def set_sqms():
-    '''
-    1 - [player_X - 70, player_Y - 70]
-    2 - [player_X, player_Y - 70]
-    3 - [player_X + 70, player_Y - 70]
-    4 - [player_X - 70, player_Y]
-    5 - [player_X, player_Y]
-    6 - [player_X + 70, player_Y]
-    7 - [player_X - 70, player_Y + 70]
-    8 - [player_X, player_Y + 70]
-    9 - [player_X + 70, player_Y + 70]
-    '''
-    global player_X, player_Y
-    global SQM1_X, SQM1_Y
-    global SQM2_X, SQM2_Y
-    global SQM3_X, SQM3_Y
-    global SQM4_X, SQM4_Y
-    global SQM5_X, SQM5_Y
-    global SQM6_X, SQM6_Y
-    global SQM7_X, SQM7_Y
-    global SQM8_X, SQM8_Y
-    global SQM9_X, SQM9_Y
-    global seted_sqm
-    global gameWindow
-    global horizontal_SQM_size, vertical_SQM_size
-    if gameWindow[0] != 0 and gameWindow[1] != 0:
-        horizontal_SQM_size = int((gameWindow[2] - gameWindow[0]) / 15)
-        print("Size of Your Horizontal SQM:", horizontal_SQM_size)
-        vertical_SQM_size = int((gameWindow[3] - gameWindow[1]) / 11)
-        print("Size of Your Vertical SQM:", vertical_SQM_size)
-    else:
-        print("Error in SQM Size")
-
-    if player_X and player_Y is not None and horizontal_SQM_size != 0 and vertical_SQM_size != 0:
-
-        seted_sqm = True
-        SQM1_X = player_X - horizontal_SQM_size
-        SQM1_Y = player_Y + vertical_SQM_size
-        SQM2_X = player_X
-        SQM2_Y = player_Y + vertical_SQM_size
-        SQM3_X = player_X + horizontal_SQM_size
-        SQM3_Y = player_Y + vertical_SQM_size
-        SQM4_X = player_X - horizontal_SQM_size
-        SQM4_Y = player_Y
-        SQM5_X = player_X
-        SQM5_Y = player_Y
-        SQM6_X = player_X + horizontal_SQM_size
-        SQM6_Y = player_Y
-        SQM7_X = player_X - horizontal_SQM_size
-        SQM7_Y = player_Y - vertical_SQM_size
-        SQM8_X = player_X
-        SQM8_Y = player_Y - vertical_SQM_size
-        SQM9_X = player_X + horizontal_SQM_size
-        SQM9_Y = player_Y - vertical_SQM_size
-        print("Setuping SQMS Localizations...")
-        time.sleep(0.1)
-        print("1° SQM Is In: ", SQM1_X, SQM1_Y)
-        print("2° SQM Is In: ", SQM2_X, SQM2_Y)
-        print("3° SQM Is In: ", SQM3_X, SQM3_Y)
-        print("4° SQM Is In: ", SQM4_X, SQM4_Y)
-        print("5° SQM Is In: ", SQM5_X, SQM5_Y)
-        print("6° SQM Is In: ", SQM6_X, SQM6_Y)
-        print("7° SQM Is In: ", SQM7_X, SQM7_Y)
-        print("8° SQM Is In: ", SQM8_X, SQM8_Y)
-        print("9° SQM Is In: ", SQM9_X, SQM9_Y)
-        time.sleep(0.1)
-        print("SQMS Localizations Seted !!!")
-    else:
-        seted_sqm = False
-        print("Error To Set SQMS, Try Again Later")
-        player_X, player_Y = get_player_position.get_gw_xy()
 
 
 def root():
@@ -472,23 +405,17 @@ def auto_life():
             bool_life = True
             auto_life_button.configure(text='AutoHealing: ON')
             print("AutoHealing: ON")
-            global get_health_location
+            global get_health_location, healthX, healthY
             if not get_health_location:
+                healthX, healthY = get_life_position.get_health_xy()
                 get_health_location = True
-                health = pyautogui.locateOnScreen('images/health.png', grayscale=True, confidence=0.8)
-                print("Your health location is:", health)
-                healthXc, healthYc = pyautogui.center(health)
-                global healthX
-                global healthY
-                healthX = int(healthXc)
-                healthY = int(healthYc)
-                if healthY:
+                if healthX and healthY != 0:
                     if bool_life and master_key_start:
                         scanning_auto_life()
                     else:
                         print("Master Key Non Activated!")
                 else:
-                    print("ERROR!")
+                    print("Error on Health Localization!")
             else:
                 if bool_life and master_key_start:
                     scanning_auto_life()
@@ -828,21 +755,16 @@ def auto_mana():
             print("AutoMana: ON")
             global get_mana_location
             if not get_mana_location:
+                global manaLocY, manaLocX
+                manaLocX, manaLocY = get_mana_position.get_mana_xy()
                 get_mana_location = True
-                manaLocation = pyautogui.locateOnScreen('images/mana.png', grayscale=True, confidence=0.9)
-                print("Your health location is:", manaLocation)
-                manaXc, manaYc = pyautogui.center(manaLocation)
-                global manaLocX
-                global manaLocY
-                manaLocX = int(manaXc)
-                manaLocY = int(manaYc)
-                if manaLocX and manaLocY:
+                if manaLocX and manaLocY != 0:
                     if bool_mana and master_key_start:
                         scanning_auto_mana()
                     else:
                         print("Master Key Non Activated!")
                 else:
-                    print("ERROR!")
+                    print("Error on Mana Localization!")
             else:
                 if bool_mana and master_key_start:
                     scanning_auto_mana()
@@ -995,14 +917,14 @@ def auto_login():
             global get_login_location
             if not get_login_location:
                 get_login_location = True
-                username_field = pyautogui.locateOnScreen('images/AccountName.png', grayscale=True, confidence=0.8)
+                username_field = pyautogui.locateOnScreen('images/TibiaSettings/AccountName.png', grayscale=True, confidence=0.8)
                 print("Your Login location is:", username_field)
                 username_field_Xc, username_field_Yc = pyautogui.center(username_field)
                 global username_field_X
                 global username_field_Y
                 username_field_X = int(username_field_Xc)
                 username_field_Y = int(username_field_Yc)
-                login = pyautogui.locateOnScreen('images/Login.png', grayscale=True, confidence=0.8)
+                login = pyautogui.locateOnScreen('images/TibiaSettings/Login.png', grayscale=True, confidence=0.8)
                 print("Your Login Button location is:", login)
                 loginXc, loginYc = pyautogui.center(login)
                 global loginX
@@ -1048,7 +970,7 @@ def auto_login():
                     time.sleep(2)
                     pyautogui.press('enter')
                     pyautogui.moveTo(pass_mouse_position)
-                    username_field_check2 = pyautogui.locateOnScreen('images/AccountName.png', grayscale=True,
+                    username_field_check2 = pyautogui.locateOnScreen('images/AccountName/AccountName.png', grayscale=True,
                                                                      confidence=0.8)
                     if username_field_check2:
                         print("Error To Login !!!!")
@@ -1156,9 +1078,8 @@ def auto_attack():
                 battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
                 global get_player_location
                 if not get_player_location:
-                    global player_X, player_Y
-                    player_X, player_Y = get_player_position.get_gw_xy()
-                    if player_X and player_Y is not None:
+                    Player[0], Player[1] = get_player_position.get_gw_xy()
+                    if Player[0] and Player[1] != 0:
                         if battle_start_x:
                             if bool_auto_attack and master_key_start:
                                 combine_funcs(scanning_auto_attack(), scanning_follow_mode())
@@ -1188,9 +1109,6 @@ def auto_attack():
             battle_log = 0
             global target_number, target_number2
             global battle_start_x, battle_end_x, battle_start_y, battle_end_y
-            global SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y
-            global SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y
-            global SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y
             monster = var_dropdown_stage_one.get()
             target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
                                                                        battle_start_y, battle_end_y, monster)
@@ -1200,12 +1118,12 @@ def auto_attack():
             if target_number2 < target_number:
                 if seted_sqm:
                     log = 0
-                    GetLoot.take_loot(log, SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y,
-                                      SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y,
-                                      SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y)
+                    GetLoot.take_loot(log, SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7],
+                                      SQMs[8], SQMs[9], SQMs[10], SQMs[
+                                          11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17])
                     target_number = 0
                 else:
-                    set_sqms()
+                    set_SQMs.set_SQMs()
 
             if target_x != 0 and target_y != 0:
                 target_number = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
@@ -1516,9 +1434,8 @@ def color_change():
             global get_player_location
             if not get_player_location:
                 get_player_location = True
-                global player_X, player_Y
-                player_X, player_Y = GetPlayerPosition.get_player_pos()
-                if player_X and player_Y is not None:
+                Player[0], Player[1] = get_player_position.get_gw_xy()
+                if Player[0] and Player[1] != 0:
                     bool_color_change = True
                     color_change_button.configure(text='Color Change: ON')
                     scanning_color_change()
@@ -1534,7 +1451,7 @@ def color_change():
         if bool_color_change and master_key_start:
             if keyboard.is_pressed("c"):
                 pyautogui.keyDown('ctrl')
-                pyautogui.click(player_X, player_Y, button='right')
+                pyautogui.click(Player[0], Player[1], button='right')
                 pyautogui.keyUp('ctrl')
 
         root.after(65, scanning_color_change)
@@ -1703,9 +1620,8 @@ def auto_looter():
             global get_player_location
             if not get_player_location:
                 get_player_location = True
-                global player_X, player_Y
-                player_X, player_Y = GetPlayerPosition.get_player_pos()
-                if player_X and player_Y is not None:
+                Player[0], Player[1] = get_player_position.get_gw_xy()
+                if Player[0] and Player[1] != 0:
                     if bool_auto_looter and master_key_start:
                         scanning_auto_looter()
                     else:
@@ -1724,27 +1640,18 @@ def auto_looter():
 
     def scanning_auto_looter():
         global seted_sqm
-        global SQM1_X, SQM1_Y
-        global SQM2_X, SQM2_Y
-        global SQM3_X, SQM3_Y
-        global SQM4_X, SQM4_Y
-        global SQM5_X, SQM5_Y
-        global SQM6_X, SQM6_Y
-        global SQM7_X, SQM7_Y
-        global SQM8_X, SQM8_Y
-        global SQM9_X, SQM9_Y
         if seted_sqm:
             print("Scanning for loot")
             if bool_auto_looter and master_key_start:
                 log = 0
-                GetLoot.take_loot(log, SQM1_X, SQM1_Y, SQM2_X, SQM2_Y, SQM3_X, SQM3_Y,
-                                  SQM4_X, SQM4_Y, SQM5_X, SQM5_Y, SQM6_X, SQM6_Y,
-                                  SQM7_X, SQM7_Y, SQM8_X, SQM8_Y, SQM9_X, SQM9_Y)
+                GetLoot.take_loot(log, SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8],
+                                  SQMs[9], SQMs[10], SQMs[
+                                      11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17])
                 time.sleep(4)
             else:
                 print("Marster Key not enabled")
         else:
-            set_sqms()
+            set_SQMs.set_SQMs()
 
         if bool_auto_looter and master_key_start:
             root.after(400, scanning_auto_looter)
@@ -1880,40 +1787,54 @@ def main():
             TibiaAuto.minimize()
             TibiaWindow.maximize()
             time.sleep(2)
-            global get_attack_location
-            get_attack_location = True
-            global battle_start_x, battle_end_x, battle_start_y, battle_end_y
+
+            global battle_start_x, battle_end_x, battle_start_y, battle_end_y, get_attack_location
             battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
-            global get_player_location
-            global player_X, player_Y
-            global gameWindow
-            player_X, player_Y, gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
-                3] = get_player_position.get_gw_xy()
-            print("X: ", gameWindow[0], gameWindow[2])
-            print("Y: ", gameWindow[1], gameWindow[3])
-            get_player_location = True
+            get_attack_location = True
+
+            Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[3] = get_player_position.get_gw_xy()
+            print(f"Left Game Window Localized In [ X: {gameWindow[0]}, Y: {gameWindow[1]} ]")
+            print(f"Right Game Window Localized In [ X: {gameWindow[2]}, Y: {gameWindow[1]}]")
+            print(f"Left Button Game Window Localized In [ X: {gameWindow[0]}, Y: {gameWindow[3]}]")
+            print(f"Right Button Game Window Localized In [ X: {gameWindow[2]}, Y: {gameWindow[3]}]")
+            print("X Player Position Is: ", Player[0])
+            print("Y Player Position Is: ", Player[1])
+            print("Game Window Start X:", gameWindow[0], " Start Y:", gameWindow[1])
+            print("Game Window End X:", gameWindow[2], " End Y", gameWindow[3])
+
             global seted_sqm
-            set_sqms()
+            SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
+                11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = set_SQMs.set_SQMs()
+            time.sleep(0.1)
+            print("1° SQM Is In: ", SQMs[0], SQMs[1])
+            print("2° SQM Is In: ", SQMs[2], SQMs[3])
+            print("3° SQM Is In: ", SQMs[4], SQMs[5])
+            print("4° SQM Is In: ", SQMs[6], SQMs[7])
+            print("5° SQM Is In: ", SQMs[8], SQMs[9])
+            print("6° SQM Is In: ", SQMs[10], SQMs[11])
+            print("7° SQM Is In: ", SQMs[12], SQMs[13])
+            print("8° SQM Is In: ", SQMs[14], SQMs[15])
+            print("9° SQM Is In: ", SQMs[16], SQMs[17])
+            time.sleep(0.1)
             seted_sqm = True
-            global get_health_location
-            health = pyautogui.locateOnScreen('images/health.png', grayscale=True, confidence=0.9)
-            print("Your Health location is:", health)
-            healthXc, healthYc = pyautogui.center(health)
-            global healthX
-            global healthY
-            healthX = int(healthXc)
-            healthY = int(healthYc)
-            global get_mana_location
-            get_mana_location = True
-            manaLocation = pyautogui.locateOnScreen('images/mana.png', grayscale=True, confidence=0.9)
-            print("Your Mana location is:", manaLocation)
-            manaXc, manaYc = pyautogui.center(manaLocation)
-            global manaLocX
-            global manaLocY
-            manaLocX = int(manaXc)
-            manaLocY = int(manaYc)
+
+            global get_health_location, healthX, healthY
+            healthX, healthY = get_life_position.get_health_xy()
+            healthX, healthY = int(healthX), int(healthY)
+            print(f"Your Health Box location X: {healthX} Y: {healthY}")
             get_health_location = True
+
+            global get_mana_location, manaLocX, manaLocY
+            manaLocX, manaLocY = get_mana_position.get_mana_xy()
+            manaLocX, manaLocY = int(manaLocX), int(manaLocY)
+            print(f"Your Mana Box location X: {manaLocX} Y: {manaLocY}")
+            get_mana_location = True
+
+            global map_positions
+            map_positions[0], map_positions[1], map_positions[2], map_positions[3] = get_map_position.get_map_xy()
+
             print("Oppening TibiaAuto...")
+
             time.sleep(0.3)
             config_master.destroy()
             time.sleep(1)
