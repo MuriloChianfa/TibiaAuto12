@@ -7,6 +7,8 @@ import pyautogui
 from PIL import Image, ImageTk
 from PIL import ImageGrab
 import cv2
+import windowTitles
+import pygetwindow
 
 from Functions.getStages import *
 from Functions.getTarget import *
@@ -34,6 +36,7 @@ manaColor = [83, 80, 218]
 
 #region GlobalVariables
 
+TibiaName = ""
 target_number = 0
 target_number2 = 0
 battle_start_x = 0
@@ -202,13 +205,26 @@ def set_sqms():
         SQM8_Y = player_Y - 70
         SQM9_X = player_X + 70
         SQM9_Y = player_Y - 70
+        print("Setuping SQMS Localizations...")
+        time.sleep(0.1)
+        print("1° SQM Is In: ", SQM1_X, SQM1_Y)
+        print("2° SQM Is In: ", SQM2_X, SQM2_Y)
+        print("3° SQM Is In: ", SQM3_X, SQM3_Y)
+        print("4° SQM Is In: ", SQM4_X, SQM4_Y)
+        print("5° SQM Is In: ", SQM5_X, SQM5_Y)
+        print("6° SQM Is In: ", SQM6_X, SQM6_Y)
+        print("7° SQM Is In: ", SQM7_X, SQM7_Y)
+        print("8° SQM Is In: ", SQM8_X, SQM8_Y)
+        print("9° SQM Is In: ", SQM9_X, SQM9_Y)
+        time.sleep(0.1)
+        print("SQMS Localizations Seted !!!")
     else:
         seted_sqm = False
         print("Error To Set SQMS, Try Again Later")
         player_X, player_Y = get_player_position.get_gw_xy()
 
 
-def main():
+def root():
     global root
     root = tk.Tk()
     w = 407
@@ -219,7 +235,7 @@ def main():
     y = (sh - h) / 2
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     root.resizable(width=False, height=False)
-    root.title('Tibia Auto V12')
+    root.title('TibiaAuto V12')
     root.wm_iconbitmap('images/icone2.ico')
     root.configure(background='#000')
     image = Image.open('images/FundoTibiaAuto.jpg')
@@ -454,7 +470,7 @@ def auto_life():
                 global healthY
                 healthX = int(healthXc)
                 healthY = int(healthYc)
-                if health:
+                if healthY:
                     if bool_life and master_key_start:
                         scanning_auto_life()
                     else:
@@ -1178,19 +1194,6 @@ def auto_attack():
                     target_number = 0
                 else:
                     set_sqms()
-                    print("Setuping SQMS Localizations...")
-                    time.sleep(0.1)
-                    print("1° SQM Is In: ", SQM1_X, SQM1_Y)
-                    print("2° SQM Is In: ", SQM2_X, SQM2_Y)
-                    print("3° SQM Is In: ", SQM3_X, SQM3_Y)
-                    print("4° SQM Is In: ", SQM4_X, SQM4_Y)
-                    print("5° SQM Is In: ", SQM5_X, SQM5_Y)
-                    print("6° SQM Is In: ", SQM6_X, SQM6_Y)
-                    print("7° SQM Is In: ", SQM7_X, SQM7_Y)
-                    print("8° SQM Is In: ", SQM8_X, SQM8_Y)
-                    print("9° SQM Is In: ", SQM9_X, SQM9_Y)
-                    time.sleep(0.1)
-                    print("SQMS Localizations Seted !!!")
 
             if target_x != 0 and target_y != 0:
                 target_number = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
@@ -1580,6 +1583,30 @@ def adjust_config():
     label.image = photo
     label.pack()
 
+    def set_title():
+        global TibiaName
+        try:
+            TibiaName = windowTitles.find_tibia_title()
+        except IndexError as e:
+            print("You need to login before starting bot.")
+            root.destroy()
+        if TibiaName is not None:
+            TibiaWindow = pygetwindow.getWindowsWithTitle(TibiaName)[0]
+            TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
+            Module = pygetwindow.getWindowsWithTitle("Module: Adjust Config")[0]
+            TibiaAuto.minimize()
+            Module.minimize()
+            TibiaWindow.maximize()
+            time.sleep(1)
+
+            #configure()
+
+            time.sleep(3)
+            TibiaAuto.maximize()
+            Module.maximize()
+        else:
+            print("Error to Log Tibia window")
+
     def exit_button():
         screen_adjust_config.destroy()
 
@@ -1624,6 +1651,10 @@ def adjust_config():
                                          bg=_from_rgb((127, 17, 8)), fg='white', command=func_adjust_config,
                                          activebackground=_from_rgb((123, 13, 5)))
         adjust_config_button.place(w=328, h=29, x=12, y=469)
+
+    config_button = tk.Button(screen_adjust_config, width=15, text="Configurar", command=set_title)
+    config_button.pack()
+    config_button.place(x=155, y=70)
 
     screen_adjust_config.mainloop()
 
@@ -1823,6 +1854,74 @@ def cave_bot():
 
     screen_cave_bot.mainloop()
 
+
+def main():
+    config_master = tk.Tk()
+    w = 300
+    h = 150
+    sw = config_master.winfo_screenwidth()
+    sh = config_master.winfo_screenheight()
+    x = (sw - w) / 2.3
+    y = (sh - h) / 2.4
+    config_master.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    config_master.resizable(width=False, height=False)
+    config_master.title('TibiaAuto V12')
+    config_master.configure(background=_from_rgb((123, 13, 5)), takefocus=True)
+
+    def set_title():
+        global TibiaName
+        try:
+            TibiaName = windowTitles.find_tibia_title()
+        except IndexError as e:
+            print("You need to login before starting bot.")
+            config_master.destroy()
+        if TibiaName is not None:
+            TibiaWindow = pygetwindow.getWindowsWithTitle(TibiaName)[0]
+            TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
+            TibiaAuto.minimize()
+            TibiaWindow.maximize()
+            time.sleep(1)
+            global get_attack_location
+            get_attack_location = True
+            global battle_start_x, battle_end_x, battle_start_y, battle_end_y
+            battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
+            global get_player_location
+            global player_X, player_Y
+            player_X, player_Y = get_player_position.get_gw_xy()
+            get_player_location = True
+            global seted_sqm
+            set_sqms()
+            seted_sqm = True
+            global get_health_location
+            health = pyautogui.locateOnScreen('images/health.png', grayscale=True, confidence=0.8)
+            print("Your Health location is:", health)
+            healthXc, healthYc = pyautogui.center(health)
+            global healthX
+            global healthY
+            healthX = int(healthXc)
+            healthY = int(healthYc)
+            global get_mana_location
+            get_mana_location = True
+            manaLocation = pyautogui.locateOnScreen('images/mana.png', grayscale=True, confidence=0.9)
+            print("Your Mana location is:", manaLocation)
+            manaXc, manaYc = pyautogui.center(manaLocation)
+            global manaLocX
+            global manaLocY
+            manaLocX = int(manaXc)
+            manaLocY = int(manaYc)
+            get_health_location = True
+            print("Oppening TibiaAuto...")
+            time.sleep(3)
+            config_master.destroy()
+            root()
+        else:
+            print("Error to Log Tibia window")
+
+    config_button = tk.Button(config_master, width=15, text="Configurar", command=set_title)
+    config_button.pack()
+    config_button.place(x=155, y=70)
+
+    config_master.mainloop()
 
 if __name__ == '__main__':
     main()
