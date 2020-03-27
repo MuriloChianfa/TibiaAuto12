@@ -16,8 +16,6 @@ from Functions.getLoot import *
 from Functions.getMapPosition import *
 from Functions.getPlayerPosition import *
 
-
-
 print("Start in 1 Seconds...")
 time.sleep(1)
 
@@ -34,7 +32,9 @@ manaColorFull = [45, 45, 105]
 
 manaColor = [83, 80, 218]
 
-#region GlobalVariables
+gameWindow = [0, 0, 0, 0]
+
+# region GlobalVariables
 
 TibiaName = ""
 target_number = 0
@@ -45,6 +45,7 @@ battle_start_y = 0
 battle_end_y = 0
 username_field_X = 0
 username_field_Y = 0
+horizontal_SQM_size, vertical_SQM_size = 0, 0
 get_health_location = False
 get_mana_location = False
 get_login_location = False
@@ -75,7 +76,7 @@ SQM5_X, SQM5_Y, SQM6_X, SQM6_Y = 0, 0, 0, 0
 SQM7_X, SQM7_Y, SQM8_X, SQM8_Y = 0, 0, 0, 0
 SQM9_X, SQM9_Y = 0, 0
 
-#endregion
+# endregion
 
 hotkeys = [
     "f1",
@@ -185,26 +186,37 @@ def set_sqms():
     global SQM8_X, SQM8_Y
     global SQM9_X, SQM9_Y
     global seted_sqm
-    if player_X and player_Y is not None:
+    global gameWindow
+    global horizontal_SQM_size, vertical_SQM_size
+    if gameWindow[0] != 0 and gameWindow[1] != 0:
+        horizontal_SQM_size = int((gameWindow[2] - gameWindow[0]) / 15)
+        print("Size of Your Horizontal SQM:", horizontal_SQM_size)
+        vertical_SQM_size = int((gameWindow[3] - gameWindow[1]) / 11)
+        print("Size of Your Vertical SQM:", vertical_SQM_size)
+    else:
+        print("Error in SQM Size")
+
+    if player_X and player_Y is not None and horizontal_SQM_size != 0 and vertical_SQM_size != 0:
+
         seted_sqm = True
-        SQM1_X = player_X - 70
-        SQM1_Y = player_Y + 70
+        SQM1_X = player_X - horizontal_SQM_size
+        SQM1_Y = player_Y + vertical_SQM_size
         SQM2_X = player_X
-        SQM2_Y = player_Y + 70
-        SQM3_X = player_X + 70
-        SQM3_Y = player_Y + 70
-        SQM4_X = player_X - 70
+        SQM2_Y = player_Y + vertical_SQM_size
+        SQM3_X = player_X + horizontal_SQM_size
+        SQM3_Y = player_Y + vertical_SQM_size
+        SQM4_X = player_X - horizontal_SQM_size
         SQM4_Y = player_Y
         SQM5_X = player_X
         SQM5_Y = player_Y
-        SQM6_X = player_X + 70
+        SQM6_X = player_X + horizontal_SQM_size
         SQM6_Y = player_Y
-        SQM7_X = player_X - 70
-        SQM7_Y = player_Y - 70
+        SQM7_X = player_X - horizontal_SQM_size
+        SQM7_Y = player_Y - vertical_SQM_size
         SQM8_X = player_X
-        SQM8_Y = player_Y - 70
-        SQM9_X = player_X + 70
-        SQM9_Y = player_Y - 70
+        SQM8_Y = player_Y - vertical_SQM_size
+        SQM9_X = player_X + horizontal_SQM_size
+        SQM9_Y = player_Y - vertical_SQM_size
         print("Setuping SQMS Localizations...")
         time.sleep(0.1)
         print("1° SQM Is In: ", SQM1_X, SQM1_Y)
@@ -313,8 +325,8 @@ def root():
     open_auto_mana.place(w=105, h=27, x=165, y=102)
 
     open_cave_bot = tk.Button(root, text='Cave Bot', font=('Microsoft Sans Serif', 10),
-                                   bg=_from_rgb((127, 17, 8)), fg='white', command=cave_bot,
-                                   activebackground=_from_rgb((123, 13, 5)))
+                              bg=_from_rgb((127, 17, 8)), fg='white', command=cave_bot,
+                              activebackground=_from_rgb((123, 13, 5)))
     open_cave_bot.place(w=105, h=27, x=165, y=359)
 
     open_timed_spells = tk.Button(root, text='Timed Spells', font=('Microsoft Sans Serif', 10),
@@ -492,17 +504,17 @@ def auto_life():
 
         if var_check_five.get() == "on":
             stage_three = var_dropdown_stage_five.get()
-            if int(stage_three) >= life:
+            if int(stage_three) > life or int(stage_three) == life:
                 pyautogui.press(var_dropdown_stage_six.get())
                 print("Pressed ", var_dropdown_stage_six.get())
         elif var_check_four.get() == "on":
             stage_two = var_dropdown_stage_three.get()
-            if int(stage_two) >= life:
+            if int(stage_two) > life or int(stage_two) == life:
                 pyautogui.press(var_dropdown_stage_four.get())
                 print("Pressed ", var_dropdown_stage_four.get())
         elif var_check_three.get() == "on":
             stage_one = var_dropdown_stage_one.get()
-            if int(stage_one) >= life:
+            if int(stage_one) > life or int(stage_one) == life:
                 pyautogui.press(var_dropdown_stage_two.get())
                 print("Pressed ", var_dropdown_stage_two.get())
         else:
@@ -1183,7 +1195,7 @@ def auto_attack():
             target_x, target_y = GetTargetPosition.scanning_for_target(battle_log, battle_start_x, battle_end_x,
                                                                        battle_start_y, battle_end_y, monster)
             target_number2 = GetTargetPosition.test_scan_target(battle_log, battle_start_x, battle_end_x,
-                                                               battle_start_y, battle_end_y, monster)
+                                                                battle_start_y, battle_end_y, monster)
             print("Number of " + monster + ": ", target_number2)
             if target_number2 < target_number:
                 if seted_sqm:
@@ -1599,7 +1611,7 @@ def adjust_config():
             TibiaWindow.maximize()
             time.sleep(1)
 
-            #configure()
+            # configure()
 
             time.sleep(3)
             TibiaAuto.maximize()
@@ -1733,19 +1745,6 @@ def auto_looter():
                 print("Marster Key not enabled")
         else:
             set_sqms()
-            print("Setuping SQMS Localizations...")
-            time.sleep(0.5)
-            print("1° SQM Is In: ", SQM1_X, SQM1_Y)
-            print("2° SQM Is In: ", SQM2_X, SQM2_Y)
-            print("3° SQM Is In: ", SQM3_X, SQM3_Y)
-            print("4° SQM Is In: ", SQM4_X, SQM4_Y)
-            print("5° SQM Is In: ", SQM5_X, SQM5_Y)
-            print("6° SQM Is In: ", SQM6_X, SQM6_Y)
-            print("7° SQM Is In: ", SQM7_X, SQM7_Y)
-            print("8° SQM Is In: ", SQM8_X, SQM8_Y)
-            print("9° SQM Is In: ", SQM9_X, SQM9_Y)
-            time.sleep(0.5)
-            print("SQMS Localizations Seted !!!")
 
         if bool_auto_looter and master_key_start:
             root.after(400, scanning_auto_looter)
@@ -1841,15 +1840,15 @@ def cave_bot():
     global bool_Cave_Bot
     if not bool_Cave_Bot:
         cave_bot_button = tk.Button(screen_cave_bot, text='Cave Bot: OFF',
-                                         font=('Microsoft Sans Serif', 10),
-                                         bg=_from_rgb((127, 17, 8)), fg='white', command=func_cave_bot,
-                                         activebackground=_from_rgb((123, 13, 5)))
+                                    font=('Microsoft Sans Serif', 10),
+                                    bg=_from_rgb((127, 17, 8)), fg='white', command=func_cave_bot,
+                                    activebackground=_from_rgb((123, 13, 5)))
         cave_bot_button.place(w=328, h=29, x=12, y=469)
     else:
         cave_bot_button = tk.Button(screen_cave_bot, text='Cave Bot: ON',
-                                         font=('Microsoft Sans Serif', 10),
-                                         bg=_from_rgb((127, 17, 8)), fg='white', command=func_cave_bot,
-                                         activebackground=_from_rgb((123, 13, 5)))
+                                    font=('Microsoft Sans Serif', 10),
+                                    bg=_from_rgb((127, 17, 8)), fg='white', command=func_cave_bot,
+                                    activebackground=_from_rgb((123, 13, 5)))
         cave_bot_button.place(w=328, h=29, x=12, y=469)
 
     screen_cave_bot.mainloop()
@@ -1857,8 +1856,8 @@ def cave_bot():
 
 def main():
     config_master = tk.Tk()
-    w = 300
-    h = 150
+    w = 270
+    h = 130
     sw = config_master.winfo_screenwidth()
     sh = config_master.winfo_screenheight()
     x = (sw - w) / 2.3
@@ -1866,7 +1865,7 @@ def main():
     config_master.geometry('%dx%d+%d+%d' % (w, h, x, y))
     config_master.resizable(width=False, height=False)
     config_master.title('TibiaAuto V12')
-    config_master.configure(background=_from_rgb((123, 13, 5)), takefocus=True)
+    config_master.configure(background=_from_rgb((120, 98, 51)), takefocus=True)
 
     def set_title():
         global TibiaName
@@ -1880,20 +1879,24 @@ def main():
             TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
             TibiaAuto.minimize()
             TibiaWindow.maximize()
-            time.sleep(1)
+            time.sleep(2)
             global get_attack_location
             get_attack_location = True
             global battle_start_x, battle_end_x, battle_start_y, battle_end_y
             battle_start_x, battle_end_x, battle_start_y, battle_end_y = GetTargetPosition.find_battle()
             global get_player_location
             global player_X, player_Y
-            player_X, player_Y = get_player_position.get_gw_xy()
+            global gameWindow
+            player_X, player_Y, gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
+                3] = get_player_position.get_gw_xy()
+            print("X: ", gameWindow[0], gameWindow[2])
+            print("Y: ", gameWindow[1], gameWindow[3])
             get_player_location = True
             global seted_sqm
             set_sqms()
             seted_sqm = True
             global get_health_location
-            health = pyautogui.locateOnScreen('images/health.png', grayscale=True, confidence=0.8)
+            health = pyautogui.locateOnScreen('images/health.png', grayscale=True, confidence=0.9)
             print("Your Health location is:", health)
             healthXc, healthYc = pyautogui.center(health)
             global healthX
@@ -1911,17 +1914,21 @@ def main():
             manaLocY = int(manaYc)
             get_health_location = True
             print("Oppening TibiaAuto...")
-            time.sleep(3)
+            time.sleep(0.3)
             config_master.destroy()
+            time.sleep(1)
             root()
         else:
             print("Error to Log Tibia window")
 
-    config_button = tk.Button(config_master, width=15, text="Configurar", command=set_title)
+    config_button = tk.Button(config_master, width=15, text="Configurar", command=set_title, bg=_from_rgb((127, 17, 8)),
+                              fg='white',
+                              activebackground=_from_rgb((123, 13, 5)))
     config_button.pack()
-    config_button.place(x=155, y=70)
+    config_button.place(w=220, h=45, x=26, y=43)
 
     config_master.mainloop()
+
 
 if __name__ == '__main__':
     main()
