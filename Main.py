@@ -34,6 +34,28 @@ get_map_position = GetMapPosition()
 get_player_position = GetPlayerPosition()
 take_loot = GetLoot('right')
 
+WAYPOINTS = [
+    {
+        "mark": "CheckMark.png",
+        "status": "stand"
+    },
+    {
+        "mark": "QuestionMark.png",
+        "status": "stand"
+    },
+    {
+        "mark": "ExclimationMark.png",
+        "status": "stand"
+    },
+    {
+        "mark": "Star.png",
+        "status": "stand"
+    },
+    {
+        "mark": "Cross.png",
+        "status": "stand"
+    }
+]
 
 #region Arrays
 
@@ -1081,32 +1103,8 @@ def auto_attack():
 
     def scanning_auto_attack():
         if bool_auto_attack and master_key_start:
-            global target_number, target_number2, battle_location, monster
             monster = var_dropdown_stage_one.get()
-            Target[0], Target[1] = get_target_position.scanning_target(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
-            target_number2 = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
-            print("Number of " + monster + ": ", target_number2)
-            if target_number2 < target_number:
-                if get_SQMs_location:
-                    take_loot.take_loot(SQMs)
-                    target_number = 0
-                else:
-                    set_SQMs.set_SQMs()
-
-            if Target[0] != 0 and Target[1] != 0:
-                target_number = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
-
-                attacking = get_target_position.attaking(battle_location[0], battle_location[1], battle_location[2], battle_location[3])
-
-                if not attacking:
-                    print("Attacking a Target")
-                    past_mouse_position = pyautogui.position()
-                    pyautogui.leftClick(Target[0], Target[1])
-                    pyautogui.moveTo(past_mouse_position)
-                    target_number2 = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
-                else:
-                    print("You are attacking")
-                    target_number2 = get_target_position.number_of_targets(battle_location[0], battle_location[1], battle_location[2], battle_location[3], monster)
+            AutoAttack().auto_attack(monster, battle_location, get_SQMs_location, SQMs)
 
         if bool_auto_attack and master_key_start:
             root.after(400, scanning_auto_attack)
@@ -1692,8 +1690,8 @@ def cave_bot():
             print("CAVE BOT PRINT...")
             global monster
             for i in range(len(data)):
-                CaveBot().check_cave_bot(data, map_positions, i, monster, battle_location)
-
+                CaveBot().cave_bot(data, i, map_positions)
+                time.sleep(1)
             if bool_Cave_Bot and master_key_start:
                 root.after(1000, scanning_cave_bot)
 
