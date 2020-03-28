@@ -1690,8 +1690,7 @@ def cave_bot():
             print("CAVE BOT PRINT...")
             global monster
             for i in range(len(data)):
-                print(len(data), data, i)
-                CaveBot().cave_bot(data, i, map_positions)
+                CaveBot().cave_bot(data, i, map_positions, battle_location, monster, SQMs)
                 time.sleep(1)
             if bool_Cave_Bot and master_key_start:
                 root.after(1000, scanning_cave_bot)

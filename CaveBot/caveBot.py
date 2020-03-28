@@ -14,19 +14,33 @@ class CaveBot:
     def __init__(self):
         self.self = 0
 
-    def cave_bot(self, data, i, mini_map):
+    def cave_bot(self, data, i, mini_map, battle_location, monster_name, SQMs):
         locate_mark = pyautogui.locateOnScreen('images/MapSettings/' + data[i]["mark"] + '.png',
                                          region=(mini_map[0], mini_map[1], mini_map[2], mini_map[3]), confidence=0.9)
         locate_mark2 = pyautogui.center(locate_mark)
-        print(locate_mark)
-        print(locate_mark2[0], locate_mark2[1])
+        print("Localized: ", data[i]["mark"])
         if data[i]['status'] and locate_mark2 is not None:
             mp = pyautogui.position()
             pyautogui.click(locate_mark2[0], locate_mark2[1])
             pyautogui.moveTo(mp)
+            target_number = list(
+                pyautogui.locateAllOnScreen('images/Targets/' + monster_name + '.png', region=(
+                    battle_location[0], battle_location[2], battle_location[1], battle_location[3]), confidence=0.8,
+                                            grayscale=True))
+            number = len(target_number)
+            while number > 0:
+                follow_x_pos, follow_y_pos = GetFollow().scanning_follow_mode()
 
-            print("wating 5 seconds")
-            time.sleep(5)
+                if follow_x_pos != 0 and follow_y_pos != 0:
+                    past_mouse_position = pyautogui.position()
+                    pyautogui.leftClick(follow_x_pos, follow_y_pos)
+                    pyautogui.moveTo(past_mouse_position)
+
+                AutoAttack(number).auto_attack(monster_name, battle_location, SQMs)
+                break
+
+            print("wating 3 seconds")
+            time.sleep(3)
             if CheckWaypoint().wpt_reached(data[i]["mark"], mini_map):
                 data[i]['status'] = False
                 if i+1 == len(data):
@@ -36,6 +50,6 @@ class CaveBot:
                 with open('CaveBot/Scripts/ratThais.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
             else:
-                CaveBot().cave_bot(data, i, mini_map)
+                CaveBot().cave_bot(data, i, mini_map, battle_location, monster_name, SQMs)
         else:
             print("Error to locate: " + data[i]["mark"])
