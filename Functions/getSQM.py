@@ -11,7 +11,7 @@ class SetSQMs:
         self.horizontal_SQM_size = 0
         self.vertical_SQM_size = 0
 
-    def set_SQMs(self, ):
+    def set_SQMs(self):
         if self.gameWindow[0] and self.gameWindow[1] != 0:
             self.horizontal_SQM_size = int((self.gameWindow[2] - self.gameWindow[0]) / 15)
             print("Size of Your Horizontal SQM:", self.horizontal_SQM_size)
