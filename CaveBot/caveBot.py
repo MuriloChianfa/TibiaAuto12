@@ -16,17 +16,20 @@ class CaveBot:
 
     def cave_bot(self, data, i, mini_map):
         locate_mark = pyautogui.locateOnScreen('images/MapSettings/' + data[i]["mark"] + '.png',
-                                         region=(mini_map[0], mini_map[1], mini_map[2], mini_map[3]), confidence=0.8)
+                                         region=(mini_map[0], mini_map[1], mini_map[2], mini_map[3]), confidence=0.9)
         locate_mark2 = pyautogui.center(locate_mark)
+        print(locate_mark)
+        print(locate_mark2[0], locate_mark2[1])
         if data[i]['status'] and locate_mark2 is not None:
             mp = pyautogui.position()
             pyautogui.click(locate_mark2[0], locate_mark2[1])
             pyautogui.moveTo(mp)
+
             print("wating 5 seconds")
             time.sleep(5)
             if CheckWaypoint().wpt_reached(data[i]["mark"], mini_map):
                 data[i]['status'] = False
-                if i+1 >= len(data):
+                if i+1 == len(data):
                     data[i-i]['status'] = True
                 else:
                     data[i+1]['status'] = True
@@ -35,4 +38,4 @@ class CaveBot:
             else:
                 CaveBot().cave_bot(data, i, mini_map)
         else:
-            print("Error to locate " + data[i]["mark"])
+            print("Error to locate: " + data[i]["mark"])
