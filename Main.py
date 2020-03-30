@@ -6,7 +6,7 @@ import pyautogui
 from PIL import Image, ImageTk
 from PIL import ImageGrab
 import json
-import windowTitles
+from Conf.WindowTitles import *
 import pygetwindow
 
 from Functions.getStages import *
@@ -38,73 +38,34 @@ print('\033[33m' + "Start in 1 Seconds...")
 time.sleep(1)
 
 set_SQMs = SetSQMs()
-get_target_position = GetTargetPosition()
-get_number_targets = GetTargetPosition()
 GetHealthPosition = GetHealthPosition()
 get_battle_position = GetBattlePosition()
-get_life_stage = GetStage("Life")
 get_mana_position = GetManaPosition()
-get_mana_stage = GetStage("Mana")
 get_map_position = GetMapPosition()
 get_player_position = GetPlayerPosition()
-take_loot = GetLoot('right')
-
-WAYPOINTS = [
-    {
-        "mark": "CheckMark.png",
-        "status": "stand"
-    },
-    {
-        "mark": "QuestionMark.png",
-        "status": "stand"
-    },
-    {
-        "mark": "ExclimationMark.png",
-        "status": "stand"
-    },
-    {
-        "mark": "Star.png",
-        "status": "stand"
-    },
-    {
-        "mark": "Cross.png",
-        "status": "stand"
-    }
-]
-
-gameWindow = [0, 0, 0, 0]
-
-map_positions = [0, 0, 0, 0]
-
-Player = [0, 0]
-
-SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-Target = [0, 0]
-
-HealthLocation = [0, 0]
-
-ManaLocation = [0, 0]
-
-battle_location = [0, 0, 0, 0]
 
 mark = [0, 0]
+Player = [0, 0]
+Target = [0, 0]
+gameWindow = [0, 0, 0, 0]
+ManaLocation = [0, 0]
+map_positions = [0, 0, 0, 0]
+HealthLocation = [0, 0]
+battle_location = [0, 0, 0, 0]
+SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 TibiaName = ""
-
 TibiaChar = ""
-
-horizontal_SQM_size, vertical_SQM_size = 0, 0
 
 get_health_location = False
 get_mana_location = False
-get_login_location = False
 get_player_location = False
 get_attack_location = False
 get_SQMs_location = False
-get_battle_location = False
 
 bool_Cave_Bot = False
+
+monster = 'Rat'
 
 
 class Redirect:
@@ -437,7 +398,7 @@ def main():
 
     try:
         global TibiaName
-        TibiaName = windowTitles.find_tibia_title()
+        TibiaName = FindTibiaTitle()
         TibiaCharacter = TibiaName.split(' - ')
         if TibiaCharacter:
             CHARACTERS[0] = '[4176] ' + TibiaCharacter[1]

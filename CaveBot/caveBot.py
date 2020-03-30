@@ -37,8 +37,8 @@ class CaveBot:
                 AutoAttack().auto_attack(monster_name, battle_location, SQMs, target_number)
                 break
 
-            print("wating 3 seconds")
-            time.sleep(3)
+            print("wating 0.2 seconds")
+            time.sleep(2)
             if CheckWaypoint().wpt_reached(data[i]["mark"], mini_map):
                 data[i]['status'] = False
                 if i+1 == len(data):
