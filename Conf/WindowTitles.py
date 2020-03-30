@@ -21,7 +21,7 @@ def foreach_window(hwnd, lParam):
     return True
 
 
-def find_tibia_title():
+def FindTibiaTitle():
     EnumWindows(EnumWindowsProc(foreach_window), 0)
     return titles[0]
 

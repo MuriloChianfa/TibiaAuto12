@@ -6,12 +6,11 @@ from Functions.getSQM import *
 
 
 class AutoAttack:
-    def __init__(self, target_number):
+    def __init__(self):
         self.Target = [0, 0]
         self.target_number2 = 0
-        self.target_number = target_number
 
-    def auto_attack(self, monster_name, battle_location, SQMs):
+    def auto_attack(self, monster_name, battle_location, SQMs, target_number):
         self.Target[0], self.Target[1] = GetTargetPosition().scanning_target(battle_location[0], battle_location[1],
                                                                              battle_location[2], battle_location[3],
                                                                              monster_name)
@@ -19,15 +18,14 @@ class AutoAttack:
                                                                     battle_location[2], battle_location[3],
                                                                     monster_name)
         print("Number of " + monster_name + ": ", self.target_number2)
-
-        if self.target_number2 < self.target_number:
+        if self.target_number2 < target_number:
             GetLoot('Right').take_loot(SQMs)
             target_number = 0
 
         if self.Target[0] != 0 and self.Target[1] != 0:
             attacking = GetTargetPosition().attaking(battle_location[0], battle_location[1], battle_location[2],
                                                      battle_location[3])
-            self.target_number = GetTargetPosition().number_of_targets(battle_location[0], battle_location[1],
+            target_number = GetTargetPosition().number_of_targets(battle_location[0], battle_location[1],
                                                                        battle_location[2], battle_location[3],
                                                                        monster_name)
             if not attacking:

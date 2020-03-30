@@ -18,17 +18,15 @@ class CaveBot:
         locate_mark = pyautogui.locateOnScreen('images/MapSettings/' + data[i]["mark"] + '.png',
                                          region=(mini_map[0], mini_map[1], mini_map[2], mini_map[3]), confidence=0.9)
         locate_mark2 = pyautogui.center(locate_mark)
+        target_number = GetTargetPosition().number_of_targets(battle_location[0], battle_location[1],
+                                                              battle_location[2], battle_location[3],
+                                                              monster_name)
         print("Localized: ", data[i]["mark"])
         if data[i]['status'] and locate_mark2 is not None:
             mp = pyautogui.position()
             pyautogui.click(locate_mark2[0], locate_mark2[1])
             pyautogui.moveTo(mp)
-            target_number = list(
-                pyautogui.locateAllOnScreen('images/Targets/' + monster_name + '.png', region=(
-                    battle_location[0], battle_location[2], battle_location[1], battle_location[3]), confidence=0.8,
-                                            grayscale=True))
-            number = len(target_number)
-            while number > 0:
+            while target_number > 0:
                 follow_x_pos, follow_y_pos = GetFollow().scanning_follow_mode()
 
                 if follow_x_pos != 0 and follow_y_pos != 0:
@@ -36,7 +34,7 @@ class CaveBot:
                     pyautogui.leftClick(follow_x_pos, follow_y_pos)
                     pyautogui.moveTo(past_mouse_position)
 
-                AutoAttack(number).auto_attack(monster_name, battle_location, SQMs)
+                AutoAttack().auto_attack(monster_name, battle_location, SQMs, target_number)
                 break
 
             print("wating 3 seconds")
