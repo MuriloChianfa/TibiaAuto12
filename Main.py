@@ -1,36 +1,44 @@
-import time
 import tkinter as tk
-
-import keyboard
-import pyautogui
+from threading import Thread
 from PIL import Image, ImageTk
-from PIL import ImageGrab
-import json
-from Conf.WindowTitles import *
 import pygetwindow
 
-from Functions.getStages import *
-from Functions.getTarget import *
-from Functions.getLoot import *
+from Conf.WindowTitles import *
+from Engine.Defaults import *
+
 from Functions.getMapPosition import *
-from Functions.getPlayerPosition import *
 from Functions.getPositions import *
-from Functions.getSQM import *
 from CaveBot.caveBot import *
 from CaveBot.autoAttack import *
 
-from Modules.AutoHeal import AutoHeal
-from Modules.AutoMana import AutoMana
-from Modules.AutoLogin import AutoLogin
-from Modules.AutoHur import AutoHur
-from Modules.AutoSSA import AutoSSA
-from Modules.AutoRing import AutoRing
-from Modules.ColorChange import ColorChange
 from Modules.AdjustConfig import AdjustConfig
+from Modules.AmmoRestack import AmmoRestack
 from Modules.AutoAttack import AutoAttack
+from Modules.AutoBanker import AutoBanker
+from Modules.AutoFish import AutoFish
+from Modules.AutoGrouping import AutoGrouping
+from Modules.AutoHeal import AutoHeal
+from Modules.AutoHur import AutoHur
+from Modules.AutoLogin import AutoLogin
 from Modules.AutoLooter import AutoLooter
-
-from Engine.Defaults import *
+from Modules.AutoMana import AutoMana
+from Modules.AutoRing import AutoRing
+from Modules.AutoSeller import AutoSeller
+from Modules.AutoSSA import AutoSSA
+from Modules.CaveBot import CaveBot
+from Modules.ColorChange import ColorChange
+from Modules.CreatureInfo import CreatureInfo
+from Modules.FoodEater import FoodEater
+from Modules.FPSChanger import FPSChanger
+from Modules.GeneralOptions import GeneralOptions
+from Modules.HealerFriend import HealerFriend
+from Modules.LoadConfig import LoadConfig
+from Modules.Modules import Modules
+from Modules.Monsters import Monsters
+from Modules.PythonScripts import PythonScripts
+from Modules.SaveConfig import SaveConfig
+from Modules.SortLoot import SortLoot
+from Modules.TimedSpells import TimedSpells
 
 rgb = Defaults()
 
@@ -70,56 +78,91 @@ monster = 'Rat'
 
 class Redirect:
     def __init__(self):
-        self.WindowAutoHeal = False
-        self.WindowAutoMana = False
-        self.WindowAutoLogin = False
-        self.WindowAutoHur = False
-        self.WindowAutoSSA = False
-        self.WindowAutoRing = False
-        self.WindowColorChange = False
-        self.WindowAdjustConfig = False
-        self.WindowAutoAttack = False
-        self.WindowAutoLooter = False
+        self.Thread = Thread
 
-    def AutoHeal(self):
-        self.WindowAutoHeal = True
-        AutoHeal(root, HealthLocation)
-
-    def AutoMana(self):
-        self.WindowAutoMana = True
-        AutoMana(root, ManaLocation)
-
-    def AutoLogin(self):
-        self.WindowAutoLogin = True
-        AutoLogin(root)
-
-    def AutoHur(self):
-        self.WindowAutoHur = True
-        AutoHur(root)
-
-    def AutoSSA(self):
-        self.WindowAutoSSA = True
-        AutoSSA(root)
-
-    def AutoRing(self):
-        self.WindowAutoRing = True
-        AutoRing(root)
-
-    def ColorChange(self):
-        self.WindowColorChange = True
-        ColorChange(root, Player)
-
-    def AdjustConfig(self):
-        self.WindowAdjustConfig = True
+    def OpenAdjustConfig(self):
         AdjustConfig(root)
 
-    def AutoAttack(self):
-        self.WindowAutoAttack = True
-        AutoAttack(root, Target, SQMs)
+    def OpenAmmoRestack(self):
+        AmmoRestack(root)
 
-    def AutoLooter(self):
-        self.WindowAutoLooter = True
+    def OpenAutoAttack(self):
+        AutoAttack(root, Target, SQMs, monster, battle_location)
+
+    def OpenAutoBanker(self):
+        AutoBanker(root)
+
+    def OpenAutoFish(self):
+        AutoFish(root)
+
+    def OpenAutoGrouping(self):
+        AutoGrouping(root)
+
+    def OpenAutoHeal(self):
+        AutoHeal(root, HealthLocation)
+
+    def OpenAutoHur(self):
+        AutoHur(root)
+
+    def OpenAutoLogin(self):
+        AutoLogin(root)
+
+    def OpenAutoLooter(self):
         AutoLooter(root, Player, SQMs)
+
+    def OpenAutoMana(self):
+        AutoMana(root, ManaLocation)
+
+    def OpenAutoRing(self):
+        AutoRing(root)
+
+    def OpenAutoSeller(self):
+        AutoSeller(root)
+
+    def OpenAutoSSA(self):
+        AutoSSA(root)
+
+    def OpenCaveBot(self):
+        CaveBot(root)
+
+    def OpenColorChange(self):
+        ColorChange(root, Player)
+
+    def OpenCreatureInfo(self):
+        CreatureInfo(root)
+
+    def OpenFoodEater(self):
+        FoodEater(root)
+
+    def OpenFPSChanger(self):
+        FPSChanger(root)
+
+    def OpenGeneralOptions(self):
+        GeneralOptions(root)
+
+    def OpenHealerFriend(self):
+        HealerFriend(root)
+
+    def OpenLoadConfig(self):
+        LoadConfig(root)
+
+    def OpenModules(self):
+        Modules(root)
+
+    def OpenMonsters(self):
+        Monsters(root)
+
+    def OpenPythonScripts(self):
+        PythonScripts(root)
+
+    def OpenSaveConfig(self):
+        SaveConfig(root)
+
+    def OpenSortLoot(self):
+        SortLoot(root)
+
+    def OpenTimedSpells(self):
+        TimedSpells(root)
 
 
 def root():
@@ -151,7 +194,7 @@ def root():
     status_game_label.place(x=20, y=15)
 
     open_spell_caster = tk.Button(root, text='Auto Hur', font=('Microsoft Sans Serif', 10),
-                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AutoHur,
+                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoHur,
                                   activebackground=rgb.rgb((123, 13, 5)))
     open_spell_caster.place(w=105, h=27, x=275, y=70)
 
@@ -161,138 +204,138 @@ def root():
     button_exit.place(w=108, h=29, x=11, y=615)
 
     open_auto_attack = tk.Button(root, text='Auto Attack', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AutoAttack,
+                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoAttack,
                                  activebackground=rgb.rgb((123, 13, 5)))
     open_auto_attack.place(w=105, h=27, x=275, y=359)
 
     open_auto_fish = tk.Button(root, text='Auto Fish', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoFish,
                                activebackground=rgb.rgb((123, 13, 5)))
     open_auto_fish.place(w=105, h=27, x=275, y=102)
 
     open_auto_life = tk.Button(root, text='Auto Life', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AutoHeal,
+                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoHeal,
                                activebackground=rgb.rgb((123, 13, 5)))
     open_auto_life.place(w=105, h=27, x=165, y=70)
 
     open_auto_mana = tk.Button(root, text='Auto Mana', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AutoMana,
+                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoMana,
                                activebackground=rgb.rgb((123, 13, 5)))
     open_auto_mana.place(w=105, h=27, x=165, y=102)
 
     open_cave_bot = tk.Button(root, text='Cave Bot', font=('Microsoft Sans Serif', 10),
-                              bg=rgb.rgb((127, 17, 8)), fg='white', command=cave_bot,
+                              bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenCaveBot,
                               activebackground=rgb.rgb((123, 13, 5)))
     open_cave_bot.place(w=105, h=27, x=165, y=359)
 
     open_timed_spells = tk.Button(root, text='Timed Spells', font=('Microsoft Sans Serif', 10),
-                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenTimedSpells,
                                   activebackground=rgb.rgb((123, 13, 5)))
     open_timed_spells.place(w=105, h=27, x=165, y=166)
 
     open_auto_login = tk.Button(root, text='Auto Login', font=('Microsoft Sans Serif', 10),
-                                bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AutoLogin,
+                                bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoLogin,
                                 activebackground=rgb.rgb((123, 13, 5)))
     open_auto_login.place(w=105, h=27, x=275, y=166)
 
     open_color_change = tk.Button(root, text='Color Change', font=('Microsoft Sans Serif', 10),
-                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().ColorChange,
+                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenColorChange,
                                   activebackground=rgb.rgb((123, 13, 5)))
     open_color_change.place(w=105, h=27, x=23, y=134)
 
     open_ammo_restack = tk.Button(root, text='Ammo Restack', font=('Microsoft Sans Serif', 10),
-                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAmmoRestack,
                                   activebackground=rgb.rgb((123, 13, 5)))
     open_ammo_restack.place(w=105, h=27, x=23, y=166)
 
     open_auto_looter = tk.Button(root, text='Auto Looter', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AutoLooter,
+                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoLooter,
                                  activebackground=rgb.rgb((123, 13, 5)))
     open_auto_looter.place(w=105, h=27, x=23, y=198)
 
     open_auto_uh = tk.Button(root, text='Healer Friend', font=('Microsoft Sans Serif', 10),
-                             bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                             bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenHealerFriend,
                              activebackground=rgb.rgb((123, 13, 5)))
     open_auto_uh.place(w=105, h=27, x=23, y=70)
 
     open_food_eater = tk.Button(root, text='Food Eater', font=('Microsoft Sans Serif', 10),
-                                bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenFoodEater,
                                 activebackground=rgb.rgb((123, 13, 5)))
     open_food_eater.place(w=105, h=27, x=23, y=260)
 
     open_auto_grouping = tk.Button(root, text='Auto Grouping', font=('Microsoft Sans Serif', 10),
-                                   bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                   bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoGrouping,
                                    activebackground=rgb.rgb((123, 13, 5)))
     open_auto_grouping.place(w=105, h=27, x=23, y=292)
 
     open_sort_loot = tk.Button(root, text='Sort loot', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenSortLoot,
                                activebackground=rgb.rgb((123, 13, 5)))
     open_sort_loot.place(w=105, h=27, x=23, y=324)
 
     open_auto_banker = tk.Button(root, text='Auto Banker', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoBanker,
                                  activebackground=rgb.rgb((123, 13, 5)))
     open_auto_banker.place(w=105, h=27, x=23, y=356)
 
     open_auto_seller = tk.Button(root, text='Auto Seller', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoSeller,
                                  activebackground=rgb.rgb((123, 13, 5)))
     open_auto_seller.place(w=105, h=27, x=23, y=388)
 
     open_fps_changer = tk.Button(root, text='FPS changer', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenFPSChanger,
                                  activebackground=rgb.rgb((123, 13, 5)))
     open_fps_changer.place(w=105, h=27, x=23, y=420)
 
     open_monsters = tk.Button(root, text='Monsters', font=('Microsoft Sans Serif', 10),
-                              bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                              bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenMonsters,
                               activebackground=rgb.rgb((123, 13, 5)))
     open_monsters.place(w=105, h=27, x=275, y=232)
 
     open_creature_info = tk.Button(root, text='Creature Info', font=('Microsoft Sans Serif', 10),
-                                   bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                   bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenCreatureInfo,
                                    activebackground=rgb.rgb((123, 13, 5)))
     open_creature_info.place(w=105, h=27, x=165, y=232)
 
     open_auto_ssa = tk.Button(root, text='Auto SSA', font=('Microsoft Sans Serif', 10),
-                              bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AutoSSA,
+                              bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoSSA,
                               activebackground=rgb.rgb((123, 13, 5)))
     open_auto_ssa.place(w=105, h=27, x=165, y=134)
 
     open_auto_ring = tk.Button(root, text='Auto Ring', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AutoRing,
+                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoRing,
                                activebackground=rgb.rgb((123, 13, 5)))
     open_auto_ring.place(w=105, h=27, x=275, y=134)
 
     open_load_config = tk.Button(root, text='Load Config', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenLoadConfig,
                                  activebackground=rgb.rgb((123, 13, 5)))
     open_load_config.place(w=105, h=27, x=165, y=420)
 
     open_item_config = tk.Button(root, text='Adjust Config', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().AdjustConfig,
+                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAdjustConfig,
                                  activebackground=rgb.rgb((123, 13, 5)))
     open_item_config.place(w=105, h=27, x=165, y=452)
 
     open_save_config = tk.Button(root, text='Save Config', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenSaveConfig,
                                  activebackground=rgb.rgb((123, 13, 5)))
     open_save_config.place(w=105, h=27, x=275, y=420)
 
     open_modules = tk.Button(root, text='Modules', font=('Microsoft Sans Serif', 10),
-                             bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                             bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenModules,
                              activebackground=rgb.rgb((123, 13, 5)))
     open_modules.place(w=105, h=27, x=275, y=452)
 
     open_python_scripts = tk.Button(root, text='Python Scripts', font=('Microsoft Sans Serif', 10),
-                                    bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                    bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenPythonScripts,
                                     activebackground=rgb.rgb((123, 13, 5)))
     open_python_scripts.place(w=105, h=27, x=275, y=484)
 
     open_general_options = tk.Button(root, text='General Options And Statics',
                                      font=('Microsoft Sans Serif', 10),
-                                     bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
+                                     bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenGeneralOptions,
                                      activebackground=rgb.rgb((123, 13, 5)))
     open_general_options.place(w=245, h=29, x=153, y=526)
 

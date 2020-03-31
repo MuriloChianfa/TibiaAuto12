@@ -1,89 +1,46 @@
-import tkinter as tk
-from PIL import Image, ImageTk
+from Engine.GUI import *
 
-from Engine.Defaults import *
-
-
-rgb = Defaults()
-bool_hur = False
+EnabledAutoHur = False
 
 
 class AutoHur:
     def __init__(self, root):
-        screen_auto_hur = tk.Toplevel(root)
-        screen_auto_hur.focus_force()
-        screen_auto_hur.grab_set()
-        w = 348
-        h = 546
-        sw = screen_auto_hur.winfo_screenwidth()
-        sh = screen_auto_hur.winfo_screenheight()
-        x = (sw - w) / 1.325
-        y = (sh - h) / 2.36
-        screen_auto_hur.geometry('%dx%d+%d+%d' % (w, h, x, y))
-        screen_auto_hur.resizable(width=False, height=False)
-        screen_auto_hur.title('Module: Auto Hur')
-        screen_auto_hur.configure(background='#000', takefocus=True)
-        image = Image.open('images/FundoHealingEdited.jpg')
-        photo = ImageTk.PhotoImage(image)
-        label = tk.Label(screen_auto_hur, image=photo, bg='#000')
-        label.image = photo
-        label.pack()
+        self.AutoHur = GUI('AutoHur', 'Module: Auto Hur')
+        self.AutoHur.DefaultWindow('DefaultWindow')
 
-        def exit_button():
-            screen_auto_hur.destroy()
-
-        def func_auto_hur():
-            global bool_hur
-            if not bool_hur:
-                bool_hur = True
-                auto_hur_button.configure(text='AutoHur: ON')
-                scanning_auto_hur()
+        def SetAutoHur():
+            global EnabledAutoHur
+            if not EnabledAutoHur:
+                EnabledAutoHur = True
+                ButtonEnabled.configure(text='AutoHur: ON')
+                ScanAutoHur()
             else:
-                bool_hur = False
-                auto_hur_button.configure(text='AutoHur: OFF')
+                EnabledAutoHur = False
+                ButtonEnabled.configure(text='AutoHur: OFF')
 
-        def scanning_auto_hur():
-            if bool_hur:
-                print("Pressed Key f6")
+        def ScanAutoHur():
+            if EnabledAutoHur:
+                print("Try Lock AutoHur")
+                print("Try This")
 
-            root.after(1500, scanning_auto_hur)
+            root.after(300, ScanAutoHur)
 
-        # Buttons
+        CheckPrint = tk.BooleanVar()
+        LowMana = tk.BooleanVar()
 
-        var_check_one = tk.StringVar()
-        var_check_two = tk.StringVar()
+        self.AutoHur.addButton('Ok', self.AutoHur.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
 
-        ''' ok button '''
-
-        button_exit = tk.Button(screen_auto_hur, text='Ok', font=('Microsoft Sans Serif', 10),
-                                bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
-                                activebackground=rgb.rgb((123, 13, 5)))
-        button_exit.place(w=84, h=29, x=130, y=504)
-
-        ''' button auto hur '''
-
-        global bool_hur
-        if not bool_hur:
-            auto_hur_button = tk.Button(screen_auto_hur, text='AutoHur: OFF', font=('Microsoft Sans Serif', 10),
-                                        bg=rgb.rgb((127, 17, 8)), fg='white', command=func_auto_hur,
-                                        activebackground=rgb.rgb((123, 13, 5)))
-            auto_hur_button.place(w=328, h=29, x=12, y=469)
+        global EnabledAutoHur
+        if not EnabledAutoHur:
+            ButtonEnabled = self.AutoHur.addButton('AutoHur: OFF', SetAutoHur, [328, 29, 12, 469],
+                                                       [127, 17, 8], [123, 13, 5])
         else:
-            auto_hur_button = tk.Button(screen_auto_hur, text='AutoHur: ON', font=('Microsoft Sans Serif', 10),
-                                        bg=rgb.rgb((127, 17, 8)), fg='white', command=func_auto_hur,
-                                        activebackground=rgb.rgb((123, 13, 5)))
-            auto_hur_button.place(w=328, h=29, x=12, y=469)
+            ButtonEnabled = self.AutoHur.addButton('AutoHur: ON', SetAutoHur, [328, 29, 12, 469],
+                                                       [127, 17, 8], [123, 13, 5])
 
-        check_one = tk.Checkbutton(screen_auto_hur, bg=rgb.rgb((120, 98, 51)), height=2,
-                                   text="Print on Tibia's screen",
-                                   variable=var_check_one, onvalue="on", offvalue="off")
-        check_one.place(x=10, y=408)
-        check_one.deselect()
+        ButtonPrint = self.AutoHur.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
 
-        check_two = tk.Checkbutton(screen_auto_hur, bg=rgb.rgb((120, 98, 51)), text="Low Mana Warnings",
-                                   variable=var_check_two, onvalue="on", offvalue="off")
-        check_two.place(x=10, y=440)
-        check_two.deselect()
+        ButtonLowMana = self.AutoHur.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
 
-        screen_auto_hur.mainloop()
+        self.AutoHur.loop()
 

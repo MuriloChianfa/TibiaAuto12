@@ -74,6 +74,7 @@ class GUI:
             buttonID.select()
         else:
             buttonID.deselect()
+        return buttonID
 
     def addLabel(self, textOfLabel, bgColor, position):
         labelID = tk.Label(self.windowID,
@@ -87,4 +88,13 @@ class GUI:
         entryID = tk.Entry(self.windowID)
         entryID.place(x=position[0], y=position[1])
         return entryID
+
+    def addOption(self, variable, options, position, width=4):
+        optionID = tk.OptionMenu(self.windowID, variable, *options)
+        optionID['bg'] = rgb.rgb((127, 17, 8))
+        optionID['fg'] = 'white'
+        optionID['activebackground'] = rgb.rgb((103, 13, 5))
+        optionID['width'] = width
+        optionID.place(x=position[0], y=position[1])
+        return optionID
 

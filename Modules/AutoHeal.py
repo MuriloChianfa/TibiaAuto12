@@ -1,10 +1,7 @@
 from Engine.GUI import *
-from Engine.Defaults import *
 from Engine.ScanStages import ScanStages
 
-
-rgb = Defaults()
-bool_life = False
+EnabledAutoHeal = False
 
 lifeColorFull = [194, 74, 74]
 
@@ -20,15 +17,15 @@ class AutoHeal:
         self.AutoHeal = GUI('AutoHeal', 'Module: Auto Heal')
         self.AutoHeal.DefaultWindow('DefaultWindow')
 
-        def func_auto_life():
-            global bool_life
-            if not bool_life:
-                bool_life = True
+        def SetAutoHeal():
+            global EnabledAutoHeal
+            if not EnabledAutoHeal:
+                EnabledAutoHeal = True
                 ButtonEnabled.configure(text='AutoHealing: ON')
                 print("AutoHealing: ON")
                 scanning_auto_life()
             else:
-                bool_life = False
+                EnabledAutoHeal = False
                 print("AutoHealing: OFF")
                 ButtonEnabled.configure(text='AutoHealing: OFF')
 
@@ -36,50 +33,50 @@ class AutoHeal:
             life = ScanStages('Life').ScanStages(HealthLocation, lifeColor, lifeColorFull)
 
             if VarCheckStageThree.get():
-                stage_three = var_dropdown_stage_five.get()
-                if int(stage_three) > life or int(stage_three) == life:
-                    pyautogui.press(var_dropdown_stage_six.get())
-                    print("Pressed ", var_dropdown_stage_six.get())
-            elif VarCheckStageTwo.get() == "on":
-                stage_two = var_dropdown_stage_three.get()
-                if int(stage_two) > life or int(stage_two) == life:
-                    pyautogui.press(var_dropdown_stage_four.get())
-                    print("Pressed ", var_dropdown_stage_four.get())
-            elif VarCheckStageOne.get() == "on":
-                stage_one = var_dropdown_stage_one.get()
-                if int(stage_one) > life or int(stage_one) == life:
-                    pyautogui.press(var_dropdown_stage_two.get())
-                    print("Pressed ", var_dropdown_stage_two.get())
+                stage_three = VarPercentageStageThree.get()
+                if stage_three > life or stage_three == life:
+                    pyautogui.press(VarHotkeyStageThree.get())
+                    print("Pressed ", VarHotkeyStageThree.get())
+            elif VarCheckStageTwo.get():
+                stage_two = VarPercentageStageTwo.get()
+                if stage_two > life or stage_two == life:
+                    pyautogui.press(VarHotkeyStageTwo.get())
+                    print("Pressed ", VarHotkeyStageTwo.get())
+            elif VarCheckStageOne.get():
+                stage_one = VarPercentageStageOne.get()
+                if stage_one > life or stage_one == life:
+                    pyautogui.press(VarHotkeyStageOne.get())
+                    print("Pressed ", VarHotkeyStageOne.get())
             else:
                 print("Modulo Not Configured")
 
-            if bool_life:
+            if EnabledAutoHeal:
                 root.after(200, scanning_auto_life)
 
-        VarCheckPrint = tk.IntVar()
-        VarCheckBuff = tk.IntVar()
-        VarCheckStageOne = tk.IntVar()
-        VarCheckStageTwo = tk.IntVar()
-        VarCheckStageThree = tk.IntVar()
-        VarCheckCureStats = tk.IntVar()
-        VarCheckParalyze = tk.IntVar()
-        VarCheckPoison = tk.IntVar()
-        VarCheckFire = tk.IntVar()
-        VarCheckElectrify = tk.IntVar()
-        VarCheckMort = tk.IntVar()
-        VarCheckBlood = tk.IntVar()
-        var_dropdown_stage_one = tk.StringVar()
-        var_dropdown_stage_one.set(90)
-        var_dropdown_stage_two = tk.StringVar()
-        var_dropdown_stage_two.set("f1")
-        var_dropdown_stage_three = tk.StringVar()
-        var_dropdown_stage_three.set(75)
-        var_dropdown_stage_four = tk.StringVar()
-        var_dropdown_stage_four.set("f2")
-        var_dropdown_stage_five = tk.StringVar()
-        var_dropdown_stage_five.set(35)
-        var_dropdown_stage_six = tk.StringVar()
-        var_dropdown_stage_six.set("f12")
+        VarCheckPrint = tk.BooleanVar()
+        VarCheckBuff = tk.BooleanVar()
+        VarCheckStageOne = tk.BooleanVar()
+        VarCheckStageTwo = tk.BooleanVar()
+        VarCheckStageThree = tk.BooleanVar()
+        VarCheckCureStats = tk.BooleanVar()
+        VarCheckParalyze = tk.BooleanVar()
+        VarCheckPoison = tk.BooleanVar()
+        VarCheckFire = tk.BooleanVar()
+        VarCheckElectrify = tk.BooleanVar()
+        VarCheckMort = tk.BooleanVar()
+        VarCheckBlood = tk.BooleanVar()
+        VarPercentageStageOne = tk.IntVar()
+        VarPercentageStageOne.set(90)
+        VarHotkeyStageOne = tk.StringVar()
+        VarHotkeyStageOne.set("f1")
+        VarPercentageStageTwo = tk.IntVar()
+        VarPercentageStageTwo.set(75)
+        VarHotkeyStageTwo = tk.StringVar()
+        VarHotkeyStageTwo.set("f2")
+        VarPercentageStageThree = tk.IntVar()
+        VarPercentageStageThree.set(35)
+        VarHotkeyStageThree = tk.StringVar()
+        VarHotkeyStageThree.set("f12")
         ParalyzeImage = ImageTk.PhotoImage(Image.open('images/Stats/paralyze.webp'))
         PoisonImage = ImageTk.PhotoImage(Image.open('images/Stats/poison.webp'))
         FireImage = ImageTk.PhotoImage(Image.open('images/Stats/fire.webp'))
@@ -91,12 +88,12 @@ class AutoHeal:
 
         ''' button enable healing '''
 
-        global bool_life
-        if not bool_life:
-            ButtonEnabled = self.AutoHeal.addButton('AutoHealing: OFF', func_auto_life, [328, 29, 12, 469],
+        global EnabledAutoHeal
+        if not EnabledAutoHeal:
+            ButtonEnabled = self.AutoHeal.addButton('AutoHealing: OFF', SetAutoHeal, [328, 29, 12, 469],
                                                    [127, 17, 8], [123, 13, 5])
         else:
-            ButtonEnabled = self.AutoHeal.addButton('AutoHealing: ON', func_auto_life, [328, 29, 12, 469],
+            ButtonEnabled = self.AutoHeal.addButton('AutoHealing: ON', SetAutoHeal, [328, 29, 12, 469],
                                                    [127, 17, 8], [123, 13, 5])
     
         self.AutoHeal.addLabel('Healing', [120, 98, 51], [32, 3])
@@ -110,53 +107,21 @@ class AutoHeal:
         StageThree = self.AutoHeal.addCheck(VarCheckStageThree, [32, 194], [130, 16, 6], 0, "Enable Stage Three")
         CheckStats = self.AutoHeal.addCheck(VarCheckCureStats, [105, 334], [130, 16, 6], 0, "Enable Cure Stats")
 
-        Paralyze = self.AutoHeal.addCheck(VarCheckParalyze, [52, 364], [130, 16, 6], 0, ParalyzeImage)
-        Poison = self.AutoHeal.addCheck(VarCheckPoison, [92, 364], [130, 16, 6], 0, PoisonImage)
-        Fire = self.AutoHeal.addCheck(VarCheckFire, [132, 364], [130, 16, 6], 0, FireImage)
-        Electrify = self.AutoHeal.addCheck(VarCheckElectrify, [172, 364], [130, 16, 6], 0, ElectrifyImage)
-        Mort = self.AutoHeal.addCheck(VarCheckMort, [212, 364], [130, 16, 6], 0, MortImage)
-        Blood = self.AutoHeal.addCheck(VarCheckBlood, [252, 364], [130, 16, 6], 0, BloodImage)
+        Paralyze = self.AutoHeal.addCheck(VarCheckParalyze, [52, 364], [130, 16, 6], 0, '', ParalyzeImage)
+        Poison = self.AutoHeal.addCheck(VarCheckPoison, [92, 364], [130, 16, 6], 0, '', PoisonImage)
+        Fire = self.AutoHeal.addCheck(VarCheckFire, [132, 364], [130, 16, 6], 0, '', FireImage)
+        Electrify = self.AutoHeal.addCheck(VarCheckElectrify, [172, 364], [130, 16, 6], 0, '', ElectrifyImage)
+        Mort = self.AutoHeal.addCheck(VarCheckMort, [212, 364], [130, 16, 6], 0, '', MortImage)
+        Blood = self.AutoHeal.addCheck(VarCheckBlood, [252, 364], [130, 16, 6], 0, '', BloodImage)
 
-        dropdown_stage_one = tk.OptionMenu(self.AutoHeal, var_dropdown_stage_one, *percentage)
-        dropdown_stage_one["fg"] = 'white'
-        dropdown_stage_one["bg"] = rgb.rgb((127, 17, 8))
-        dropdown_stage_one["activebackground"] = rgb.rgb((103, 13, 5))
-        dropdown_stage_one["width"] = 4
-        dropdown_stage_one.place(x=165, y=90)
+        PercentageStageOne = self.AutoHeal.addOption(VarPercentageStageOne, percentage, [165, 90])
+        HotkeyStageOne = self.AutoHeal.addOption(VarHotkeyStageOne, hotkeys, [250, 90])
 
-        dropdown_stage_two = tk.OptionMenu(self.AutoHeal, var_dropdown_stage_two, *hotkeys)
-        dropdown_stage_two["bg"] = rgb.rgb((127, 17, 8))
-        dropdown_stage_two["fg"] = 'white'
-        dropdown_stage_two["activebackground"] = rgb.rgb((103, 13, 5))
-        dropdown_stage_two["width"] = 4
-        dropdown_stage_two.place(x=250, y=90)
+        PercentageStageTwo = self.AutoHeal.addOption(VarPercentageStageTwo, percentage, [165, 140])
+        HotkeyStageTwo = self.AutoHeal.addOption(VarHotkeyStageTwo, hotkeys, [250, 140])
 
-        dropdown_stage_three = tk.OptionMenu(self.AutoHeal, var_dropdown_stage_three, *percentage)
-        dropdown_stage_three["bg"] = rgb.rgb((127, 17, 8))
-        dropdown_stage_three["fg"] = 'white'
-        dropdown_stage_three["activebackground"] = rgb.rgb((103, 13, 5))
-        dropdown_stage_three["width"] = 4
-        dropdown_stage_three.place(x=165, y=140)
+        PercentageStageThree = self.AutoHeal.addOption(VarPercentageStageThree, percentage, [165, 190])
+        HotkeyStageThree = self.AutoHeal.addOption(VarHotkeyStageThree, hotkeys, [250, 190])
 
-        dropdown_stage_four = tk.OptionMenu(self.AutoHeal, var_dropdown_stage_four, *hotkeys)
-        dropdown_stage_four["bg"] = rgb.rgb((127, 17, 8))
-        dropdown_stage_four["fg"] = 'white'
-        dropdown_stage_four["activebackground"] = rgb.rgb((103, 13, 5))
-        dropdown_stage_four["width"] = 4
-        dropdown_stage_four.place(x=250, y=140)
+        self.AutoHeal.loop()
 
-        dropdown_stage_five = tk.OptionMenu(self.AutoHeal, var_dropdown_stage_five, *percentage)
-        dropdown_stage_five["bg"] = rgb.rgb((127, 17, 8))
-        dropdown_stage_five["fg"] = 'white'
-        dropdown_stage_five["activebackground"] = rgb.rgb((103, 13, 5))
-        dropdown_stage_five["width"] = 4
-        dropdown_stage_five.place(x=165, y=190)
-
-        dropdown_stage_six = tk.OptionMenu(self.AutoHeal, var_dropdown_stage_six, *hotkeys)
-        dropdown_stage_six["bg"] = rgb.rgb((127, 17, 8))
-        dropdown_stage_six["fg"] = 'white'
-        dropdown_stage_six["activebackground"] = rgb.rgb((103, 13, 5))
-        dropdown_stage_six["width"] = 4
-        dropdown_stage_six.place(x=250, y=190)
-
-        self.AutoHeal.mainloop()

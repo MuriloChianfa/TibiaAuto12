@@ -1,90 +1,46 @@
-import pyautogui
-import tkinter as tk
-from PIL import Image, ImageTk
+from Engine.GUI import *
 
-from Engine.Defaults import *
-
-
-rgb = Defaults()
-bool_color_change = False
+EnabledColorChange = False
 
 
 class ColorChange:
     def __init__(self, root, Player):
-        self.ColorChange = tk.Toplevel(root)
-        self.ColorChange.focus_force()
-        self.ColorChange.grab_set()
-        w = 348
-        h = 546
-        sw = self.ColorChange.winfo_screenwidth()
-        sh = self.ColorChange.winfo_screenheight()
-        x = (sw - w) / 1.325
-        y = (sh - h) / 2.36
-        self.ColorChange.geometry('%dx%d+%d+%d' % (w, h, x, y))
-        self.ColorChange.resizable(width=False, height=False)
-        self.ColorChange.title('Module: Color Change')
-        self.ColorChange.configure(background='#000', takefocus=True)
-        image = Image.open('images/FundoHealingEdited.jpg')
-        photo = ImageTk.PhotoImage(image)
-        label = tk.Label(self.ColorChange, image=photo, bg='#000')
-        label.image = photo
-        label.pack()
+        self.ColorChange = GUI('ColorChange', 'Module: Color Change')
+        self.ColorChange.DefaultWindow('DefaultWindow')
 
-        def exit_button():
-            self.ColorChange.destroy()
-
-        def func_color_change():
-            global bool_color_change
-            if not bool_color_change:
-                bool_color_change = True
-                print("Color Change: ON")
-                color_change_button.configure(text='Color Change: ON')
-                scanning_color_change()
+        def SetColorChange():
+            global EnabledColorChange
+            if not EnabledColorChange:
+                EnabledColorChange = True
+                ButtonEnabled.configure(text='ColorChange: ON')
+                ScanColorChange()
             else:
-                bool_color_change = False
-                print("Color Change: OFF")
-                color_change_button.configure(text='Color Change: OFF')
+                EnabledColorChange = False
+                ButtonEnabled.configure(text='ColorChange: OFF')
 
-        def scanning_color_change():
-            if bool_color_change:
-                pyautogui.keyDown('ctrl')
-                pyautogui.click(Player[0], Player[1], button='right')
-                pyautogui.keyUp('ctrl')
+        def ScanColorChange():
+            if EnabledColorChange:
+                print("Try Lock ColorChange")
+                print("Try This")
 
-            root.after(300, scanning_color_change)
+            root.after(300, ScanColorChange)
 
-        def dancing():
-            pyautogui.hotkey("ctrl", "up")
-            pyautogui.hotkey("ctrl", "left")
-            pyautogui.hotkey("ctrl", "right")
-            pyautogui.hotkey("ctrl", "down")
+        CheckPrint = tk.BooleanVar()
+        LowMana = tk.BooleanVar()
 
-        # Buttons
+        self.ColorChange.addButton('Ok', self.ColorChange.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
 
-        var_check_one = tk.StringVar()
-        var_check_two = tk.StringVar()
-
-        ''' ok button '''
-
-        button_exit = tk.Button(self.ColorChange, text='Ok', font=('Microsoft Sans Serif', 10),
-                                bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
-                                activebackground=rgb.rgb((123, 13, 5)))
-        button_exit.place(w=84, h=29, x=130, y=504)
-
-        ''' button auto login '''
-
-        global bool_color_change
-        if not bool_color_change:
-            color_change_button = tk.Button(self.ColorChange, text='Color Change: OFF',
-                                            font=('Microsoft Sans Serif', 10),
-                                            bg=rgb.rgb((127, 17, 8)), fg='white', command=func_color_change,
-                                            activebackground=rgb.rgb((123, 13, 5)))
-            color_change_button.place(w=328, h=29, x=12, y=469)
+        global EnabledColorChange
+        if not EnabledColorChange:
+            ButtonEnabled = self.ColorChange.addButton('ColorChange: OFF', SetColorChange, [328, 29, 12, 469],
+                                                       [127, 17, 8], [123, 13, 5])
         else:
-            color_change_button = tk.Button(self.ColorChange, text='Color Change: ON',
-                                            font=('Microsoft Sans Serif', 10),
-                                            bg=rgb.rgb((127, 17, 8)), fg='white', command=func_color_change,
-                                            activebackground=rgb.rgb((123, 13, 5)))
-            color_change_button.place(w=328, h=29, x=12, y=469)
+            ButtonEnabled = self.ColorChange.addButton('ColorChange: ON', SetColorChange, [328, 29, 12, 469],
+                                                       [127, 17, 8], [123, 13, 5])
 
-        self.ColorChange.mainloop()
+        ButtonPrint = self.ColorChange.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
+
+        ButtonLowMana = self.ColorChange.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
+
+        self.ColorChange.loop()
+
