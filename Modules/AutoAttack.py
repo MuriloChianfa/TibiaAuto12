@@ -3,7 +3,7 @@ from Engine.AttackTarget import AttackTarget
 from Engine.SetFollow import SetFollow
 
 EnabledAutoAttack = False
-target_number = 0
+TargetNumber = 0
 
 
 class AutoAttack:
@@ -16,14 +16,15 @@ class AutoAttack:
             if not EnabledAutoAttack:
                 EnabledAutoAttack = True
                 ButtonEnabled.configure(text='AutoAttack: ON')
-                ScanAutoAttack()
+                combine_funcs(ScanAutoAttack(), ScanFollowMode())
             else:
                 EnabledAutoAttack = False
                 ButtonEnabled.configure(text='AutoAttack: OFF')
 
         def ScanAutoAttack():
             if EnabledAutoAttack:
-                AttackTarget(monster, BattlePosition, SQMs, target_number)
+                global TargetNumber
+                TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber)
 
             if EnabledAutoAttack:
                 root.after(300, ScanAutoAttack)

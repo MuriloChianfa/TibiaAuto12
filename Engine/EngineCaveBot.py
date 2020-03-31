@@ -7,13 +7,15 @@ from Engine.NumberOfTargets import NumberOfTargets
 from Engine.AttackTarget import AttackTarget
 from Engine.CheckWaypoint import CheckWaypoint
 
+TargetNumber = 0
 
-def EngineCaveBot(data, i, mini_map, battle_location, monster_name, SQMs):
+
+def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs):
     locate_mark = pyautogui.locateOnScreen('images/MapSettings/' + data[i]["mark"] + '.png',
-                                           region=(mini_map[0], mini_map[1], mini_map[2], mini_map[3]),
+                                           region=(MapPosition[0], MapPosition[1], MapPosition[2], MapPosition[3]),
                                            confidence=0.9)
     locate_mark2 = pyautogui.center(locate_mark)
-    target_number = NumberOfTargets(battle_location, monster_name)
+    target_number = NumberOfTargets(BattlePosition, monster)
     print("Localized: ", data[i]["mark"])
     if data[i]['status'] and locate_mark2 is not None:
         mp = pyautogui.position()
@@ -27,12 +29,13 @@ def EngineCaveBot(data, i, mini_map, battle_location, monster_name, SQMs):
                 pyautogui.leftClick(follow_x_pos, follow_y_pos)
                 pyautogui.moveTo(past_mouse_position)
 
-            AttackTarget(monster_name, battle_location, SQMs, target_number)
+            global TargetNumber
+            TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber)
             break
 
-        print("waiting 0.2 seconds")
+        print("waiting 2 seconds")
         time.sleep(2)
-        if CheckWaypoint(data[i]["mark"], mini_map):
+        if CheckWaypoint(data[i]["mark"], MapPosition):
             data[i]['status'] = False
             if i+1 == len(data):
                 data[i-i]['status'] = True
@@ -41,6 +44,6 @@ def EngineCaveBot(data, i, mini_map, battle_location, monster_name, SQMs):
             with open('Scripts/ratThais.json', 'w') as wJson:
                 json.dump(data, wJson, indent=4)
         else:
-            EngineCaveBot(data, i, mini_map, battle_location, monster_name, SQMs)
+            EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs)
     else:
         print("Error to locate: " + data[i]["mark"])
