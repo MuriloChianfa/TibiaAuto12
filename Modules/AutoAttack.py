@@ -1,5 +1,5 @@
 from Engine.GUI import *
-from CaveBot.autoAttack import AutoAttack2
+from Engine.GetTargetPosition import AutoAttack2
 
 EnabledAutoAttack = False
 

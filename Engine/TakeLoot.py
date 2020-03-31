@@ -9,7 +9,7 @@ class GetLoot:
         self.end_loot_time = 0
         self.button = button
 
-    def take_loot(self, SQMs):
+    def TakeLoot(self, SQMs):
         self.pass_mouse_position = pyautogui.position()
         self.start_loot_time = time.time()
         for i, j in zip(range(0, 18, + 2), range(1, 19, + 2)):
@@ -17,3 +17,4 @@ class GetLoot:
         self.end_loot_time = time.time() - self.start_loot_time
         pyautogui.moveTo(self.pass_mouse_position)
         print("Looted In: ", self.end_loot_time)
+

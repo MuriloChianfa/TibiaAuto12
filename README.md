@@ -1,2 +1,6 @@
 # TibiaAuto12
-A very simple pixel bot for taleon servers
+
+###  _!!_ For educational purposes only _!!_
+
+
+![Demonstraction of GUI](link-to-image)

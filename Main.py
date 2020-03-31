@@ -1,15 +1,13 @@
-import tkinter as tk
 from threading import Thread
-from PIL import Image, ImageTk
 import pygetwindow
 
 from Conf.WindowTitles import *
-from Engine.Defaults import *
+from Engine.GUI import *
 
 from Functions.getMapPosition import *
 from Functions.getPositions import *
-from CaveBot.caveBot import *
-from CaveBot.autoAttack import *
+from Engine.CaveBot import *
+from Engine.GetTargetPosition import *
 
 from Modules.AdjustConfig import AdjustConfig
 from Modules.AmmoRestack import AmmoRestack
@@ -380,7 +378,7 @@ def cave_bot():
             print("Cave Bot: OFF")
             cave_bot_button.configure(text='Cave Bot: OFF')
 
-    with open('CaveBot/Scripts/ratThais.json', 'r') as rJson:
+    with open('Scripts/ratThais.json', 'r') as rJson:
         data = json.load(rJson)
         print(len(data))
     print(data)

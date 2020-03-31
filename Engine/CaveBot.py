@@ -1,8 +1,6 @@
-import time
 import json
-import pyautogui
-from CaveBot.checkWaypoint import *
-from CaveBot.autoAttack import *
+from Engine.CheckWaypoint import *
+from Engine.GetTargetPosition import *
 from Functions.getLoot import *
 from Functions.getTarget import *
 

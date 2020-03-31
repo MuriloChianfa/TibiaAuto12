@@ -5,7 +5,7 @@ class GetBattlePosition:
     def __init__(self):
         self.battle_location = [0, 0, 0, 0]
 
-    def get_battle_xy(self):
+    def GetBattlePosition(self):
         battle_initial_position = pyautogui.locateOnScreen('images/TibiaSettings/BattleList.png', grayscale=True,
                                                            confidence=0.8)
         print("Your Battle location is:", battle_initial_position)

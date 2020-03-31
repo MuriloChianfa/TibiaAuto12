@@ -3,12 +3,12 @@ from Functions.getLoot import *
 from Functions.getSQM import *
 
 
-class AutoAttack2:
+class GetTargetPosition:
     def __init__(self):
         self.Target = [0, 0]
         self.target_number2 = 0
 
-    def auto_attack(self, monster_name, battle_location, SQMs, target_number):
+    def GetTargetPosition(self, monster_name, battle_location, SQMs, target_number):
         self.Target[0], self.Target[1] = GetTargetPosition().scanning_target(battle_location[0], battle_location[1],
                                                                              battle_location[2], battle_location[3],
                                                                              monster_name)

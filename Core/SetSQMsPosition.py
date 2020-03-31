@@ -11,7 +11,7 @@ class SetSQMs:
         self.horizontal_SQM_size = 0
         self.vertical_SQM_size = 0
 
-    def set_SQMs(self):
+    def SetSQMs(self):
         if self.gameWindow[0] and self.gameWindow[1] != 0:
             self.horizontal_SQM_size = int((self.gameWindow[2] - self.gameWindow[0]) / 15)
             print("Size of Your Horizontal SQM:", self.horizontal_SQM_size)
@@ -21,7 +21,7 @@ class SetSQMs:
             print("Setting Window Size...")
             self.Player[0], self.Player[1], self.gameWindow[0], self.gameWindow[1], self.gameWindow[2], self.gameWindow[
                 3] = GetPlayerPosition().get_gw_xy()
-            self.set_SQMs()
+            self.SetSQMs()
 
         if self.Player[0] and self.Player[1] != 0 and self.horizontal_SQM_size and self.vertical_SQM_size != 0:
             self.SQMs[0] = self.Player[0] - self.horizontal_SQM_size
@@ -50,3 +50,4 @@ class SetSQMs:
             self.Player[0], self.Player[1], self.gameWindow[0], self.gameWindow[1], self.gameWindow[2], self.gameWindow[
                 3] = GetPlayerPosition().get_gw_xy()
             self.set_SQMs()
+
