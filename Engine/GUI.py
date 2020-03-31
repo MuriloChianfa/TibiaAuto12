@@ -4,8 +4,6 @@ from PIL import Image, ImageTk
 
 from Engine.Defaults import *
 
-rgb = Defaults()
-
 
 class GUI:
     def __init__(self, windowID, name):
@@ -54,16 +52,16 @@ class GUI:
         buttonID = tk.Button(self.windowID,
                              text=textOfButton,
                              font=('Microsoft Sans Serif', 10),
-                             bg=rgb.rgb((bgColor[0], bgColor[1], bgColor[2])),
+                             bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
                              fg='white',
                              command=action,
-                             activebackground=rgb.rgb((aBgColor[0], aBgColor[1], aBgColor[2])))
+                             activebackground=rgb((aBgColor[0], aBgColor[1], aBgColor[2])))
         buttonID.place(w=sizes[0], h=sizes[1], x=sizes[2], y=sizes[3])
         return buttonID
 
     def addCheck(self, variable, position, bgColor, selected, textOfButton="", image=None):
         buttonID = tk.Checkbutton(self.windowID,
-                                  bg=rgb.rgb((bgColor[0], bgColor[1], bgColor[2])),
+                                  bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
                                   text=textOfButton,
                                   variable=variable,
                                   onvalue=True,
@@ -79,7 +77,7 @@ class GUI:
     def addLabel(self, textOfLabel, bgColor, position):
         labelID = tk.Label(self.windowID,
                            text=textOfLabel,
-                           bg=rgb.rgb((bgColor[0], bgColor[1], bgColor[2])),
+                           bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
                            fg='white')
         labelID.place(x=position[0], y=position[1])
         return labelID
@@ -91,9 +89,9 @@ class GUI:
 
     def addOption(self, variable, options, position, width=4):
         optionID = tk.OptionMenu(self.windowID, variable, *options)
-        optionID['bg'] = rgb.rgb((127, 17, 8))
+        optionID['bg'] = rgb((127, 17, 8))
         optionID['fg'] = 'white'
-        optionID['activebackground'] = rgb.rgb((103, 13, 5))
+        optionID['activebackground'] = rgb((103, 13, 5))
         optionID['width'] = width
         optionID.place(x=position[0], y=position[1])
         return optionID

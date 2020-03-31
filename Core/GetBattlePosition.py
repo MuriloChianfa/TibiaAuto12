@@ -1,19 +1,17 @@
 import pyautogui
 
+BattlePositions = [0, 0, 0, 0]
 
-class GetBattlePosition:
-    def __init__(self):
-        self.battle_location = [0, 0, 0, 0]
 
-    def GetBattlePosition(self):
-        battle_initial_position = pyautogui.locateOnScreen('images/TibiaSettings/BattleList.png', grayscale=True,
-                                                           confidence=0.8)
-        print("Your Battle location is:", battle_initial_position)
-        self.battle_location[0], self.battle_location[1] = pyautogui.center(battle_initial_position)
-        self.battle_location[0] = self.battle_location[0] - 40
-        self.battle_location[1] = self.battle_location[1] - 5
-        self.battle_location[2] = int(self.battle_location[0]) + 155
-        self.battle_location[3] = int(self.battle_location[1]) + 415
-        return int(self.battle_location[0]), int(self.battle_location[1]), int(self.battle_location[2]), int(
-            self.battle_location[3])
+def GetBattlePosition():
+    battle_initial_position = pyautogui.locateOnScreen('images/TibiaSettings/BattleList.png', grayscale=True,
+                                                       confidence=0.8)
+    print("Your Battle location is:", battle_initial_position)
+    BattlePositions[0], BattlePositions[1] = pyautogui.center(battle_initial_position)
+    BattlePositions[0] = BattlePositions[0] - 40
+    BattlePositions[1] = BattlePositions[1] - 5
+    BattlePositions[2] = int(BattlePositions[0]) + 155
+    BattlePositions[3] = int(BattlePositions[1]) + 415
+    return int(BattlePositions[0]), int(BattlePositions[1]), int(BattlePositions[2]), int(
+        BattlePositions[3])
 

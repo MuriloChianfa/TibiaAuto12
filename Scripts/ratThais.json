@@ -9,11 +9,11 @@
     },
     {
         "mark": "ExclimationMark",
-        "status": false
+        "status": true
     },
     {
         "mark": "Star",
-        "status": true
+        "status": false
     },
     {
         "mark": "Cross",

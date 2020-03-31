@@ -2,12 +2,13 @@ import json
 import time
 
 from Engine.GUI import *
+from Engine.EngineCaveBot import EngineCaveBot
 
 EnabledCaveBot = False
 
 
 class CaveBot:
-    def __init__(self, root):
+    def __init__(self, root, MapPositions, BattlePositions, SQMs, monster):
         self.CaveBot = GUI('CaveBot', 'Module: Cave Bot')
         self.CaveBot.DefaultWindow('DefaultWindow')
 
@@ -21,16 +22,15 @@ class CaveBot:
                 EnabledCaveBot = False
                 ButtonEnabled.configure(text='CaveBot: OFF')
 
-        with open('CaveBot/Scripts/ratThais.json', 'r') as rJson:
+        with open('Scripts/ratThais.json', 'r') as rJson:
             data = json.load(rJson)
             print(len(data))
         print(data)
 
         def ScanCaveBot():
             if EnabledCaveBot:
-                global monster
                 for i in range(len(data)):
-                    CaveBot().cave_bot(data, i, map_positions, battle_location, monster, SQMs)
+                    EngineCaveBot(data, i, MapPositions, BattlePositions, monster, SQMs)
                     time.sleep(1)
 
             if EnabledCaveBot:

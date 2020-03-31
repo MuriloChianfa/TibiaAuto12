@@ -2,12 +2,18 @@ from threading import Thread
 import pygetwindow
 
 from Conf.WindowTitles import *
-from Engine.GUI import *
+from Conf.SetSQMsPositions import SetSQMs
 
-from Functions.getMapPosition import *
-from Functions.getPositions import *
-from Engine.CaveBot import *
-from Engine.GetTargetPosition import *
+from Core.GetPlayerPosition import GetPlayerPosition
+from Core.GetManaPosition import GetManaPosition
+from Core.GetHealthPosition import GetHealthPosition
+from Core.GetMapPosition import GetMapPosition
+from Core.GetBattlePosition import GetBattlePosition
+
+from Engine.Defaults import *
+from Engine.GUI import *
+from Engine.EngineCaveBot import *
+from Engine.AttackTarget import *
 
 from Modules.AdjustConfig import AdjustConfig
 from Modules.AmmoRestack import AmmoRestack
@@ -38,26 +44,17 @@ from Modules.SaveConfig import SaveConfig
 from Modules.SortLoot import SortLoot
 from Modules.TimedSpells import TimedSpells
 
-rgb = Defaults()
-
 print('\033[33m' + "Start in 1 Seconds...")
 time.sleep(1)
-
-set_SQMs = SetSQMs()
-GetHealthPosition = GetHealthPosition()
-get_battle_position = GetBattlePosition()
-get_mana_position = GetManaPosition()
-get_map_position = GetMapPosition()
-get_player_position = GetPlayerPosition()
 
 mark = [0, 0]
 Player = [0, 0]
 Target = [0, 0]
 gameWindow = [0, 0, 0, 0]
 ManaLocation = [0, 0]
-map_positions = [0, 0, 0, 0]
+MapPositions = [0, 0, 0, 0]
 HealthLocation = [0, 0]
-battle_location = [0, 0, 0, 0]
+BattlePositions = [0, 0, 0, 0]
 SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 TibiaName = ""
@@ -85,7 +82,7 @@ class Redirect:
         AmmoRestack(root)
 
     def OpenAutoAttack(self):
-        AutoAttack(root, Target, SQMs, monster, battle_location)
+        AutoAttack(root, SQMs, monster, BattlePositions)
 
     def OpenAutoBanker(self):
         AutoBanker(root)
@@ -121,7 +118,7 @@ class Redirect:
         AutoSSA(root)
 
     def OpenCaveBot(self):
-        CaveBot(root)
+        CaveBot(root, MapPositions, BattlePositions, SQMs, monster)
 
     def OpenColorChange(self):
         ColorChange(root, Player)
@@ -188,238 +185,156 @@ def root():
 
     global TibiaChar
     status_game_label = tk.Label(root, text=f'Logged as: {TibiaChar}', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white')
+                                 bg=rgb((127, 17, 8)), fg='white')
     status_game_label.place(x=20, y=15)
 
     open_spell_caster = tk.Button(root, text='Auto Hur', font=('Microsoft Sans Serif', 10),
-                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoHur,
-                                  activebackground=rgb.rgb((123, 13, 5)))
+                                  bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoHur,
+                                  activebackground=rgb((123, 13, 5)))
     open_spell_caster.place(w=105, h=27, x=275, y=70)
 
     button_exit = tk.Button(root, text='Exit', font=('Microsoft Sans Serif', 10),
-                            bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
-                            activebackground=rgb.rgb((123, 13, 5)))
+                            bg=rgb((127, 17, 8)), fg='white', command=exit_button,
+                            activebackground=rgb((123, 13, 5)))
     button_exit.place(w=108, h=29, x=11, y=615)
 
     open_auto_attack = tk.Button(root, text='Auto Attack', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoAttack,
-                                 activebackground=rgb.rgb((123, 13, 5)))
+                                 bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoAttack,
+                                 activebackground=rgb((123, 13, 5)))
     open_auto_attack.place(w=105, h=27, x=275, y=359)
 
     open_auto_fish = tk.Button(root, text='Auto Fish', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoFish,
-                               activebackground=rgb.rgb((123, 13, 5)))
+                               bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoFish,
+                               activebackground=rgb((123, 13, 5)))
     open_auto_fish.place(w=105, h=27, x=275, y=102)
 
     open_auto_life = tk.Button(root, text='Auto Life', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoHeal,
-                               activebackground=rgb.rgb((123, 13, 5)))
+                               bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoHeal,
+                               activebackground=rgb((123, 13, 5)))
     open_auto_life.place(w=105, h=27, x=165, y=70)
 
     open_auto_mana = tk.Button(root, text='Auto Mana', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoMana,
-                               activebackground=rgb.rgb((123, 13, 5)))
+                               bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoMana,
+                               activebackground=rgb((123, 13, 5)))
     open_auto_mana.place(w=105, h=27, x=165, y=102)
 
     open_cave_bot = tk.Button(root, text='Cave Bot', font=('Microsoft Sans Serif', 10),
-                              bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenCaveBot,
-                              activebackground=rgb.rgb((123, 13, 5)))
+                              bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenCaveBot,
+                              activebackground=rgb((123, 13, 5)))
     open_cave_bot.place(w=105, h=27, x=165, y=359)
 
     open_timed_spells = tk.Button(root, text='Timed Spells', font=('Microsoft Sans Serif', 10),
-                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenTimedSpells,
-                                  activebackground=rgb.rgb((123, 13, 5)))
+                                  bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenTimedSpells,
+                                  activebackground=rgb((123, 13, 5)))
     open_timed_spells.place(w=105, h=27, x=165, y=166)
 
     open_auto_login = tk.Button(root, text='Auto Login', font=('Microsoft Sans Serif', 10),
-                                bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoLogin,
-                                activebackground=rgb.rgb((123, 13, 5)))
+                                bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoLogin,
+                                activebackground=rgb((123, 13, 5)))
     open_auto_login.place(w=105, h=27, x=275, y=166)
 
     open_color_change = tk.Button(root, text='Color Change', font=('Microsoft Sans Serif', 10),
-                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenColorChange,
-                                  activebackground=rgb.rgb((123, 13, 5)))
+                                  bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenColorChange,
+                                  activebackground=rgb((123, 13, 5)))
     open_color_change.place(w=105, h=27, x=23, y=134)
 
     open_ammo_restack = tk.Button(root, text='Ammo Restack', font=('Microsoft Sans Serif', 10),
-                                  bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAmmoRestack,
-                                  activebackground=rgb.rgb((123, 13, 5)))
+                                  bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAmmoRestack,
+                                  activebackground=rgb((123, 13, 5)))
     open_ammo_restack.place(w=105, h=27, x=23, y=166)
 
     open_auto_looter = tk.Button(root, text='Auto Looter', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoLooter,
-                                 activebackground=rgb.rgb((123, 13, 5)))
+                                 bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoLooter,
+                                 activebackground=rgb((123, 13, 5)))
     open_auto_looter.place(w=105, h=27, x=23, y=198)
 
     open_auto_uh = tk.Button(root, text='Healer Friend', font=('Microsoft Sans Serif', 10),
-                             bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenHealerFriend,
-                             activebackground=rgb.rgb((123, 13, 5)))
+                             bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenHealerFriend,
+                             activebackground=rgb((123, 13, 5)))
     open_auto_uh.place(w=105, h=27, x=23, y=70)
 
     open_food_eater = tk.Button(root, text='Food Eater', font=('Microsoft Sans Serif', 10),
-                                bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenFoodEater,
-                                activebackground=rgb.rgb((123, 13, 5)))
+                                bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenFoodEater,
+                                activebackground=rgb((123, 13, 5)))
     open_food_eater.place(w=105, h=27, x=23, y=260)
 
     open_auto_grouping = tk.Button(root, text='Auto Grouping', font=('Microsoft Sans Serif', 10),
-                                   bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoGrouping,
-                                   activebackground=rgb.rgb((123, 13, 5)))
+                                   bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoGrouping,
+                                   activebackground=rgb((123, 13, 5)))
     open_auto_grouping.place(w=105, h=27, x=23, y=292)
 
     open_sort_loot = tk.Button(root, text='Sort loot', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenSortLoot,
-                               activebackground=rgb.rgb((123, 13, 5)))
+                               bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenSortLoot,
+                               activebackground=rgb((123, 13, 5)))
     open_sort_loot.place(w=105, h=27, x=23, y=324)
 
     open_auto_banker = tk.Button(root, text='Auto Banker', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoBanker,
-                                 activebackground=rgb.rgb((123, 13, 5)))
+                                 bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoBanker,
+                                 activebackground=rgb((123, 13, 5)))
     open_auto_banker.place(w=105, h=27, x=23, y=356)
 
     open_auto_seller = tk.Button(root, text='Auto Seller', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoSeller,
-                                 activebackground=rgb.rgb((123, 13, 5)))
+                                 bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoSeller,
+                                 activebackground=rgb((123, 13, 5)))
     open_auto_seller.place(w=105, h=27, x=23, y=388)
 
     open_fps_changer = tk.Button(root, text='FPS changer', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenFPSChanger,
-                                 activebackground=rgb.rgb((123, 13, 5)))
+                                 bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenFPSChanger,
+                                 activebackground=rgb((123, 13, 5)))
     open_fps_changer.place(w=105, h=27, x=23, y=420)
 
     open_monsters = tk.Button(root, text='Monsters', font=('Microsoft Sans Serif', 10),
-                              bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenMonsters,
-                              activebackground=rgb.rgb((123, 13, 5)))
+                              bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenMonsters,
+                              activebackground=rgb((123, 13, 5)))
     open_monsters.place(w=105, h=27, x=275, y=232)
 
     open_creature_info = tk.Button(root, text='Creature Info', font=('Microsoft Sans Serif', 10),
-                                   bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenCreatureInfo,
-                                   activebackground=rgb.rgb((123, 13, 5)))
+                                   bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenCreatureInfo,
+                                   activebackground=rgb((123, 13, 5)))
     open_creature_info.place(w=105, h=27, x=165, y=232)
 
     open_auto_ssa = tk.Button(root, text='Auto SSA', font=('Microsoft Sans Serif', 10),
-                              bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoSSA,
-                              activebackground=rgb.rgb((123, 13, 5)))
+                              bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoSSA,
+                              activebackground=rgb((123, 13, 5)))
     open_auto_ssa.place(w=105, h=27, x=165, y=134)
 
     open_auto_ring = tk.Button(root, text='Auto Ring', font=('Microsoft Sans Serif', 10),
-                               bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoRing,
-                               activebackground=rgb.rgb((123, 13, 5)))
+                               bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAutoRing,
+                               activebackground=rgb((123, 13, 5)))
     open_auto_ring.place(w=105, h=27, x=275, y=134)
 
     open_load_config = tk.Button(root, text='Load Config', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenLoadConfig,
-                                 activebackground=rgb.rgb((123, 13, 5)))
+                                 bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenLoadConfig,
+                                 activebackground=rgb((123, 13, 5)))
     open_load_config.place(w=105, h=27, x=165, y=420)
 
     open_item_config = tk.Button(root, text='Adjust Config', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenAdjustConfig,
-                                 activebackground=rgb.rgb((123, 13, 5)))
+                                 bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenAdjustConfig,
+                                 activebackground=rgb((123, 13, 5)))
     open_item_config.place(w=105, h=27, x=165, y=452)
 
     open_save_config = tk.Button(root, text='Save Config', font=('Microsoft Sans Serif', 10),
-                                 bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenSaveConfig,
-                                 activebackground=rgb.rgb((123, 13, 5)))
+                                 bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenSaveConfig,
+                                 activebackground=rgb((123, 13, 5)))
     open_save_config.place(w=105, h=27, x=275, y=420)
 
     open_modules = tk.Button(root, text='Modules', font=('Microsoft Sans Serif', 10),
-                             bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenModules,
-                             activebackground=rgb.rgb((123, 13, 5)))
+                             bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenModules,
+                             activebackground=rgb((123, 13, 5)))
     open_modules.place(w=105, h=27, x=275, y=452)
 
     open_python_scripts = tk.Button(root, text='Python Scripts', font=('Microsoft Sans Serif', 10),
-                                    bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenPythonScripts,
-                                    activebackground=rgb.rgb((123, 13, 5)))
+                                    bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenPythonScripts,
+                                    activebackground=rgb((123, 13, 5)))
     open_python_scripts.place(w=105, h=27, x=275, y=484)
 
     open_general_options = tk.Button(root, text='General Options And Statics',
                                      font=('Microsoft Sans Serif', 10),
-                                     bg=rgb.rgb((127, 17, 8)), fg='white', command=Redirect().OpenGeneralOptions,
-                                     activebackground=rgb.rgb((123, 13, 5)))
+                                     bg=rgb((127, 17, 8)), fg='white', command=Redirect().OpenGeneralOptions,
+                                     activebackground=rgb((123, 13, 5)))
     open_general_options.place(w=245, h=29, x=153, y=526)
 
     root.mainloop()
-
-
-def cave_bot():
-    screen_cave_bot = tk.Toplevel(root)
-    screen_cave_bot.focus_force()
-    screen_cave_bot.grab_set()
-    w = 348
-    h = 546
-    sw = screen_cave_bot.winfo_screenwidth()
-    sh = screen_cave_bot.winfo_screenheight()
-    x = (sw - w) / 1.325
-    y = (sh - h) / 2.36
-    screen_cave_bot.geometry('%dx%d+%d+%d' % (w, h, x, y))
-    screen_cave_bot.resizable(width=False, height=False)
-    screen_cave_bot.title('Module: Cave Bot')
-    screen_cave_bot.configure(background='#000', takefocus=True)
-    image = Image.open('images/FundoHealingEdited.jpg')
-    photo = ImageTk.PhotoImage(image)
-    label = tk.Label(screen_cave_bot, image=photo, bg='#000')
-    label.image = photo
-    label.pack()
-
-    def exit_button():
-        screen_cave_bot.destroy()
-
-    def func_cave_bot():
-        global bool_Cave_Bot
-        if not bool_Cave_Bot:
-            bool_Cave_Bot = True
-            cave_bot_button.configure(text='Cave Bot: ON')
-            print("Cave Bot: ON")
-            if bool_Cave_Bot:
-                scanning_cave_bot()
-            else:
-                print("Master Key Non Activated!")
-        else:
-            bool_Cave_Bot = False
-            print("Cave Bot: OFF")
-            cave_bot_button.configure(text='Cave Bot: OFF')
-
-    with open('Scripts/ratThais.json', 'r') as rJson:
-        data = json.load(rJson)
-        print(len(data))
-    print(data)
-
-    def scanning_cave_bot():
-        if bool_Cave_Bot:
-            print("CAVE BOT PRINT...")
-            global monster
-            for i in range(len(data)):
-                CaveBot().cave_bot(data, i, map_positions, battle_location, monster, SQMs)
-                time.sleep(1)
-                
-        if bool_Cave_Bot:
-            root.after(1000, scanning_cave_bot)
-
-    # Buttons
-
-    ''' ok button '''
-
-    button_exit = tk.Button(screen_cave_bot, text='Ok', font=('Microsoft Sans Serif', 10),
-                            bg=rgb.rgb((127, 17, 8)), fg='white', command=exit_button,
-                            activebackground=rgb.rgb((123, 13, 5)))
-    button_exit.place(w=84, h=29, x=130, y=504)
-
-    ''' button auto login '''
-
-    global bool_Cave_Bot
-    if not bool_Cave_Bot:
-        cave_bot_button = tk.Button(screen_cave_bot, text='Cave Bot: OFF',
-                                    font=('Microsoft Sans Serif', 10),
-                                    bg=rgb.rgb((127, 17, 8)), fg='white', command=func_cave_bot,
-                                    activebackground=rgb.rgb((123, 13, 5)))
-        cave_bot_button.place(w=328, h=29, x=12, y=469)
-    else:
-        cave_bot_button = tk.Button(screen_cave_bot, text='Cave Bot: ON',
-                                    font=('Microsoft Sans Serif', 10),
-                                    bg=rgb.rgb((127, 17, 8)), fg='white', command=func_cave_bot,
-                                    activebackground=rgb.rgb((123, 13, 5)))
-        cave_bot_button.place(w=328, h=29, x=12, y=469)
-
-    screen_cave_bot.mainloop()
 
 
 def main():
@@ -433,7 +348,7 @@ def main():
     config_master.geometry('%dx%d+%d+%d' % (w, h, x, y))
     config_master.resizable(width=False, height=False)
     config_master.title('Ready To Configure ?')
-    config_master.configure(background=rgb.rgb((120, 98, 51)), takefocus=True)
+    config_master.configure(background=rgb((120, 98, 51)), takefocus=True)
 
     CHARACTERS = ["None"]
 
@@ -469,13 +384,12 @@ def main():
             pyautogui.PAUSE = 0.005
 
             global get_attack_location
-            battle_location[0], battle_location[2], battle_location[1], battle_location[
-                3] = get_battle_position.get_battle_xy()
-            print(f"Your Battle Box location X: {battle_location[0]} Y: {battle_location[1]}")
+            BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition()
+            print(f"Your Battle Box location X: {BattlePositions[0]} Y: {BattlePositions[1]}")
             get_attack_location = True
 
             Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
-                3] = get_player_position.get_gw_xy()
+                3] = GetPlayerPosition()
             print(f"Left Game Window Localized In [ X: {gameWindow[0]}, Y: {gameWindow[1]} ]")
             print(f"Right Game Window Localized In [ X: {gameWindow[2]}, Y: {gameWindow[1]}]")
             print(f"Left Button Game Window Localized In [ X: {gameWindow[0]}, Y: {gameWindow[3]}]")
@@ -487,7 +401,7 @@ def main():
 
             global get_SQMs_location
             SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
-                11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = set_SQMs.set_SQMs()
+                11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs()
             time.sleep(0.1)
             print("1° SQM Is In: ", SQMs[0], SQMs[1])
             print("2° SQM Is In: ", SQMs[2], SQMs[3])
@@ -502,19 +416,19 @@ def main():
             get_SQMs_location = True
 
             global get_health_location
-            HealthLocation[0], HealthLocation[1] = GetHealthPosition.get_health_xy()
+            HealthLocation[0], HealthLocation[1] = GetHealthPosition()
             HealthLocation[0], HealthLocation[1] = int(HealthLocation[0]), int(HealthLocation[1])
             print(f"Your Health Box location X: {HealthLocation[0]} Y: {HealthLocation[1]}")
             get_health_location = True
 
             global get_mana_location
-            ManaLocation[0], ManaLocation[1] = get_mana_position.get_mana_xy()
+            ManaLocation[0], ManaLocation[1] = GetManaPosition()
             ManaLocation[0], ManaLocation[1] = int(ManaLocation[0]), int(ManaLocation[1])
             print(f"Your Mana Box location X: {ManaLocation[0]} Y: {ManaLocation[1]}")
             get_mana_location = True
 
-            global map_positions
-            map_positions[0], map_positions[1], map_positions[2], map_positions[3] = get_map_position.get_map_xy()
+            global MapPositions
+            MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition()
 
             end_configuration = time.time() - start_configuration
             print(f"Your Setup Time Is: {end_configuration:.2f} Seconds")
@@ -533,15 +447,15 @@ def main():
     select_character.pack()
     select_character.place(w=230, h=24, x=15, y=17)
 
-    config_button = tk.Button(config_master, width=15, text="Configurar", command=set_title, bg=rgb.rgb((127, 17, 8)),
+    config_button = tk.Button(config_master, width=15, text="Configurar", command=set_title, bg=rgb((127, 17, 8)),
                               fg='white',
-                              activebackground=rgb.rgb((123, 13, 5)))
+                              activebackground=rgb((123, 13, 5)))
     config_button.pack()
     config_button.place(w=85, h=25, x=140, y=53)
 
-    exit_button = tk.Button(config_master, width=15, text="Exit", command=exiting, bg=rgb.rgb((127, 17, 8)),
+    exit_button = tk.Button(config_master, width=15, text="Exit", command=exiting, bg=rgb((127, 17, 8)),
                             fg='white',
-                            activebackground=rgb.rgb((123, 13, 5)))
+                            activebackground=rgb((123, 13, 5)))
     exit_button.pack()
     exit_button.place(w=85, h=25, x=28, y=53)
 

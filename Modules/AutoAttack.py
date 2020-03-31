@@ -1,11 +1,13 @@
 from Engine.GUI import *
-from Engine.GetTargetPosition import AutoAttack2
+from Engine.AttackTarget import AttackTarget
+from Engine.SetFollow import SetFollow
 
 EnabledAutoAttack = False
+target_number = 0
 
 
 class AutoAttack:
-    def __init__(self, root, Target, SQMs, monster, BattlePosition):
+    def __init__(self, root, SQMs, monster, BattlePosition):
         self.AutoAttack = GUI('AutoAttack', 'Module: Auto Attack')
         self.AutoAttack.DefaultWindow('DefaultWindow')
 
@@ -21,10 +23,22 @@ class AutoAttack:
 
         def ScanAutoAttack():
             if EnabledAutoAttack:
-                AutoAttack2().auto_attack(monster, BattlePosition, SQMs, 0)
+                AttackTarget(monster, BattlePosition, SQMs, target_number)
 
             if EnabledAutoAttack:
                 root.after(300, ScanAutoAttack)
+
+        def ScanFollowMode():
+            if EnabledAutoAttack:
+                follow_x_pos, follow_y_pos = SetFollow()
+
+                if follow_x_pos != 0 and follow_y_pos != 0:
+                    past_mouse_position = pyautogui.position()
+                    pyautogui.leftClick(follow_x_pos, follow_y_pos)
+                    pyautogui.moveTo(past_mouse_position)
+
+            if EnabledAutoAttack:
+                root.after(3000, ScanFollowMode)
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
