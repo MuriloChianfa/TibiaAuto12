@@ -6,6 +6,7 @@ from Engine.SetFollow import SetFollow
 from Engine.NumberOfTargets import NumberOfTargets
 from Engine.AttackTarget import AttackTarget
 from Engine.CheckWaypoint import CheckWaypoint
+from Engine.TakeLoot import GetLoot
 
 TargetNumber = 0
 
@@ -14,14 +15,21 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs):
     locate_mark = pyautogui.locateOnScreen('images/MapSettings/' + data[i]["mark"] + '.png',
                                            region=(MapPosition[0], MapPosition[1], MapPosition[2], MapPosition[3]),
                                            confidence=0.9)
-    locate_mark2 = pyautogui.center(locate_mark)
-    target_number = NumberOfTargets(BattlePosition, monster)
+    if locate_mark:
+        locate_mark2 = pyautogui.center(locate_mark)
+    else:
+        print("Error To Locate Mark")
+        locate_mark2 = None
     print("Localized: ", data[i]["mark"])
     if data[i]['status'] and locate_mark2 is not None:
         mp = pyautogui.position()
         pyautogui.click(locate_mark2[0], locate_mark2[1])
         pyautogui.moveTo(mp)
-        while target_number > 0:
+        number = NumberOfTargets(BattlePosition, monster)
+        while number > 0:
+            global TargetNumber
+            TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber)
+
             follow_x_pos, follow_y_pos = SetFollow()
 
             if follow_x_pos != 0 and follow_y_pos != 0:
@@ -29,12 +37,19 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs):
                 pyautogui.leftClick(follow_x_pos, follow_y_pos)
                 pyautogui.moveTo(past_mouse_position)
 
-            global TargetNumber
-            TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber)
-            break
+            time.sleep(0.3)
 
-        print("waiting 2 seconds")
-        time.sleep(2)
+            TargetNumber2 = AttackTarget(monster, BattlePosition, SQMs, TargetNumber)
+
+            if TargetNumber2 < TargetNumber:
+                GetLoot('Right').TakeLoot(SQMs)
+
+            time.sleep(0.3)
+
+            number = NumberOfTargets(BattlePosition, monster)
+            if number == 0:
+                break
+
         if CheckWaypoint(data[i]["mark"], MapPosition):
             data[i]['status'] = False
             if i+1 == len(data):
@@ -47,3 +62,4 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs):
             EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs)
     else:
         print("Error to locate: " + data[i]["mark"])
+
