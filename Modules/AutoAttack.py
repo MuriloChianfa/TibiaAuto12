@@ -4,10 +4,27 @@ from Engine.SetFollow import SetFollow
 
 EnabledAutoAttack = False
 TargetNumber = 0
+priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+monsters = [
+    "Rat",
+    "CaveRat",
+    "Orc",
+    "OrcWarrior",
+    "OrcSpearman",
+    "Cyclops",
+    "Rotworm",
+    "AnyCorym",
+    "CorymCharlatan",
+    "CorymSkirmisher",
+    "CorymVanguard",
+    "Stonerefiner"
+]
+
+monster = 'Rat'
 
 
 class AutoAttack:
-    def __init__(self, root, SQMs, monster, BattlePosition):
+    def __init__(self, root, SQMs, BattlePosition):
         self.AutoAttack = GUI('AutoAttack', 'Module: Auto Attack')
         self.AutoAttack.DefaultWindow('DefaultWindow')
 
@@ -24,6 +41,7 @@ class AutoAttack:
         def ScanAutoAttack():
             if EnabledAutoAttack:
                 global TargetNumber
+                monster = monster2.get()
                 TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber)
 
             if EnabledAutoAttack:
@@ -43,6 +61,11 @@ class AutoAttack:
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
+        AttackOne = tk.BooleanVar()
+        monster2 = tk.StringVar()
+        monster2.set(monster)
+        PriorityOne = tk.IntVar()
+        PriorityOne.set(1)
 
         self.AutoAttack.addButton('Ok', self.AutoAttack.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
 
@@ -57,6 +80,12 @@ class AutoAttack:
         ButtonPrint = self.AutoAttack.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
 
         ButtonLowMana = self.AutoAttack.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
+
+        CheckAttackOne = self.AutoAttack.addCheck(AttackOne, [32, 74], [130, 16, 6], 1, 'Monster One')
+
+        OptionMonstersOne = self.AutoAttack.addOption(monster2, monsters, [155, 70])
+
+        PriorityMonstersOne = self.AutoAttack.addOption(PriorityOne, priority, [240, 70])
 
         self.AutoAttack.loop()
 

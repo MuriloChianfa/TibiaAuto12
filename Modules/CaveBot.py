@@ -6,9 +6,35 @@ from Engine.EngineCaveBot import EngineCaveBot
 
 EnabledCaveBot = False
 
+priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+monsters = [
+    "Rat",
+    "CaveRat",
+    "Orc",
+    "OrcWarrior",
+    "OrcSpearman",
+    "Cyclops",
+    "Rotworm",
+    "AnyCorym",
+    "CorymCharlatan",
+    "CorymSkirmisher",
+    "CorymVanguard",
+    "Stonerefiner"
+]
+
+monster = 'Rat'
+
+Scripts = [
+    "ratThais",
+    "StonerefinerVenore"
+]
+
+DefaultScript = 'ratThais'
+
 
 class CaveBot:
-    def __init__(self, root, MapPositions, BattlePositions, SQMs, monster):
+    def __init__(self, root, MapPositions, BattlePositions, SQMs):
         self.CaveBot = GUI('CaveBot', 'Module: Cave Bot')
         self.CaveBot.DefaultWindow('DefaultWindow')
 
@@ -22,13 +48,12 @@ class CaveBot:
                 EnabledCaveBot = False
                 ButtonEnabled.configure(text='CaveBot: OFF')
 
-        with open('Scripts/ratThais.json', 'r') as rJson:
-            data = json.load(rJson)
-            print(len(data))
-        print(data)
-
         def ScanCaveBot():
+            with open('Scripts/' + Script.get() + '.json', 'r') as rJson:
+                data = json.load(rJson)
+                print("The Script " + Script.get() + ".json Have a", len(data), "Marks")
             if EnabledCaveBot:
+                monster = monster2.get()
                 for i in range(len(data)):
                     EngineCaveBot(data, i, MapPositions, BattlePositions, monster, SQMs)
                     time.sleep(1)
@@ -38,6 +63,14 @@ class CaveBot:
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
+        AttackOne = tk.BooleanVar()
+        monster2 = tk.StringVar()
+        monster2.set(monster)
+        PriorityOne = tk.IntVar()
+        PriorityOne.set(1)
+
+        Script = tk.StringVar()
+        Script.set(DefaultScript)
 
         self.CaveBot.addButton('Ok', self.CaveBot.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
 
@@ -50,8 +83,14 @@ class CaveBot:
                                                        [127, 17, 8], [123, 13, 5])
 
         ButtonPrint = self.CaveBot.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
-
         ButtonLowMana = self.CaveBot.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
+
+        LabelScript = self.CaveBot.addLabel('Script To Load', [127, 17, 8], [32, 70])
+        OptionScript = self.CaveBot.addOption(Script, Scripts, [155, 70], 18)
+
+        CheckAttackOne = self.CaveBot.addCheck(AttackOne, [32, 114], [130, 16, 6], 1, 'Monster One')
+        OptionMonstersOne = self.CaveBot.addOption(monster2, monsters, [155, 110])
+        PriorityMonstersOne = self.CaveBot.addOption(PriorityOne, priority, [240, 110])
 
         self.CaveBot.loop()
 

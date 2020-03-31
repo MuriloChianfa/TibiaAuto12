@@ -68,8 +68,6 @@ get_SQMs_location = False
 
 bool_Cave_Bot = False
 
-monster = 'Rat'
-
 
 class Redirect:
     def __init__(self):
@@ -82,7 +80,7 @@ class Redirect:
         AmmoRestack(root)
 
     def OpenAutoAttack(self):
-        AutoAttack(root, SQMs, monster, BattlePositions)
+        AutoAttack(root, SQMs, BattlePositions)
 
     def OpenAutoBanker(self):
         AutoBanker(root)
@@ -118,7 +116,7 @@ class Redirect:
         AutoSSA(root)
 
     def OpenCaveBot(self):
-        CaveBot(root, MapPositions, BattlePositions, SQMs, monster)
+        CaveBot(root, MapPositions, BattlePositions, SQMs)
 
     def OpenColorChange(self):
         ColorChange(root, Player)

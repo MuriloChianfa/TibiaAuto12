@@ -1,7 +1,7 @@
 [
     {
         "mark": "CheckMark",
-        "status": false
+        "status": true
     },
     {
         "mark": "QuestionMark",
@@ -21,7 +21,7 @@
     },
     {
         "mark": "Church",
-        "status": true
+        "status": false
     },
     {
         "mark": "Mouth",
