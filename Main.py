@@ -68,7 +68,7 @@ get_SQMs_location = False
 
 bool_Cave_Bot = False
 
-monster = 'Rat'
+monster = 'Stonerefiner'
 
 
 class Redirect:
