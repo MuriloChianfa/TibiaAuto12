@@ -1,4 +1,4 @@
-from threading import Thread
+import threading
 import pygetwindow
 
 from Conf.WindowTitles import *
@@ -9,6 +9,7 @@ from Core.GetManaPosition import GetManaPosition
 from Core.GetHealthPosition import GetHealthPosition
 from Core.GetMapPosition import GetMapPosition
 from Core.GetBattlePosition import GetBattlePosition
+from Core.GetStatsPosition import GetStatsPosition
 
 from Engine.Defaults import *
 from Engine.GUI import *
@@ -53,6 +54,7 @@ Target = [0, 0]
 gameWindow = [0, 0, 0, 0]
 ManaLocation = [0, 0]
 MapPositions = [0, 0, 0, 0]
+StatsPositions = [0, 0, 0, 0]
 HealthLocation = [0, 0]
 BattlePositions = [0, 0, 0, 0]
 SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -71,7 +73,7 @@ bool_Cave_Bot = False
 
 class Redirect:
     def __init__(self):
-        self.Thread = Thread
+        self.Thread = threading
 
     def OpenAdjustConfig(self):
         AdjustConfig(root)
@@ -95,7 +97,7 @@ class Redirect:
         AutoHeal(root, HealthLocation)
 
     def OpenAutoHur(self):
-        AutoHur(root)
+        AutoHur(root, StatsPositions)
 
     def OpenAutoLogin(self):
         AutoLogin(root)
@@ -385,6 +387,9 @@ def main():
             BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition()
             print(f"Your Battle Box location X: {BattlePositions[0]} Y: {BattlePositions[1]}")
             get_attack_location = True
+
+            StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition()
+            print("Your Status Bar Is In: ", StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3])
 
             Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
                 3] = GetPlayerPosition()

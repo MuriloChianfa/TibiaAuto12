@@ -1,5 +1,6 @@
 import json
 import time
+import threading
 
 from Engine.GUI import *
 from Engine.EngineCaveBot import EngineCaveBot
@@ -43,7 +44,11 @@ class CaveBot:
             if not EnabledCaveBot:
                 EnabledCaveBot = True
                 ButtonEnabled.configure(text='CaveBot: ON')
-                ScanCaveBot()
+                try:
+                    ThreadCaveBot = threading.Thread(target=ScanCaveBot)
+                    ThreadCaveBot.start()
+                except:
+                    print("Error: Unable To Start ThreadCaveBot!")
             else:
                 EnabledCaveBot = False
                 ButtonEnabled.configure(text='CaveBot: OFF')
@@ -77,10 +82,10 @@ class CaveBot:
         global EnabledCaveBot
         if not EnabledCaveBot:
             ButtonEnabled = self.CaveBot.addButton('CaveBot: OFF', SetCaveBot, [328, 29, 12, 469],
-                                                       [127, 17, 8], [123, 13, 5])
+                                                   [127, 17, 8], [123, 13, 5])
         else:
             ButtonEnabled = self.CaveBot.addButton('CaveBot: ON', SetCaveBot, [328, 29, 12, 469],
-                                                       [127, 17, 8], [123, 13, 5])
+                                                   [127, 17, 8], [123, 13, 5])
 
         ButtonPrint = self.CaveBot.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
         ButtonLowMana = self.CaveBot.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
@@ -93,4 +98,3 @@ class CaveBot:
         PriorityMonstersOne = self.CaveBot.addOption(PriorityOne, priority, [240, 110])
 
         self.CaveBot.loop()
-
