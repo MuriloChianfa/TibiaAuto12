@@ -12,18 +12,13 @@ TargetNumber = 0
 
 
 def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs):
-    locate_mark = pyautogui.locateOnScreen('images/MapSettings/' + data[i]["mark"] + '.png',
-                                           region=(MapPosition[0], MapPosition[1], MapPosition[2], MapPosition[3]),
-                                           confidence=0.9)
-    if locate_mark:
-        locate_mark2 = pyautogui.center(locate_mark)
-    else:
-        print("Error To Locate Mark")
-        locate_mark2 = None
-    print("Localized: ", data[i]["mark"])
-    if data[i]['status'] and locate_mark2 is not None:
+    MarkLocation = pyautogui.locateCenterOnScreen('images/MapSettings/' + data[i]["mark"] + '.png',
+                                                  region=(
+                                                  MapPosition[0], MapPosition[1], MapPosition[2], MapPosition[3]),
+                                                  confidence=0.8)
+    if data[i]['status'] is True and MarkLocation is not None:
         mp = pyautogui.position()
-        pyautogui.click(locate_mark2[0], locate_mark2[1])
+        pyautogui.click(MarkLocation[0], MarkLocation[1])
         pyautogui.moveTo(mp)
         number = NumberOfTargets(BattlePosition, monster)
         while number > 0:

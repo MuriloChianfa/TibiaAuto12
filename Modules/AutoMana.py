@@ -32,6 +32,9 @@ class AutoMana:
         def ScanAutoMana():
             mana = ScanStages('Mana').ScanStages(ManaLocation, manaColor, manaColorFull)
 
+            if mana is None:
+                mana = 0
+
             if VarCheckStageTwo.get():
                 stage_two = VarPercentageStageTwo.get()
                 if stage_two > mana or stage_two == mana:

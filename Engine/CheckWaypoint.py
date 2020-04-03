@@ -8,8 +8,8 @@ def CheckWaypoint(image, map_positions):
                                    region=(middle_start[0], middle_start[1], middle_end[0], middle_end[1]),
                                    confidence=0.9, grayscale=True)
     if wpt:
-        print("Chegou Na Marcação:", image)
+        print("Arrived At Mark:", image)
         return True
     else:
-        print("Não Chegou Na Marcação: ", image)
+        print("Didn't Arrived At Mark:", image)
         return False

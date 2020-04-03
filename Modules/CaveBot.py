@@ -33,6 +33,7 @@ Scripts = [
 
 DefaultScript = 'ratThais'
 
+data = None
 
 class CaveBot:
     def __init__(self, root, MapPositions, BattlePositions, SQMs):
@@ -44,28 +45,35 @@ class CaveBot:
             if not EnabledCaveBot:
                 EnabledCaveBot = True
                 ButtonEnabled.configure(text='CaveBot: ON')
+                InitScan()
+            else:
+                EnabledCaveBot = False
+                ButtonEnabled.configure(text='CaveBot: OFF')
+
+        def InitScan():
+            with open('Scripts/' + Script.get() + '.json', 'r') as rJson:
+                global data, monster
+                data = json.load(rJson)
+                print("The Script " + Script.get() + ".json Have a", len(data), "Marks")
+
+                monster = monster2.get()
                 try:
                     ThreadCaveBot = threading.Thread(target=ScanCaveBot)
                     ThreadCaveBot.start()
                 except:
                     print("Error: Unable To Start ThreadCaveBot!")
-            else:
-                EnabledCaveBot = False
-                ButtonEnabled.configure(text='CaveBot: OFF')
 
         def ScanCaveBot():
-            with open('Scripts/' + Script.get() + '.json', 'r') as rJson:
-                data = json.load(rJson)
-                print("The Script " + Script.get() + ".json Have a", len(data), "Marks")
-            if EnabledCaveBot:
-                monster = monster2.get()
+            global data, monster
+            while EnabledCaveBot:
                 for i in range(len(data)):
                     EngineCaveBot(data, i, MapPositions, BattlePositions, monster, SQMs)
                     time.sleep(1)
 
-            if EnabledCaveBot:
-                root.after(300, ScanCaveBot)
+            # if EnabledCaveBot:
+                # root.after(300, ScanCaveBot)
 
+        global monster
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
         AttackOne = tk.BooleanVar()

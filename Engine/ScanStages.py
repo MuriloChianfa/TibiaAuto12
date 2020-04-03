@@ -7,7 +7,7 @@ class ScanStages:
         self.name = name
 
     def ScanStages(self, Localization, color, colorFull):
-        for i in range(100, 0, -5):
+        for i in range(100, 5, -5):
             if pyautogui.pixelMatchesColor(Localization[0] + i, Localization[1], (colorFull[0], colorFull[1], colorFull[2])):
                 self.stage = i
                 print(f"Get {self.name}: {self.stage}%")

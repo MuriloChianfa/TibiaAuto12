@@ -1,7 +1,7 @@
 [
     {
         "mark": "CheckMark",
-        "status": false
+        "status": true
     },
     {
         "mark": "QuestionMark",
@@ -17,6 +17,6 @@
     },
     {
         "mark": "Cross",
-        "status": true
+        "status": false
     }
 ]

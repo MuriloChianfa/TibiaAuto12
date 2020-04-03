@@ -1,3 +1,5 @@
+import threading
+
 from Engine.GUI import *
 from Engine.ScanStages import ScanStages
 
@@ -23,7 +25,11 @@ class AutoHeal:
                 EnabledAutoHeal = True
                 ButtonEnabled.configure(text='AutoHealing: ON')
                 print("AutoHealing: ON")
-                scanning_auto_life()
+                try:
+                    ThreadCaveBot = threading.Thread(target=scanning_auto_life)
+                    ThreadCaveBot.start()
+                except:
+                    print("Error: Unable To Start ThreadCaveBot!")
             else:
                 EnabledAutoHeal = False
                 print("AutoHealing: OFF")
@@ -31,6 +37,9 @@ class AutoHeal:
 
         def scanning_auto_life():
             life = ScanStages('Life').ScanStages(HealthLocation, lifeColor, lifeColorFull)
+
+            if life is None:
+                life = 0
 
             if VarCheckStageThree.get():
                 stage_three = VarPercentageStageThree.get()
