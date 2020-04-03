@@ -1,10 +1,15 @@
+import time
+
 from Engine.GUI import *
+from Engine.ScanRing import ScanRing, SearchForRing
 
 EnabledAutoRing = False
+Ring = 'MightRing'
+RingLocate = [0, 0]
 
 
 class AutoRing:
-    def __init__(self, root):
+    def __init__(self, root, RingPositions):
         self.AutoRing = GUI('AutoRing', 'Module: Auto Ring')
         self.AutoRing.DefaultWindow('DefaultWindow')
 
@@ -20,10 +25,20 @@ class AutoRing:
 
         def ScanAutoRing():
             if EnabledAutoRing:
-                print("Try Lock AutoRing")
-                print("Try This")
+                NoHasRing = ScanRing(RingPositions)
+                if NoHasRing:
+                    RingLocate[0], RingLocate[1] = SearchForRing(Ring)
+                    if RingLocate[0] and RingLocate[1] != 0:
+                        MousePosition = pyautogui.position()
+                        pyautogui.moveTo(RingLocate[0], RingLocate[1])
+                        pyautogui.mouseDown(button='left')
+                        pyautogui.moveTo(RingPositions[0] + 16, RingPositions[1] + 16)
+                        pyautogui.mouseUp(button='left')
+                        pyautogui.moveTo(MousePosition)
+                        print("Ring Alocated On: ", RingPositions[0] + 16, RingPositions[1] + 16)
 
-            root.after(300, ScanAutoRing)
+            if EnabledAutoRing:
+                root.after(300, ScanAutoRing)
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
