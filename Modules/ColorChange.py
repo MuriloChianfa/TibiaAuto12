@@ -1,3 +1,4 @@
+import time
 from Engine.GUI import *
 
 EnabledColorChange = False
@@ -20,10 +21,28 @@ class ColorChange:
 
         def ScanColorChange():
             if EnabledColorChange:
-                print("Try Lock ColorChange")
-                print("Try This")
+                pyautogui.click(Player[0], Player[1])
+                ChangeColor()
+                time.sleep(5)
 
             root.after(300, ScanColorChange)
+
+        def Rotate():
+            pyautogui.keyDown("ctrl")
+            pyautogui.press('right')
+            pyautogui.press('up')
+            pyautogui.press('left')
+            pyautogui.press('down')
+            pyautogui.keyUp('ctrl')
+
+        def ChangeColor():
+            pyautogui.keyDown("ctrl")
+            pyautogui.click(x=Player[0], y=Player[1], button='right')
+            pyautogui.keyUp('ctrl')
+            time.sleep(0.1)
+            SetOutfit = pyautogui.locateOnScreen('images/PlayerSettings/SetOutfit.png', confidence=0.9)
+            if SetOutfit:
+                pyautogui.click(x=SetOutfit[0], y=SetOutfit[1], button='left')
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
