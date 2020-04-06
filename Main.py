@@ -56,10 +56,11 @@ Target = [0, 0]
 gameWindow = [0, 0, 0, 0]
 ManaLocation = [0, 0]
 MapPositions = [0, 0, 0, 0]
+RingPositions = [0, 0, 0, 0]
 StatsPositions = [0, 0, 0, 0]
 HealthLocation = [0, 0]
 BattlePositions = [0, 0, 0, 0]
-RingPositions = [0, 0, 0, 0]
+AmuletPositions = [0, 0, 0, 0]
 SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 TibiaName = ""
@@ -118,7 +119,7 @@ class Redirect:
         AutoSeller(root)
 
     def OpenAutoSSA(self):
-        AutoSSA(root)
+        AutoSSA(root, AmuletPositions)
 
     def OpenCaveBot(self):
         CaveBot(root, MapPositions, BattlePositions, SQMs)
@@ -398,6 +399,12 @@ def main():
             RingPositions[2] = RingPositions[0] + ItemsSquare - 1
             RingPositions[3] = RingPositions[1] + ItemsSquare - 1
             print("You Ring Square Is In: ", RingPositions[0], RingPositions[1], RingPositions[2], RingPositions[3])
+
+            AmuletPositions[0], AmuletPositions[1] = StatsPositions[0], StatsPositions[1] - 130
+            AmuletPositions[2] = AmuletPositions[0] + ItemsSquare - 1
+            AmuletPositions[3] = AmuletPositions[1] + ItemsSquare - 1
+            print("You Amulet Square Is In: ", AmuletPositions[0], AmuletPositions[1], AmuletPositions[2],
+                  AmuletPositions[3])
 
             Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
                 3] = GetPlayerPosition()

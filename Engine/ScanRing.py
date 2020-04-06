@@ -1,7 +1,5 @@
 import pyautogui
 
-RingLocate = [0, 0]
-
 
 def ScanRing(RingPositions):
     NoHasRing = pyautogui.locateOnScreen('images/PlayerStats/NoRing.png', confidence=0.9, region=(
