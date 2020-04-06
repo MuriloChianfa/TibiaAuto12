@@ -1,7 +1,13 @@
 import time
 from Engine.GUI import *
+from Core.GetAccountNamePosition import GetAccountNamePosition
 
+get_login_location = False
 EnabledAutoLogin = False
+bool_login = False
+
+Login = [0, 0]
+AccountName = [0, 0]
 
 username_value = ''
 passwd_value = ''
@@ -15,47 +21,52 @@ class AutoLogin:
             global EnabledAutoLogin
             if not EnabledAutoLogin:
                 EnabledAutoLogin = True
+                print("AutoLogin: ON")
                 ButtonEnabled.configure(text='AutoLogin: ON')
                 ScanAutoLogin()
             else:
                 EnabledAutoLogin = False
+                print("AutoLogin: OFF")
                 ButtonEnabled.configure(text='AutoLogin: OFF')
 
         def ScanAutoLogin():
-            global bool_login
-            global username_value
-            username_value = username.get()
-            global passwd_value
-            passwd_value = passwd.get()
-            username_field_check = pyautogui.locateOnScreen('images/AccountName.png', grayscale=True, confidence=0.8)
-            if username_field_check:
-                print("You Are Offline... Trying To Login")
-                time.sleep(1)
-                if bool_login:
+            global EnabledAutoLogin
+            if EnabledAutoLogin:
+                AccountName = GetAccountNamePosition()
+                if AccountName[0] and AccountName[1] != 0:
+                    print("You Are Offline... Trying To Login")
+                    login = pyautogui.locateOnScreen('images/TibiaSettings/Login.png', grayscale=True, confidence=0.8)
+                    print("Your Login location is:", login)
+                    Login[0], Login[1] = pyautogui.center(login)
+                    global username_value
+                    username_value = username.get()
+                    global passwd_value
+                    passwd_value = passwd.get()
+                    time.sleep(1)
                     global pass_mouse_position
-                    if username_field_check[0] != 0 and username_field_check[1] != 0:
+                    if Login is not None:
                         pass_mouse_position = pyautogui.position()
-                        pyautogui.click(x=username_field_check[0], y=username_field_check[1])
+                        pyautogui.click(x=AccountName[0], y=AccountName[1])
                         pyautogui.write(username_value, interval=0.15)
                         pyautogui.press('tab')
                         pyautogui.write(passwd_value, interval=0.15)
-                        pyautogui.click(0, 0)  # pyautogui.click(loginX, loginY)
+                        pyautogui.click(Login[0], Login[1])
                         time.sleep(2)
                         pyautogui.press('enter')
                         pyautogui.moveTo(pass_mouse_position)
-                        username_field_check2 = pyautogui.locateOnScreen('images/AccountName/AccountName.png',
+                        AccountName2 = pyautogui.locateOnScreen('images/TibiaSettings/AccountName.png',
                                                                          grayscale=True,
                                                                          confidence=0.8)
-                        if username_field_check2:
+                        if AccountName2 is not None:
                             print("Error To Login !!!!")
-                            username_field_check2 = None
-                            username_field_check = None
                         else:
                             print("You Are Logged")
-                            username_field_check = None
-                            username_field_check2 = None
+                    else:
+                        print("Error To Locate Login Button!")
+                else:
+                    print("You Are Online...")
 
-            if bool_login:
+            if EnabledAutoLogin:
                 root.after(3000, ScanAutoLogin)
 
         CheckPrint = tk.BooleanVar()
