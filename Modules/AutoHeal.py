@@ -36,56 +36,32 @@ class AutoHeal:
                 ButtonEnabled.configure(text='AutoHealing: OFF')
 
         def scanning_auto_life():
-            life = ScanStages('Life').ScanStages(HealthLocation, lifeColor, lifeColorFull)
+            while EnabledAutoHeal:
+                life = ScanStages('Life').ScanStages(HealthLocation, lifeColor, lifeColorFull)
 
-            if life is None:
-                life = 0
+                if life is None:
+                    life = 0
 
-            if VarCheckStageThree.get():
-                stage_three = VarPercentageStageThree.get()
-                if stage_three > life or stage_three == life:
-                    pyautogui.press(VarHotkeyStageThree.get())
-                    print("Pressed ", VarHotkeyStageThree.get())
-                elif VarCheckStageTwo.get():
-                    stage_two = VarPercentageStageTwo.get()
-                    if stage_two > life or stage_two == life:
-                        pyautogui.press(VarHotkeyStageTwo.get())
-                        print("Pressed ", VarHotkeyStageTwo.get())
-                    elif VarCheckStageOne.get():
-                        stage_one = VarPercentageStageOne.get()
-                        if stage_one > life or stage_one == life:
-                            pyautogui.press(VarHotkeyStageOne.get())
-                            print("Pressed ", VarHotkeyStageOne.get())
-                elif VarCheckStageOne.get():
-                    stage_one = VarPercentageStageOne.get()
-                    if stage_one > life or stage_one == life:
-                        pyautogui.press(VarHotkeyStageOne.get())
-                        print("Pressed ", VarHotkeyStageOne.get())
-            elif VarCheckStageTwo.get():
-                stage_two = VarPercentageStageTwo.get()
-                if stage_two > life or stage_two == life:
-                    pyautogui.press(VarHotkeyStageTwo.get())
-                    print("Pressed ", VarHotkeyStageTwo.get())
-                elif VarCheckStageThree.get():
+                if VarCheckStageThree.get():
                     stage_three = VarPercentageStageThree.get()
                     if stage_three > life or stage_three == life:
                         pyautogui.press(VarHotkeyStageThree.get())
                         print("Pressed ", VarHotkeyStageThree.get())
+                    elif VarCheckStageTwo.get():
+                        stage_two = VarPercentageStageTwo.get()
+                        if stage_two > life or stage_two == life:
+                            pyautogui.press(VarHotkeyStageTwo.get())
+                            print("Pressed ", VarHotkeyStageTwo.get())
+                        elif VarCheckStageOne.get():
+                            stage_one = VarPercentageStageOne.get()
+                            if stage_one > life or stage_one == life:
+                                pyautogui.press(VarHotkeyStageOne.get())
+                                print("Pressed ", VarHotkeyStageOne.get())
                     elif VarCheckStageOne.get():
                         stage_one = VarPercentageStageOne.get()
                         if stage_one > life or stage_one == life:
                             pyautogui.press(VarHotkeyStageOne.get())
                             print("Pressed ", VarHotkeyStageOne.get())
-                elif VarCheckStageOne.get():
-                    stage_one = VarPercentageStageOne.get()
-                    if stage_one > life or stage_one == life:
-                        pyautogui.press(VarHotkeyStageOne.get())
-                        print("Pressed ", VarHotkeyStageOne.get())
-            elif VarCheckStageOne.get():
-                stage_one = VarPercentageStageOne.get()
-                if stage_one > life or stage_one == life:
-                    pyautogui.press(VarHotkeyStageOne.get())
-                    print("Pressed ", VarHotkeyStageOne.get())
                 elif VarCheckStageTwo.get():
                     stage_two = VarPercentageStageTwo.get()
                     if stage_two > life or stage_two == life:
@@ -96,16 +72,41 @@ class AutoHeal:
                         if stage_three > life or stage_three == life:
                             pyautogui.press(VarHotkeyStageThree.get())
                             print("Pressed ", VarHotkeyStageThree.get())
-                elif VarCheckStageThree.get():
-                    stage_three = VarPercentageStageThree.get()
-                    if stage_three > life or stage_three == life:
-                        pyautogui.press(VarHotkeyStageThree.get())
-                        print("Pressed ", VarHotkeyStageThree.get())
-            else:
-                print("Modulo Not Configured")
+                        elif VarCheckStageOne.get():
+                            stage_one = VarPercentageStageOne.get()
+                            if stage_one > life or stage_one == life:
+                                pyautogui.press(VarHotkeyStageOne.get())
+                                print("Pressed ", VarHotkeyStageOne.get())
+                    elif VarCheckStageOne.get():
+                        stage_one = VarPercentageStageOne.get()
+                        if stage_one > life or stage_one == life:
+                            pyautogui.press(VarHotkeyStageOne.get())
+                            print("Pressed ", VarHotkeyStageOne.get())
+                elif VarCheckStageOne.get():
+                    stage_one = VarPercentageStageOne.get()
+                    if stage_one > life or stage_one == life:
+                        pyautogui.press(VarHotkeyStageOne.get())
+                        print("Pressed ", VarHotkeyStageOne.get())
+                    elif VarCheckStageTwo.get():
+                        stage_two = VarPercentageStageTwo.get()
+                        if stage_two > life or stage_two == life:
+                            pyautogui.press(VarHotkeyStageTwo.get())
+                            print("Pressed ", VarHotkeyStageTwo.get())
+                        elif VarCheckStageThree.get():
+                            stage_three = VarPercentageStageThree.get()
+                            if stage_three > life or stage_three == life:
+                                pyautogui.press(VarHotkeyStageThree.get())
+                                print("Pressed ", VarHotkeyStageThree.get())
+                    elif VarCheckStageThree.get():
+                        stage_three = VarPercentageStageThree.get()
+                        if stage_three > life or stage_three == life:
+                            pyautogui.press(VarHotkeyStageThree.get())
+                            print("Pressed ", VarHotkeyStageThree.get())
+                else:
+                    print("Modulo Not Configured")
 
-            if EnabledAutoHeal:
-                root.after(200, scanning_auto_life)
+            # if EnabledAutoHeal:
+                # root.after(200, scanning_auto_life)
 
         VarCheckPrint = tk.BooleanVar()
         VarCheckBuff = tk.BooleanVar()

@@ -184,7 +184,7 @@ def root():
     label.pack()
 
     def exit_button():
-        exit(0)
+        exit(1)
 
     global TibiaChar
     status_game_label = tk.Label(root, text=f'Logged as: {TibiaChar}', font=('Microsoft Sans Serif', 10),

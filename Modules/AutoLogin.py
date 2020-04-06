@@ -1,7 +1,10 @@
+import time
 from Engine.GUI import *
 
 EnabledAutoLogin = False
 
+username_value = ''
+passwd_value = ''
 
 class AutoLogin:
     def __init__(self, root):
@@ -19,11 +22,41 @@ class AutoLogin:
                 ButtonEnabled.configure(text='AutoLogin: OFF')
 
         def ScanAutoLogin():
-            if EnabledAutoLogin:
-                print("Try Lock AutoLogin")
-                print("Try This")
+            global bool_login
+            global username_value
+            username_value = username.get()
+            global passwd_value
+            passwd_value = passwd.get()
+            username_field_check = pyautogui.locateOnScreen('images/AccountName.png', grayscale=True, confidence=0.8)
+            if username_field_check:
+                print("You Are Offline... Trying To Login")
+                time.sleep(1)
+                if bool_login:
+                    global pass_mouse_position
+                    if username_field_check[0] != 0 and username_field_check[1] != 0:
+                        pass_mouse_position = pyautogui.position()
+                        pyautogui.click(x=username_field_check[0], y=username_field_check[1])
+                        pyautogui.write(username_value, interval=0.15)
+                        pyautogui.press('tab')
+                        pyautogui.write(passwd_value, interval=0.15)
+                        pyautogui.click(0, 0)  # pyautogui.click(loginX, loginY)
+                        time.sleep(2)
+                        pyautogui.press('enter')
+                        pyautogui.moveTo(pass_mouse_position)
+                        username_field_check2 = pyautogui.locateOnScreen('images/AccountName/AccountName.png',
+                                                                         grayscale=True,
+                                                                         confidence=0.8)
+                        if username_field_check2:
+                            print("Error To Login !!!!")
+                            username_field_check2 = None
+                            username_field_check = None
+                        else:
+                            print("You Are Logged")
+                            username_field_check = None
+                            username_field_check2 = None
 
-            root.after(300, ScanAutoLogin)
+            if bool_login:
+                root.after(3000, ScanAutoLogin)
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
@@ -41,6 +74,18 @@ class AutoLogin:
         ButtonPrint = self.AutoLogin.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
 
         ButtonLowMana = self.AutoLogin.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
+
+        username_label = self.AutoLogin.addLabel('Username', [130, 16, 6], [69, 84])
+
+        username = self.AutoLogin.addEntry([149, 86])
+        global username_value
+        username_value = username.get()
+
+        passwd_label = self.AutoLogin.addLabel('Password', [130, 16, 6], [69, 124])
+
+        passwd = self.AutoLogin.addEntry([149, 126])
+        global passwd_value
+        passwd_value = passwd.get()
 
         self.AutoLogin.loop()
 
