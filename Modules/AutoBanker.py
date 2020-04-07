@@ -1,7 +1,9 @@
+import time
+
 from Engine.GUI import *
+from Engine.ScanCap import ScanCap
 
 EnabledAutoBanker = False
-
 
 class AutoBanker:
     def __init__(self, root):
@@ -20,8 +22,30 @@ class AutoBanker:
 
         def ScanAutoBanker():
             if EnabledAutoBanker:
-                print("Try Lock AutoBanker")
-                print("Try This")
+                CapLocate = pyautogui.locateOnScreen('images/PlayerStats/Cap.png')
+                if CapLocate:
+                    FirstNumberBox = CapLocate[0] + 20, CapLocate[1] + 7
+                    EndFirstNumberBox = FirstNumberBox[0] + 8, FirstNumberBox[1] + 10
+
+                    SecondNumberBox = FirstNumberBox[0] - 5, FirstNumberBox[1]
+                    EndSecondNumberBox = SecondNumberBox[0] + 6, SecondNumberBox[1] + 10
+
+                    ThirdNumberBox = SecondNumberBox[0] - 6, FirstNumberBox[1]
+                    EndThirdNumberBox = ThirdNumberBox[0] + 8, ThirdNumberBox[1] + 10
+
+                    FourNumberBox = ThirdNumberBox[0] - 7, FirstNumberBox[1]
+                    EndFourNumberBox = FourNumberBox[0] + 9, FourNumberBox[1] + 10
+
+                    FirstNumber = ScanCap(FirstNumberBox, EndFirstNumberBox)
+                    SecondNumber = ScanCap(SecondNumberBox, EndSecondNumberBox)
+                    ThirdNumber = ScanCap(ThirdNumberBox, EndThirdNumberBox)
+                    FourNumber = ScanCap(FourNumberBox, EndFourNumberBox)
+
+                    print(ThirdNumberBox, FourNumberBox)
+                    print(EndThirdNumberBox, EndFourNumberBox)
+
+                    print(FourNumber, ThirdNumber, SecondNumber, FirstNumber)
+                    time.sleep(2)
 
             root.after(300, ScanAutoBanker)
 
