@@ -24,28 +24,25 @@ class AutoBanker:
             if EnabledAutoBanker:
                 CapLocate = pyautogui.locateOnScreen('images/PlayerStats/Cap.png')
                 if CapLocate:
-                    FirstNumberBox = CapLocate[0] + 20, CapLocate[1] + 7
-                    EndFirstNumberBox = FirstNumberBox[0] + 8, FirstNumberBox[1] + 10
+                    FirstNumberBox = CapLocate[0] + 21, CapLocate[1] + 7
+                    EndFirstNumberBox = FirstNumberBox[0] + 7, FirstNumberBox[1] + 10
 
-                    SecondNumberBox = FirstNumberBox[0] - 5, FirstNumberBox[1]
-                    EndSecondNumberBox = SecondNumberBox[0] + 6, SecondNumberBox[1] + 10
+                    SecondNumberBox = CapLocate[0] + 15, CapLocate[1] + 7
+                    EndSecondNumberBox = SecondNumberBox[0] + 7, SecondNumberBox[1] + 10
 
-                    ThirdNumberBox = SecondNumberBox[0] - 6, FirstNumberBox[1]
-                    EndThirdNumberBox = ThirdNumberBox[0] + 8, ThirdNumberBox[1] + 10
+                    ThirdNumberBox = CapLocate[0] + 9, CapLocate[1] + 7
+                    EndThirdNumberBox = ThirdNumberBox[0] + 7, ThirdNumberBox[1] + 10
 
-                    FourNumberBox = ThirdNumberBox[0] - 7, FirstNumberBox[1]
-                    EndFourNumberBox = FourNumberBox[0] + 9, FourNumberBox[1] + 10
+                    FourNumberBox = CapLocate[0] + 3, CapLocate[1] + 7
+                    EndFourNumberBox = FourNumberBox[0] + 7, FourNumberBox[1] + 10
 
                     FirstNumber = ScanCap(FirstNumberBox, EndFirstNumberBox)
                     SecondNumber = ScanCap(SecondNumberBox, EndSecondNumberBox)
                     ThirdNumber = ScanCap(ThirdNumberBox, EndThirdNumberBox)
                     FourNumber = ScanCap(FourNumberBox, EndFourNumberBox)
 
-                    print(ThirdNumberBox, FourNumberBox)
-                    print(EndThirdNumberBox, EndFourNumberBox)
-
                     print(FourNumber, ThirdNumber, SecondNumber, FirstNumber)
-                    time.sleep(2)
+                    time.sleep(1)
 
             root.after(300, ScanAutoBanker)
 

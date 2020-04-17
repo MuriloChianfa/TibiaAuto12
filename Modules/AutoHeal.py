@@ -9,7 +9,7 @@ lifeColorFull = [194, 74, 74]
 
 lifeColor = [219, 79, 79]
 
-hotkeys = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"]
+Hotkeys = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"]
 
 percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 
@@ -170,13 +170,13 @@ class AutoHeal:
         Blood = self.AutoHeal.addCheck(VarCheckBlood, [252, 364], [130, 16, 6], 0, '', BloodImage)
 
         PercentageStageOne = self.AutoHeal.addOption(VarPercentageStageOne, percentage, [165, 90])
-        HotkeyStageOne = self.AutoHeal.addOption(VarHotkeyStageOne, hotkeys, [250, 90])
+        HotkeyStageOne = self.AutoHeal.addOption(VarHotkeyStageOne, Hotkeys, [250, 90])
 
         PercentageStageTwo = self.AutoHeal.addOption(VarPercentageStageTwo, percentage, [165, 140])
-        HotkeyStageTwo = self.AutoHeal.addOption(VarHotkeyStageTwo, hotkeys, [250, 140])
+        HotkeyStageTwo = self.AutoHeal.addOption(VarHotkeyStageTwo, Hotkeys, [250, 140])
 
         PercentageStageThree = self.AutoHeal.addOption(VarPercentageStageThree, percentage, [165, 190])
-        HotkeyStageThree = self.AutoHeal.addOption(VarHotkeyStageThree, hotkeys, [250, 190])
+        HotkeyStageThree = self.AutoHeal.addOption(VarHotkeyStageThree, Hotkeys, [250, 190])
 
         self.AutoHeal.loop()
 

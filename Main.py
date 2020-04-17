@@ -365,6 +365,7 @@ def main():
             global TibiaChar
             TibiaChar = TibiaCharacter[1]
     except IndexError:
+        print('')
         print("You need to login before starting bot.")
         config_master.destroy()
         exit(1)
@@ -387,69 +388,78 @@ def main():
 
             pyautogui.PAUSE = 0.005
 
-            global get_attack_location
-            BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition()
-            print(f"Your Battle Box location X: {BattlePositions[0]} Y: {BattlePositions[1]}")
-            get_attack_location = True
-
-            StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition()
-            print("Your Status Bar Is In: ", StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3])
-
-            RingPositions[0], RingPositions[1] = StatsPositions[0], StatsPositions[1] - 58
-            RingPositions[2] = RingPositions[0] + ItemsSquare - 1
-            RingPositions[3] = RingPositions[1] + ItemsSquare - 1
-            print("You Ring Square Is In: ", RingPositions[0], RingPositions[1], RingPositions[2], RingPositions[3])
-
-            AmuletPositions[0], AmuletPositions[1] = StatsPositions[0], StatsPositions[1] - 130
-            AmuletPositions[2] = AmuletPositions[0] + ItemsSquare - 1
-            AmuletPositions[3] = AmuletPositions[1] + ItemsSquare - 1
-            print("You Amulet Square Is In: ", AmuletPositions[0], AmuletPositions[1], AmuletPositions[2],
-                  AmuletPositions[3])
-
-            Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
-                3] = GetPlayerPosition()
-            print(f"Left Game Window Localized In [ X: {gameWindow[0]}, Y: {gameWindow[1]} ]")
-            print(f"Right Game Window Localized In [ X: {gameWindow[2]}, Y: {gameWindow[1]}]")
-            print(f"Left Button Game Window Localized In [ X: {gameWindow[0]}, Y: {gameWindow[3]}]")
-            print(f"Right Button Game Window Localized In [ X: {gameWindow[2]}, Y: {gameWindow[3]}]")
-            print("X Player Position Is: ", Player[0])
-            print("Y Player Position Is: ", Player[1])
-            print("Game Window Start X:", gameWindow[0], " Start Y:", gameWindow[1])
-            print("Game Window End X:", gameWindow[2], " End Y", gameWindow[3])
-
-            global get_SQMs_location
-            SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
-                11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs()
-            time.sleep(0.1)
-            print("1° SQM Is In: ", SQMs[0], SQMs[1])
-            print("2° SQM Is In: ", SQMs[2], SQMs[3])
-            print("3° SQM Is In: ", SQMs[4], SQMs[5])
-            print("4° SQM Is In: ", SQMs[6], SQMs[7])
-            print("5° SQM Is In: ", SQMs[8], SQMs[9])
-            print("6° SQM Is In: ", SQMs[10], SQMs[11])
-            print("7° SQM Is In: ", SQMs[12], SQMs[13])
-            print("8° SQM Is In: ", SQMs[14], SQMs[15])
-            print("9° SQM Is In: ", SQMs[16], SQMs[17])
-            time.sleep(0.1)
-            get_SQMs_location = True
-
             global get_health_location
             HealthLocation[0], HealthLocation[1] = GetHealthPosition()
             HealthLocation[0], HealthLocation[1] = int(HealthLocation[0]), int(HealthLocation[1])
-            print(f"Your Health Box location X: {HealthLocation[0]} Y: {HealthLocation[1]}")
+            print('')
+            print(f"Health Location [X: {HealthLocation[0]} Y: {HealthLocation[1]}]")
             get_health_location = True
 
             global get_mana_location
             ManaLocation[0], ManaLocation[1] = GetManaPosition()
             ManaLocation[0], ManaLocation[1] = int(ManaLocation[0]), int(ManaLocation[1])
-            print(f"Your Mana Box location X: {ManaLocation[0]} Y: {ManaLocation[1]}")
+            print('')
+            print(f"Mana Location [X: {ManaLocation[0]} Y: {ManaLocation[1]}]")
+            print('')
             get_mana_location = True
+
+            global get_attack_location
+            BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition()
+            print(f"Battle Location [X: {BattlePositions[0]} Y: {BattlePositions[1]}]")
+            get_attack_location = True
+
+            StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition()
+            print('')
+            print(f"Status Bar Start [X: {StatsPositions[0]}, Y: {StatsPositions[1]}]")
+            print(f"Status Bar End [X: {StatsPositions[2]}, Y: {StatsPositions[3]}]")
+            print('')
+
+            RingPositions[0], RingPositions[1] = StatsPositions[0], StatsPositions[1] - 58
+            RingPositions[2] = RingPositions[0] + ItemsSquare - 1
+            RingPositions[3] = RingPositions[1] + ItemsSquare - 1
+            print(f"Ring's Square Start [X: {RingPositions[0]}, Y: {RingPositions[1]}]")
+            print(f"Ring's Square End [X: {RingPositions[2]}, Y: {RingPositions[3]}]")
+            print('')
+
+            AmuletPositions[0], AmuletPositions[1] = StatsPositions[0], StatsPositions[1] - 130
+            AmuletPositions[2] = AmuletPositions[0] + ItemsSquare - 1
+            AmuletPositions[3] = AmuletPositions[1] + ItemsSquare - 1
+            print(f"Amulet's Square Start [X: {AmuletPositions[0]}, Y: {AmuletPositions[1]}]")
+            print(f"Amulet's Square End [X: {AmuletPositions[2]}, Y: {AmuletPositions[3]}]")
+            print('')
 
             global MapPositions
             MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition()
 
+            Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
+                3] = GetPlayerPosition()
+            print('')
+            print(f"Player Position [X: {Player[0]}, Y: {Player[1]}]")
+            print('')
+            print(f"Game Window Start [X: {gameWindow[0]}, Y: {gameWindow[1]}]")
+            print(f"Game Window End [X: {gameWindow[2]}, Y: {gameWindow[3]}]")
+            print('')
+
+            global get_SQMs_location
+            SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
+                11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs()
+            time.sleep(0.1)
+            print(f"1° SQM Location [X: {SQMs[0]}, Y: {SQMs[1]}]")
+            print(f"2° SQM Location [X: {SQMs[2]}, Y: {SQMs[3]}]")
+            print(f"3° SQM Location [X: {SQMs[4]}, Y: {SQMs[5]}]")
+            print(f"4° SQM Location [X: {SQMs[6]}, Y: {SQMs[7]}]")
+            print(f"5° SQM Location [X: {SQMs[8]}, Y: {SQMs[9]}]")
+            print(f"6° SQM Location [X: {SQMs[10]}, Y: {SQMs[11]}]")
+            print(f"7° SQM Location [X: {SQMs[12]}, Y: {SQMs[13]}]")
+            print(f"8° SQM Location [X: {SQMs[14]}, Y: {SQMs[15]}]")
+            print(f"9° SQM Location [X: {SQMs[16]}, Y: {SQMs[17]}]")
+            time.sleep(0.1)
+            get_SQMs_location = True
+
             end_configuration = time.time() - start_configuration
+            print('')
             print(f"Your Setup Time Is: {end_configuration:.2f} Seconds")
+            print('')
 
             print("Opening TibiaAuto...")
 

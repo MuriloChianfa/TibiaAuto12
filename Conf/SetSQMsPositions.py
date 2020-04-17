@@ -3,19 +3,18 @@ from Core.GetPlayerPosition import GetPlayerPosition
 SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Player = [0, 0]
 gameWindow = [0, 0, 0, 0]
-horizontal_SQM_size = 0
-vertical_SQM_size = 0
 SQMsSizes = [0, 0]
 
 
 def SetSQMs():
     if gameWindow[0] and gameWindow[1] != 0:
         SQMsSizes[0] = int((gameWindow[2] - gameWindow[0]) / 15)
-        print("Size of Your Horizontal SQM:", horizontal_SQM_size)
         SQMsSizes[1] = int((gameWindow[3] - gameWindow[1]) / 11)
-        print("Size of Your Vertical SQM:", SQMsSizes[1])
+        print(f"Size of Your SQM [Width: {SQMsSizes[0]}px, Height: {SQMsSizes[1]}px]")
+        print('')
     else:
         print("Setting Window Size...")
+        print('')
         Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
             3] = GetPlayerPosition()
         SetSQMs()

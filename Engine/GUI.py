@@ -82,6 +82,14 @@ class GUI:
         labelID.place(x=position[0], y=position[1])
         return labelID
 
+    def addImage(self, image, bgColor, position):
+        imageID = tk.Label(self.windowID,
+                           image=image,
+                           bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
+                           fg='white')
+        imageID.place(x=position[0], y=position[1])
+        return imageID
+
     def addEntry(self, position):
         entryID = tk.Entry(self.windowID)
         entryID.place(x=position[0], y=position[1])
@@ -96,3 +104,19 @@ class GUI:
         optionID.place(x=position[0], y=position[1])
         return optionID
 
+    def addRadio(self, text, variable, value, position, bgColor, command=None):
+        RadioID = tk.Radiobutton(self.windowID,
+                                 text=text,
+                                 variable=variable,
+                                 value=value,
+                                 bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
+                                 command=command)
+        RadioID['activebackground'] = rgb((bgColor[0], bgColor[1], bgColor[2]))
+        RadioID.place(x=position[0], y=position[1])
+        return RadioID
+
+    def openImage(self, image, size):
+        ImageID = Image.open(image)
+        ImageID = ImageID.resize((size[0], size[1]), Image.ANTIALIAS)
+        ImageID = ImageTk.PhotoImage(ImageID)
+        return ImageID
