@@ -85,15 +85,33 @@ class AutoSSA:
         self.AutoSSA.addRadio('Hotkey', RadioButton, 1, [30, 65], [130, 16, 6], Check)
         self.AutoSSA.addRadio('Position', RadioButton, 2, [30, 85], [130, 16, 6], Check)
 
-        if RadioButton.get() == 0:
-            DescLabel = self.AutoSSA.addLabel('Image To Search', [130, 16, 6], [130, 140])
-            NameImage = NameAmulet.get()
-            NameImage = 'images/Amulets/' + NameImage + '.png'
-            AmuletImage = self.AutoSSA.openImage(NameImage, [128, 128])
-            ImageAmulet = self.AutoSSA.addImage(AmuletImage, [130, 16, 6], [110, 160])
-        elif RadioButton.get() == 1:
-            self.AutoSSA.addLabel('Hotkey To Press', [130, 16, 6], [130, 140])
-            ButtonHotkey = self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [130, 180], 6)
+        DescLabel = self.AutoSSA.addLabel('', [130, 16, 6], [130, 140])
+        BackImage = 'images/Fundo.png'
+        Back = self.AutoSSA.openImage(BackImage, [128, 128])
+
+        NameImage = NameAmulet.get()
+        NameImage2 = 'images/Amulets/' + NameImage + '.png'
+        AmuletImage = self.AutoSSA.openImage(NameImage2, [128, 128])
+
+        def Checking():
+            if RadioButton.get() == 0:
+                DescLabel.configure(text='Image To Search')
+                self.AutoSSA.addImage(AmuletImage, [130, 16, 6], [110, 160])
+            elif RadioButton.get() == 1:
+                DescLabel.configure(text='Hotkey To Press')
+                self.AutoSSA.addImage(Back, [130, 16, 6], [110, 160])
+                self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [130, 180], 6)
+            elif RadioButton.get() == 2:
+                DescLabel.configure(text='Position To Search')
+                self.AutoSSA.addImage(Back, [130, 16, 6], [110, 160])
+                self.AutoSSA.addLabel('X:', [130, 16, 6], [120, 160])
+                self.AutoSSA.addEntry([140, 160])
+                self.AutoSSA.addLabel('Y:', [130, 16, 6], [120, 180])
+                self.AutoSSA.addEntry([140, 180])
+
+            root.after(300, Checking)
+
+        Checking()
 
         self.AutoSSA.loop()
 
