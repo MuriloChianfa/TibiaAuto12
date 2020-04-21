@@ -90,8 +90,11 @@ class GUI:
         imageID.place(x=position[0], y=position[1])
         return imageID
 
-    def addEntry(self, position, width=12):
-        entryID = tk.Entry(self.windowID, width=width)
+    def addEntry(self, position, var, width=12):
+        entryID = tk.Entry(self.windowID,
+                           width=width,
+                           textvariable=var
+                           )
         entryID.place(x=position[0], y=position[1])
         return entryID
 

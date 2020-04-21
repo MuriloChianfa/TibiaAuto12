@@ -12,6 +12,7 @@ Amulets = [
     'PlatinumAmulet'
 ]
 AmuletLocate = [0, 0]
+MaxLen = 4
 
 
 class AutoSSA:
@@ -46,8 +47,29 @@ class AutoSSA:
                         print("Pressed ", HotkeyAmulet.get(), " To Reallocated Your Amulet")
                         time.sleep(1)
                     elif RadioButton.get() == 1:
-                        print("Not Concluded")
-                        time.sleep(2)
+                        try:
+                            X = int(TextEntryX.get())
+                            Y = int(TextEntryY.get())
+                        except:
+                            X = None
+                            Y = None
+                            print("Error To Get Type Of Position")
+                            time.sleep(1)
+                        if X and Y is not None:
+                            if X < WidthScreen and Y < HeightScreen:
+                                MousePosition = pyautogui.position()
+                                pyautogui.moveTo(X, Y)
+                                pyautogui.mouseDown(button='left')
+                                pyautogui.moveTo(AmuletPositions[0] + 16, AmuletPositions[1] + 16)
+                                pyautogui.mouseUp(button='left')
+                                pyautogui.moveTo(MousePosition)
+                                print("Amulet Reallocated On: X =", AmuletPositions[0] + 16, "Y =", AmuletPositions[1] + 16,
+                                      "From: X =",
+                                      X, "Y =", Y)
+                                time.sleep(0.3)
+                            else:
+                                print("Lower Resolution Than Entered")
+                                time.sleep(1)
                     elif RadioButton.get() == 2:
                         Amulet = NameAmulet.get()
                         AmuletLocate[0], AmuletLocate[1] = SearchForAmulet(Amulet)
@@ -69,6 +91,24 @@ class AutoSSA:
         def CheckClick():
             Checking()
 
+        def ValidateEntryX(*args):
+            s = TextEntryX.get()
+            if len(s) > MaxLen:
+                if not s[-1].isdigit():
+                    TextEntryX.set(s[:-1])
+                else:
+                    TextEntryX.set(s[:MaxLen])
+
+        def ValidateEntryY(*args):
+            s = TextEntryY.get()
+            if len(s) > MaxLen:
+                if not s[-1].isdigit():
+                    TextEntryY.set(s[:-1])
+                else:
+                    TextEntryY.set(s[:MaxLen])
+
+        WidthScreen, HeightScreen = pyautogui.size()
+
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
         RadioButton = tk.IntVar()
@@ -76,6 +116,8 @@ class AutoSSA:
         NameAmulet.set('SSA')
         HotkeyAmulet = tk.StringVar()
         HotkeyAmulet.set("f6")
+        TextEntryX = tk.StringVar()
+        TextEntryY = tk.StringVar()
 
         self.AutoSSA.addButton('Ok', self.AutoSSA.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
 
@@ -115,7 +157,7 @@ class AutoSSA:
                 DescLabel.configure(text='Hotkey To Press')
                 self.AutoSSA.addImage(Back, [130, 16, 6], [110, 160])
                 FoundedImg = False
-                HotkeyOption = self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [130, 180], 6)
+                HotkeyOption = self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [135, 160], 6)
                 if EnabledAutoSSA:
                     HotkeyOption.configure(state='disabled')
                 else:
@@ -125,9 +167,11 @@ class AutoSSA:
                 self.AutoSSA.addImage(Back, [130, 16, 6], [110, 160])
                 FoundedImg = False
                 LabelX = self.AutoSSA.addLabel('X:', [130, 16, 6], [145, 160])
-                EntryX = self.AutoSSA.addEntry([160, 160], 6)
+                EntryX = self.AutoSSA.addEntry([160, 160], TextEntryX, width=4)
+                TextEntryX.trace("w", ValidateEntryX)
                 LabelY = self.AutoSSA.addLabel('Y:', [130, 16, 6], [145, 180])
-                EntryY = self.AutoSSA.addEntry([160, 180], 6)
+                EntryY = self.AutoSSA.addEntry([160, 180], TextEntryY, width=4)
+                TextEntryY.trace("w", ValidateEntryY)
                 if EnabledAutoSSA:
                     LabelX.configure(state='disabled')
                     EntryX.configure(state='disabled')
