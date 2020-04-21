@@ -3,10 +3,10 @@ import threading
 
 from Engine.GUI import *
 from Engine.ScanAmulet import ScanAmulet, SearchForAmulet
+from Conf.Hotkeys import Hotkeys, PressHotkey
 
 FoundedImg = False
 EnabledAutoSSA = False
-Hotkeys = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"]
 Amulets = [
     'SSA',
     'PlatinumAmulet'
@@ -43,7 +43,7 @@ class AutoSSA:
                 NoHasAmulet = ScanAmulet(AmuletPositions)
                 if NoHasAmulet:
                     if RadioButton.get() == 0:
-                        pyautogui.press(HotkeyAmulet.get())
+                        PressHotkey(HotkeyAmulet.get())
                         print("Pressed ", HotkeyAmulet.get(), " To Reallocated Your Amulet")
                         time.sleep(1)
                     elif RadioButton.get() == 1:
@@ -115,7 +115,7 @@ class AutoSSA:
         NameAmulet = tk.StringVar()
         NameAmulet.set('SSA')
         HotkeyAmulet = tk.StringVar()
-        HotkeyAmulet.set("f6")
+        HotkeyAmulet.set("Shift + F2")
         TextEntryX = tk.StringVar()
         TextEntryY = tk.StringVar()
 

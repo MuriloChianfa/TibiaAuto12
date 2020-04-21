@@ -1,4 +1,5 @@
 import time
+import keyboard
 from Engine.GUI import *
 
 EnabledColorChange = False
@@ -20,12 +21,12 @@ class ColorChange:
                 ButtonEnabled.configure(text='ColorChange: OFF')
 
         def ScanColorChange():
-            if EnabledColorChange:
-                pyautogui.click(Player[0], Player[1])
-                ChangeColor()
-                time.sleep(5)
-
-            root.after(300, ScanColorChange)
+            while EnabledColorChange:
+                if keyboard.is_pressed("c"):
+                    pyautogui.PAUSE = 0.04
+                    print("Pressed C")
+                    ChangeColor2()
+                    pyautogui.PAUSE = 0.005
 
         def Rotate():
             pyautogui.keyDown("ctrl")
@@ -36,6 +37,7 @@ class ColorChange:
             pyautogui.keyUp('ctrl')
 
         def ChangeColor():
+            pyautogui.click(Player[0], Player[1])
             pyautogui.keyDown("ctrl")
             pyautogui.click(x=Player[0], y=Player[1], button='right')
             pyautogui.keyUp('ctrl')
@@ -43,6 +45,30 @@ class ColorChange:
             SetOutfit = pyautogui.locateOnScreen('images/PlayerSettings/SetOutfit.png', confidence=0.9)
             if SetOutfit:
                 pyautogui.click(x=SetOutfit[0], y=SetOutfit[1], button='left')
+
+        def ChangeColor2():
+            MousePosition = pyautogui.position()
+            pyautogui.keyDown('shift')
+            Move1(MousePosition)
+            Move2(MousePosition)
+            Move1(MousePosition)
+            Move2(MousePosition)
+            Move1(MousePosition)
+            Move2(MousePosition)
+            Move1(MousePosition)
+            pyautogui.keyUp('shift')
+
+        def Move1(MousePosition):
+            pyautogui.moveTo(1220, 440)
+            pyautogui.mouseDown(button='left')
+            pyautogui.moveTo(MousePosition[0], MousePosition[1])
+            pyautogui.mouseUp(button='left')
+
+        def Move2(MousePosition):
+            pyautogui.moveTo(1215, 540)
+            pyautogui.mouseDown(button='left')
+            pyautogui.moveTo(MousePosition[0], MousePosition[1])
+            pyautogui.mouseUp(button='left')
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()

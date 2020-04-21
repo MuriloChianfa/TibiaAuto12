@@ -2,14 +2,13 @@ import threading
 
 from Engine.GUI import *
 from Engine.ScanStages import ScanStages
+from Conf.Hotkeys import Hotkeys, PressHotkey
 
 EnabledAutoHeal = False
 
 lifeColorFull = [194, 74, 74]
 
 lifeColor = [219, 79, 79]
-
-Hotkeys = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"]
 
 percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 
@@ -45,62 +44,62 @@ class AutoHeal:
                 if VarCheckStageThree.get():
                     stage_three = VarPercentageStageThree.get()
                     if stage_three > life or stage_three == life:
-                        pyautogui.press(VarHotkeyStageThree.get())
+                        PressHotkey(VarHotkeyStageThree.get())
                         print("Pressed ", VarHotkeyStageThree.get())
                     elif VarCheckStageTwo.get():
                         stage_two = VarPercentageStageTwo.get()
                         if stage_two > life or stage_two == life:
-                            pyautogui.press(VarHotkeyStageTwo.get())
+                            PressHotkey(VarHotkeyStageTwo.get())
                             print("Pressed ", VarHotkeyStageTwo.get())
                         elif VarCheckStageOne.get():
                             stage_one = VarPercentageStageOne.get()
                             if stage_one > life or stage_one == life:
-                                pyautogui.press(VarHotkeyStageOne.get())
+                                PressHotkey(VarHotkeyStageOne.get())
                                 print("Pressed ", VarHotkeyStageOne.get())
                     elif VarCheckStageOne.get():
                         stage_one = VarPercentageStageOne.get()
                         if stage_one > life or stage_one == life:
-                            pyautogui.press(VarHotkeyStageOne.get())
+                            PressHotkey(VarHotkeyStageOne.get())
                             print("Pressed ", VarHotkeyStageOne.get())
                 elif VarCheckStageTwo.get():
                     stage_two = VarPercentageStageTwo.get()
                     if stage_two > life or stage_two == life:
-                        pyautogui.press(VarHotkeyStageTwo.get())
+                        PressHotkey(VarHotkeyStageTwo.get())
                         print("Pressed ", VarHotkeyStageTwo.get())
                     elif VarCheckStageThree.get():
                         stage_three = VarPercentageStageThree.get()
                         if stage_three > life or stage_three == life:
-                            pyautogui.press(VarHotkeyStageThree.get())
+                            PressHotkey(VarHotkeyStageThree.get())
                             print("Pressed ", VarHotkeyStageThree.get())
                         elif VarCheckStageOne.get():
                             stage_one = VarPercentageStageOne.get()
                             if stage_one > life or stage_one == life:
-                                pyautogui.press(VarHotkeyStageOne.get())
+                                PressHotkey(VarHotkeyStageOne.get())
                                 print("Pressed ", VarHotkeyStageOne.get())
                     elif VarCheckStageOne.get():
                         stage_one = VarPercentageStageOne.get()
                         if stage_one > life or stage_one == life:
-                            pyautogui.press(VarHotkeyStageOne.get())
+                            PressHotkey(VarHotkeyStageOne.get())
                             print("Pressed ", VarHotkeyStageOne.get())
                 elif VarCheckStageOne.get():
                     stage_one = VarPercentageStageOne.get()
                     if stage_one > life or stage_one == life:
-                        pyautogui.press(VarHotkeyStageOne.get())
+                        PressHotkey(VarHotkeyStageOne.get())
                         print("Pressed ", VarHotkeyStageOne.get())
                     elif VarCheckStageTwo.get():
                         stage_two = VarPercentageStageTwo.get()
                         if stage_two > life or stage_two == life:
-                            pyautogui.press(VarHotkeyStageTwo.get())
+                            PressHotkey(VarHotkeyStageTwo.get())
                             print("Pressed ", VarHotkeyStageTwo.get())
                         elif VarCheckStageThree.get():
                             stage_three = VarPercentageStageThree.get()
                             if stage_three > life or stage_three == life:
-                                pyautogui.press(VarHotkeyStageThree.get())
+                                PressHotkey(VarHotkeyStageThree.get())
                                 print("Pressed ", VarHotkeyStageThree.get())
                     elif VarCheckStageThree.get():
                         stage_three = VarPercentageStageThree.get()
                         if stage_three > life or stage_three == life:
-                            pyautogui.press(VarHotkeyStageThree.get())
+                            PressHotkey(VarHotkeyStageThree.get())
                             print("Pressed ", VarHotkeyStageThree.get())
                 else:
                     print("Modulo Not Configured")
@@ -123,15 +122,15 @@ class AutoHeal:
         VarPercentageStageOne = tk.IntVar()
         VarPercentageStageOne.set(90)
         VarHotkeyStageOne = tk.StringVar()
-        VarHotkeyStageOne.set("f1")
+        VarHotkeyStageOne.set("F1")
         VarPercentageStageTwo = tk.IntVar()
         VarPercentageStageTwo.set(75)
         VarHotkeyStageTwo = tk.StringVar()
-        VarHotkeyStageTwo.set("f2")
+        VarHotkeyStageTwo.set("F2")
         VarPercentageStageThree = tk.IntVar()
         VarPercentageStageThree.set(35)
         VarHotkeyStageThree = tk.StringVar()
-        VarHotkeyStageThree.set("f12")
+        VarHotkeyStageThree.set("F12")
         ParalyzeImage = ImageTk.PhotoImage(Image.open('images/Stats/paralyze.webp'))
         PoisonImage = ImageTk.PhotoImage(Image.open('images/Stats/poison.webp'))
         FireImage = ImageTk.PhotoImage(Image.open('images/Stats/fire.webp'))

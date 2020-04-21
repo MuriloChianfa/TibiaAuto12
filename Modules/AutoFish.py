@@ -1,3 +1,5 @@
+import time
+
 from Engine.GUI import *
 
 EnabledAutoFish = False
@@ -22,6 +24,7 @@ class AutoFish:
             if EnabledAutoFish:
                 print("Try Lock AutoFish")
                 print("Try This")
+                time.sleep(2)
 
             root.after(300, ScanAutoFish)
 

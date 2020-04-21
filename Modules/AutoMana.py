@@ -1,13 +1,12 @@
 from Engine.GUI import *
 from Engine.ScanStages import ScanStages
+from Conf.Hotkeys import Hotkeys, PressHotkey
 
 EnabledAutoMana = False
 
 manaColorFull = [45, 45, 105]
 
 manaColor = [83, 80, 218]
-
-hotkeys = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"]
 
 percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 
@@ -38,12 +37,12 @@ class AutoMana:
             if VarCheckStageTwo.get():
                 stage_two = VarPercentageStageTwo.get()
                 if stage_two > mana or stage_two == mana:
-                    pyautogui.press(VarHotkeyStageTwo.get())
+                    PressHotkey(VarHotkeyStageTwo.get())
                     print("Pressed ", VarHotkeyStageTwo.get())
             elif VarCheckStageOne.get():
                 stage_one = VarPercentageStageOne.get()
                 if stage_one > mana or stage_one == mana:
-                    pyautogui.press(VarHotkeyStageOne.get())
+                    PressHotkey(VarHotkeyStageOne.get())
                     print("Pressed ", VarHotkeyStageOne.get())
             else:
                 print("Modulo Not Configured")
@@ -86,10 +85,10 @@ class AutoMana:
         StageTwo = self.AutoMana.addCheck(VarCheckStageTwo, [32, 144], [130, 16, 6], 0, "Enable Stage Two")
 
         PercentageStageOne = self.AutoMana.addOption(VarPercentageStageOne, percentage, [165, 90])
-        HotkeyStageOne = self.AutoMana.addOption(VarHotkeyStageOne, hotkeys, [250, 90])
+        HotkeyStageOne = self.AutoMana.addOption(VarHotkeyStageOne, Hotkeys, [250, 90])
 
         PercentageStageTwo = self.AutoMana.addOption(VarPercentageStageTwo, percentage, [165, 140])
-        HotkeyStageTwo = self.AutoMana.addOption(VarHotkeyStageTwo, hotkeys, [250, 140])
+        HotkeyStageTwo = self.AutoMana.addOption(VarHotkeyStageTwo, Hotkeys, [250, 140])
 
         self.AutoMana.loop()
 

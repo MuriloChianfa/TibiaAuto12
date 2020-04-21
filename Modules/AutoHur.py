@@ -1,9 +1,8 @@
 from Engine.GUI import *
 from Engine.ScanHur import ScanHur
+from Conf.Hotkeys import Hotkeys, PressHotkey
 
 EnabledAutoHur = False
-
-hotkeys = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"]
 
 
 class AutoHur:
@@ -26,7 +25,7 @@ class AutoHur:
                 if VarCheckHur.get():
                     NeedHur = ScanHur(StatsPositions)
                     if NeedHur:
-                        pyautogui.press(VarHotkeyHur.get())
+                        PressHotkey(VarHotkeyHur.get())
                         print("Hur Pressed ", VarHotkeyHur.get())
 
             if EnabledAutoHur:
@@ -36,7 +35,7 @@ class AutoHur:
         LowMana = tk.BooleanVar()
         VarCheckHur = tk.BooleanVar()
         VarHotkeyHur = tk.StringVar()
-        VarHotkeyHur.set("f6")
+        VarHotkeyHur.set("F6")
 
         self.AutoHur.addButton('Ok', self.AutoHur.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
 
@@ -53,7 +52,7 @@ class AutoHur:
 
         self.AutoHur.addLabel('Hotkey', [130, 16, 6], [218, 60])
         CheckHur = self.AutoHur.addCheck(VarCheckHur, [45, 94], [130, 16, 6], 1, "Enable Auto Hur")
-        HotkeyHur = self.AutoHur.addOption(VarHotkeyHur, hotkeys, [195, 90], 8)
+        HotkeyHur = self.AutoHur.addOption(VarHotkeyHur, Hotkeys, [195, 90], 8)
 
         self.AutoHur.loop()
 
