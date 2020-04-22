@@ -62,9 +62,15 @@ class GUI:
     def UpdateWindow(self, X, Y):
         self.windowID.geometry('130x130+%d+%d' % (X - 65, Y - 65))
         self.windowID.update()
-    
+
     def destroyWindow(self):
         self.windowID.destroy()
+
+    def PositionOfWindow(self, value):
+        if value == 'X':
+            return self.windowID.winfo_x()
+        elif value == 'Y':
+            return self.windowID.winfo_y()
 
     def addButton(self, textOfButton, action, sizes, bgColor, aBgColor):
         buttonID = tk.Button(self.windowID,
@@ -80,6 +86,7 @@ class GUI:
     def addCheck(self, variable, position, bgColor, selected, textOfButton="", image=None):
         buttonID = tk.Checkbutton(self.windowID,
                                   bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
+                                  activebackground=rgb((130, 16, 6)),
                                   text=textOfButton,
                                   variable=variable,
                                   onvalue=True,
@@ -121,6 +128,7 @@ class GUI:
         optionID['bg'] = rgb((127, 17, 8))
         optionID['fg'] = 'white'
         optionID['activebackground'] = rgb((103, 13, 5))
+        optionID["highlightthickness"] = 0
         optionID['width'] = width
         optionID.place(x=position[0], y=position[1])
         return optionID
@@ -135,6 +143,9 @@ class GUI:
         RadioID['activebackground'] = rgb((bgColor[0], bgColor[1], bgColor[2]))
         RadioID.place(x=position[0], y=position[1])
         return RadioID
+
+    def After(self, Time, Function):
+        return self.windowID.after(Time, Function)
 
     def openImage(self, image, size):
         ImageID = Image.open(image)

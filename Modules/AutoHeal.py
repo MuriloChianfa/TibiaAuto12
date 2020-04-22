@@ -5,6 +5,7 @@ from Engine.ScanStages import ScanStages
 from Conf.Hotkeys import Hotkeys, PressHotkey
 
 EnabledAutoHeal = False
+life = 0
 
 lifeColorFull = [194, 74, 74]
 
@@ -36,6 +37,7 @@ class AutoHeal:
 
         def scanning_auto_life():
             while EnabledAutoHeal:
+                global life
                 life = ScanStages('Life').ScanStages(HealthLocation, lifeColor, lifeColorFull)
 
                 if life is None:

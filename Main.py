@@ -119,7 +119,7 @@ class Redirect:
         AutoSeller(root)
 
     def OpenAutoSSA(self):
-        AutoSSA(root, AmuletPositions)
+        AutoSSA(root, AmuletPositions, HealthLocation)
 
     def OpenCaveBot(self):
         CaveBot(root, MapPositions, BattlePositions, SQMs)
