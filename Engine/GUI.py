@@ -1,5 +1,6 @@
 import pyautogui
 import tkinter as tk
+from tkinter import SUNKEN, RAISED
 from PIL import Image, ImageTk
 
 from Engine.Defaults import *
@@ -46,7 +47,6 @@ class GUI:
         self.windowID = tk.Toplevel()
         self.windowID.focus_force()
         self.windowID.grab_set()
-        self.windowID.title(self.name)
         self.windowID.resizable(width=False, height=False)
         self.windowID.geometry('130x130')
         self.windowID.image = tk.PhotoImage(file='images/BackgroundImages/' + BackgroundImage + '.png')
@@ -79,6 +79,7 @@ class GUI:
                              bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
                              fg='white',
                              command=action,
+                             cursor="hand2",
                              activebackground=rgb((aBgColor[0], aBgColor[1], aBgColor[2])))
         buttonID.place(w=sizes[0], h=sizes[1], x=sizes[2], y=sizes[3])
         return buttonID
@@ -89,6 +90,9 @@ class GUI:
                                   activebackground=rgb((130, 16, 6)),
                                   text=textOfButton,
                                   variable=variable,
+                                  fg='white',
+                                  selectcolor=rgb((130, 16, 6)),
+                                  cursor="hand2",
                                   onvalue=True,
                                   offvalue=False,
                                   image=image)
@@ -130,6 +134,7 @@ class GUI:
         optionID['activebackground'] = rgb((103, 13, 5))
         optionID["highlightthickness"] = 0
         optionID['width'] = width
+        optionID['cursor'] = "hand2"
         optionID.place(x=position[0], y=position[1])
         return optionID
 
@@ -138,6 +143,9 @@ class GUI:
                                  text=text,
                                  variable=variable,
                                  value=value,
+                                 fg='white',
+                                 selectcolor=rgb((130, 16, 6)),
+                                 cursor="hand2",
                                  bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
                                  command=command)
         RadioID['activebackground'] = rgb((bgColor[0], bgColor[1], bgColor[2]))
