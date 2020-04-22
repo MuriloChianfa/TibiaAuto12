@@ -42,8 +42,26 @@ class GUI:
         label.image = photo
         label.pack()
 
+    def InvisibleWindow(self, BackgroundImage):
+        self.windowID = tk.Toplevel()
+        self.windowID.focus_force()
+        self.windowID.grab_set()
+        self.windowID.title(self.name)
+        self.windowID.resizable(width=False, height=False)
+        self.windowID.geometry('130x130')
+        self.windowID.image = tk.PhotoImage(file='images/BackgroundImages/' + BackgroundImage + '.png')
+        label = tk.Label(self.windowID, image=self.windowID.image, bg='black')
+        label.place(x=0, y=0)
+        self.windowID.overrideredirect(True)
+        self.windowID.wm_attributes("-topmost", True)
+        self.windowID.attributes("-transparentcolor", "black")
+
     def loop(self):
         self.windowID.mainloop()
+
+    def UpdateWindow(self, X, Y):
+        self.windowID.geometry('130x130+%d+%d' % (X - 65, Y - 65))
+        self.windowID.update()
     
     def destroyWindow(self):
         self.windowID.destroy()

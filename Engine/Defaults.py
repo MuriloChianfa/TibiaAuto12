@@ -1,3 +1,6 @@
+import pyautogui
+
+
 def rgb(rgb):  # Function to translate color to RGB
     return "#%02x%02x%02x" % rgb
 
@@ -8,3 +11,7 @@ def combine_funcs(*funcs):
             f(*args, **kwargs)
 
     return combined_func
+
+
+def GetPosition():
+    return pyautogui.position()

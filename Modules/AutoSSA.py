@@ -1,5 +1,7 @@
 import time
+import keyboard
 import threading
+import pygetwindow
 
 from Engine.GUI import *
 from Engine.ScanAmulet import ScanAmulet, SearchForAmulet
@@ -7,10 +9,12 @@ from Conf.Hotkeys import Hotkeys, PressHotkey
 
 FoundedImg = False
 EnabledAutoSSA = False
+WaitingForClick = False
 Amulets = [
     'SSA',
     'PlatinumAmulet'
 ]
+Amulet = 'SSA'
 AmuletLocate = [0, 0]
 MaxLen = 4
 
@@ -25,6 +29,9 @@ class AutoSSA:
             if not EnabledAutoSSA:
                 EnabledAutoSSA = True
                 ButtonEnabled.configure(text='AutoSSA: ON')
+                print("AutoSSA: ON")
+                global Amulet
+                Amulet = NameAmulet.get()
                 Checking()
                 CheckingButtons()
                 try:
@@ -35,12 +42,13 @@ class AutoSSA:
             else:
                 EnabledAutoSSA = False
                 ButtonEnabled.configure(text='AutoSSA: OFF')
+                print("AutoSSA: OFF")
                 Checking()
                 CheckingButtons()
 
         def ScanAutoAmulet():
             while EnabledAutoSSA:
-                NoHasAmulet = ScanAmulet(AmuletPositions)
+                NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
                 if NoHasAmulet:
                     if RadioButton.get() == 0:
                         PressHotkey(HotkeyAmulet.get())
@@ -71,7 +79,6 @@ class AutoSSA:
                                 print("Lower Resolution Than Entered")
                                 time.sleep(1)
                     elif RadioButton.get() == 2:
-                        Amulet = NameAmulet.get()
                         AmuletLocate[0], AmuletLocate[1] = SearchForAmulet(Amulet)
                         if AmuletLocate[0] and AmuletLocate[1] != 0:
                             MousePosition = pyautogui.position()
@@ -90,6 +97,32 @@ class AutoSSA:
 
         def CheckClick():
             Checking()
+
+        def ReturnGetPosition():
+            global WaitingForClick
+            WaitingForClick = True
+            AutoSSAWindow = pygetwindow.getWindowsWithTitle("Module: Auto SSA")[0]
+            TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
+            time.sleep(0.1)
+            TibiaAuto.minimize()
+            AutoSSAWindow.minimize()
+            time.sleep(0.1)
+            Invisible = GUI('InvisibleWindow', 'InvisibleWindow')
+            Invisible.InvisibleWindow('GetPosition')
+            while WaitingForClick:
+                X, Y = GetPosition()
+                if keyboard.is_pressed("c"):
+                    X, Y = GetPosition()
+                    WaitingForClick = False
+                    print(f"Your Click Is Located In: [X: {X}, Y: {Y}]")
+                    TextEntryX.set(X)
+                    TextEntryY.set(Y)
+                    Invisible.destroyWindow()
+                    TibiaAuto.maximize()
+                    time.sleep(0.08)
+                    AutoSSAWindow.maximize()
+                    break
+                Invisible.UpdateWindow(X, Y)
 
         def ValidateEntryX(*args):
             s = TextEntryX.get()
@@ -133,81 +166,75 @@ class AutoSSA:
 
         ButtonLowMana = self.AutoSSA.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
 
-        DescLabel = self.AutoSSA.addLabel('', [130, 16, 6], [130, 140])
+        AmuletImg = 'images/Amulets/SSA.png'
+        ImageID = self.AutoSSA.openImage(AmuletImg, [64, 64])
+
+        ImgLabel = self.AutoSSA.addLabel('Image To Search', [130, 16, 6], [30, 45])
+        self.AutoSSA.addImage(ImageID, [130, 16, 6], [40, 65])
+
+        DescLabel = self.AutoSSA.addLabel('', [130, 16, 6], [170, 130])
         BackImage = 'images/Fundo.png'
-        Back = self.AutoSSA.openImage(BackImage, [128, 128])
-
-        # def CheckImage():
-        # NameImage = NameAmulet.get()
-        # NameImage2 = 'images/Amulets/' + NameImage + '.png'
-        # AmuletImage = self.AutoSSA.openImage(NameImage2, [128, 128])
-        # return AmuletImage
-
-        def CheckImg(NameImage):
-            print(NameImage)
-            NameImage2 = 'images/Amulets/' + NameImage + '.png'
-            AmuletImage = self.AutoSSA.openImage(NameImage2, [128, 128])
-            global FoundedImg
-            FoundedImg = True
-            return self.AutoSSA.addImage(AmuletImage, [130, 16, 6], [110, 160])
+        Back = self.AutoSSA.openImage(BackImage, [150, 128])
 
         def Checking():
-            global FoundedImg
+            global FoundedImg, Amulet
             if RadioButton.get() == 0:
                 DescLabel.configure(text='Hotkey To Press')
-                self.AutoSSA.addImage(Back, [130, 16, 6], [110, 160])
+                self.AutoSSA.addImage(Back, [130, 16, 6], [160, 150])
                 FoundedImg = False
-                HotkeyOption = self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [135, 160], 6)
+                HotkeyOption = self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [165, 160], 10)
                 if EnabledAutoSSA:
                     HotkeyOption.configure(state='disabled')
                 else:
                     HotkeyOption.configure(state='normal')
             elif RadioButton.get() == 1:
                 DescLabel.configure(text='Position To Search')
-                self.AutoSSA.addImage(Back, [130, 16, 6], [110, 160])
+                self.AutoSSA.addImage(Back, [130, 16, 6], [150, 150])
                 FoundedImg = False
-                LabelX = self.AutoSSA.addLabel('X:', [130, 16, 6], [145, 160])
-                EntryX = self.AutoSSA.addEntry([160, 160], TextEntryX, width=4)
+
+                ButtonGetPosition = self.AutoSSA.addButton('GetPosition', ReturnGetPosition, [80, 29, 215, 165],
+                                                           [127, 17, 8], [123, 13, 5])
+
+                LabelX = self.AutoSSA.addLabel('X:', [130, 16, 6], [160, 160])
+                EntryX = self.AutoSSA.addEntry([175, 160], TextEntryX, width=4)
                 TextEntryX.trace("w", ValidateEntryX)
-                LabelY = self.AutoSSA.addLabel('Y:', [130, 16, 6], [145, 180])
-                EntryY = self.AutoSSA.addEntry([160, 180], TextEntryY, width=4)
+                LabelY = self.AutoSSA.addLabel('Y:', [130, 16, 6], [160, 180])
+                EntryY = self.AutoSSA.addEntry([175, 180], TextEntryY, width=4)
                 TextEntryY.trace("w", ValidateEntryY)
                 if EnabledAutoSSA:
+                    ButtonGetPosition.configure(state='disabled')
+
                     LabelX.configure(state='disabled')
                     EntryX.configure(state='disabled')
                     LabelY.configure(state='disabled')
                     EntryY.configure(state='disabled')
                 else:
+                    ButtonGetPosition.configure(state='normal')
+
                     LabelX.configure(state='normal')
                     EntryX.configure(state='normal')
                     LabelY.configure(state='normal')
                     EntryY.configure(state='normal')
-            elif RadioButton.get() == 2:
-                DescLabel.configure(text='Image To Search')
-                if not FoundedImg:
-                    NameImage = NameAmulet.get()
-                    CheckImg(NameImage)
 
         def CheckingButtons():
-            RButton1 = self.AutoSSA.addRadio('Hotkey', RadioButton, 0, [30, 45], [130, 16, 6], CheckClick)
-            RButton2 = self.AutoSSA.addRadio('Position', RadioButton, 1, [30, 65], [130, 16, 6], CheckClick)
-            RButton3 = self.AutoSSA.addRadio('Search', RadioButton, 2, [30, 85], [130, 16, 6], CheckClick)
+            RButton1 = self.AutoSSA.addRadio('Hotkey', RadioButton, 0, [30, 145], [130, 16, 6], CheckClick)
+            RButton2 = self.AutoSSA.addRadio('Position', RadioButton, 1, [30, 165], [130, 16, 6], CheckClick)
             AmuletLabel = self.AutoSSA.addLabel('Amulet', [130, 16, 6], [198, 45])
-            OptionNameAmulet = self.AutoSSA.addOption(NameAmulet, Amulets, [170, 75], width=10)
+            OptionNameAmulet = self.AutoSSA.addOption(NameAmulet, Amulets, [150, 85], width=16)
             if EnabledAutoSSA:
                 DescLabel.configure(state='disabled')
+                ImgLabel.configure(state='disabled')
 
                 RButton1.configure(state='disabled')
                 RButton2.configure(state='disabled')
-                RButton3.configure(state='disabled')
                 AmuletLabel.configure(state='disabled')
                 OptionNameAmulet.configure(state='disabled')
             else:
                 DescLabel.configure(state='normal')
+                ImgLabel.configure(state='normal')
 
                 RButton1.configure(state='normal')
                 RButton2.configure(state='normal')
-                RButton3.configure(state='normal')
                 AmuletLabel.configure(state='normal')
                 OptionNameAmulet.configure(state='normal')
 
