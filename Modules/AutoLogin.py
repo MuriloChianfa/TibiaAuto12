@@ -22,12 +22,14 @@ class AutoLogin:
             if not EnabledAutoLogin:
                 EnabledAutoLogin = True
                 print("AutoLogin: ON")
-                ButtonEnabled.configure(text='AutoLogin: ON')
+                ButtonEnabled.configure(text='AutoLogin: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
+                CheckingButtons()
                 ScanAutoLogin()
             else:
                 EnabledAutoLogin = False
                 print("AutoLogin: OFF")
-                ButtonEnabled.configure(text='AutoLogin: OFF')
+                CheckingButtons()
+                ButtonEnabled.configure(text='AutoLogin: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
 
         def ScanAutoLogin():
             global EnabledAutoLogin
@@ -55,8 +57,8 @@ class AutoLogin:
                         pyautogui.press('enter')
                         pyautogui.moveTo(pass_mouse_position)
                         AccountName2 = pyautogui.locateOnScreen('images/TibiaSettings/AccountName.png',
-                                                                         grayscale=True,
-                                                                         confidence=0.8)
+                                                                grayscale=True,
+                                                                confidence=0.8)
                         if AccountName2 is not None:
                             print("Error To Login !!!!")
                         else:
@@ -71,6 +73,8 @@ class AutoLogin:
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
+        TextEntryUsername = tk.StringVar()
+        TextEntryYPasswd = tk.StringVar()
 
         self.AutoLogin.addButton('Ok', self.AutoLogin.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
 
@@ -88,15 +92,29 @@ class AutoLogin:
 
         username_label = self.AutoLogin.addLabel('Username', [130, 16, 6], [69, 84])
 
-        username = self.AutoLogin.addEntry([149, 86])
+        username = self.AutoLogin.addEntry([149, 86], TextEntryUsername, 10)
         global username_value
         username_value = username.get()
 
         passwd_label = self.AutoLogin.addLabel('Password', [130, 16, 6], [69, 124])
 
-        passwd = self.AutoLogin.addEntry([149, 126])
+        passwd = self.AutoLogin.addEntry([149, 126], TextEntryYPasswd, 10)
         global passwd_value
         passwd_value = passwd.get()
+
+        def CheckingButtons():
+            if EnabledAutoLogin:
+                username_label.configure(state='disabled')
+                passwd_label.configure(state='disabled')
+                username.configure(state='disabled')
+                passwd.configure(state='disabled')
+            else:
+                username_label.configure(state='normal')
+                passwd_label.configure(state='normal')
+                username.configure(state='normal')
+                passwd.configure(state='normal')
+
+        CheckingButtons()
 
         self.AutoLogin.loop()
 

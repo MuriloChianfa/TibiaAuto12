@@ -20,13 +20,15 @@ class AutoMana:
             global EnabledAutoMana
             if not EnabledAutoMana:
                 EnabledAutoMana = True
-                ButtonEnabled.configure(text='AutoMana: ON')
+                ButtonEnabled.configure(text='AutoMana: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 print("AutoMana: ON")
+                CheckingButtons()
                 ScanAutoMana()
             else:
                 EnabledAutoMana = False
                 print("AutoMana: OFF")
-                ButtonEnabled.configure(text='AutoMana: OFF')
+                CheckingButtons()
+                ButtonEnabled.configure(text='AutoMana: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
 
         def ScanAutoMana():
             mana = ScanStages('Mana').ScanStages(ManaLocation, manaColor, manaColorFull)
@@ -76,11 +78,12 @@ class AutoMana:
                                                     [127, 17, 8], [123, 13, 5])
 
         self.AutoMana.addLabel('Mana', [120, 98, 51], [32, 3])
-        self.AutoMana.addLabel('% Percentage', [130, 16, 6], [153, 54])
-        self.AutoMana.addLabel('HotKey', [130, 16, 6], [259, 54])
+        LabelPercentage = self.AutoMana.addLabel('% Percentage', [130, 16, 6], [153, 54])
+        LabelHotkey = self.AutoMana.addLabel('HotKey', [130, 16, 6], [259, 54])
 
-        CheckPrint = self.AutoMana.addCheck(VarCheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
-        CheckBuff = self.AutoMana.addCheck(VarCheckBuff, [10, 440], [120, 98, 51], 0, "Don't Buff")
+        self.AutoMana.addCheck(VarCheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
+        self.AutoMana.addCheck(VarCheckBuff, [10, 440], [120, 98, 51], 0, "Don't Buff")
+
         StageOne = self.AutoMana.addCheck(VarCheckStageOne, [32, 94], [130, 16, 6], 0, "Enable Stage One")
         StageTwo = self.AutoMana.addCheck(VarCheckStageTwo, [32, 144], [130, 16, 6], 0, "Enable Stage Two")
 
@@ -89,6 +92,28 @@ class AutoMana:
 
         PercentageStageTwo = self.AutoMana.addOption(VarPercentageStageTwo, percentage, [165, 140])
         HotkeyStageTwo = self.AutoMana.addOption(VarHotkeyStageTwo, Hotkeys, [250, 140])
+
+        def CheckingButtons():
+            if EnabledAutoMana:
+                StageOne.configure(state='disabled')
+                StageTwo.configure(state='disabled')
+                PercentageStageOne.configure(state='disabled')
+                HotkeyStageOne.configure(state='disabled')
+                PercentageStageTwo.configure(state='disabled')
+                HotkeyStageTwo.configure(state='disabled')
+                LabelPercentage.configure(state='disabled')
+                LabelHotkey.configure(state='disabled')
+            else:
+                StageOne.configure(state='normal')
+                StageTwo.configure(state='normal')
+                PercentageStageOne.configure(state='normal')
+                HotkeyStageOne.configure(state='normal')
+                PercentageStageTwo.configure(state='normal')
+                HotkeyStageTwo.configure(state='normal')
+                LabelPercentage.configure(state='normal')
+                LabelHotkey.configure(state='normal')
+
+        CheckingButtons()
 
         self.AutoMana.loop()
 

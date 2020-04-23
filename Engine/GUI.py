@@ -122,7 +122,10 @@ class GUI:
     def addEntry(self, position, var, width=12):
         entryID = tk.Entry(self.windowID,
                            width=width,
-                           textvariable=var
+                           textvariable=var,
+                           bg=rgb((127, 17, 8)),
+                           borderwidth=2,
+                           foreground="#FF69B4"
                            )
         entryID.place(x=position[0], y=position[1])
         return entryID

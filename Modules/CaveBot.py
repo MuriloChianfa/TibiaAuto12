@@ -44,11 +44,13 @@ class CaveBot:
             global EnabledCaveBot
             if not EnabledCaveBot:
                 EnabledCaveBot = True
-                ButtonEnabled.configure(text='CaveBot: ON')
+                ButtonEnabled.configure(text='CaveBot: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
+                CheckingButtons()
                 InitScan()
             else:
                 EnabledCaveBot = False
-                ButtonEnabled.configure(text='CaveBot: OFF')
+                CheckingButtons()
+                ButtonEnabled.configure(text='CaveBot: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
 
         def InitScan():
             with open('Scripts/' + Script.get() + '.json', 'r') as rJson:
@@ -95,8 +97,8 @@ class CaveBot:
             ButtonEnabled = self.CaveBot.addButton('CaveBot: ON', SetCaveBot, [328, 29, 12, 469],
                                                    [127, 17, 8], [123, 13, 5])
 
-        ButtonPrint = self.CaveBot.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
-        ButtonLowMana = self.CaveBot.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
+        self.CaveBot.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
+        self.CaveBot.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
 
         LabelScript = self.CaveBot.addLabel('Script To Load', [127, 17, 8], [32, 70])
         OptionScript = self.CaveBot.addOption(Script, Scripts, [155, 70], 18)
@@ -104,5 +106,21 @@ class CaveBot:
         CheckAttackOne = self.CaveBot.addCheck(AttackOne, [32, 114], [130, 16, 6], 1, 'Monster One')
         OptionMonstersOne = self.CaveBot.addOption(monster2, monsters, [155, 110])
         PriorityMonstersOne = self.CaveBot.addOption(PriorityOne, priority, [240, 110])
+
+        def CheckingButtons():
+            if EnabledCaveBot:
+                LabelScript.configure(state='disabled')
+                OptionScript.configure(state='disabled')
+                CheckAttackOne.configure(state='disabled')
+                OptionMonstersOne.configure(state='disabled')
+                PriorityMonstersOne.configure(state='disabled')
+            else:
+                LabelScript.configure(state='normal')
+                OptionScript.configure(state='normal')
+                CheckAttackOne.configure(state='normal')
+                OptionMonstersOne.configure(state='normal')
+                PriorityMonstersOne.configure(state='normal')
+
+        CheckingButtons()
 
         self.CaveBot.loop()

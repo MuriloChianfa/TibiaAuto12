@@ -23,8 +23,9 @@ class AutoHeal:
             global EnabledAutoHeal
             if not EnabledAutoHeal:
                 EnabledAutoHeal = True
-                ButtonEnabled.configure(text='AutoHealing: ON')
+                ButtonEnabled.configure(text='AutoHealing: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 print("AutoHealing: ON")
+                CheckingButtons()
                 try:
                     ThreadCaveBot = threading.Thread(target=scanning_auto_life)
                     ThreadCaveBot.start()
@@ -33,7 +34,8 @@ class AutoHeal:
             else:
                 EnabledAutoHeal = False
                 print("AutoHealing: OFF")
-                ButtonEnabled.configure(text='AutoHealing: OFF')
+                CheckingButtons()
+                ButtonEnabled.configure(text='AutoHealing: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
 
         def scanning_auto_life():
             while EnabledAutoHeal:
@@ -104,7 +106,7 @@ class AutoHeal:
                             PressHotkey(VarHotkeyStageThree.get())
                             print("Pressed ", VarHotkeyStageThree.get())
                 else:
-                    print("Modulo Not Configured")
+                    print("Module Not Configured")
 
             # if EnabledAutoHeal:
                 # root.after(200, scanning_auto_life)
@@ -147,17 +149,17 @@ class AutoHeal:
         global EnabledAutoHeal
         if not EnabledAutoHeal:
             ButtonEnabled = self.AutoHeal.addButton('AutoHealing: OFF', SetAutoHeal, [328, 29, 12, 469],
-                                                   [127, 17, 8], [123, 13, 5])
+                                                   [127, 17, 8], [103, 13, 5])
         else:
             ButtonEnabled = self.AutoHeal.addButton('AutoHealing: ON', SetAutoHeal, [328, 29, 12, 469],
-                                                   [127, 17, 8], [123, 13, 5])
+                                                   [127, 17, 8], [103, 13, 5])
     
         self.AutoHeal.addLabel('Healing', [120, 98, 51], [32, 3])
-        self.AutoHeal.addLabel('% Percentage', [130, 16, 6], [153, 54])
-        self.AutoHeal.addLabel('HotKey', [130, 16, 6], [259, 54])
+        LabelPercentage = self.AutoHeal.addLabel('% Percentage', [130, 16, 6], [153, 54])
+        LabelHotkey = self.AutoHeal.addLabel('HotKey', [130, 16, 6], [259, 54])
         
-        CheckPrint = self.AutoHeal.addCheck(VarCheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
-        CheckBuff = self.AutoHeal.addCheck(VarCheckBuff, [10, 440], [120, 98, 51], 0, "Don't Buff")
+        self.AutoHeal.addCheck(VarCheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
+        self.AutoHeal.addCheck(VarCheckBuff, [10, 440], [120, 98, 51], 0, "Don't Buff")
         StageOne = self.AutoHeal.addCheck(VarCheckStageOne, [32, 94], [130, 16, 6], 0, "Enable Stage One")
         StageTwo = self.AutoHeal.addCheck(VarCheckStageTwo, [32, 144], [130, 16, 6], 0, "Enable Stage Two")
         StageThree = self.AutoHeal.addCheck(VarCheckStageThree, [32, 194], [130, 16, 6], 0, "Enable Stage Three")
@@ -178,6 +180,77 @@ class AutoHeal:
 
         PercentageStageThree = self.AutoHeal.addOption(VarPercentageStageThree, percentage, [165, 190])
         HotkeyStageThree = self.AutoHeal.addOption(VarHotkeyStageThree, Hotkeys, [250, 190])
+
+        def CheckingButtons():
+            if EnabledAutoHeal:
+                CheckStats.configure(state='disabled')
+                StageThree.configure(state='disabled')
+                StageTwo.configure(state='disabled')
+                StageOne.configure(state='disabled')
+                LabelHotkey.configure(state='disabled')
+                LabelPercentage.configure(state='disabled')
+                PercentageStageOne.configure(state='disabled')
+                HotkeyStageOne.configure(state='disabled')
+                PercentageStageTwo.configure(state='disabled')
+                HotkeyStageTwo.configure(state='disabled')
+                PercentageStageThree.configure(state='disabled')
+                HotkeyStageThree.configure(state='disabled')
+                Paralyze.configure(state='disabled')
+                Poison.configure(state='disabled')
+                Fire.configure(state='disabled')
+                Electrify.configure(state='disabled')
+                Mort.configure(state='disabled')
+                Blood.configure(state='disabled')
+            else:
+                CheckStats.configure(state='normal')
+                StageThree.configure(state='normal')
+                StageTwo.configure(state='normal')
+                StageOne.configure(state='normal')
+                LabelHotkey.configure(state='normal')
+                LabelPercentage.configure(state='normal')
+                PercentageStageOne.configure(state='normal')
+                HotkeyStageOne.configure(state='normal')
+                PercentageStageTwo.configure(state='normal')
+                HotkeyStageTwo.configure(state='normal')
+                PercentageStageThree.configure(state='normal')
+                HotkeyStageThree.configure(state='normal')
+                if not VarCheckCureStats.get():
+                    Paralyze.configure(state='disabled')
+                    Poison.configure(state='disabled')
+                    Fire.configure(state='disabled')
+                    Electrify.configure(state='disabled')
+                    Mort.configure(state='disabled')
+                    Blood.configure(state='disabled')
+                elif VarCheckCureStats.get():
+                    Paralyze.configure(state='normal')
+                    Poison.configure(state='normal')
+                    Fire.configure(state='normal')
+                    Electrify.configure(state='normal')
+                    Mort.configure(state='normal')
+                    Blood.configure(state='normal')
+
+        def ConstantVerify():
+            if not EnabledAutoHeal:
+                if not VarCheckCureStats.get():
+                    Paralyze.configure(state='disabled')
+                    Poison.configure(state='disabled')
+                    Fire.configure(state='disabled')
+                    Electrify.configure(state='disabled')
+                    Mort.configure(state='disabled')
+                    Blood.configure(state='disabled')
+                elif VarCheckCureStats.get():
+                    Paralyze.configure(state='normal')
+                    Poison.configure(state='normal')
+                    Fire.configure(state='normal')
+                    Electrify.configure(state='normal')
+                    Mort.configure(state='normal')
+                    Blood.configure(state='normal')
+
+            self.AutoHeal.After(1, ConstantVerify)
+
+        CheckingButtons()
+
+        ConstantVerify()
 
         self.AutoHeal.loop()
 
