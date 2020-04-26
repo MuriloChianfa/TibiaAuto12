@@ -1,3 +1,4 @@
+import time
 import threading
 
 from Engine.GUI import *
@@ -17,7 +18,7 @@ percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 2
 class AutoHeal:
     def __init__(self, root, HealthLocation):
         self.AutoHeal = GUI('AutoHeal', 'Module: Auto Heal')
-        self.AutoHeal.DefaultWindow('DefaultWindow')
+        self.AutoHeal.DefaultWindow('AutoHeal2', [306, 372], [1.2, 2.29])
 
         def SetAutoHeal():
             global EnabledAutoHeal
@@ -35,7 +36,7 @@ class AutoHeal:
                 EnabledAutoHeal = False
                 print("AutoHealing: OFF")
                 CheckingButtons()
-                ButtonEnabled.configure(text='AutoHealing: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
+                ButtonEnabled.configure(text='AutoHealing: OFF', relief=RAISED, bg=rgb((114, 0, 0)))
 
         def scanning_auto_life():
             while EnabledAutoHeal:
@@ -50,63 +51,76 @@ class AutoHeal:
                     if stage_three > life or stage_three == life:
                         PressHotkey(VarHotkeyStageThree.get())
                         print("Pressed ", VarHotkeyStageThree.get())
+                        time.sleep(0.2)
                     elif VarCheckStageTwo.get():
                         stage_two = VarPercentageStageTwo.get()
                         if stage_two > life or stage_two == life:
                             PressHotkey(VarHotkeyStageTwo.get())
                             print("Pressed ", VarHotkeyStageTwo.get())
+                            time.sleep(0.2)
                         elif VarCheckStageOne.get():
                             stage_one = VarPercentageStageOne.get()
                             if stage_one > life or stage_one == life:
                                 PressHotkey(VarHotkeyStageOne.get())
                                 print("Pressed ", VarHotkeyStageOne.get())
+                                time.sleep(0.2)
                     elif VarCheckStageOne.get():
                         stage_one = VarPercentageStageOne.get()
                         if stage_one > life or stage_one == life:
                             PressHotkey(VarHotkeyStageOne.get())
                             print("Pressed ", VarHotkeyStageOne.get())
+                            time.sleep(0.2)
                 elif VarCheckStageTwo.get():
                     stage_two = VarPercentageStageTwo.get()
                     if stage_two > life or stage_two == life:
                         PressHotkey(VarHotkeyStageTwo.get())
                         print("Pressed ", VarHotkeyStageTwo.get())
+                        time.sleep(0.2)
                     elif VarCheckStageThree.get():
                         stage_three = VarPercentageStageThree.get()
                         if stage_three > life or stage_three == life:
                             PressHotkey(VarHotkeyStageThree.get())
                             print("Pressed ", VarHotkeyStageThree.get())
+                            time.sleep(0.2)
                         elif VarCheckStageOne.get():
                             stage_one = VarPercentageStageOne.get()
                             if stage_one > life or stage_one == life:
                                 PressHotkey(VarHotkeyStageOne.get())
                                 print("Pressed ", VarHotkeyStageOne.get())
+                                time.sleep(0.2)
                     elif VarCheckStageOne.get():
                         stage_one = VarPercentageStageOne.get()
                         if stage_one > life or stage_one == life:
                             PressHotkey(VarHotkeyStageOne.get())
                             print("Pressed ", VarHotkeyStageOne.get())
+                            time.sleep(0.2)
                 elif VarCheckStageOne.get():
                     stage_one = VarPercentageStageOne.get()
                     if stage_one > life or stage_one == life:
                         PressHotkey(VarHotkeyStageOne.get())
                         print("Pressed ", VarHotkeyStageOne.get())
+                        time.sleep(0.2)
                     elif VarCheckStageTwo.get():
                         stage_two = VarPercentageStageTwo.get()
                         if stage_two > life or stage_two == life:
                             PressHotkey(VarHotkeyStageTwo.get())
                             print("Pressed ", VarHotkeyStageTwo.get())
+                            time.sleep(0.2)
                         elif VarCheckStageThree.get():
                             stage_three = VarPercentageStageThree.get()
                             if stage_three > life or stage_three == life:
                                 PressHotkey(VarHotkeyStageThree.get())
                                 print("Pressed ", VarHotkeyStageThree.get())
+                                time.sleep(0.2)
                     elif VarCheckStageThree.get():
                         stage_three = VarPercentageStageThree.get()
                         if stage_three > life or stage_three == life:
                             PressHotkey(VarHotkeyStageThree.get())
                             print("Pressed ", VarHotkeyStageThree.get())
+                            time.sleep(0.2)
                 else:
                     print("Module Not Configured")
+                    time.sleep(1)
 
             # if EnabledAutoHeal:
                 # root.after(200, scanning_auto_life)
@@ -142,44 +156,45 @@ class AutoHeal:
         MortImage = ImageTk.PhotoImage(Image.open('images/Stats/mort.webp'))
         BloodImage = ImageTk.PhotoImage(Image.open('images/Stats/blood.webp'))
 
-        self.AutoHeal.addButton('Ok', self.AutoHeal.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
+        self.AutoHeal.addButton('Ok', self.AutoHeal.destroyWindow, [73, 21], [115, 340])
 
         ''' button enable healing '''
 
         global EnabledAutoHeal
         if not EnabledAutoHeal:
-            ButtonEnabled = self.AutoHeal.addButton('AutoHealing: OFF', SetAutoHeal, [328, 29, 12, 469],
-                                                   [127, 17, 8], [103, 13, 5])
+            ButtonEnabled = self.AutoHeal.addButton('AutoHealing: OFF', SetAutoHeal, [287, 23], [11, 311])
         else:
-            ButtonEnabled = self.AutoHeal.addButton('AutoHealing: ON', SetAutoHeal, [328, 29, 12, 469],
-                                                   [127, 17, 8], [103, 13, 5])
-    
-        self.AutoHeal.addLabel('Healing', [120, 98, 51], [32, 3])
-        LabelPercentage = self.AutoHeal.addLabel('% Percentage', [130, 16, 6], [153, 54])
-        LabelHotkey = self.AutoHeal.addLabel('HotKey', [130, 16, 6], [259, 54])
-        
-        self.AutoHeal.addCheck(VarCheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
-        self.AutoHeal.addCheck(VarCheckBuff, [10, 440], [120, 98, 51], 0, "Don't Buff")
-        StageOne = self.AutoHeal.addCheck(VarCheckStageOne, [32, 94], [130, 16, 6], 0, "Enable Stage One")
-        StageTwo = self.AutoHeal.addCheck(VarCheckStageTwo, [32, 144], [130, 16, 6], 0, "Enable Stage Two")
-        StageThree = self.AutoHeal.addCheck(VarCheckStageThree, [32, 194], [130, 16, 6], 0, "Enable Stage Three")
-        CheckStats = self.AutoHeal.addCheck(VarCheckCureStats, [105, 334], [130, 16, 6], 0, "Enable Cure Stats")
+            ButtonEnabled = self.AutoHeal.addButton('AutoHealing: ON', SetAutoHeal, [287, 23], [11, 311])
+            ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        Paralyze = self.AutoHeal.addCheck(VarCheckParalyze, [52, 364], [130, 16, 6], 0, '', ParalyzeImage)
-        Poison = self.AutoHeal.addCheck(VarCheckPoison, [92, 364], [130, 16, 6], 0, '', PoisonImage)
-        Fire = self.AutoHeal.addCheck(VarCheckFire, [132, 364], [130, 16, 6], 0, '', FireImage)
-        Electrify = self.AutoHeal.addCheck(VarCheckElectrify, [172, 364], [130, 16, 6], 0, '', ElectrifyImage)
-        Mort = self.AutoHeal.addCheck(VarCheckMort, [212, 364], [130, 16, 6], 0, '', MortImage)
-        Blood = self.AutoHeal.addCheck(VarCheckBlood, [252, 364], [130, 16, 6], 0, '', BloodImage)
+        CheckPrint = self.AutoHeal.addCheck(VarCheckPrint, [11, 260], 0, "Print on Tibia's screen")
+        CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
+        CheckBuff = self.AutoHeal.addCheck(VarCheckBuff, [11, 280], 0, "Don't Buff")
+        CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
-        PercentageStageOne = self.AutoHeal.addOption(VarPercentageStageOne, percentage, [165, 90])
-        HotkeyStageOne = self.AutoHeal.addOption(VarHotkeyStageOne, Hotkeys, [250, 90])
+        LabelPercentage = self.AutoHeal.addLabel('% Percentage', [145, 24])
+        LabelHotkey = self.AutoHeal.addLabel('HotKey', [230, 24])
 
-        PercentageStageTwo = self.AutoHeal.addOption(VarPercentageStageTwo, percentage, [165, 140])
-        HotkeyStageTwo = self.AutoHeal.addOption(VarHotkeyStageTwo, Hotkeys, [250, 140])
+        StageOne = self.AutoHeal.addCheck(VarCheckStageOne, [17, 55], 0, "Enable Stage One")
+        StageTwo = self.AutoHeal.addCheck(VarCheckStageTwo, [17, 105], 0, "Enable Stage Two")
+        StageThree = self.AutoHeal.addCheck(VarCheckStageThree, [17, 155], 0, "Enable Stage Three")
+        CheckStats = self.AutoHeal.addCheck(VarCheckCureStats, [95, 192], 0, "Enable Cure Stats")
 
-        PercentageStageThree = self.AutoHeal.addOption(VarPercentageStageThree, percentage, [165, 190])
-        HotkeyStageThree = self.AutoHeal.addOption(VarHotkeyStageThree, Hotkeys, [250, 190])
+        Paralyze = self.AutoHeal.addCheck(VarCheckParalyze, [40, 226], 0, '', ParalyzeImage)
+        Poison = self.AutoHeal.addCheck(VarCheckPoison, [80, 226], 0, '', PoisonImage)
+        Fire = self.AutoHeal.addCheck(VarCheckFire, [120, 226], 0, '', FireImage)
+        Electrify = self.AutoHeal.addCheck(VarCheckElectrify, [160, 226], 0, '', ElectrifyImage)
+        Mort = self.AutoHeal.addCheck(VarCheckMort, [200, 226], 0, '', MortImage)
+        Blood = self.AutoHeal.addCheck(VarCheckBlood, [240, 226], 0, '', BloodImage)
+
+        PercentageStageOne = self.AutoHeal.addOption(VarPercentageStageOne, percentage, [148, 54])
+        HotkeyStageOne = self.AutoHeal.addOption(VarHotkeyStageOne, Hotkeys, [223, 54])
+
+        PercentageStageTwo = self.AutoHeal.addOption(VarPercentageStageTwo, percentage, [148, 104])
+        HotkeyStageTwo = self.AutoHeal.addOption(VarHotkeyStageTwo, Hotkeys, [223, 104])
+
+        PercentageStageThree = self.AutoHeal.addOption(VarPercentageStageThree, percentage, [148, 154])
+        HotkeyStageThree = self.AutoHeal.addOption(VarHotkeyStageThree, Hotkeys, [223, 154])
 
         def CheckingButtons():
             if EnabledAutoHeal:
@@ -201,6 +216,8 @@ class AutoHeal:
                 Electrify.configure(state='disabled')
                 Mort.configure(state='disabled')
                 Blood.configure(state='disabled')
+                CheckPrint.configure(state='disabled')
+                CheckBuff.configure(state='disabled')
             else:
                 CheckStats.configure(state='normal')
                 StageThree.configure(state='normal')
@@ -214,6 +231,8 @@ class AutoHeal:
                 HotkeyStageTwo.configure(state='normal')
                 PercentageStageThree.configure(state='normal')
                 HotkeyStageThree.configure(state='normal')
+                CheckPrint.configure(state='normal')
+                CheckBuff.configure(state='normal')
                 if not VarCheckCureStats.get():
                     Paralyze.configure(state='disabled')
                     Poison.configure(state='disabled')

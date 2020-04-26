@@ -1,3 +1,5 @@
+import threading
+
 from Engine.GUI import *
 from Engine.ScanHur import ScanHur
 from Conf.Hotkeys import Hotkeys, PressHotkey
@@ -8,7 +10,7 @@ EnabledAutoHur = False
 class AutoHur:
     def __init__(self, root, StatsPositions):
         self.AutoHur = GUI('AutoHur', 'Module: Auto Hur')
-        self.AutoHur.DefaultWindow('DefaultWindow')
+        self.AutoHur.DefaultWindow('AutoHur', [224, 258], [1.2, 2.29])
 
         def SetAutoHur():
             global EnabledAutoHur
@@ -17,7 +19,11 @@ class AutoHur:
                 ButtonEnabled.configure(text='AutoHur: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 print("AutoHur: ON")
                 CheckingButtons()
-                ScanAutoHur()
+                try:
+                    ThreadAutoHur = threading.Thread(target=ScanAutoHur)
+                    ThreadAutoHur.start()
+                except:
+                    print("Error: Unable To Start ThreadAutoHur!")
             else:
                 EnabledAutoHur = False
                 CheckingButtons()
@@ -25,47 +31,74 @@ class AutoHur:
                 ButtonEnabled.configure(text='AutoHur: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
 
         def ScanAutoHur():
-            if EnabledAutoHur:
-                if VarCheckHur.get():
-                    NeedHur = ScanHur(StatsPositions)
-                    if NeedHur:
-                        PressHotkey(VarHotkeyHur.get())
-                        print("Hur Pressed ", VarHotkeyHur.get())
+            while EnabledAutoHur:
+                NeedHur = ScanHur(StatsPositions)
+                if NeedHur:
+                    PressHotkey(VarHotkeyHur.get())
+                    print("Hur Pressed ", VarHotkeyHur.get())
 
-            if EnabledAutoHur:
-                root.after(500, ScanAutoHur)
+            # if EnabledAutoHur:
+            # root.after(500, ScanAutoHur)
+
+        def Recapture():
+            print("recapture")
 
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
-        VarCheckHur = tk.BooleanVar()
         VarHotkeyHur = tk.StringVar()
         VarHotkeyHur.set("F6")
+        CheckLowMana = tk.BooleanVar()
+        CheckLowMana.set(False)
 
-        self.AutoHur.addButton('Ok', self.AutoHur.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
+        self.AutoHur.addButton('Ok', self.AutoHur.destroyWindow, [73, 21], [75, 225])
 
         global EnabledAutoHur
         if not EnabledAutoHur:
-            ButtonEnabled = self.AutoHur.addButton('AutoHur: OFF', SetAutoHur, [328, 29, 12, 469],
-                                                       [127, 17, 8], [123, 13, 5])
+            ButtonEnabled = self.AutoHur.addButton('AutoHur: OFF', SetAutoHur, [203, 23], [11, 195])
         else:
-            ButtonEnabled = self.AutoHur.addButton('AutoHur: ON', SetAutoHur, [328, 29, 12, 469],
-                                                       [127, 17, 8], [123, 13, 5])
+            ButtonEnabled = self.AutoHur.addButton('AutoHur: ON', SetAutoHur, [203, 23], [11, 195])
+            ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        self.AutoHur.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
-        self.AutoHur.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
+        CheckPrint = self.AutoHur.addCheck(CheckPrint, [11, 150], 0, "Print on Tibia's screen")
+        CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
+        CheckBuff = self.AutoHur.addCheck(LowMana, [11, 170], 0, "Don't Buff")
+        CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
-        LabelHotkey = self.AutoHur.addLabel('Hotkey', [130, 16, 6], [218, 60])
-        CheckHur = self.AutoHur.addCheck(VarCheckHur, [45, 94], [130, 16, 6], 1, "Enable Auto Hur")
-        HotkeyHur = self.AutoHur.addOption(VarHotkeyHur, Hotkeys, [195, 90], 8)
+        ImgHur = 'images/PlayerStats/Hur.png'
+        ImageID = self.AutoHur.openImage(ImgHur, [64, 64])
+
+        ImgLabel = self.AutoHur.addLabel('Image To Search', [16, 14])
+        LabelImage = self.AutoHur.addImage(ImageID, [28, 33])
+
+        LabelHotkey = self.AutoHur.addLabel('Hotkey', [135, 48])
+        HotkeyHur = self.AutoHur.addOption(VarHotkeyHur, Hotkeys, [113, 72], 8)
+
+        ButtonRecapture = self.AutoHur.addButton('Recapture', Recapture, [85, 24], [20, 111])
+
+        CheckBoxLowMana = self.AutoHur.addCheck(CheckLowMana, [118, 103], 0, 'Stop With\nLowMana')
 
         def CheckingButtons():
             if EnabledAutoHur:
+                CheckPrint.configure(state='disabled')
+                CheckBuff.configure(state='disabled')
+
+                LabelImage.configure(state='disabled')
+                ImgLabel.configure(state='disabled')
+
+                ButtonRecapture.configure(state='disabled')
+                CheckBoxLowMana.configure(state='disabled')
                 LabelHotkey.configure(state='disabled')
-                CheckHur.configure(state='disabled')
                 HotkeyHur.configure(state='disabled')
             else:
+                CheckPrint.configure(state='normal')
+                CheckBuff.configure(state='normal')
+
+                LabelImage.configure(state='normal')
+                ImgLabel.configure(state='normal')
+
+                ButtonRecapture.configure(state='normal')
+                CheckBoxLowMana.configure(state='normal')
                 LabelHotkey.configure(state='normal')
-                CheckHur.configure(state='normal')
                 HotkeyHur.configure(state='normal')
 
         CheckingButtons()

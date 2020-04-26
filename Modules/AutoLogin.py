@@ -12,10 +12,11 @@ AccountName = [0, 0]
 username_value = ''
 passwd_value = ''
 
+
 class AutoLogin:
     def __init__(self, root):
         self.AutoLogin = GUI('AutoLogin', 'Module: Auto Login')
-        self.AutoLogin.DefaultWindow('DefaultWindow')
+        self.AutoLogin.DefaultWindow('AutoLogin', [339, 540], [1.2, 2.29])
 
         def SetAutoLogin():
             global EnabledAutoLogin
@@ -76,15 +77,13 @@ class AutoLogin:
         TextEntryUsername = tk.StringVar()
         TextEntryYPasswd = tk.StringVar()
 
-        self.AutoLogin.addButton('Ok', self.AutoLogin.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
+        self.AutoLogin.addButton('Ok', self.AutoLogin.destroyWindow, [84, 29], [130, 504])
 
         global EnabledAutoLogin
         if not EnabledAutoLogin:
-            ButtonEnabled = self.AutoLogin.addButton('AutoLogin: OFF', SetAutoLogin, [328, 29, 12, 469],
-                                                       [127, 17, 8], [123, 13, 5])
+            ButtonEnabled = self.AutoLogin.addButton('AutoLogin: OFF', SetAutoLogin, [328, 29], [12, 469])
         else:
-            ButtonEnabled = self.AutoLogin.addButton('AutoLogin: ON', SetAutoLogin, [328, 29, 12, 469],
-                                                       [127, 17, 8], [123, 13, 5])
+            ButtonEnabled = self.AutoLogin.addButton('AutoLogin: ON', SetAutoLogin, [328, 29], [12, 469])
 
         ButtonPrint = self.AutoLogin.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
 

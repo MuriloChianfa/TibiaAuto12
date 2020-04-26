@@ -113,7 +113,7 @@ class Redirect:
         AutoMana(root, ManaLocation)
 
     def OpenAutoRing(self):
-        AutoRing(root, RingPositions)
+        AutoRing(root, RingPositions, HealthLocation)
 
     def OpenAutoSeller(self):
         AutoSeller(root)
@@ -414,6 +414,7 @@ def main():
             print(f"Status Bar End [X: {StatsPositions[2]}, Y: {StatsPositions[3]}]")
             print('')
 
+            global RingPositions
             RingPositions[0], RingPositions[1] = StatsPositions[0], StatsPositions[1] - 58
             RingPositions[2] = RingPositions[0] + ItemsSquare - 1
             RingPositions[3] = RingPositions[1] + ItemsSquare - 1
@@ -421,6 +422,7 @@ def main():
             print(f"Ring's Square End [X: {RingPositions[2]}, Y: {RingPositions[3]}]")
             print('')
 
+            global AmuletPositions
             AmuletPositions[0], AmuletPositions[1] = StatsPositions[0], StatsPositions[1] - 130
             AmuletPositions[2] = AmuletPositions[0] + ItemsSquare - 1
             AmuletPositions[3] = AmuletPositions[1] + ItemsSquare - 1
@@ -465,7 +467,7 @@ def main():
 
             time.sleep(0.3)
             config_master.destroy()
-            time.sleep(1)
+            time.sleep(0.1)
             root()
         else:
             print("Error to Log Tibia window")

@@ -26,7 +26,7 @@ MaxLen = 4
 class AutoSSA:
     def __init__(self, root, AmuletPositions, HealthLocation):
         self.AutoSSA = GUI('AutoSSA', 'Module: Auto SSA')
-        self.AutoSSA.DefaultWindow('DefaultWindow')
+        self.AutoSSA.DefaultWindow('AutoAmulet', [306, 397], [1.2, 2.29])
 
         def SetAutoAmulet():
             global EnabledAutoSSA
@@ -56,7 +56,6 @@ class AutoSSA:
                     while EnabledAutoSSA and EnabledAutoHeal:
                         NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
                         from Modules.AutoHeal import life
-                        print(life, BellowThan)
                         if NoHasAmulet and life <= BellowThan:
                             Execute()
                 else:
@@ -106,19 +105,6 @@ class AutoSSA:
                     else:
                         print("Lower Resolution Than Entered")
                         time.sleep(1)
-            elif RadioButton.get() == 2:
-                AmuletLocate[0], AmuletLocate[1] = SearchForAmulet(Amulet)
-                if AmuletLocate[0] and AmuletLocate[1] != 0:
-                    MousePosition = pyautogui.position()
-                    pyautogui.moveTo(AmuletLocate[0], AmuletLocate[1])
-                    pyautogui.mouseDown(button='left')
-                    pyautogui.moveTo(AmuletPositions[0] + 16, AmuletPositions[1] + 16)
-                    pyautogui.mouseUp(button='left')
-                    pyautogui.moveTo(MousePosition)
-                    print("Amulet Reallocated On: X =", AmuletPositions[0] + 16, "Y =", AmuletPositions[1] + 16,
-                          "From: X =",
-                          AmuletLocate[0], "Y =", AmuletLocate[1])
-                    time.sleep(0.3)
 
         def Recapture():
             global WaitingForClick, Amulet
@@ -220,19 +206,19 @@ class AutoSSA:
         LifeBellowThan = tk.IntVar()
         LifeBellowThan.set(30)
 
-        self.AutoSSA.addButton('Ok', self.AutoSSA.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [103, 13, 5])
+        self.AutoSSA.addButton('Ok', self.AutoSSA.destroyWindow, [73, 21], [115, 365])
 
         global EnabledAutoSSA
         if not EnabledAutoSSA:
-            ButtonEnabled = self.AutoSSA.addButton('AutoSSA: OFF', SetAutoAmulet, [328, 29, 12, 469],
-                                                   [127, 17, 8], [103, 13, 5])
+            ButtonEnabled = self.AutoSSA.addButton('AutoSSA: OFF', SetAutoAmulet, [287, 23], [11, 336])
         else:
-            ButtonEnabled = self.AutoSSA.addButton('AutoSSA: ON', SetAutoAmulet, [328, 29, 12, 469],
-                                                   [127, 17, 8], [103, 13, 5])
+            ButtonEnabled = self.AutoSSA.addButton('AutoSSA: ON', SetAutoAmulet, [287, 23], [11, 336])
+            ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        ButtonPrint = self.AutoSSA.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
-
-        ButtonLowMana = self.AutoSSA.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
+        CheckPrint = self.AutoSSA.addCheck(CheckPrint, [11, 285], 0, "Print on Tibia's screen")
+        CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
+        CheckBuff = self.AutoSSA.addCheck(LowMana, [11, 305], 0, "Don't Buff")
+        CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
         BackImage = 'images/Fundo.png'
         Back = self.AutoSSA.openImage(BackImage, [150, 45])
@@ -240,52 +226,49 @@ class AutoSSA:
         AmuletImg = 'images/Amulets/SSA.png'
         ImageID = self.AutoSSA.openImage(AmuletImg, [64, 64])
 
-        ImgLabel = self.AutoSSA.addLabel('Image To Search', [130, 16, 6], [30, 45])
-        self.AutoSSA.addImage(ImageID, [130, 16, 6], [42, 65])
+        ImgLabel = self.AutoSSA.addLabel('Image To Search', [16, 22])
+        self.AutoSSA.addImage(ImageID, [28, 43])
 
-        AmuletLabel = self.AutoSSA.addLabel('Select Name Of Amulet', [130, 16, 6], [155, 80])
-        OptionNameAmulet = self.AutoSSA.addOption(NameAmulet, Amulets, [130, 105], width=24)
+        AmuletLabel = self.AutoSSA.addLabel('Select Name Of Amulet', [135, 55])
+        OptionNameAmulet = self.AutoSSA.addOption(NameAmulet, Amulets, [120, 80], width=21)
 
-        ButtonAddNewAmulet = self.AutoSSA.addButton('Add New Amulet', AddNewAmulet, [185, 24, 130, 140],
-                                                 [127, 17, 8], [103, 13, 5])
+        ButtonAddNewAmulet = self.AutoSSA.addButton('Add New Amulet', AddNewAmulet, [167, 24], [120, 115])
 
-        ButtonRecapture = self.AutoSSA.addButton('Recapture', Recapture, [88, 24, 33, 140],
-                                                 [127, 17, 8], [103, 13, 5])
+        ButtonRecapture = self.AutoSSA.addButton('Recapture', Recapture, [88, 24], [22, 115])
 
-        DescLabel = self.AutoSSA.addLabel('', [130, 16, 6], [170, 170])
+        DescLabel = self.AutoSSA.addLabel('', [150, 140])
 
-        RButton1 = self.AutoSSA.addRadio('Hotkey', RadioButton, 0, [30, 185], [130, 16, 6], CheckClick)
-        RButton2 = self.AutoSSA.addRadio('Position', RadioButton, 1, [30, 205], [130, 16, 6], CheckClick)
+        RButton1 = self.AutoSSA.addRadio('Hotkey', RadioButton, 0, [22, 155], CheckClick)
+        RButton2 = self.AutoSSA.addRadio('Position', RadioButton, 1, [22, 175], CheckClick)
 
-        CheckBoxLifeBellowThan = self.AutoSSA.addCheck(CheckLifeBellowThan, [65, 240], [130, 16, 6], 0,
+        CheckBoxLifeBellowThan = self.AutoSSA.addCheck(CheckLifeBellowThan, [60, 210], 0,
                                                        'Use Only If Life Is Bellow Than')
-        LabelLifeBellowThan = self.AutoSSA.addLabel('Life <= ', [130, 16, 6], [95, 275])
-        PercentageLifeBellowThan = self.AutoSSA.addOption(LifeBellowThan, percentage, [145, 270])
+        LabelLifeBellowThan = self.AutoSSA.addLabel('Life <= ', [90, 245])
+        PercentageLifeBellowThan = self.AutoSSA.addOption(LifeBellowThan, percentage, [140, 240])
 
         def Checking():
             global FoundedImg, Amulet
             if RadioButton.get() == 0:
                 DescLabel.configure(text='Hotkey To Press')
-                self.AutoSSA.addImage(Back, [130, 16, 6], [160, 195])
+                self.AutoSSA.addImage(Back, [130, 165])
                 FoundedImg = False
-                HotkeyOption = self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [165, 200], 10)
+                HotkeyOption = self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [145, 170], 10)
                 if EnabledAutoSSA:
                     HotkeyOption.configure(state='disabled')
                 else:
                     HotkeyOption.configure(state='normal')
             elif RadioButton.get() == 1:
                 DescLabel.configure(text='Position To Search')
-                self.AutoSSA.addImage(Back, [130, 16, 6], [150, 195])
+                self.AutoSSA.addImage(Back, [120, 165])
                 FoundedImg = False
 
-                ButtonGetPosition = self.AutoSSA.addButton('GetPosition', ReturnGetPosition, [80, 29, 215, 205],
-                                                           [127, 17, 8], [103, 13, 5])
+                ButtonGetPosition = self.AutoSSA.addButton('GetPosition', ReturnGetPosition, [80, 29], [195, 173])
 
-                LabelX = self.AutoSSA.addLabel('X:', [130, 16, 6], [160, 200])
-                EntryX = self.AutoSSA.addEntry([175, 200], TextEntryX, width=4)
+                LabelX = self.AutoSSA.addLabel('X:', [135, 165])
+                EntryX = self.AutoSSA.addEntry([150, 165], TextEntryX, width=4)
                 TextEntryX.trace("w", ValidateEntryX)
-                LabelY = self.AutoSSA.addLabel('Y:', [130, 16, 6], [160, 220])
-                EntryY = self.AutoSSA.addEntry([175, 220], TextEntryY, width=4)
+                LabelY = self.AutoSSA.addLabel('Y:', [135, 185])
+                EntryY = self.AutoSSA.addEntry([150, 185], TextEntryY, width=4)
                 TextEntryY.trace("w", ValidateEntryY)
                 if EnabledAutoSSA:
                     ButtonGetPosition.configure(state='disabled')
@@ -310,6 +293,9 @@ class AutoSSA:
 
         def CheckingButtons():
             if EnabledAutoSSA:
+                CheckPrint.configure(state='disabled')
+                CheckBuff.configure(state='disabled')
+
                 DescLabel.configure(state='disabled')
                 ImgLabel.configure(state='disabled')
                 ButtonRecapture.configure(state='disabled')
@@ -324,6 +310,9 @@ class AutoSSA:
                 LabelLifeBellowThan.configure(state='disabled')
                 PercentageLifeBellowThan.configure(state='disabled')
             else:
+                CheckPrint.configure(state='normal')
+                CheckBuff.configure(state='normal')
+
                 DescLabel.configure(state='normal')
                 ImgLabel.configure(state='normal')
                 ButtonRecapture.configure(state='normal')

@@ -23,21 +23,21 @@ class GUI:
         self.windowID.resizable(width=False, height=False)
         self.windowID.configure(background='#000', takefocus=True)
 
-    def DefaultWindow(self, BackgroundImage):
+    def DefaultWindow(self, BackgroundImage, sizes, positions):
         self.windowID = tk.Toplevel()
         self.windowID.focus_force()
         self.windowID.grab_set()
-        w = 348
-        h = 546
+        w = sizes[0]
+        h = sizes[1]
         sw = self.windowID.winfo_screenwidth()
         sh = self.windowID.winfo_screenheight()
-        x = (sw - w) / 1.325
-        y = (sh - h) / 2.36
+        x = (sw - w) / positions[0]
+        y = (sh - h) / positions[1]
         self.windowID.geometry('%dx%d+%d+%d' % (w, h, x, y))
         self.windowID.title(self.name)
         self.windowID.resizable(width=False, height=False)
         self.windowID.configure(background='#000', takefocus=True)
-        image = Image.open('images/' + BackgroundImage + '.jpg')
+        image = Image.open('images/Modules/' + BackgroundImage + '.png')
         photo = ImageTk.PhotoImage(image)
         label = tk.Label(self.windowID, image=photo, bg='#000')
         label.image = photo
@@ -72,26 +72,27 @@ class GUI:
         elif value == 'Y':
             return self.windowID.winfo_y()
 
-    def addButton(self, textOfButton, action, sizes, bgColor, aBgColor):
+    def addButton(self, textOfButton, command, sizes, positions):
         buttonID = tk.Button(self.windowID,
                              text=textOfButton,
                              font=('Microsoft Sans Serif', 10),
-                             bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
+                             bg=rgb((114, 0, 0)),
                              fg='white',
-                             command=action,
+                             command=command,
                              cursor="hand2",
-                             activebackground=rgb((aBgColor[0], aBgColor[1], aBgColor[2])))
-        buttonID.place(w=sizes[0], h=sizes[1], x=sizes[2], y=sizes[3])
+                             activebackground=rgb((103, 13, 5)))
+        buttonID.place(w=sizes[0], h=sizes[1], x=positions[0], y=positions[1])
         return buttonID
 
-    def addCheck(self, variable, position, bgColor, selected, textOfButton="", image=None):
+    def addCheck(self, variable, position, selected, textOfButton="", image=None):
         buttonID = tk.Checkbutton(self.windowID,
-                                  bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
-                                  activebackground=rgb((130, 16, 6)),
+                                  bg=rgb((114, 0, 3)),
+                                  activebackground=rgb((114, 0, 3)),
+                                  activeforeground='white',
                                   text=textOfButton,
                                   variable=variable,
                                   fg='white',
-                                  selectcolor=rgb((130, 16, 6)),
+                                  selectcolor=rgb((114, 0, 3)),
                                   cursor="hand2",
                                   onvalue=True,
                                   offvalue=False,
@@ -103,18 +104,18 @@ class GUI:
             buttonID.deselect()
         return buttonID
 
-    def addLabel(self, textOfLabel, bgColor, position):
+    def addLabel(self, textOfLabel, position):
         labelID = tk.Label(self.windowID,
                            text=textOfLabel,
-                           bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
+                           bg=rgb((114, 0, 0)),
                            fg='white')
         labelID.place(x=position[0], y=position[1])
         return labelID
 
-    def addImage(self, image, bgColor, position):
+    def addImage(self, image, position):
         imageID = tk.Label(self.windowID,
                            image=image,
-                           bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
+                           bg=rgb((114, 0, 0)),
                            fg='white')
         imageID.place(x=position[0], y=position[1])
         return imageID
@@ -123,7 +124,7 @@ class GUI:
         entryID = tk.Entry(self.windowID,
                            width=width,
                            textvariable=var,
-                           bg=rgb((127, 17, 8)),
+                           bg=rgb((114, 0, 0)),
                            borderwidth=2,
                            foreground="#FF69B4"
                            )
@@ -132,7 +133,7 @@ class GUI:
 
     def addOption(self, variable, options, position, width=4):
         optionID = tk.OptionMenu(self.windowID, variable, *options)
-        optionID['bg'] = rgb((127, 17, 8))
+        optionID['bg'] = rgb((114, 0, 0))
         optionID['fg'] = 'white'
         optionID['activebackground'] = rgb((103, 13, 5))
         optionID["highlightthickness"] = 0
@@ -141,17 +142,17 @@ class GUI:
         optionID.place(x=position[0], y=position[1])
         return optionID
 
-    def addRadio(self, text, variable, value, position, bgColor, command=None):
+    def addRadio(self, text, variable, value, position, command=None):
         RadioID = tk.Radiobutton(self.windowID,
                                  text=text,
                                  variable=variable,
                                  value=value,
                                  fg='white',
-                                 selectcolor=rgb((130, 16, 6)),
+                                 selectcolor=rgb((114, 0, 0)),
                                  cursor="hand2",
-                                 bg=rgb((bgColor[0], bgColor[1], bgColor[2])),
+                                 bg=rgb((114, 0, 0)),
                                  command=command)
-        RadioID['activebackground'] = rgb((bgColor[0], bgColor[1], bgColor[2]))
+        RadioID['activebackground'] = rgb((127, 17, 8)),
         RadioID.place(x=position[0], y=position[1])
         return RadioID
 

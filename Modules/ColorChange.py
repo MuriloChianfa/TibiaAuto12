@@ -8,7 +8,7 @@ EnabledColorChange = False
 class ColorChange:
     def __init__(self, root, Player):
         self.ColorChange = GUI('ColorChange', 'Module: Color Change')
-        self.ColorChange.DefaultWindow('DefaultWindow')
+        self.ColorChange.DefaultWindow('AutoHeal', [306, 472], [1.2, 2.29])
 
         def SetColorChange():
             global EnabledColorChange
@@ -73,15 +73,13 @@ class ColorChange:
         CheckPrint = tk.BooleanVar()
         LowMana = tk.BooleanVar()
 
-        self.ColorChange.addButton('Ok', self.ColorChange.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
+        self.ColorChange.addButton('Ok', self.ColorChange.destroyWindow, [73, 21], [115, 440])
 
         global EnabledColorChange
         if not EnabledColorChange:
-            ButtonEnabled = self.ColorChange.addButton('ColorChange: OFF', SetColorChange, [328, 29, 12, 469],
-                                                       [127, 17, 8], [123, 13, 5])
+            ButtonEnabled = self.ColorChange.addButton('ColorChange: OFF', SetColorChange, [328, 29], [12, 469])
         else:
-            ButtonEnabled = self.ColorChange.addButton('ColorChange: ON', SetColorChange, [328, 29, 12, 469],
-                                                       [127, 17, 8], [123, 13, 5])
+            ButtonEnabled = self.ColorChange.addButton('ColorChange: ON', SetColorChange, [328, 29], [12, 469])
 
         ButtonPrint = self.ColorChange.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
 

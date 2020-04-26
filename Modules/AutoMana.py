@@ -1,3 +1,6 @@
+import time
+import threading
+
 from Engine.GUI import *
 from Engine.ScanStages import ScanStages
 from Conf.Hotkeys import Hotkeys, PressHotkey
@@ -14,7 +17,7 @@ percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 2
 class AutoMana:
     def __init__(self, root, ManaLocation):
         self.AutoMana = GUI('AutoMana', 'Module: Auto Mana')
-        self.AutoMana.DefaultWindow('DefaultWindow')
+        self.AutoMana.DefaultWindow('AutoMana', [306, 272], [1.2, 2.29])
 
         def SetAutoMana():
             global EnabledAutoMana
@@ -23,7 +26,11 @@ class AutoMana:
                 ButtonEnabled.configure(text='AutoMana: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 print("AutoMana: ON")
                 CheckingButtons()
-                ScanAutoMana()
+                try:
+                    ThreadAutoMana = threading.Thread(target=ScanAutoMana)
+                    ThreadAutoMana.start()
+                except:
+                    print("Error: Unable To Start ThreadAutoMana!")
             else:
                 EnabledAutoMana = False
                 print("AutoMana: OFF")
@@ -31,26 +38,27 @@ class AutoMana:
                 ButtonEnabled.configure(text='AutoMana: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
 
         def ScanAutoMana():
-            mana = ScanStages('Mana').ScanStages(ManaLocation, manaColor, manaColorFull)
+            while EnabledAutoMana:
+                mana = ScanStages('Mana').ScanStages(ManaLocation, manaColor, manaColorFull)
 
-            if mana is None:
-                mana = 0
+                if mana is None:
+                    mana = 0
 
-            if VarCheckStageTwo.get():
-                stage_two = VarPercentageStageTwo.get()
-                if stage_two > mana or stage_two == mana:
-                    PressHotkey(VarHotkeyStageTwo.get())
-                    print("Pressed ", VarHotkeyStageTwo.get())
-            elif VarCheckStageOne.get():
-                stage_one = VarPercentageStageOne.get()
-                if stage_one > mana or stage_one == mana:
-                    PressHotkey(VarHotkeyStageOne.get())
-                    print("Pressed ", VarHotkeyStageOne.get())
-            else:
-                print("Modulo Not Configured")
-
-            if EnabledAutoMana:
-                root.after(200, ScanAutoMana)
+                if VarCheckStageTwo.get():
+                    stage_two = VarPercentageStageTwo.get()
+                    if stage_two > mana or stage_two == mana:
+                        PressHotkey(VarHotkeyStageTwo.get())
+                        print("Pressed ", VarHotkeyStageTwo.get())
+                        time.sleep(0.2)
+                elif VarCheckStageOne.get():
+                    stage_one = VarPercentageStageOne.get()
+                    if stage_one > mana or stage_one == mana:
+                        PressHotkey(VarHotkeyStageOne.get())
+                        print("Pressed ", VarHotkeyStageOne.get())
+                        time.sleep(0.2)
+                else:
+                    print("Modulo Not Configured")
+                    time.sleep(1)
 
         VarCheckPrint = tk.BooleanVar()
         VarCheckBuff = tk.BooleanVar()
@@ -59,42 +67,44 @@ class AutoMana:
         VarPercentageStageOne = tk.IntVar()
         VarPercentageStageOne.set(60)
         VarHotkeyStageOne = tk.StringVar()
-        VarHotkeyStageOne.set("f3")
+        VarHotkeyStageOne.set("F3")
         VarPercentageStageTwo = tk.IntVar()
         VarPercentageStageTwo.set(45)
         VarHotkeyStageTwo = tk.StringVar()
-        VarHotkeyStageTwo.set("f4")
+        VarHotkeyStageTwo.set("F4")
 
-        self.AutoMana.addButton('Ok', self.AutoMana.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
+        self.AutoMana.addButton('Ok', self.AutoMana.destroyWindow, [73, 21], [115, 240])
 
         ''' button enable healing '''
 
         global EnabledAutoMana
         if not EnabledAutoMana:
-            ButtonEnabled = self.AutoMana.addButton('AutoMana: OFF', SetAutoMana, [328, 29, 12, 469],
-                                                    [127, 17, 8], [123, 13, 5])
+            ButtonEnabled = self.AutoMana.addButton('AutoMana: OFF', SetAutoMana, [287, 23], [11, 211])
         else:
-            ButtonEnabled = self.AutoMana.addButton('AutoMana: ON', SetAutoMana, [328, 29, 12, 469],
-                                                    [127, 17, 8], [123, 13, 5])
+            ButtonEnabled = self.AutoMana.addButton('AutoMana: ON', SetAutoMana, [287, 23], [11, 211])
+            ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        self.AutoMana.addLabel('Mana', [120, 98, 51], [32, 3])
-        LabelPercentage = self.AutoMana.addLabel('% Percentage', [130, 16, 6], [153, 54])
-        LabelHotkey = self.AutoMana.addLabel('HotKey', [130, 16, 6], [259, 54])
+        LabelPercentage = self.AutoMana.addLabel('% Percentage', [145, 24])
+        LabelHotkey = self.AutoMana.addLabel('HotKey', [230, 24])
 
-        self.AutoMana.addCheck(VarCheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
-        self.AutoMana.addCheck(VarCheckBuff, [10, 440], [120, 98, 51], 0, "Don't Buff")
+        CheckPrint = self.AutoMana.addCheck(VarCheckPrint, [11, 160], 0, "Print on Tibia's screen")
+        CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
+        CheckBuff = self.AutoMana.addCheck(VarCheckBuff, [11, 180], 0, "Don't Buff")
+        CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
-        StageOne = self.AutoMana.addCheck(VarCheckStageOne, [32, 94], [130, 16, 6], 0, "Enable Stage One")
-        StageTwo = self.AutoMana.addCheck(VarCheckStageTwo, [32, 144], [130, 16, 6], 0, "Enable Stage Two")
+        StageOne = self.AutoMana.addCheck(VarCheckStageOne, [17, 55], 0, "Enable Stage One")
+        StageTwo = self.AutoMana.addCheck(VarCheckStageTwo, [17, 105], 0, "Enable Stage Two")
 
-        PercentageStageOne = self.AutoMana.addOption(VarPercentageStageOne, percentage, [165, 90])
-        HotkeyStageOne = self.AutoMana.addOption(VarHotkeyStageOne, Hotkeys, [250, 90])
+        PercentageStageOne = self.AutoMana.addOption(VarPercentageStageOne, percentage, [148, 54])
+        HotkeyStageOne = self.AutoMana.addOption(VarHotkeyStageOne, Hotkeys, [223, 54])
 
-        PercentageStageTwo = self.AutoMana.addOption(VarPercentageStageTwo, percentage, [165, 140])
-        HotkeyStageTwo = self.AutoMana.addOption(VarHotkeyStageTwo, Hotkeys, [250, 140])
+        PercentageStageTwo = self.AutoMana.addOption(VarPercentageStageTwo, percentage, [148, 104])
+        HotkeyStageTwo = self.AutoMana.addOption(VarHotkeyStageTwo, Hotkeys, [223, 104])
 
         def CheckingButtons():
             if EnabledAutoMana:
+                CheckPrint.configure(state='disabled')
+                CheckBuff.configure(state='disabled')
                 StageOne.configure(state='disabled')
                 StageTwo.configure(state='disabled')
                 PercentageStageOne.configure(state='disabled')
@@ -104,6 +114,8 @@ class AutoMana:
                 LabelPercentage.configure(state='disabled')
                 LabelHotkey.configure(state='disabled')
             else:
+                CheckPrint.configure(state='normal')
+                CheckBuff.configure(state='normal')
                 StageOne.configure(state='normal')
                 StageTwo.configure(state='normal')
                 PercentageStageOne.configure(state='normal')

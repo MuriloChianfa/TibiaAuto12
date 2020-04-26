@@ -8,7 +8,7 @@ EnabledAutoBanker = False
 class AutoBanker:
     def __init__(self, root):
         self.AutoBanker = GUI('AutoBanker', 'Module: Auto Banker')
-        self.AutoBanker.DefaultWindow('DefaultWindow')
+        self.AutoBanker.DefaultWindow('AltoBanker', [224, 171], [1.2, 2.29])
 
         def SetAutoBanker():
             global EnabledAutoBanker

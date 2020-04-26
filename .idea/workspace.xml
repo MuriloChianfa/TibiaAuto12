@@ -2,17 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6e36c5b-40a9-47d0-83fd-838d18fd43e2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/images/Modules/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AOESpells.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AltoBanker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AmmoRestack.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoAmulet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoFish.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoHeal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoHeal2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoHur.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoLogin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoLooter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoMana.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoResponder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoRing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/AutoSeller.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/CaveBot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/CharacterStatics.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/FpsChanger.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/GoLog Alarm.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/GoLog Config.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/Main.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/Modules.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/PythonScripts.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/ShowMap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/ShowMap2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/SortLoot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/SrtikeSpells.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/TimedSpells.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Modules/summonCreature.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Conf/Hotkeys.py" beforeDir="false" afterPath="$PROJECT_DIR$/Conf/Hotkeys.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/AmmoRestack.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AmmoRestack.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/AutoBanker.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoBanker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/AutoFish.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoFish.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Modules/AutoHeal.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoHeal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Modules/AutoHur.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoHur.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Modules/AutoLogin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoLogin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/AutoLooter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoLooter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Modules/AutoMana.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoMana.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/AutoRing.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoRing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/AutoSSA.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoSSA.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/AutoSeller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoSeller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Modules/CaveBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/CaveBot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/ratThais.json" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/ratThais.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Amulets/SSA.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/Amulets/SSA.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Arow.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/Arow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Rings/EnergyRing.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/Rings/EnergyRing.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/ColorChange.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/ColorChange.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/FPSChanger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/FPSChanger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Modules.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Modules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/PythonScripts.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/PythonScripts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/SortLoot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/SortLoot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TimedSpells.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TimedSpells.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/Fundo.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/Fundo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/Rings/MightRing.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/Rings/MightRing.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,7 +193,7 @@
     </state>
     <state x="693" y="248" key="FileChooserDialogImpl/0.0.1826.984/-1366.246.1366.768/1826.12.1366.768@0.0.1826.984" timestamp="1584297345251" />
     <state x="2344" y="206" key="FileChooserDialogImpl/0.0.1826.984/-1366.246.1366.768/1826.12.1366.768@1826.12.1366.768" timestamp="1584998707257" />
-    <state width="1805" height="92" key="GridCell.Tab.0.bottom" timestamp="1587677914230">
+    <state width="1805" height="74" key="GridCell.Tab.0.bottom" timestamp="1587872543934">
       <screen x="1366" y="-257" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.bottom/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -166,12 +207,12 @@
     <state width="1345" height="112" key="GridCell.Tab.0.bottom/0.0.1826.984/-1366.257.1366.768/1826.24.1366.768@1826.24.1366.768" timestamp="1585267802251" />
     <state width="1345" height="121" key="GridCell.Tab.0.bottom/1366.-244.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585112156474" />
     <state width="1345" height="173" key="GridCell.Tab.0.bottom/1366.-245.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585001852306" />
-    <state width="1805" height="92" key="GridCell.Tab.0.bottom/1366.-257.1826.1024/0.0.1366.768/3192.-234.1366.768@1366.-257.1826.1024" timestamp="1587677914230" />
+    <state width="1805" height="74" key="GridCell.Tab.0.bottom/1366.-257.1826.1024/0.0.1366.768/3192.-234.1366.768@1366.-257.1826.1024" timestamp="1587872543934" />
     <state width="1805" height="112" key="GridCell.Tab.0.bottom/1366.-257.1826.984/0.0.1366.728/3192.-233.1366.768@1366.-257.1826.984" timestamp="1585267736927" />
     <state width="1805" height="133" key="GridCell.Tab.0.bottom/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.bottom/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1783" height="92" key="GridCell.Tab.0.bottom/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1587340512626" />
-    <state width="1805" height="92" key="GridCell.Tab.0.center" timestamp="1587677914230">
+    <state width="1805" height="74" key="GridCell.Tab.0.center" timestamp="1587872543934">
       <screen x="1366" y="-257" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.center/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -185,12 +226,12 @@
     <state width="1345" height="112" key="GridCell.Tab.0.center/0.0.1826.984/-1366.257.1366.768/1826.24.1366.768@1826.24.1366.768" timestamp="1585267802251" />
     <state width="1345" height="121" key="GridCell.Tab.0.center/1366.-244.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585112156473" />
     <state width="1345" height="173" key="GridCell.Tab.0.center/1366.-245.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585001852305" />
-    <state width="1805" height="92" key="GridCell.Tab.0.center/1366.-257.1826.1024/0.0.1366.768/3192.-234.1366.768@1366.-257.1826.1024" timestamp="1587677914230" />
+    <state width="1805" height="74" key="GridCell.Tab.0.center/1366.-257.1826.1024/0.0.1366.768/3192.-234.1366.768@1366.-257.1826.1024" timestamp="1587872543934" />
     <state width="1805" height="112" key="GridCell.Tab.0.center/1366.-257.1826.984/0.0.1366.728/3192.-233.1366.768@1366.-257.1826.984" timestamp="1585267736926" />
     <state width="1805" height="133" key="GridCell.Tab.0.center/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.center/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1783" height="92" key="GridCell.Tab.0.center/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1587340512626" />
-    <state width="1805" height="92" key="GridCell.Tab.0.left" timestamp="1587677914230">
+    <state width="1805" height="74" key="GridCell.Tab.0.left" timestamp="1587872543934">
       <screen x="1366" y="-257" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.left/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -204,12 +245,12 @@
     <state width="1345" height="112" key="GridCell.Tab.0.left/0.0.1826.984/-1366.257.1366.768/1826.24.1366.768@1826.24.1366.768" timestamp="1585267802251" />
     <state width="1345" height="121" key="GridCell.Tab.0.left/1366.-244.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585112156473" />
     <state width="1345" height="173" key="GridCell.Tab.0.left/1366.-245.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585001852305" />
-    <state width="1805" height="92" key="GridCell.Tab.0.left/1366.-257.1826.1024/0.0.1366.768/3192.-234.1366.768@1366.-257.1826.1024" timestamp="1587677914230" />
+    <state width="1805" height="74" key="GridCell.Tab.0.left/1366.-257.1826.1024/0.0.1366.768/3192.-234.1366.768@1366.-257.1826.1024" timestamp="1587872543934" />
     <state width="1805" height="112" key="GridCell.Tab.0.left/1366.-257.1826.984/0.0.1366.728/3192.-233.1366.768@1366.-257.1826.984" timestamp="1585267736926" />
     <state width="1805" height="133" key="GridCell.Tab.0.left/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.left/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1783" height="92" key="GridCell.Tab.0.left/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1587340512626" />
-    <state width="1805" height="92" key="GridCell.Tab.0.right" timestamp="1587677914230">
+    <state width="1805" height="74" key="GridCell.Tab.0.right" timestamp="1587872543934">
       <screen x="1366" y="-257" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.right/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -223,7 +264,7 @@
     <state width="1345" height="112" key="GridCell.Tab.0.right/0.0.1826.984/-1366.257.1366.768/1826.24.1366.768@1826.24.1366.768" timestamp="1585267802251" />
     <state width="1345" height="121" key="GridCell.Tab.0.right/1366.-244.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585112156474" />
     <state width="1345" height="173" key="GridCell.Tab.0.right/1366.-245.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585001852306" />
-    <state width="1805" height="92" key="GridCell.Tab.0.right/1366.-257.1826.1024/0.0.1366.768/3192.-234.1366.768@1366.-257.1826.1024" timestamp="1587677914230" />
+    <state width="1805" height="74" key="GridCell.Tab.0.right/1366.-257.1826.1024/0.0.1366.768/3192.-234.1366.768@1366.-257.1826.1024" timestamp="1587872543934" />
     <state width="1805" height="112" key="GridCell.Tab.0.right/1366.-257.1826.984/0.0.1366.728/3192.-233.1366.768@1366.-257.1826.984" timestamp="1585267736926" />
     <state width="1805" height="133" key="GridCell.Tab.0.right/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.right/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />

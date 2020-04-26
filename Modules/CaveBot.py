@@ -35,10 +35,11 @@ DefaultScript = 'ratThais'
 
 data = None
 
+
 class CaveBot:
     def __init__(self, root, MapPositions, BattlePositions, SQMs):
         self.CaveBot = GUI('CaveBot', 'Module: Cave Bot')
-        self.CaveBot.DefaultWindow('DefaultWindow')
+        self.CaveBot.DefaultWindow('CaveBot', [830, 634], [1.2, 2.29])
 
         def SetCaveBot():
             global EnabledCaveBot
