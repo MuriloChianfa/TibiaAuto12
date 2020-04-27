@@ -126,7 +126,7 @@ class GUI:
                            textvariable=var,
                            bg=rgb((114, 0, 0)),
                            borderwidth=2,
-                           foreground="#FF69B4"
+                           foreground=rgb((81, 216, 0))
                            )
         entryID.place(x=position[0], y=position[1])
         return entryID
@@ -148,11 +148,12 @@ class GUI:
                                  variable=variable,
                                  value=value,
                                  fg='white',
-                                 selectcolor=rgb((114, 0, 0)),
+                                 selectcolor=rgb((114, 0, 3)),
                                  cursor="hand2",
-                                 bg=rgb((114, 0, 0)),
+                                 bg=rgb((114, 0, 3)),
                                  command=command)
-        RadioID['activebackground'] = rgb((127, 17, 8)),
+        RadioID['activebackground'] = rgb((114, 0, 3)),
+        RadioID['activeforeground'] = 'white',
         RadioID.place(x=position[0], y=position[1])
         return RadioID
 
