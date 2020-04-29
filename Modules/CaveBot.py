@@ -88,9 +88,12 @@ class CaveBot:
         CheckHotkeyPause.set(True)
         HotkeyToPause = tk.StringVar()
         HotkeyToPause.set('Page Up')
-
         Script = tk.StringVar()
         Script.set(DefaultScript)
+
+        BackImage = 'images/Fundo.png'
+        Back = self.CaveBot.openImage(BackImage, [210, 60])
+        Back2 = self.CaveBot.openImage(BackImage, [210, 100])
 
         self.CaveBot.addButton('Ok', self.CaveBot.destroyWindow, [74, 22], [378, 601])
 
@@ -172,6 +175,9 @@ class CaveBot:
 
         def AddWalker():
             print('Clicked on add walker')
+
+        def CheckMarkClick():
+            print('Check Mark Click')
 
         # endregion
 
@@ -304,6 +310,30 @@ class CaveBot:
         ResearchMap = tk.BooleanVar()
         ResearchMap.set(True)
 
+        ImageMark1 = ImageTk.PhotoImage(Image.open('images/MapSettings/CheckMark.png'))
+        ImageMark2 = ImageTk.PhotoImage(Image.open('images/MapSettings/QuestionMark.png'))
+        ImageMark3 = ImageTk.PhotoImage(Image.open('images/MapSettings/ExclimationMark.png'))
+        ImageMark4 = ImageTk.PhotoImage(Image.open('images/MapSettings/Star.png'))
+        ImageMark5 = ImageTk.PhotoImage(Image.open('images/MapSettings/Cross.png'))
+        ImageMark6 = ImageTk.PhotoImage(Image.open('images/MapSettings/Church.png'))
+        ImageMark7 = ImageTk.PhotoImage(Image.open('images/MapSettings/Mouth.png'))
+        ImageMark8 = ImageTk.PhotoImage(Image.open('images/MapSettings/Shovel.png'))
+        ImageMark9 = ImageTk.PhotoImage(Image.open('images/MapSettings/Sword.png'))
+        ImageMark10 = ImageTk.PhotoImage(Image.open('images/MapSettings/Flag.png'))
+        ImageMark11 = ImageTk.PhotoImage(Image.open('images/MapSettings/Lock.png'))
+        ImageMark12 = ImageTk.PhotoImage(Image.open('images/MapSettings/Bag.png'))
+        ImageMark13 = ImageTk.PhotoImage(Image.open('images/MapSettings/Skull.png'))
+        ImageMark14 = ImageTk.PhotoImage(Image.open('images/MapSettings/Money.png'))
+        ImageMark15 = ImageTk.PhotoImage(Image.open('images/MapSettings/ArrowUp.png'))
+        ImageMark16 = ImageTk.PhotoImage(Image.open('images/MapSettings/ArrowDown.png'))
+        ImageMark17 = ImageTk.PhotoImage(Image.open('images/MapSettings/ArrowRight.png'))
+        ImageMark18 = ImageTk.PhotoImage(Image.open('images/MapSettings/ArrowLeft.png'))
+        ImageMark19 = ImageTk.PhotoImage(Image.open('images/MapSettings/Above.png'))
+        ImageMark20 = ImageTk.PhotoImage(Image.open('images/MapSettings/Bellow.png'))
+
+        RadioMarkValue = tk.IntVar()
+        RadioMarkValue.set(1)
+
         # endregion
 
         # region Variables DepotWalker
@@ -323,9 +353,6 @@ class CaveBot:
         # endregion
 
         # region Variables CorpseLooting
-
-        TypeLoot = tk.IntVar()
-        TypeLoot.set(0)
 
         CheckLootWhileKilling = tk.BooleanVar()
         CheckLootWhileKilling.set(True)
@@ -398,30 +425,9 @@ class CaveBot:
         RadioWaypoint = self.CaveBot.addRadio('Waypoints', RadioCavebotMode, 0, [26, 414], CheckClick)
         RadioMark = self.CaveBot.addRadio('Marks', RadioCavebotMode, 1, [115, 414], CheckClick)
 
-        LabelWaypoints = self.CaveBot.addLabel('Waypoints:', [236, 402])
-        LabelRadius = self.CaveBot.addLabel('Radius:', [24, 451])
-        LabelDelay = self.CaveBot.addLabel('Delay:', [111, 451])
         LabelStand = self.CaveBot.addLabel('Stand Still After Reaching Waypoint For:', [24, 520])
 
-        EntryRadius = self.CaveBot.addEntry([70, 452], Radius, 5)
-        Radius.trace("w", ValidateRadius)
-        EntryDelay = self.CaveBot.addEntry([154, 452], Delay, 5)
-        Delay.trace("w", ValidateDelay)
-        LabelWaypointX = self.CaveBot.addLabel('X:', [26, 479])
-        EntryWaypointX = self.CaveBot.addEntry([42, 480], Waypoint_X, 5)
-        Waypoint_X.trace("w", ValidateWaypoint_X)
-        LabelWaypointY = self.CaveBot.addLabel('Y:', [81, 479])
-        EntryWaypointY = self.CaveBot.addEntry([97, 480], Waypoint_Y, 5)
-        Waypoint_Y.trace("w", ValidateWaypoint_Y)
-        LabelWaypointZ = self.CaveBot.addLabel('Z:', [135, 479])
-        EntryWaypointZ = self.CaveBot.addEntry([151, 480], Waypoint_Z, 5)
-        Waypoint_Z.trace("w", ValidateWaypoint_Z)
-        EntryStand = self.CaveBot.addEntry([244, 520], Stand, 2)
-        Stand.trace("w", ValidateStand)
-
         ButtonResearchMap = self.CaveBot.addButton('Auto Research Map', SetResearchMap, [130, 37], [268, 513])
-        ButtonRemoveWalker = self.CaveBot.addButton('<<<', RemoveWalker, [29, 23], [197, 424])
-        ButtonAddWalker = self.CaveBot.addButton('>>>', AddWalker, [29, 23], [197, 479])
 
         # endregion
 
@@ -462,13 +468,99 @@ class CaveBot:
 
         def Checking():
             if RadioCavebotMode.get() == 0:
-                print('Cavebot Mode:', RadioCavebotMode.get())
+                print('Walker Mode:', RadioCavebotMode.get())
+
+                self.CaveBot.addImage(Back, [23, 440])
+                self.CaveBot.addImage(Back, [23, 450])
+                self.CaveBot.addImage(Back2, [197, 405])
+
+                LabelWaypoints = self.CaveBot.addLabel('Waypoints:', [236, 402])
+                LabelRadius = self.CaveBot.addLabel('Radius:', [24, 451])
+                LabelDelay = self.CaveBot.addLabel('Delay:', [111, 451])
+
+                EntryRadius = self.CaveBot.addEntry([70, 452], Radius, 5)
+                Radius.trace("w", ValidateRadius)
+                EntryDelay = self.CaveBot.addEntry([154, 452], Delay, 5)
+                Delay.trace("w", ValidateDelay)
+                LabelWaypointX = self.CaveBot.addLabel('X:', [26, 479])
+                EntryWaypointX = self.CaveBot.addEntry([42, 480], Waypoint_X, 5)
+                Waypoint_X.trace("w", ValidateWaypoint_X)
+                LabelWaypointY = self.CaveBot.addLabel('Y:', [81, 479])
+                EntryWaypointY = self.CaveBot.addEntry([97, 480], Waypoint_Y, 5)
+                Waypoint_Y.trace("w", ValidateWaypoint_Y)
+                LabelWaypointZ = self.CaveBot.addLabel('Z:', [135, 479])
+                EntryWaypointZ = self.CaveBot.addEntry([151, 480], Waypoint_Z, 5)
+                Waypoint_Z.trace("w", ValidateWaypoint_Z)
+                EntryStand = self.CaveBot.addEntry([244, 520], Stand, 2)
+                Stand.trace("w", ValidateStand)
+
+                ButtonRemoveWalker = self.CaveBot.addButton('<<<', RemoveWalker, [29, 23], [197, 424])
+                ButtonAddWalker = self.CaveBot.addButton('>>>', AddWalker, [29, 23], [197, 479])
+                if EnabledCaveBot:
+                    LabelWaypoints.configure(state='disabled')
+                    LabelRadius.configure(state='disabled')
+                    LabelDelay.configure(state='disabled')
+                    EntryRadius.configure(state='disabled')
+                    EntryDelay.configure(state='disabled')
+                    LabelWaypointX.configure(state='disabled')
+                    EntryWaypointX.configure(state='disabled')
+                    LabelWaypointY.configure(state='disabled')
+                    EntryWaypointY.configure(state='disabled')
+                    LabelWaypointZ.configure(state='disabled')
+                    EntryWaypointZ.configure(state='disabled')
+                    EntryStand.configure(state='disabled')
+                    ButtonResearchMap.configure(state='disabled')
+                    ButtonRemoveWalker.configure(state='disabled')
+                    ButtonAddWalker.configure(state='disabled')
+                else:
+                    LabelWaypoints.configure(state='normal')
+                    LabelRadius.configure(state='normal')
+                    LabelDelay.configure(state='normal')
+                    EntryRadius.configure(state='normal')
+                    EntryDelay.configure(state='normal')
+                    LabelWaypointX.configure(state='normal')
+                    EntryWaypointX.configure(state='normal')
+                    LabelWaypointY.configure(state='normal')
+                    EntryWaypointY.configure(state='normal')
+                    LabelWaypointZ.configure(state='normal')
+                    EntryWaypointZ.configure(state='normal')
+                    EntryStand.configure(state='normal')
+                    ButtonResearchMap.configure(state='normal')
+                    ButtonRemoveWalker.configure(state='normal')
+                    ButtonAddWalker.configure(state='normal')
             elif RadioCavebotMode.get() == 1:
-                print('Cavebot Mode:', RadioCavebotMode.get())
-            if TypeLoot.get() == 0:
-                print('Type Loot:', TypeLoot.get())
-            elif TypeLoot.get() == 1:
-                print('Type Loot:', TypeLoot.get())
+                print('Walker Mode:', RadioCavebotMode.get())
+
+                self.CaveBot.addImage(Back, [23, 450])
+                self.CaveBot.addImage(Back2, [197, 405])
+
+                LabelWaypoints = self.CaveBot.addLabel('Marks:', [246, 402])
+
+                self.CaveBot.addRadioImage('', RadioMarkValue, 1, [24, 441], CheckMarkClick, ImageMark1)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 2, [54, 441], CheckMarkClick, ImageMark2)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 3, [84, 441], CheckMarkClick, ImageMark3)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 4, [114, 441], CheckMarkClick, ImageMark4)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 5, [144, 441], CheckMarkClick, ImageMark5)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 6, [174, 441], CheckMarkClick, ImageMark6)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 7, [204, 441], CheckMarkClick, ImageMark7)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 8, [24, 461], CheckMarkClick, ImageMark8)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 9, [54, 461], CheckMarkClick, ImageMark9)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 0, [84, 461], CheckMarkClick, ImageMark10)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 11, [114, 461], CheckMarkClick, ImageMark11)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 12, [144, 461], CheckMarkClick, ImageMark12)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 13, [174, 461], CheckMarkClick, ImageMark13)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 14, [204, 461], CheckMarkClick, ImageMark14)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 15, [24, 481], CheckMarkClick, ImageMark15)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 16, [54, 481], CheckMarkClick, ImageMark16)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 17, [84, 481], CheckMarkClick, ImageMark17)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 18, [114, 481], CheckMarkClick, ImageMark18)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 19, [144, 481], CheckMarkClick, ImageMark19)
+                self.CaveBot.addRadioImage('', RadioMarkValue, 20, [174, 481], CheckMarkClick, ImageMark20)
+
+                if EnabledCaveBot:
+                    LabelWaypoints.configure(state='disabled')
+                else:
+                    LabelWaypoints.configure(state='normal')
 
         def CheckingButtons():
             if EnabledCaveBot:
@@ -503,22 +595,7 @@ class CaveBot:
 
                 RadioWaypoint.configure(state='disabled')
                 RadioMark.configure(state='disabled')
-                LabelWaypoints.configure(state='disabled')
-                LabelRadius.configure(state='disabled')
-                LabelDelay.configure(state='disabled')
                 LabelStand.configure(state='disabled')
-                EntryRadius.configure(state='disabled')
-                EntryDelay.configure(state='disabled')
-                LabelWaypointX.configure(state='disabled')
-                EntryWaypointX.configure(state='disabled')
-                LabelWaypointY.configure(state='disabled')
-                EntryWaypointY.configure(state='disabled')
-                LabelWaypointZ.configure(state='disabled')
-                EntryWaypointZ.configure(state='disabled')
-                EntryStand.configure(state='disabled')
-                ButtonResearchMap.configure(state='disabled')
-                ButtonRemoveWalker.configure(state='disabled')
-                ButtonAddWalker.configure(state='disabled')
 
                 CheckboxDropItems.configure(state='disabled')
                 LabelGoDepot.configure(state='disabled')
@@ -589,22 +666,7 @@ class CaveBot:
 
                 RadioWaypoint.configure(state='normal')
                 RadioMark.configure(state='normal')
-                LabelWaypoints.configure(state='normal')
-                LabelRadius.configure(state='normal')
-                LabelDelay.configure(state='normal')
                 LabelStand.configure(state='normal')
-                EntryRadius.configure(state='normal')
-                EntryDelay.configure(state='normal')
-                LabelWaypointX.configure(state='normal')
-                EntryWaypointX.configure(state='normal')
-                LabelWaypointY.configure(state='normal')
-                EntryWaypointY.configure(state='normal')
-                LabelWaypointZ.configure(state='normal')
-                EntryWaypointZ.configure(state='normal')
-                EntryStand.configure(state='normal')
-                ButtonResearchMap.configure(state='normal')
-                ButtonRemoveWalker.configure(state='normal')
-                ButtonAddWalker.configure(state='normal')
 
                 CheckboxDropItems.configure(state='normal')
                 if CheckDropItems.get():
@@ -698,5 +760,7 @@ class CaveBot:
 
         CheckingButtons()
         ConstantVerify()
+
+        Checking()
 
         self.CaveBot.loop()

@@ -1,5 +1,3 @@
-import time
-
 from Engine.GUI import *
 
 EnabledAutoFish = False

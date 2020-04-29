@@ -3,7 +3,7 @@ import threading
 
 from Engine.GUI import *
 from Engine.ScanStages import ScanStages
-from Conf.Hotkeys import Hotkeys, PressHotkey
+from Conf.Hotkeys import Hotkey
 
 EnabledAutoMana = False
 
@@ -15,9 +15,10 @@ percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 2
 
 
 class AutoMana:
-    def __init__(self, root, ManaLocation):
+    def __init__(self, root, ManaLocation, MOUSE_OPTION):
         self.AutoMana = GUI('AutoMana', 'Module: Auto Mana')
         self.AutoMana.DefaultWindow('AutoMana', [306, 272], [1.2, 2.29])
+        self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoMana():
             global EnabledAutoMana
@@ -47,13 +48,13 @@ class AutoMana:
                 if VarCheckStageTwo.get():
                     stage_two = VarPercentageStageTwo.get()
                     if stage_two > mana or stage_two == mana:
-                        PressHotkey(VarHotkeyStageTwo.get())
+                        self.SendToClient.Press(VarHotkeyStageTwo.get())
                         print("Pressed ", VarHotkeyStageTwo.get())
                         time.sleep(0.2)
                 elif VarCheckStageOne.get():
                     stage_one = VarPercentageStageOne.get()
                     if stage_one > mana or stage_one == mana:
-                        PressHotkey(VarHotkeyStageOne.get())
+                        self.SendToClient.Press(VarHotkeyStageOne.get())
                         print("Pressed ", VarHotkeyStageOne.get())
                         time.sleep(0.2)
                 else:
@@ -96,10 +97,10 @@ class AutoMana:
         StageTwo = self.AutoMana.addCheck(VarCheckStageTwo, [17, 105], 0, "Enable Stage Two")
 
         PercentageStageOne = self.AutoMana.addOption(VarPercentageStageOne, percentage, [148, 54])
-        HotkeyStageOne = self.AutoMana.addOption(VarHotkeyStageOne, Hotkeys, [223, 54])
+        HotkeyStageOne = self.AutoMana.addOption(VarHotkeyStageOne, self.SendToClient.Hotkeys, [223, 54])
 
         PercentageStageTwo = self.AutoMana.addOption(VarPercentageStageTwo, percentage, [148, 104])
-        HotkeyStageTwo = self.AutoMana.addOption(VarHotkeyStageTwo, Hotkeys, [223, 104])
+        HotkeyStageTwo = self.AutoMana.addOption(VarHotkeyStageTwo, self.SendToClient.Hotkeys, [223, 104])
 
         def CheckingButtons():
             if EnabledAutoMana:

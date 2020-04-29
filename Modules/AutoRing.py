@@ -6,7 +6,7 @@ import pygetwindow
 
 from Engine.GUI import *
 from Engine.ScanRing import ScanRing, SearchForRing
-from Conf.Hotkeys import Hotkeys, PressHotkey
+from Conf.Hotkeys import Hotkey
 
 FoundedImg = False
 EnabledAutoRing = False
@@ -24,9 +24,10 @@ MaxLen = 4
 
 
 class AutoRing:
-    def __init__(self, root, RingPositions, HealthLocation):
+    def __init__(self, root, RingPositions, HealthLocation, MOUSE_OPTION):
         self.AutoRing = GUI('AutoRing', 'Module: Auto Ring')
         self.AutoRing.DefaultWindow('AutoRing', [306, 397], [1.2, 2.29])
+        self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoRing():
             global EnabledAutoRing
@@ -78,7 +79,7 @@ class AutoRing:
 
         def Execute():
             if RadioButton.get() == 0:
-                PressHotkey(HotkeyRing.get())
+                self.SendToClient.Press(HotkeyRing.get())
                 print("Pressed ", HotkeyRing.get(), " To Reallocated Your Ring")
                 time.sleep(1)
             elif RadioButton.get() == 1:
@@ -253,7 +254,7 @@ class AutoRing:
                 DescLabel.configure(text='Hotkey To Press')
                 self.AutoRing.addImage(Back, [130, 165])
                 FoundedImg = False
-                HotkeyOption = self.AutoRing.addOption(HotkeyRing, Hotkeys, [145, 170], 10)
+                HotkeyOption = self.AutoRing.addOption(HotkeyRing, self.SendToClient.Hotkeys, [145, 170], 10)
                 if EnabledAutoRing:
                     HotkeyOption.configure(state='disabled')
                 else:

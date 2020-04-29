@@ -2,15 +2,16 @@ import threading
 
 from Engine.GUI import *
 from Engine.ScanHur import ScanHur
-from Conf.Hotkeys import Hotkeys, PressHotkey
+from Conf.Hotkeys import Hotkey
 
 EnabledAutoHur = False
 
 
 class AutoHur:
-    def __init__(self, root, StatsPositions):
+    def __init__(self, root, StatsPositions, MOUSE_OPTION):
         self.AutoHur = GUI('AutoHur', 'Module: Auto Hur')
         self.AutoHur.DefaultWindow('AutoHur', [224, 258], [1.2, 2.29])
+        self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoHur():
             global EnabledAutoHur
@@ -34,7 +35,7 @@ class AutoHur:
             while EnabledAutoHur:
                 NeedHur = ScanHur(StatsPositions)
                 if NeedHur:
-                    PressHotkey(VarHotkeyHur.get())
+                    self.SendToClient.Press(VarHotkeyHur.get())
                     print("Hur Pressed ", VarHotkeyHur.get())
 
             # if EnabledAutoHur:
@@ -71,7 +72,7 @@ class AutoHur:
         LabelImage = self.AutoHur.addImage(ImageID, [28, 33])
 
         LabelHotkey = self.AutoHur.addLabel('Hotkey', [135, 48])
-        HotkeyHur = self.AutoHur.addOption(VarHotkeyHur, Hotkeys, [113, 72], 8)
+        HotkeyHur = self.AutoHur.addOption(VarHotkeyHur, self.SendToClient.Hotkeys, [113, 72], 8)
 
         ButtonRecapture = self.AutoHur.addButton('Recapture', Recapture, [85, 24], [20, 111])
 

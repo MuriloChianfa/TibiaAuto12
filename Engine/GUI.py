@@ -11,17 +11,23 @@ class GUI:
         self.windowID = windowID
         self.name = name
 
-    def MainWindow(self, size):
-        screenSize = pyautogui.size()
-        size = [f'{int(size[0])}', f'{int(size[1])}']
-        locationOfSpawnWindow = [(screenSize[0] - int(size[0])) / 2,
-                                 (screenSize[1] - int(size[1])) / 2.36]
+    def MainWindow(self, BackgroundImage, sizes, positions):
         self.windowID = tk.Tk()
+        w = sizes[0]
+        h = sizes[1]
+        sw = self.windowID.winfo_screenwidth()
+        sh = self.windowID.winfo_screenheight()
+        x = (sw - w) / positions[0]
+        y = (sh - h) / positions[1]
+        self.windowID.geometry('%dx%d+%d+%d' % (w, h, x, y))
         self.windowID.title(self.name)
-        self.windowID.geometry(
-            '%dx%d+%d+%d' % (int(size[0]), int(size[1]), locationOfSpawnWindow[0], locationOfSpawnWindow[1]))
         self.windowID.resizable(width=False, height=False)
         self.windowID.configure(background='#000', takefocus=True)
+        image = Image.open('images/Modules/' + BackgroundImage + '.png')
+        photo = ImageTk.PhotoImage(image)
+        label = tk.Label(self.windowID, image=photo, bg='#000')
+        label.image = photo
+        label.pack()
 
     def DefaultWindow(self, BackgroundImage, sizes, positions):
         self.windowID = tk.Toplevel()
@@ -112,6 +118,14 @@ class GUI:
         labelID.place(x=position[0], y=position[1])
         return labelID
 
+    def addMinimalLabel(self, textOfLabel, position, h=16):
+        labelID = tk.Label(self.windowID,
+                           text=textOfLabel,
+                           bg=rgb((114, 0, 0)),
+                           fg='white')
+        labelID.place(x=position[0], y=position[1], h=h)
+        return labelID
+
     def addImage(self, image, position):
         imageID = tk.Label(self.windowID,
                            image=image,
@@ -152,6 +166,22 @@ class GUI:
                                  cursor="hand2",
                                  bg=rgb((114, 0, 3)),
                                  command=command)
+        RadioID['activebackground'] = rgb((114, 0, 3)),
+        RadioID['activeforeground'] = 'white',
+        RadioID.place(x=position[0], y=position[1])
+        return RadioID
+
+    def addRadioImage(self, text, variable, value, position, command=None, image=None):
+        RadioID = tk.Radiobutton(self.windowID,
+                                 text=text,
+                                 variable=variable,
+                                 value=value,
+                                 fg='white',
+                                 selectcolor=rgb((114, 0, 3)),
+                                 cursor="hand2",
+                                 bg=rgb((114, 0, 3)),
+                                 command=command,
+                                 image=image)
         RadioID['activebackground'] = rgb((114, 0, 3)),
         RadioID['activeforeground'] = 'white',
         RadioID.place(x=position[0], y=position[1])

@@ -6,7 +6,7 @@ import pygetwindow
 
 from Engine.GUI import *
 from Engine.ScanAmulet import ScanAmulet, SearchForAmulet
-from Conf.Hotkeys import Hotkeys, PressHotkey
+from Conf.Hotkeys import Hotkey
 
 FoundedImg = False
 EnabledAutoSSA = False
@@ -24,9 +24,10 @@ MaxLen = 4
 
 
 class AutoSSA:
-    def __init__(self, root, AmuletPositions, HealthLocation):
+    def __init__(self, root, AmuletPositions, HealthLocation, MOUSE_OPTION):
         self.AutoSSA = GUI('AutoSSA', 'Module: Auto SSA')
         self.AutoSSA.DefaultWindow('AutoAmulet', [306, 397], [1.2, 2.29])
+        self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoAmulet():
             global EnabledAutoSSA
@@ -78,7 +79,7 @@ class AutoSSA:
 
         def Execute():
             if RadioButton.get() == 0:
-                PressHotkey(HotkeyAmulet.get())
+                self.SendToClient.Press(HotkeyAmulet.get())
                 print("Pressed ", HotkeyAmulet.get(), " To Reallocated Your Amulet")
                 time.sleep(1)
             elif RadioButton.get() == 1:
@@ -252,7 +253,7 @@ class AutoSSA:
                 DescLabel.configure(text='Hotkey To Press')
                 self.AutoSSA.addImage(Back, [130, 165])
                 FoundedImg = False
-                HotkeyOption = self.AutoSSA.addOption(HotkeyAmulet, Hotkeys, [145, 170], 10)
+                HotkeyOption = self.AutoSSA.addOption(HotkeyAmulet, self.SendToClient.Hotkeys, [145, 170], 10)
                 if EnabledAutoSSA:
                     HotkeyOption.configure(state='disabled')
                 else:

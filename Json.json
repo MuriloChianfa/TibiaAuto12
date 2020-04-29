@@ -1,0 +1,155 @@
+{
+    "Stats": false,
+    "MouseOption": null,
+    "Positions": {
+        "LifePosition": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "ManaPosition": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "BattlePosition": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "PlayerPosition": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ]
+    },
+    "Boxes": {
+        "StatusBarBox": [
+            {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "Stats": false
+            }
+        ],
+        "BattleBox": [
+            {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "Stats": false
+            }
+        ],
+        "RingBox": [
+            {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "Stats": false
+            }
+        ],
+        "AmuletBox": [
+            {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "Stats": false
+            }
+        ],
+        "GameWindowBox": [
+            {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "Stats": false
+            }
+        ],
+        "MapBox": [
+            {
+                "x": 0,
+                "y": 0,
+                "w": 0,
+                "h": 0,
+                "Stats": false
+            }
+        ]
+    },
+    "SQM": {
+        "SQM1": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "SQM2": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "SQM3": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "SQM4": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "SQM5": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "SQM6": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "SQM7": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "SQM8": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ],
+        "SQM9": [
+            {
+                "x": 0,
+                "y": 0,
+                "Stats": false
+            }
+        ]
+    }
+}
