@@ -3,56 +3,24 @@
   <component name="ChangeListManager">
     <list default="true" id="e6e36c5b-40a9-47d0-83fd-838d18fd43e2" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/NewConfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StartBot.pyw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Modules/AdjustConfig.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Murilo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Murilo.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/AutoAmulet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/AutoHeal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/AutoHur.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/AutoMana.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/AutoRing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/CaveBot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/ConsoleConfig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/JsonConfig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/Root.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/SelectCharacter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/SelectConfig.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/ImagesReadme/SendEvents.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChooseConfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/ChooseConfig.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Conf/Hotkeys.py" beforeDir="false" afterPath="$PROJECT_DIR$/Conf/Hotkeys.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Conf/SetSQMsPositions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Conf/SetSQMsPositions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/GetBattlePosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/GetBattlePosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/GetHealthPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/GetHealthPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/GetManaPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/GetManaPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/GetMapPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/GetMapPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/GetPlayerPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/GetPlayerPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/GetStatsPosition.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/GetStatsPosition.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/AttackTarget.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/AttackTarget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/CheckWaypoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/CheckWaypoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/EngineCaveBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/EngineCaveBot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/IsAttacking.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/IsAttacking.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/NumberOfTargets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/NumberOfTargets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/ScanAmulet.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/ScanAmulet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/ScanHur.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/ScanHur.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/ScanRing.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/ScanRing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/ScanStages.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/ScanStages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GetHWND.py" beforeDir="false" afterPath="$PROJECT_DIR$/GetHWND.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HookWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/HookWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Json.json" beforeDir="false" afterPath="$PROJECT_DIR$/Json.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Loads.json" beforeDir="false" afterPath="$PROJECT_DIR$/Loads.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/AdjustConfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AdjustConfig.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/AutoHeal.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoHeal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/AutoHur.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoHur.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/AutoMana.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoMana.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/AutoRing.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoRing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/AutoSSA.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoSSA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/CaveBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/CaveBot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MoveMouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/MoveMouse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts/ratThais.json" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/ratThais.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SendToClient.py" beforeDir="false" afterPath="$PROJECT_DIR$/SendToClient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/MapSettings/Above.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/MapSettings/Above.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/MapSettings/Bellow.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/MapSettings/Bellow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/MapSettings/Mouth.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/MapSettings/Mouth.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Modules/Config.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/Modules/Config.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/PlayerSettings/LeftOption1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/PlayerSettings/LeftOption1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/PlayerSettings/LeftOption2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/PlayerSettings/LeftOption2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/PlayerSettings/LeftOption3.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/PlayerSettings/LeftOption3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/PlayerSettings/RightOption1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/PlayerSettings/RightOption1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/PlayerSettings/RightOption2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/PlayerSettings/RightOption2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/PlayerSettings/RightOption3.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/PlayerSettings/RightOption3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/PlayerSettings/RightOption4.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/PlayerSettings/RightOption4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/PlayerStats/Hur.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/PlayerStats/Hur.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/TibiaSettings/attacking.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/TibiaSettings/attacking.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/DefaultWindow.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/FundoTibiaAuto.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/TibiaAuto12.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/root.py" beforeDir="false" afterPath="$PROJECT_DIR$/root.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -200,7 +168,7 @@
     </state>
     <state x="693" y="248" key="FileChooserDialogImpl/0.0.1826.984/-1366.246.1366.768/1826.12.1366.768@0.0.1826.984" timestamp="1584297345251" />
     <state x="2344" y="206" key="FileChooserDialogImpl/0.0.1826.984/-1366.246.1366.768/1826.12.1366.768@1826.12.1366.768" timestamp="1584998707257" />
-    <state width="1805" height="156" key="GridCell.Tab.0.bottom" timestamp="1589395585480">
+    <state width="1805" height="92" key="GridCell.Tab.0.bottom" timestamp="1589407593679">
       <screen x="1366" y="-252" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.bottom/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -216,7 +184,7 @@
     <state width="1345" height="112" key="GridCell.Tab.0.bottom/0.0.1826.984/-1366.257.1366.768/1826.24.1366.768@1826.24.1366.768" timestamp="1585267802251" />
     <state width="1345" height="121" key="GridCell.Tab.0.bottom/1366.-244.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585112156474" />
     <state width="1345" height="173" key="GridCell.Tab.0.bottom/1366.-245.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585001852306" />
-    <state width="1805" height="156" key="GridCell.Tab.0.bottom/1366.-252.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-252.1826.1024" timestamp="1589395585480" />
+    <state width="1805" height="92" key="GridCell.Tab.0.bottom/1366.-252.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-252.1826.1024" timestamp="1589407593679" />
     <state width="1805" height="97" key="GridCell.Tab.0.bottom/1366.-253.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-253.1826.1024" timestamp="1589303424694" />
     <state width="1805" height="97" key="GridCell.Tab.0.bottom/1366.-253.1826.1024/3192.-254.1366.768/0.0.1366.768@1366.-253.1826.1024" timestamp="1589249046054" />
     <state width="1805" height="136" key="GridCell.Tab.0.bottom/1366.-255.1826.1024/0.0.1366.768/3192.-255.1366.768@1366.-255.1826.1024" timestamp="1589155358505" />
@@ -226,7 +194,7 @@
     <state width="1805" height="133" key="GridCell.Tab.0.bottom/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.bottom/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1805" height="74" key="GridCell.Tab.0.bottom/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1588000370060" />
-    <state width="1805" height="156" key="GridCell.Tab.0.center" timestamp="1589395585479">
+    <state width="1805" height="92" key="GridCell.Tab.0.center" timestamp="1589407593679">
       <screen x="1366" y="-252" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.center/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -242,7 +210,7 @@
     <state width="1345" height="112" key="GridCell.Tab.0.center/0.0.1826.984/-1366.257.1366.768/1826.24.1366.768@1826.24.1366.768" timestamp="1585267802251" />
     <state width="1345" height="121" key="GridCell.Tab.0.center/1366.-244.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585112156473" />
     <state width="1345" height="173" key="GridCell.Tab.0.center/1366.-245.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585001852305" />
-    <state width="1805" height="156" key="GridCell.Tab.0.center/1366.-252.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-252.1826.1024" timestamp="1589395585479" />
+    <state width="1805" height="92" key="GridCell.Tab.0.center/1366.-252.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-252.1826.1024" timestamp="1589407593679" />
     <state width="1805" height="97" key="GridCell.Tab.0.center/1366.-253.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-253.1826.1024" timestamp="1589303424694" />
     <state width="1805" height="97" key="GridCell.Tab.0.center/1366.-253.1826.1024/3192.-254.1366.768/0.0.1366.768@1366.-253.1826.1024" timestamp="1589249046054" />
     <state width="1805" height="136" key="GridCell.Tab.0.center/1366.-255.1826.1024/0.0.1366.768/3192.-255.1366.768@1366.-255.1826.1024" timestamp="1589155358505" />
@@ -252,7 +220,7 @@
     <state width="1805" height="133" key="GridCell.Tab.0.center/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.center/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1805" height="74" key="GridCell.Tab.0.center/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1588000370060" />
-    <state width="1805" height="156" key="GridCell.Tab.0.left" timestamp="1589395585479">
+    <state width="1805" height="92" key="GridCell.Tab.0.left" timestamp="1589407593678">
       <screen x="1366" y="-252" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.left/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -268,7 +236,7 @@
     <state width="1345" height="112" key="GridCell.Tab.0.left/0.0.1826.984/-1366.257.1366.768/1826.24.1366.768@1826.24.1366.768" timestamp="1585267802251" />
     <state width="1345" height="121" key="GridCell.Tab.0.left/1366.-244.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585112156473" />
     <state width="1345" height="173" key="GridCell.Tab.0.left/1366.-245.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585001852305" />
-    <state width="1805" height="156" key="GridCell.Tab.0.left/1366.-252.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-252.1826.1024" timestamp="1589395585479" />
+    <state width="1805" height="92" key="GridCell.Tab.0.left/1366.-252.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-252.1826.1024" timestamp="1589407593678" />
     <state width="1805" height="97" key="GridCell.Tab.0.left/1366.-253.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-253.1826.1024" timestamp="1589303424693" />
     <state width="1805" height="97" key="GridCell.Tab.0.left/1366.-253.1826.1024/3192.-254.1366.768/0.0.1366.768@1366.-253.1826.1024" timestamp="1589249046054" />
     <state width="1805" height="136" key="GridCell.Tab.0.left/1366.-255.1826.1024/0.0.1366.768/3192.-255.1366.768@1366.-255.1826.1024" timestamp="1589155358505" />
@@ -278,7 +246,7 @@
     <state width="1805" height="133" key="GridCell.Tab.0.left/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.left/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1805" height="74" key="GridCell.Tab.0.left/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1588000370060" />
-    <state width="1805" height="156" key="GridCell.Tab.0.right" timestamp="1589395585480">
+    <state width="1805" height="92" key="GridCell.Tab.0.right" timestamp="1589407593679">
       <screen x="1366" y="-252" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.right/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -294,7 +262,7 @@
     <state width="1345" height="112" key="GridCell.Tab.0.right/0.0.1826.984/-1366.257.1366.768/1826.24.1366.768@1826.24.1366.768" timestamp="1585267802251" />
     <state width="1345" height="121" key="GridCell.Tab.0.right/1366.-244.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585112156474" />
     <state width="1345" height="173" key="GridCell.Tab.0.right/1366.-245.1826.984/0.0.1366.728/3192.-233.1366.768@3192.-233.1366.768" timestamp="1585001852306" />
-    <state width="1805" height="156" key="GridCell.Tab.0.right/1366.-252.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-252.1826.1024" timestamp="1589395585480" />
+    <state width="1805" height="92" key="GridCell.Tab.0.right/1366.-252.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-252.1826.1024" timestamp="1589407593679" />
     <state width="1805" height="97" key="GridCell.Tab.0.right/1366.-253.1826.1024/0.0.1366.768/3192.-254.1366.768@1366.-253.1826.1024" timestamp="1589303424694" />
     <state width="1805" height="97" key="GridCell.Tab.0.right/1366.-253.1826.1024/3192.-254.1366.768/0.0.1366.768@1366.-253.1826.1024" timestamp="1589249046054" />
     <state width="1805" height="136" key="GridCell.Tab.0.right/1366.-255.1826.1024/0.0.1366.768/3192.-255.1366.768@1366.-255.1826.1024" timestamp="1589155358505" />

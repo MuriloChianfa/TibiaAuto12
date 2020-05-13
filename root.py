@@ -185,27 +185,33 @@ class root:
 
 
 def OpenAdjustConfig():
-    AdjustConfig(root)
+    print("AdjustConfig In Development...")
+    # AdjustConfig(root)
 
 
 def OpenAmmoRestack():
-    AmmoRestack(root)
+    print("AmmoRestack In Development...")
+    # AmmoRestack(root)
 
 
 def OpenAutoAttack():
-    AutoAttack(root, SQMs, BattlePositions)
+    print("ShowMap In Development...")
+    # AutoAttack(root, SQMs, BattlePositions)
 
 
 def OpenAutoBanker():
-    AutoBanker(root)
+    print("AutoBanker In Development...")
+    # AutoBanker(root)
 
 
 def OpenAutoFish():
-    AutoFish(root)
+    print("AutoFish In Development...")
+    # AutoFish(root)
 
 
 def OpenAutoGrouping():
-    AutoGrouping(root)
+    print("AutoGroupin In Development...")
+    # AutoGrouping(root)
 
 
 def OpenAutoHeal():
@@ -217,11 +223,13 @@ def OpenAutoHur():
 
 
 def OpenAutoLogin():
-    AutoLogin(root)
+    print("AutoLogin In Development...")
+    # AutoLogin(root)
 
 
 def OpenAutoLooter():
-    AutoLooter(root, Player, SQMs)
+    print("AutoLooter In Development...")
+    # AutoLooter(root, Player, SQMs)
 
 
 def OpenAutoMana():
@@ -233,7 +241,8 @@ def OpenAutoRing():
 
 
 def OpenAutoSeller():
-    AutoSeller(root)
+    print("AutoSeller In Development...")
+    # AutoSeller(root)
 
 
 def OpenAutoSSA():
@@ -245,55 +254,68 @@ def OpenCaveBot():
 
 
 def OpenColorChange():
-    ColorChange(root, Player)
+    print("ColorChange In Development...")
+    # ColorChange(root, Player)
 
 
 def OpenCreatureInfo():
-    CreatureInfo(root)
+    print("CreatureInfo In Development...")
+    # CreatureInfo(root)
 
 
 def OpenFoodEater():
-    FoodEater(root)
+    print("FoodEater In Development...")
+    # FoodEater(root)
 
 
 def OpenFPSChanger():
-    FPSChanger(root)
+    print("FPSChanger In Development...")
+    # FPSChanger(root)
 
 
 def OpenGeneralOptions():
-    GeneralOptions(root)
+    print("GeneralOption In Development...")
+    # GeneralOptions(root)
 
 
 def OpenHealerFriend():
-    HealerFriend(root)
+    print("HealerFriend In Development...")
+    # HealerFriend(root)
 
 
 def OpenLoadConfig():
-    LoadConfig(root)
+    print("LoadConfig In Development...")
+    # LoadConfig(root)
 
 
 def OpenModules():
-    Modules(root)
+    print("Modules In Development...")
+    # Modules(root)
 
 
 def OpenMonsters():
-    Monsters(root)
+    print("Monsters In Development...")
+    # Monsters(root)
 
 
 def OpenPythonScripts():
-    PythonScripts(root)
+    print("PythonScripts In Development...")
+    # PythonScripts(root)
 
 
 def OpenSaveConfig():
-    SaveConfig(root)
+    print("SaveConfig In Development...")
+    # SaveConfig(root)
 
 
 def OpenSortLoot():
-    SortLoot(root)
+    print("SortLoot In Development...")
+    # SortLoot(root)
 
 
 def OpenTimedSpells():
-    TimedSpells(root)
+    print("TimedSpells In Development...")
+    # TimedSpells(root)
 
 
 def Exit():
