@@ -1,9 +1,8 @@
 <h1 align="center"> TibiaAuto12 </h1>
 
-<h2 align="center"> Project Status: In development </h2>
-<h2 align="center"> Just For Tibia Clients 11+ Versions </h2>
-<h4 align="center"> OT Is Supported ? :heavy_check_mark: </h4>
-<h4 align="center"> Global Is Supported ? :heavy_check_mark: </h4>
+<h2 align="center"> Project Status: In development <br />Just For Tibia Clients 11+ Versions<br />OT Is Supported ? :heavy_check_mark:<br />Global Is Supported ? :heavy_check_mark:</h2>
+
+<div align="center">![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/Root.png)</div>
 
 # Table of contents
 
@@ -62,17 +61,17 @@
 
 To configure your OBS, you must open a game capture with tibia's window selected.
 
-- image SetTibia
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/OBS/SetTibia.png)
 
 Click on Previw with a right mouse button for open the options and select this option:
 
-- image Projetor
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/OBS/Projetor.png)
 
 Put the oppened window behind off tibia, must be identical with the tibia window for work of the Bot.
 
 After it, Set the tibia life like this:
 
-- image MarkLife
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/OBS/MarkLife.png)
 
 And you is ready to start a Bot.
 
@@ -82,24 +81,25 @@ The first step is install all libs needed to run the Bot, After this, if you wan
 
 Running them will open the following window:
 
-- imageSelect Character
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/SelectCharacter.png)
 
 Enter with your character in tibia for Bot track your tibia window, after this click on `Configure` and this window will oppened:
 
-- image SelectConfig
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/SelectConfig.png)
 
 If you want to play on the global client, leave the options as they are, else you want to play in OT client you can mark this Option:
 
-- image SendEvents
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/SendEvents.png)
 
 Click on button `create` for configure your tibia's positions, after configure, verify on file with name `NewConfig` or your file config name, or in your console, if all status is marked with `true` with your's positions. Nothing can setted with number 0.
 
-- image ConsoleConfig
-- image JsonConfig
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/ConsoleConfig.png)
+
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/JsonConfig.png)
 
 If all positions is setted, your TibiaAuto12 will open with the main window:
 
-- image Root
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/Root.png)
 
 And these modules are available:
 
@@ -107,34 +107,34 @@ And these modules are available:
 
 The interface of this module is:
 
-- image AutoHeal
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoHeal.png)
 
 ## Module Auto Mana
 
 The interface of this module is:
 
-- image AutoMana
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoMana.png)
 
 ## Module Auto Hur
 
 The interface of this module is:
 
-- image AutoHur
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoHur.png)
 
 ## Module Auto SSA
 
 The interface of this module is:
 
-- image AutoSSA
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoAmulet.png)
 
 ## Module Auto Ring
 
 The interface of this module is:
 
-- image AutoRing
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoRing.png)
 
 ## Module Cave Bot
 
 The interface of this module is:
 
-- image CaveBot
+- ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/CaveBot.png)
