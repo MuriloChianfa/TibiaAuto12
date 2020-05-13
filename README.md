@@ -2,7 +2,7 @@
 
 <h2 align="center"> Project Status: In development <br />Just For Tibia Clients 11+ Versions<br />OT Is Supported ? :heavy_check_mark:<br />Global Is Supported ? :heavy_check_mark:</h2>
 
-<div align="center">![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/Root.png)</div>
+<img align="Center" src="https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/Root.png">
 
 # Table of contents
 
