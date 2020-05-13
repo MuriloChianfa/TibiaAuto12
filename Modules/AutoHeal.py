@@ -17,10 +17,11 @@ percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 2
 
 
 class AutoHeal:
-    def __init__(self, root, HealthLocation, MOUSE_OPTION):
+    def __init__(self, root, HealthLocation, MOUSE_OPTION, HOOK_OPTION):
         self.AutoHeal = GUI('AutoHeal', 'Module: Auto Heal')
         self.AutoHeal.DefaultWindow('AutoHeal2', [306, 372], [1.2, 2.29])
         self.SendToClient = Hotkey(MOUSE_OPTION)
+        self.Scan = ScanStages('Life', HOOK_OPTION)
 
         def SetAutoHeal():
             global EnabledAutoHeal
@@ -43,7 +44,11 @@ class AutoHeal:
         def scanning_auto_life():
             while EnabledAutoHeal:
                 global life
-                life = ScanStages('Life').ScanStages(HealthLocation, lifeColor, lifeColorFull)
+                try:
+                    life = self.Scan.ScanStages(HealthLocation, lifeColor, lifeColorFull)
+                except Exception:
+                    life = 100
+                    pass
 
                 if life is None:
                     life = 0

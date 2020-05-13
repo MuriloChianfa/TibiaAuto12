@@ -24,7 +24,7 @@ MaxLen = 4
 
 
 class AutoRing:
-    def __init__(self, root, RingPositions, HealthLocation, MOUSE_OPTION):
+    def __init__(self, root, RingPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION):
         self.AutoRing = GUI('AutoRing', 'Module: Auto Ring')
         self.AutoRing.DefaultWindow('AutoRing', [306, 397], [1.2, 2.29])
         self.SendToClient = Hotkey(MOUSE_OPTION)
@@ -55,25 +55,42 @@ class AutoRing:
                 from Modules.AutoHeal import EnabledAutoHeal
                 if EnabledAutoHeal:
                     while EnabledAutoRing and EnabledAutoHeal:
-                        NoHasRing = ScanRing(RingPositions)
+                        try:
+                            NoHasRing = ScanRing(RingPositions, HOOK_OPTION)
+                        except Exception:
+                            NoHasRing = False
+                            pass
+
                         from Modules.AutoHeal import life
                         if NoHasRing and life <= BellowThan:
                             Execute()
                 else:
                     from Engine.ScanStages import ScanStages
                     while EnabledAutoRing:
-                        life = ScanStages('Life From AutoRing').ScanStages(HealthLocation, lifeColor, lifeColorFull)
+                        try:
+                            life = ScanStages('Life From AutoRing', HOOK_OPTION).ScanStages(HealthLocation, lifeColor, lifeColorFull)
+                        except Exception:
+                            life = 100
+                            pass
 
                         if life is None:
                             life = 0
-
-                        NoHasRing = ScanRing(RingPositions)
+                        try:
+                            NoHasRing = ScanRing(RingPositions, HOOK_OPTION)
+                        except Exception:
+                            NoHasRing = False
+                            pass
 
                         if NoHasRing and life < BellowThan:
                             Execute()
             else:
                 while EnabledAutoRing:
-                    NoHasRing = ScanRing(RingPositions)
+                    try:
+                        NoHasRing = ScanRing(RingPositions, HOOK_OPTION)
+                    except Exception:
+                        NoHasRing = False
+                        pass
+
                     if NoHasRing:
                         Execute()
 

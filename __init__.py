@@ -65,6 +65,18 @@ def WindowSelectCharacter():
     def exiting():
         exit(1)
 
+    def Reconfigure():
+        ScriptName = data['ScriptName']
+
+        if os.path.isfile(ScriptName + '.json'):
+            data['Auto'] = False
+            data['ScriptName'] = None
+            with open('Loads.json', 'w') as wJson:
+                json.dump(data, wJson, indent=4)
+            os.remove(ScriptName + '.json')
+            print("Please, Restart Me")
+            exiting()
+
     def ReadyToConfig():
         global data
         if CHARACTERS[0] != '':
@@ -107,9 +119,15 @@ def WindowSelectCharacter():
         ConfigButton.pack()
         ConfigButton.place(w=85, h=25, x=140, y=53)
 
-    ExitButton = tk.Button(SelectCharacter, width=15, text="Exit", command=exiting, bg=rgb((127, 17, 8)),
-                           fg='white',
-                           activebackground=rgb((123, 13, 5)))
+    if data['Auto']:
+        ExitButton = tk.Button(SelectCharacter, width=15, text="Reconfigure", command=Reconfigure, bg=rgb((127, 17, 8)),
+                               fg='white',
+                               activebackground=rgb((123, 13, 5)))
+    else:
+        ExitButton = tk.Button(SelectCharacter, width=15, text="Exit", command=exiting, bg=rgb((127, 17, 8)),
+                               fg='white',
+                               activebackground=rgb((123, 13, 5)))
+
     ExitButton.pack()
     ExitButton.place(w=85, h=25, x=28, y=53)
 

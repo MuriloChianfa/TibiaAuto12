@@ -1,71 +1,74 @@
+import time
 import collections
-import win32ui
 from ctypes import windll
-import numpy as np
+import win32ui
+import win32gui
 import cv2
-from PIL import Image
+import numpy as np
+import pygetwindow as gw
+from PIL import Image, ImageOps
 
-from SendToClient import *
+from GetHWND import GetHWND
 
 
 Box = collections.namedtuple('Box', 'left top width height')
+Point = collections.namedtuple('Point', 'x y')
 LOAD_COLOR = cv2.IMREAD_COLOR
 LOAD_GRAYSCALE = cv2.IMREAD_GRAYSCALE
 USE_IMAGE_NOT_FOUND_EXCEPTION = True
 
 unicode = str
 
+hwnd = GetHWND('Projetor em janela')
+
 
 class ImageNotFoundException(Exception):
     pass
 
 
-with open('Loads.json', 'r') as LoadsJson:
-    data = json.load(LoadsJson)
+class Hooker:
+    def __init__(self, HWND):
+        self.hwnd = HWND
+        self.win32gui = win32gui
+        self.win32ui = win32ui
+        self.dll = windll.user32
+        self.hwndDC = self.win32gui.GetWindowDC(self.hwnd)
+        self.mfcDC = self.win32ui.CreateDCFromHandle(self.hwndDC)
+        self.saveDC = self.mfcDC.CreateCompatibleDC()
+        self.saveBitMap = self.win32ui.CreateBitmap()
+        self.left, self.top, self.right, self.bot = self.win32gui.GetClientRect(self.hwnd)
+        self.left = self.left + 8
+        self.top = self.top + 8
+        self.right = self.right + 8
+        self.bot = self.bot + 8
+        self.w = self.right - self.left
+        self.h = self.bot - self.top
+        self.saveBitMap.CreateCompatibleBitmap(self.mfcDC, self.w, self.h)
+        self.saveDC.SelectObject(self.saveBitMap)
+        self.result = self.dll.PrintWindow(self.hwnd, self.saveDC.GetSafeHdc(), 1)
 
-hwnd = data['hwnd']
+        self.bmpinfo = self.saveBitMap.GetInfo()
+        self.bmpstr = self.saveBitMap.GetBitmapBits(True)
 
+        self.TakedImage = Image.frombuffer(
+            'RGB',
+            (self.bmpinfo['bmWidth'], self.bmpinfo['bmHeight']),
+            self.bmpstr, 'raw', 'BGRX', 0, 1)
 
-def HookWindow():
-    left, top, right, bot = win32gui.GetClientRect(hwnd)
-    left = left + 8
-    top = top + 31
-    right = right + 8
-    bot = bot + 8
-    w = right - left
-    h = bot - top
+        self.win32gui.DeleteObject(self.saveBitMap.GetHandle())
+        self.saveDC.DeleteDC()
+        self.mfcDC.DeleteDC()
+        self.win32gui.ReleaseDC(self.hwnd, self.hwndDC)
 
-    hwndDC = win32gui.GetWindowDC(hwnd)
-    mfcDC = win32ui.CreateDCFromHandle(hwndDC)
-    saveDC = mfcDC.CreateCompatibleDC()
-
-    saveBitMap = win32ui.CreateBitmap()
-    saveBitMap.CreateCompatibleBitmap(mfcDC, w, h)
-
-    saveDC.SelectObject(saveBitMap)
-    result = windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 1)
-
-    bmpinfo = saveBitMap.GetInfo()
-    bmpstr = saveBitMap.GetBitmapBits(True)
-
-    TakedImage = Image.frombuffer(
-        'RGB',
-        (bmpinfo['bmWidth'], bmpinfo['bmHeight']),
-        bmpstr, 'raw', 'BGRX', 0, 1)
-
-    win32gui.DeleteObject(saveBitMap.GetHandle())
-    saveDC.DeleteDC()
-    mfcDC.DeleteDC()
-    win32gui.ReleaseDC(hwnd, hwndDC)
-
-    if result == 1:
-        return TakedImage
-    else:
-        return print('Error From HookWindow')
+    def HookWindow(self):
+        if self.result == 1:
+            return self.TakedImage
+        else:
+            return print('Error From HookWindow')
 
 
 def TakeImage(Region=None):
-    TakedImage = HookWindow()
+    TakedImage = Hooker(hwnd).HookWindow()
     if Region is not None:
         TakedImage = TakedImage.crop((Region[0], Region[1], Region[0] + (Region[2] - Region[0]), Region[1] + (Region[3] - Region[1])))
         return TakedImage
@@ -73,95 +76,74 @@ def TakeImage(Region=None):
         return TakedImage
 
 
-def LocateImage(image, Region=None, ImageNumber=0, **kwargs):
+def LocateImage(image, Region=None, Precision=0.8):
     TakedImage = TakeImage(Region)
-    retVal = tuple(SearchAll(image, TakedImage, **kwargs))
-    if len(retVal) > 0:
-        Value = retVal[ImageNumber]
-        return Value[0] + Region[0], Value[1] + Region[1]
-    else:
-        return False, False
+
+    img_rgb = np.array(TakedImage)
+    img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+    template = cv2.imread(image, 0)
+
+    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+    min_val, LocatedPrecision, min_loc, Position = cv2.minMaxLoc(res)
+    if LocatedPrecision > Precision:
+        return Position[0], Position[1]
+    return 0, 0
 
 
-def LocateAllImages(image, Region=None, **kwargs):
+def LocateCenterImage(image, Region=None, Precision=0.8):
     TakedImage = TakeImage(Region)
-    retVal = SearchAll(image, TakedImage, **kwargs)
-    return len(list(retVal))
+
+    img_rgb = np.array(TakedImage)
+    img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+    template = cv2.imread(image, 0)
+
+    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+    min_val, LocatedPrecision, min_loc, Position = cv2.minMaxLoc(res)
+    if LocatedPrecision > Precision:
+        needleWidth, needleHeight = GetSize(image)
+        if needleWidth:
+            return Position[0] + int(needleWidth / 2), Position[1] + int(needleHeight / 2)
+        else:
+            print('Error From LocateCenterImage')
+    return 0, 0
 
 
-def PixelMatchesColor(X, Y, expectedRGBColor, Precision=0):
-    ReturnedPixel = TakeImage(Region=(X, Y, X + 1, Y + 1))
-    pix = ReturnedPixel.load()
-    R, G, B = pix[0, 0]
-    ExpectedR, ExpectedG, ExpectedB = expectedRGBColor
-    if (R - ExpectedR) <= Precision and (G - ExpectedG) <= Precision and (B - ExpectedB) <= Precision:
+def LocateAllImages(image, Region=None, Precision=0.8):
+    TakedImage = TakeImage(Region)
+
+    TakedImage = np.array(TakedImage)
+    img_gray = cv2.cvtColor(TakedImage, cv2.COLOR_BGR2GRAY)
+    template = cv2.imread(image, 0)
+
+    w, h = template.shape[::-1]
+
+    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+    loc = np.where(res >= Precision)
+
+    Number = 0
+
+    for pt in zip(*loc[::-1]):
+        Number = Number + 1
+    return Number
+
+
+def PixelMatchesColor(X, Y, expectedRGBColor):
+    TakedImage = TakeImage(Region=(X, Y, X + 1, Y + 1))
+    rgb = TakedImage.getpixel((0, 0))
+    if rgb == expectedRGBColor:
         return True
     else:
         return False
 
 
 def SaveImage(Name, Region=None):
-    img = TakeImage(Region)
-    return img.save(Name)
+    TakedImage = TakeImage(Region)
+    return TakedImage.save(Name)
 
 
-def LoadCV2(img, grayscale=True):
-    if isinstance(img, (str, unicode)):
-        if grayscale:
-            img_cv = cv2.imread(img, LOAD_GRAYSCALE)
-        else:
-            img_cv = cv2.imread(img, LOAD_COLOR)
-        if img_cv is None:
-            raise IOError("Failed to read %s because file is missing, "
-                          "has improper permissions, or is an "
-                          "unsupported or invalid format" % img)
-    elif isinstance(img, np.ndarray):
-        if grayscale and len(img.shape) == 3:
-            img_cv = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        else:
-            img_cv = img
-    elif hasattr(img, 'convert'):
-        img_array = np.array(img.convert('RGB'))
-        img_cv = img_array[:, :, ::-1].copy()
-        if grayscale:
-            img_cv = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
-    else:
-        raise TypeError('expected an image filename, OpenCV numpy array, or PIL image')
-    return img_cv
-
-
-def SearchAll(needleImage, haystackImage, grayscale=True, limit=10000, Region=None, step=1, Precision=0.999):
-    confidence = float(Precision)
-
-    needleImage = LoadCV2(needleImage, grayscale)
-    needleHeight, needleWidth = needleImage.shape[:2]
-    haystackImage = LoadCV2(haystackImage, grayscale)
-
-    if Region:
-        haystackImage = haystackImage[Region[1]:Region[1]+Region[3],
-                                      Region[0]:Region[0]+Region[2]]
-    else:
-        Region = (0, 0)
-
-    if haystackImage.shape[0] < needleImage.shape[0] or haystackImage.shape[1] < needleImage.shape[1]:
-        raise ValueError('needle dimension(s) exceed the haystack image or region dimensions')
-
-    if step == 2:
-        confidence *= 0.95
-        needleImage = needleImage[::step, ::step]
-        haystackImage = haystackImage[::step, ::step]
-    else:
-        step = 1
-
-    result = cv2.matchTemplate(haystackImage, needleImage, cv2.TM_CCOEFF_NORMED)
-    match_indices = np.arange(result.size)[(result > confidence).flatten()]
-    matches = np.unravel_index(match_indices[:limit], result.shape)
-
-    if len(matches[0]) == 0:
-        print('Image Not Recognized')
-        pass
-
-    X = matches[1] * step + Region[0]
-    Y = matches[0] * step + Region[1]
-    for x, y in zip(X, Y):
-        yield Box(x, y, needleWidth, needleHeight)
+def GetSize(needleImage):
+    needleFileObj = open(needleImage, 'rb')
+    needleImage = Image.open(needleFileObj)
+    needleImage = ImageOps.grayscale(needleImage)
+    needleWidth, needleHeight = needleImage.size
+    return needleWidth, needleHeight

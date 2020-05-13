@@ -2,7 +2,6 @@ import win32gui
 import win32api
 import win32con
 import json
-import time
 
 from HexMapKeys import KeyToHex
 
@@ -19,6 +18,15 @@ class SendToClient:
 
     def GetWindowSizes(self):
         win32gui.GetWindowRect(self.hwnd)
+
+    def IsFocused(self):
+        if win32gui.IsIconic(self.hwnd):
+            win32gui.ShowWindow(self.hwnd, win32con.SW_RESTORE)
+            return False
+        elif self.hwnd != win32gui.GetForegroundWindow():
+            return False
+        else:
+            return True
 
     def Press(self, Key):
         win32api.SendMessage(self.hwnd, win32con.WM_KEYDOWN, KeyToHex.get(Key, ""), 0)

@@ -34,6 +34,7 @@ from Modules.TimedSpells import TimedSpells
 
 SETTED_VARIABLES = False
 MOUSE_OPTION = None
+HOOK_OPTION = None
 
 ItemsSquare = 32
 
@@ -104,9 +105,16 @@ class root:
                 global MOUSE_OPTION
                 MOUSE_OPTION = data['MouseOption']
                 if MOUSE_OPTION == 0:
-                    print("Your Mouse Option Is: SendToClient")
+                    print("Your Mouse Option Is: Send Events To Client")
                 else:
-                    print("Your Mouse Option Is: MoveMouse")
+                    print("Your Mouse Option Is: Movement Mouse")
+
+                global HOOK_OPTION
+                HOOK_OPTION = data['HookOption']
+                if HOOK_OPTION == 0:
+                    print("Your Hook Option Is: Grab Window Screen")
+                else:
+                    print("Your Hook Option Is: Hook Directly OBS")
 
                 if data['Positions']['LifePosition'][0]['Stats']:
                     HealthLocation[0] = data['Positions']['LifePosition'][0]['x']
@@ -114,12 +122,14 @@ class root:
                 if data['Positions']['ManaPosition'][0]['Stats']:
                     ManaLocation[0] = data['Positions']['ManaPosition'][0]['x']
                     ManaLocation[1] = data['Positions']['ManaPosition'][0]['y']
-                if data['Positions']['BattlePosition'][0]['Stats']:
-                    BattlePositions[0] = data['Positions']['BattlePosition'][0]['x']
-                    BattlePositions[1] = data['Positions']['BattlePosition'][0]['y']
+                if data['Boxes']['BattleBox'][0]['Stats']:
+                    BattlePositions[0] = data['Boxes']['BattleBox'][0]['x'] - 3
+                    BattlePositions[1] = data['Boxes']['BattleBox'][0]['y'] - 3
+                    BattlePositions[2] = data['Boxes']['BattleBox'][0]['w'] + 3
+                    BattlePositions[3] = data['Boxes']['BattleBox'][0]['h'] + 3
                 if data['Boxes']['StatusBarBox'][0]['Stats']:
-                    StatsPositions[0] = data['Boxes']['StatusBarBox'][0]['x']
-                    StatsPositions[1] = data['Boxes']['StatusBarBox'][0]['y']
+                    StatsPositions[0] = data['Boxes']['StatusBarBox'][0]['x'] - 1
+                    StatsPositions[1] = data['Boxes']['StatusBarBox'][0]['y'] - 1
                     StatsPositions[2] = data['Boxes']['StatusBarBox'][0]['w']
                     StatsPositions[3] = data['Boxes']['StatusBarBox'][0]['h']
                 if data['Boxes']['RingBox'][0]['Stats']:
@@ -133,10 +143,10 @@ class root:
                     AmuletPositions[2] = data['Boxes']['AmuletBox'][0]['w']
                     AmuletPositions[3] = data['Boxes']['AmuletBox'][0]['h']
                 if data['Boxes']['MapBox'][0]['Stats']:
-                    MapPositions[0] = data['Boxes']['MapBox'][0]['x']
-                    MapPositions[1] = data['Boxes']['MapBox'][0]['y']
+                    MapPositions[0] = data['Boxes']['MapBox'][0]['x'] + 1
+                    MapPositions[1] = data['Boxes']['MapBox'][0]['y'] + 1
                     MapPositions[2] = data['Boxes']['MapBox'][0]['w']
-                    MapPositions[3] = data['Boxes']['MapBox'][0]['h']
+                    MapPositions[3] = data['Boxes']['MapBox'][0]['h'] + 1
                 if data['Positions']['PlayerPosition'][0]['Stats'] and data['Boxes']['GameWindowBox'][0]['Stats']:
                     gameWindow[0] = data['Boxes']['GameWindowBox'][0]['x']
                     gameWindow[1] = data['Boxes']['GameWindowBox'][0]['y']
@@ -199,11 +209,11 @@ def OpenAutoGrouping():
 
 
 def OpenAutoHeal():
-    AutoHeal(root, HealthLocation, MOUSE_OPTION)
+    AutoHeal(root, HealthLocation, MOUSE_OPTION, HOOK_OPTION)
 
 
 def OpenAutoHur():
-    AutoHur(root, StatsPositions, MOUSE_OPTION)
+    AutoHur(root, StatsPositions, MOUSE_OPTION, HOOK_OPTION)
 
 
 def OpenAutoLogin():
@@ -215,11 +225,11 @@ def OpenAutoLooter():
 
 
 def OpenAutoMana():
-    AutoMana(root, ManaLocation, MOUSE_OPTION)
+    AutoMana(root, ManaLocation, MOUSE_OPTION, HOOK_OPTION)
 
 
 def OpenAutoRing():
-    AutoRing(root, RingPositions, HealthLocation, MOUSE_OPTION)
+    AutoRing(root, RingPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION)
 
 
 def OpenAutoSeller():
@@ -227,11 +237,11 @@ def OpenAutoSeller():
 
 
 def OpenAutoSSA():
-    AutoSSA(root, AmuletPositions, HealthLocation, MOUSE_OPTION)
+    AutoSSA(root, AmuletPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION)
 
 
 def OpenCaveBot():
-    CaveBot(root, MapPositions, BattlePositions, SQMs)
+    CaveBot(root, MapPositions, BattlePositions, SQMs, HOOK_OPTION)
 
 
 def OpenColorChange():

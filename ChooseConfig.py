@@ -40,7 +40,7 @@ class Errno(Exception):
 class ChooseConfig:
     def __init__(self, CharName):
         self.ChooseConfig = GUI('ChooseConfig', 'Choose You Config')
-        self.ChooseConfig.MainWindow('Config', [414, 143], [2, 2.36])
+        self.ChooseConfig.MainWindow('Config', [414, 202], [2, 2.36])
 
         def CreateDefaultJson():
             ScriptToLoad = NameCreateJson.get()
@@ -65,6 +65,9 @@ class ChooseConfig:
                     self.ChooseConfig.destroyWindow()
                     time.sleep(0.1)
                     root(CharName, ScriptToLoad)
+                else:
+                    os.remove(ScriptToLoad + '.json')
+                    CreateDefaultJson()
             else:
                 print('Coping Default Json')
                 start_configuration = time.time()
@@ -85,8 +88,13 @@ class ChooseConfig:
                 time.sleep(.5)
                 time.sleep(.5)
 
+                if HookMode.get() == 1:
+                    print("Hooking OBS")
+                else:
+                    print("Grabing Screen")
+
                 try:
-                    HealthLocation[0], HealthLocation[1] = GetHealthPosition()
+                    HealthLocation[0], HealthLocation[1] = GetHealthPosition(HookMode.get())
                     HealthLocation[0], HealthLocation[1] = int(HealthLocation[0]), int(HealthLocation[1])
                     print('')
                     print(f"Health Location [X: {HealthLocation[0]} Y: {HealthLocation[1]}]")
@@ -102,7 +110,7 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    ManaLocation[0], ManaLocation[1] = GetManaPosition()
+                    ManaLocation[0], ManaLocation[1] = GetManaPosition(HookMode.get())
                     ManaLocation[0], ManaLocation[1] = int(ManaLocation[0]), int(ManaLocation[1])
                     print('')
                     print(f"Mana Location [X: {ManaLocation[0]} Y: {ManaLocation[1]}]")
@@ -119,11 +127,12 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition()
+                    BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition(HookMode.get())
                     print(f"Battle Location [X: {BattlePositions[0]} Y: {BattlePositions[1]}]")
                     data['Positions']['BattlePosition'][0]['x'] = BattlePositions[0]
                     data['Positions']['BattlePosition'][0]['y'] = BattlePositions[1]
                     data['Positions']['BattlePosition'][0]['Stats'] = True
+                    time.sleep(.4)
                     data['Boxes']['BattleBox'][0]['x'] = int(BattlePositions[0])
                     data['Boxes']['BattleBox'][0]['y'] = int(BattlePositions[1])
                     data['Boxes']['BattleBox'][0]['w'] = int(BattlePositions[2])
@@ -138,7 +147,7 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition()
+                    StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition(HookMode.get())
                     print('')
                     print(f"Status Bar Start [X: {StatsPositions[0]}, Y: {StatsPositions[1]}]")
                     print(f"Status Bar End [X: {StatsPositions[2]}, Y: {StatsPositions[3]}]")
@@ -200,7 +209,7 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition()
+                    MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition(HookMode.get())
                     time.sleep(.2)
                     data['Boxes']['MapBox'][0]['x'] = int(MapPositions[0])
                     data['Boxes']['MapBox'][0]['y'] = int(MapPositions[1])
@@ -217,7 +226,7 @@ class ChooseConfig:
 
                 try:
                     Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
-                        3] = GetPlayerPosition()
+                        3] = GetPlayerPosition(HookMode.get())
                     print('')
                     print(f"Player Position [X: {Player[0]}, Y: {Player[1]}]")
                     print('')
@@ -244,7 +253,7 @@ class ChooseConfig:
 
                 try:
                     SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
-                        11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs()
+                        11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs(HookMode.get())
                     time.sleep(0.1)
                     print(f"1° SQM Location [X: {SQMs[0]}, Y: {SQMs[1]}]")
                     print(f"2° SQM Location [X: {SQMs[2]}, Y: {SQMs[3]}]")
@@ -307,6 +316,10 @@ class ChooseConfig:
                 with open(ScriptToLoad + '.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
 
+                data['HookOption'] = HookMode.get()
+                with open(ScriptToLoad + '.json', 'w') as wJson:
+                    json.dump(data, wJson, indent=4)
+
                 if CheckAuto.get():
                     with open('Loads.json', 'r') as LoaderJson:
                         data2 = json.load(LoaderJson)
@@ -321,7 +334,7 @@ class ChooseConfig:
                 print(f"Your Setup Time Is: {end_configuration:.2f} Seconds")
                 print('')
 
-                print("Opening TibiaAuto...")
+                print("Opening TibiaAuto...\n")
 
                 time.sleep(.3)
                 self.ChooseConfig.destroyWindow()
@@ -332,27 +345,50 @@ class ChooseConfig:
         NameCreateJson = tk.StringVar()
         NameCreateJson.set('NewConfig')
         CheckAuto = tk.BooleanVar()
+        CheckAuto.set(True)
         MouseMode = tk.IntVar()
-        MouseMode.set(0)
+        MouseMode.set(1)
+        HookMode = tk.IntVar()
+        HookMode.set(1)
 
         if os.path.isfile(NameCreateJson.get() + '.json'):
             with open(NameCreateJson.get() + '.json', 'r') as LoadsJson:
                 data = json.load(LoadsJson)
             if data['Stats']:
-                self.ChooseConfig.addButton('Load', CreateDefaultJson, [75, 23], [310, 106])
+                self.ChooseConfig.addButton('Load', CreateDefaultJson, [75, 23], [310, 166])
+            else:
+                self.ChooseConfig.addButton('Create', CreateDefaultJson, [75, 23], [310, 166])
         else:
-            self.ChooseConfig.addButton('Create', CreateDefaultJson, [75, 23], [310, 106])
+            self.ChooseConfig.addButton('Create', CreateDefaultJson, [75, 23], [310, 166])
 
         self.ChooseConfig.addEntry([165, 35], NameCreateJson, 28)
 
         self.ChooseConfig.addLabel('Name Of The Json Conf', [24, 35])
 
-        RadioLoadAuto = self.ChooseConfig.addCheck(CheckAuto, [10, 114], 1, 'Load automatically This Script')
-        RadioLoadAuto.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
+        # RadioLoadAuto = self.ChooseConfig.addCheck(CheckAuto, [10, 114], 1, 'Load automatically This Script')
+        # RadioLoadAuto.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114,
+        # 94, 48)))
 
-        RadioSenderMouse = self.ChooseConfig.addRadio('Select SenderMouse Events To Window (NOT TESTED ON GLOBAL)', MouseMode, 0, [10, 74])
-        RadioSenderMouse.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
-        RadioMouseMoviment = self.ChooseConfig.addRadio('Select MouseMoviment On Focused Window', MouseMode, 1, [10, 93])
-        RadioMouseMoviment.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
+        LabelSelectOP1 = self.ChooseConfig.addLabel('Select Your Mouse And Keyboard Option', [30, 76])
+        LabelSelectOP1.configure(bg=rgb((114, 94, 48)), fg='black')
+
+        RadioMouseMoviment = self.ChooseConfig.addRadio('{Global} Movement Mouse On Focused Window', MouseMode, 1, [10, 95])
+        RadioMouseMoviment.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
+                                     selectcolor=rgb((114, 94, 48)))
+        RadioSenderMouse = self.ChooseConfig.addRadio("{OTServer} Send Mouse Events To Tibia's Window", MouseMode, 0,
+                                                      [10, 114])
+        RadioSenderMouse.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
+                                   selectcolor=rgb((114, 94, 48)))
+
+        LabelSelectOP2 = self.ChooseConfig.addLabel('Select Your Hook Mode', [30, 136])
+        LabelSelectOP2.configure(bg=rgb((114, 94, 48)), fg='black')
+
+        RadioHookWindow = self.ChooseConfig.addRadio("{Global} Hook Directly OBS Screen", HookMode, 1, [10, 155])
+        RadioHookWindow.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
+                                  selectcolor=rgb((114, 94, 48)))
+        RadioGrabScreen = self.ChooseConfig.addRadio('Grab Screen', HookMode, 0,
+                                                     [10, 174])
+        RadioGrabScreen.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
+                                  selectcolor=rgb((114, 94, 48)))
 
         self.ChooseConfig.loop()

@@ -24,7 +24,7 @@ MaxLen = 4
 
 
 class AutoSSA:
-    def __init__(self, root, AmuletPositions, HealthLocation, MOUSE_OPTION):
+    def __init__(self, root, AmuletPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION):
         self.AutoSSA = GUI('AutoSSA', 'Module: Auto SSA')
         self.AutoSSA.DefaultWindow('AutoAmulet', [306, 397], [1.2, 2.29])
         self.SendToClient = Hotkey(MOUSE_OPTION)
@@ -55,25 +55,43 @@ class AutoSSA:
                 from Modules.AutoHeal import EnabledAutoHeal
                 if EnabledAutoHeal:
                     while EnabledAutoSSA and EnabledAutoHeal:
-                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
+                        try:
+                            NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, HOOK_OPTION)
+                        except Exception:
+                            NoHasAmulet = False
+                            pass
+
                         from Modules.AutoHeal import life
                         if NoHasAmulet and life <= BellowThan:
                             Execute()
                 else:
                     from Engine.ScanStages import ScanStages
                     while EnabledAutoSSA:
-                        life = ScanStages('Life From AutoAmulet').ScanStages(HealthLocation, lifeColor, lifeColorFull)
+                        try:
+                            life = ScanStages('Life From AutoAmulet', HOOK_OPTION).ScanStages(HealthLocation, lifeColor, lifeColorFull)
+                        except Exception:
+                            life = 100
+                            pass
 
                         if life is None:
                             life = 0
 
-                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
+                        try:
+                            NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, HOOK_OPTION)
+                        except Exception:
+                            NoHasAmulet = False
+                            pass
 
                         if NoHasAmulet and life < BellowThan:
                             Execute()
             elif not CheckLifeBellowThan.get():
                 while EnabledAutoSSA:
-                    NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
+                    try:
+                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, HOOK_OPTION)
+                    except Exception:
+                        NoHasAmulet = False
+                        pass
+
                     if NoHasAmulet:
                         Execute()
 

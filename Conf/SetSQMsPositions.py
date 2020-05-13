@@ -6,7 +6,7 @@ gameWindow = [0, 0, 0, 0]
 SQMsSizes = [0, 0]
 
 
-def SetSQMs():
+def SetSQMs(HOOK_OPTION):
     if gameWindow[0] and gameWindow[1] != 0:
         SQMsSizes[0] = int((gameWindow[2] - gameWindow[0]) / 15)
         SQMsSizes[1] = int((gameWindow[3] - gameWindow[1]) / 11)
@@ -16,8 +16,8 @@ def SetSQMs():
         print("Setting Window Size...")
         print('')
         Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
-            3] = GetPlayerPosition()
-        SetSQMs()
+            3] = GetPlayerPosition(HOOK_OPTION)
+        SetSQMs(HOOK_OPTION)
 
     if Player[0] and Player[1] != 0 and SQMsSizes[0] and SQMsSizes[1] != 0:
         SQMs[0] = Player[0] - SQMsSizes[0]
@@ -44,6 +44,6 @@ def SetSQMs():
     else:
         print("Setting Player Position...")
         Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
-            3] = GetPlayerPosition()
-        SetSQMs()
+            3] = GetPlayerPosition(HOOK_OPTION)
+        SetSQMs(HOOK_OPTION)
 

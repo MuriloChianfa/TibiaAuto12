@@ -38,12 +38,12 @@ Scripts = [
     "StonerefinerVenore"
 ]
 
-DefaultScript = 'ratThais'
+DefaultScript = 'StonerefinerVenore'
 data = None
 
 
 class CaveBot:
-    def __init__(self, root, MapPositions, BattlePositions, SQMs):
+    def __init__(self, root, MapPositions, BattlePositions, SQMs, HOOK_OPTION):
         self.CaveBot = GUI('CaveBot', 'Module: Cave Bot')
         self.CaveBot.DefaultWindow('CaveBot', [830, 634], [1.2, 2.29])
 
@@ -76,13 +76,12 @@ class CaveBot:
             global data, monster
             while EnabledCaveBot:
                 for i in range(len(data)):
-                    EngineCaveBot(data, i, MapPositions, BattlePositions, monster, SQMs)
+                    EngineCaveBot(data, i, MapPositions, BattlePositions, monster, SQMs, HOOK_OPTION)
                     time.sleep(1)
 
         def CheckClick():
             Checking()
 
-        global monster
         CheckDebugging = tk.BooleanVar()
         CheckHotkeyPause = tk.BooleanVar()
         CheckHotkeyPause.set(True)
@@ -756,7 +755,7 @@ class CaveBot:
                 elif CheckHotkeyPause.get():
                     ButtonHotkeyPause.configure(state='normal')
 
-            self.CaveBot.After(1, ConstantVerify)
+            self.CaveBot.After(300, ConstantVerify)
 
         CheckingButtons()
         ConstantVerify()

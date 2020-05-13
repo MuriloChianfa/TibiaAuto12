@@ -37,36 +37,32 @@ class MoveMouse:
         self.DLL.keybd_event(KeyToHex.get(Key, ""), 0, self.KEYEVENTF_KEYUP, 0)
 
     def PressHotkey(self, Option, Key):
-        if Option == 'Ctrl':
-            self.DLL.keybd_event(0x11, 0, self.KEYEVENTF_KEYDOWN, 0)
-            self.DLL.keybd_event(KeyToHex.get(Key, ""), 0, self.KEYEVENTF_KEYDOWN, 0)
-            self.DLL.keybd_event(0x11, 0, self.KEYEVENTF_KEYUP, 0)
-            self.DLL.keybd_event(KeyToHex.get(Key, ""), 0, self.KEYEVENTF_KEYUP, 0)
-        elif Option == 'Shift':
-            self.DLL.keybd_event(0x10, 0, self.KEYEVENTF_KEYDOWN, 0)
-            self.DLL.keybd_event(KeyToHex.get(Key, ""), 0, self.KEYEVENTF_KEYDOWN, 0)
-            self.DLL.keybd_event(0x10, 0, self.KEYEVENTF_KEYUP, 0)
-            self.DLL.keybd_event(KeyToHex.get(Key, ""), 0, self.KEYEVENTF_KEYUP, 0)
+        self.DLL.keybd_event(KeyToHex.get(Option, ""), 0, self.KEYEVENTF_KEYDOWN, 0)
+        self.DLL.keybd_event(KeyToHex.get(Key, ""), 0, self.KEYEVENTF_KEYDOWN, 0)
+        self.DLL.keybd_event(KeyToHex.get(Key, ""), 0, self.KEYEVENTF_KEYUP, 0)
+        self.DLL.keybd_event(KeyToHex.get(Option, ""), 0, self.KEYEVENTF_KEYUP, 0)
 
     def LeftClick(self, Position):
-        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTCLICK, ctypes.c_long(Position[0]), ctypes.c_long(Position[1]), 0, 0)
+        self.DLL.SetCursorPos(Position[0], Position[1] + 24)
+        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTCLICK, ctypes.c_long(Position[0]), ctypes.c_long(Position[1] + 24), 0, 0)
 
     def RightClick(self, Position):
-        self.DLL.mouse_event(self.MOUSEEVENTF_RIGHTCLICK, ctypes.c_long(Position[0]), ctypes.c_long(Position[1]), 0, 0)
+        self.DLL.SetCursorPos(Position[0], Position[1] + 24)
+        self.DLL.mouse_event(self.MOUSEEVENTF_RIGHTCLICK, ctypes.c_long(Position[0]), ctypes.c_long(Position[1] + 24), 0, 0)
 
     def MoveTo(self, X, Y):
-        self.DLL.SetCursorPos(X, Y)
+        self.DLL.SetCursorPos(X, Y + 24)
 
     def DragTo(self, From, To):
-        self.DLL.SetCursorPos(From[0], From[1])
-        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTDOWN, ctypes.c_long(From[0]), ctypes.c_long(From[1]), 0, 0)
-        self.DLL.SetCursorPos(To[0], To[1])
-        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTUP, ctypes.c_long(To[0]), ctypes.c_long(To[1]), 0, 0)
+        self.DLL.SetCursorPos(From[0], From[1] + 24)
+        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTDOWN, ctypes.c_long(From[0]), ctypes.c_long(From[1] + 24), 0, 0)
+        self.DLL.SetCursorPos(To[0], To[1] + 24)
+        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTUP, ctypes.c_long(To[0]), ctypes.c_long(To[1] + 24), 0, 0)
 
     def UseOn(self, From, To):
-        self.DLL.SetCursorPos(From[0], From[1])
-        self.DLL.mouse_event(self.MOUSEEVENTF_RIGHTDOWN, ctypes.c_long(From[0]), ctypes.c_long(From[1]), 0, 0)
-        self.DLL.mouse_event(self.MOUSEEVENTF_RIGHTUP, ctypes.c_long(From[0]), ctypes.c_long(From[1]), 0, 0)
-        self.DLL.SetCursorPos(To[0], To[1])
-        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTDOWN, ctypes.c_long(To[0]), ctypes.c_long(To[1]), 0, 0)
-        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTUP, ctypes.c_long(To[0]), ctypes.c_long(To[1]), 0, 0)
+        self.DLL.SetCursorPos(From[0], From[1] + 24)
+        self.DLL.mouse_event(self.MOUSEEVENTF_RIGHTDOWN, ctypes.c_long(From[0]), ctypes.c_long(From[1] + 24), 0, 0)
+        self.DLL.mouse_event(self.MOUSEEVENTF_RIGHTUP, ctypes.c_long(From[0]), ctypes.c_long(From[1] + 24), 0, 0)
+        self.DLL.SetCursorPos(To[0], To[1] + 24)
+        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTDOWN, ctypes.c_long(To[0]), ctypes.c_long(To[1] + 24), 0, 0)
+        self.DLL.mouse_event(self.MOUSEEVENTF_LEFTUP, ctypes.c_long(To[0]), ctypes.c_long(To[1] + 24), 0, 0)

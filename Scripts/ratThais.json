@@ -14,5 +14,29 @@
     {
         "mark": "Star",
         "status": false
+    },
+    {
+        "mark": "Cross",
+        "status": false
+    },
+    {
+        "mark": "Church",
+        "status": false
+    },
+    {
+        "mark": "Mouth",
+        "status": false
+    },
+    {
+        "mark": "Shovel",
+        "status": false
+    },
+    {
+        "mark": "Sword",
+        "status": false
+    },
+    {
+        "mark": "Flag",
+        "status": false
     }
 ]

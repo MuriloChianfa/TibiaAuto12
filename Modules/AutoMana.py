@@ -14,11 +14,13 @@ manaColor = [83, 80, 218]
 percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 
 
+
 class AutoMana:
-    def __init__(self, root, ManaLocation, MOUSE_OPTION):
+    def __init__(self, root, ManaLocation, MOUSE_OPTION, HOOK_OPTION):
         self.AutoMana = GUI('AutoMana', 'Module: Auto Mana')
         self.AutoMana.DefaultWindow('AutoMana', [306, 272], [1.2, 2.29])
         self.SendToClient = Hotkey(MOUSE_OPTION)
+        self.Scan = ScanStages('Mana', HOOK_OPTION)
 
         def SetAutoMana():
             global EnabledAutoMana
@@ -40,7 +42,11 @@ class AutoMana:
 
         def ScanAutoMana():
             while EnabledAutoMana:
-                mana = ScanStages('Mana').ScanStages(ManaLocation, manaColor, manaColorFull)
+                try:
+                    mana = self.Scan.ScanStages(ManaLocation, manaColor, manaColorFull)
+                except Exception:
+                    mana = 100
+                    pass
 
                 if mana is None:
                     mana = 0

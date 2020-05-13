@@ -8,7 +8,7 @@ EnabledAutoHur = False
 
 
 class AutoHur:
-    def __init__(self, root, StatsPositions, MOUSE_OPTION):
+    def __init__(self, root, StatsPositions, MOUSE_OPTION, HOOK_OPTION):
         self.AutoHur = GUI('AutoHur', 'Module: Auto Hur')
         self.AutoHur.DefaultWindow('AutoHur', [224, 258], [1.2, 2.29])
         self.SendToClient = Hotkey(MOUSE_OPTION)
@@ -33,7 +33,11 @@ class AutoHur:
 
         def ScanAutoHur():
             while EnabledAutoHur:
-                NeedHur = ScanHur(StatsPositions)
+                try:
+                    NeedHur = ScanHur(StatsPositions, HOOK_OPTION)
+                except Exception:
+                    NeedHur = False
+                    pass
                 if NeedHur:
                     self.SendToClient.Press(VarHotkeyHur.get())
                     print("Hur Pressed ", VarHotkeyHur.get())
