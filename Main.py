@@ -1,4 +1,4 @@
-from __init__ import WindowSelectCharacter
+from Modules.__init__ import WindowSelectCharacter
 
 
 def main():

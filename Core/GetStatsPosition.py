@@ -12,7 +12,7 @@ def GetStatsPosition(HOOK_OPTION):
             return StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3]
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateImage
+        from Engine.HookWindow import LocateImage
 
         StatsPositions[0], StatsPositions[1] = LocateImage('images/TibiaSettings/Stop.png', Precision=0.8)
         if StatsPositions[0] != 0 and StatsPositions[1] != 0:

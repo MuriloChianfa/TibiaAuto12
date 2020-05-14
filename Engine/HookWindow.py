@@ -8,7 +8,7 @@ import numpy as np
 import pygetwindow as gw
 from PIL import Image, ImageOps
 
-from GetHWND import GetHWND
+from Core.GetHWND import GetHWND
 
 
 Box = collections.namedtuple('Box', 'left top width height')
@@ -100,7 +100,7 @@ def LocateCenterImage(image, Region=None, Precision=0.8):
     res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
     min_val, LocatedPrecision, min_loc, Position = cv2.minMaxLoc(res)
     if LocatedPrecision > Precision:
-        needleWidth, needleHeight = GetSize(image)
+        needleWidth, needleHeight = GetImageSize(image)
         if needleWidth:
             return Position[0] + int(needleWidth / 2), Position[1] + int(needleHeight / 2)
         else:
@@ -141,9 +141,13 @@ def SaveImage(Name, Region=None):
     return TakedImage.save(Name)
 
 
-def GetSize(needleImage):
+def GetImageSize(needleImage):
     needleFileObj = open(needleImage, 'rb')
     needleImage = Image.open(needleFileObj)
     needleImage = ImageOps.grayscale(needleImage)
     needleWidth, needleHeight = needleImage.size
     return needleWidth, needleHeight
+
+
+def IsFocused():
+    return int(win32gui.GetForegroundWindow())

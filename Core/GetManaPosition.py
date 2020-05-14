@@ -9,7 +9,7 @@ def GetManaPosition(HOOK_OPTION):
             return ManaPositions[0], ManaPositions[1]
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateCenterImage
+        from Engine.HookWindow import LocateCenterImage
 
         ManaPositions = LocateCenterImage('images/PlayerSettings/mana.png', Precision=0.9)
         if ManaPositions[0] != 0 and ManaPositions[1] != 0:

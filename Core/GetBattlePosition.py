@@ -16,7 +16,7 @@ def GetBattlePosition(HOOK_OPTION):
             BattlePositions[3])
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateCenterImage
+        from Engine.HookWindow import LocateCenterImage
 
         BattlePositions[0], BattlePositions[1] = LocateCenterImage('images/TibiaSettings/BattleList.png', Precision=0.75)
         BattlePositions[0] = int(BattlePositions[0]) - 40

@@ -27,11 +27,11 @@
 
 # Features Status
 
-- [Auto Life](#Module-Auto-Life) : :heavy_check_mark:
-- [Auto Mana](#Module-Auto-Mana) : :heavy_check_mark:
-- [Auto Hur](#Module-Auto-Hur) : :heavy_check_mark:
-- [Auto SSA](#Module-Auto-SSA) : :heavy_check_mark:
-- [Auto Ring](#Module-Auto-Ring) : :heavy_check_mark:
+- [Auto Life](#Auto-Life-Module) : :heavy_check_mark:
+- [Auto Mana](#Auto-Mana-Module) : :heavy_check_mark:
+- [Auto Hur](#Auto-Hur-Module) : :heavy_check_mark:
+- [Auto SSA](#Auto-SSA-Module) : :heavy_check_mark:
+- [Auto Ring](#Auto-Ring-Module) : :heavy_check_mark:
 - [Auto Login]() : :warning:
 - [Auto Banker]() : :warning:
 - [Auto Fish]() : :warning:
@@ -39,7 +39,7 @@
 - [Auto Seller]() : :warning:
 - [Adjust Config]() : :warning:
 - [Ammo Restack]() : :warning:
-- [Cave Bot](#Module-Cave-Bot) : :warning: :heavy_check_mark:
+- [Cave Bot](#Cave-Bot-Module) : :warning: :heavy_check_mark:
 - [Color Change]() : :warning:
 - [Creature Info]() : :warning:
 - [Food Eater]() : :warning:
@@ -78,62 +78,55 @@ And you is ready to start a Bot.
 
 The first step is install all libs needed to run the Bot, After this, if you want use with loggin in console, execute the file with name `main`, else execute the file with name `StartBot`.
 
-Running them will open the following window:
+Running it will open the following window:
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/SelectCharacter.png)
 
-Enter with your character in tibia for Bot track your tibia window, after this click on `Configure` and this window will oppened:
+Join with your character in tibia to Bot find your tibia window, after this click on `Configure` and this window will oppened:
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/SelectConfig.png)
 
-If you want to play on the global client, leave the options as they are, else you want to play in OT client you can mark this Option:
+If you want to play on the global client, leave the options as they are.
+<br />
+If you want to play in OT client you can mark this Option:
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/SendEvents.png)
 
-Click on button `create` for configure your tibia's positions, after configure, verify on file with name `NewConfig` or your file config name, or in your console, if all status is marked with `true` with your's positions. Nothing can setted with number 0.
+Click on button `create` for configure your tibia's positions, after it, verify the file `NewConfig` (it name can be edited in `Choose Your Config` window) or in your console, all status should be defined with `true`, none of the values ​​can be 0
 
+- ### Console View
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/ConsoleConfig.png)
 
+- ### Json File View
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/JsonConfig.png)
 
-If all positions is setted, your TibiaAuto12 will open with the main window:
+If all positions is correctly setted, your TibiaAuto12 will open with the main window:
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/Root.png)
 
-And these modules are available:
+# Available Modules:
 
-## Module Auto Life
-
-The interface of this module is:
+## Auto Life Module
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoHeal.png)
 
-## Module Auto Mana
-
-The interface of this module is:
+## Auto Mana Module
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoMana.png)
 
-## Module Auto Hur
-
-The interface of this module is:
+## Auto Hur Module
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoHur.png)
 
-## Module Auto SSA
-
-The interface of this module is:
+## Auto SSA Module
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoAmulet.png)
 
-## Module Auto Ring
+## Auto Ring Module
 
-The interface of this module is:
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/AutoRing.png)
 
-## Module Cave Bot
-
-The interface of this module is:
+## Cave Bot Module
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/CaveBot.png)

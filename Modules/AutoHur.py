@@ -1,3 +1,4 @@
+import time
 import threading
 
 from Engine.GUI import *
@@ -41,6 +42,7 @@ class AutoHur:
                 if NeedHur:
                     self.SendToClient.Press(VarHotkeyHur.get())
                     print("Hur Pressed ", VarHotkeyHur.get())
+                    time.sleep(.15)
 
             # if EnabledAutoHur:
             # root.after(500, ScanAutoHur)

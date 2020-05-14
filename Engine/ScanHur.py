@@ -11,7 +11,7 @@ def ScanHur(StatsPositions, HOOK_OPTION):
             return True
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateImage
+        from Engine.HookWindow import LocateImage
 
         HasHur[0], HasHur[1] = LocateImage('images/PlayerStats/Hur.png', Precision=0.9, Region=(
             StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3]))
@@ -19,4 +19,3 @@ def ScanHur(StatsPositions, HOOK_OPTION):
             return False
         else:
             return True
-

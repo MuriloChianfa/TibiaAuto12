@@ -21,7 +21,7 @@ class ScanStages:
                         return self.stage
 
         elif self.HOOK_OPTION == 1:
-            from HookWindow import PixelMatchesColor
+            from Engine.HookWindow import PixelMatchesColor
 
             if PixelMatchesColor(Localization[0] + 100, Localization[1],
                                            (colorFull[0], colorFull[1], colorFull[2])):

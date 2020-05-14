@@ -58,73 +58,73 @@ class AutoHeal:
                     if stage_three > life or stage_three == life:
                         self.SendToClient.Press(VarHotkeyStageThree.get())
                         print("Pressed ", VarHotkeyStageThree.get())
-                        time.sleep(0.2)
+                        time.sleep(.15)
                     elif VarCheckStageTwo.get():
                         stage_two = VarPercentageStageTwo.get()
                         if stage_two > life or stage_two == life:
                             self.SendToClient.Press(VarHotkeyStageTwo.get())
                             print("Pressed ", VarHotkeyStageTwo.get())
-                            time.sleep(0.2)
+                            time.sleep(.15)
                         elif VarCheckStageOne.get():
                             stage_one = VarPercentageStageOne.get()
                             if stage_one > life or stage_one == life:
                                 self.SendToClient.Press(VarHotkeyStageOne.get())
                                 print("Pressed ", VarHotkeyStageOne.get())
-                                time.sleep(0.2)
+                                time.sleep(.15)
                     elif VarCheckStageOne.get():
                         stage_one = VarPercentageStageOne.get()
                         if stage_one > life or stage_one == life:
                             self.SendToClient.Press(VarHotkeyStageOne.get())
                             print("Pressed ", VarHotkeyStageOne.get())
-                            time.sleep(0.2)
+                            time.sleep(.15)
                 elif VarCheckStageTwo.get():
                     stage_two = VarPercentageStageTwo.get()
                     if stage_two > life or stage_two == life:
                         self.SendToClient.Press(VarHotkeyStageTwo.get())
                         print("Pressed ", VarHotkeyStageTwo.get())
-                        time.sleep(0.2)
+                        time.sleep(.15)
                     elif VarCheckStageThree.get():
                         stage_three = VarPercentageStageThree.get()
                         if stage_three > life or stage_three == life:
                             self.SendToClient.Press(VarHotkeyStageThree.get())
                             print("Pressed ", VarHotkeyStageThree.get())
-                            time.sleep(0.2)
+                            time.sleep(.15)
                         elif VarCheckStageOne.get():
                             stage_one = VarPercentageStageOne.get()
                             if stage_one > life or stage_one == life:
                                 self.SendToClient.Press(VarHotkeyStageOne.get())
                                 print("Pressed ", VarHotkeyStageOne.get())
-                                time.sleep(0.2)
+                                time.sleep(.15)
                     elif VarCheckStageOne.get():
                         stage_one = VarPercentageStageOne.get()
                         if stage_one > life or stage_one == life:
                             self.SendToClient.Press(VarHotkeyStageOne.get())
                             print("Pressed ", VarHotkeyStageOne.get())
-                            time.sleep(0.2)
+                            time.sleep(.15)
                 elif VarCheckStageOne.get():
                     stage_one = VarPercentageStageOne.get()
                     if stage_one > life or stage_one == life:
                         self.SendToClient.Press(VarHotkeyStageOne.get())
                         print("Pressed ", VarHotkeyStageOne.get())
-                        time.sleep(0.2)
+                        time.sleep(.15)
                     elif VarCheckStageTwo.get():
                         stage_two = VarPercentageStageTwo.get()
                         if stage_two > life or stage_two == life:
                             self.SendToClient.Press(VarHotkeyStageTwo.get())
                             print("Pressed ", VarHotkeyStageTwo.get())
-                            time.sleep(0.2)
+                            time.sleep(.15)
                         elif VarCheckStageThree.get():
                             stage_three = VarPercentageStageThree.get()
                             if stage_three > life or stage_three == life:
                                 self.SendToClient.Press(VarHotkeyStageThree.get())
                                 print("Pressed ", VarHotkeyStageThree.get())
-                                time.sleep(0.2)
+                                time.sleep(.15)
                     elif VarCheckStageThree.get():
                         stage_three = VarPercentageStageThree.get()
                         if stage_three > life or stage_three == life:
                             self.SendToClient.Press(VarHotkeyStageThree.get())
                             print("Pressed ", VarHotkeyStageThree.get())
-                            time.sleep(0.2)
+                            time.sleep(.15)
                 else:
                     print("Module Not Configured")
                     time.sleep(1)

@@ -43,7 +43,7 @@ data = None
 
 
 class CaveBot:
-    def __init__(self, root, MapPositions, BattlePositions, SQMs, HOOK_OPTION):
+    def __init__(self, root, MapPositions, BattlePositions, SQMs, MOUSE_OPTION, HOOK_OPTION):
         self.CaveBot = GUI('CaveBot', 'Module: Cave Bot')
         self.CaveBot.DefaultWindow('CaveBot', [830, 634], [1.2, 2.29])
 
@@ -60,23 +60,24 @@ class CaveBot:
                 ButtonEnabled.configure(text='CaveBot: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
 
         def InitScan():
-            with open('Scripts/' + Script.get() + '.json', 'r') as rJson:
-                global data, monster
-                data = json.load(rJson)
-                print("The Script " + Script.get() + ".json Have a", len(data), "Marks")
+            global data, monster
 
-                monster = SelectedMonster.get()
-                try:
-                    ThreadCaveBot = threading.Thread(target=ScanCaveBot)
-                    ThreadCaveBot.start()
-                except:
-                    print("Error: Unable To Start ThreadCaveBot!")
+            with open('Scripts/' + Script.get() + '.json', 'r') as rJson:
+                data = json.load(rJson)
+            print("The Script " + Script.get() + ".json Have a", len(data), "Marks")
+
+            monster = SelectedMonster.get()
+            try:
+                ThreadCaveBot = threading.Thread(target=ScanCaveBot)
+                ThreadCaveBot.start()
+            except:
+                print("Error: Unable To Start ThreadCaveBot!")
 
         def ScanCaveBot():
             global data, monster
             while EnabledCaveBot:
                 for i in range(len(data)):
-                    EngineCaveBot(data, i, MapPositions, BattlePositions, monster, SQMs, HOOK_OPTION)
+                    EngineCaveBot(data, i, MapPositions, BattlePositions, monster, SQMs, MOUSE_OPTION, HOOK_OPTION, Script.get())
                     time.sleep(1)
 
         def CheckClick():

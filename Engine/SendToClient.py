@@ -3,9 +3,9 @@ import win32api
 import win32con
 import json
 
-from HexMapKeys import KeyToHex
+from Conf.HexMapKeys import KeyToHex
 
-with open('Loads.json', 'r') as LoadsJson:
+with open('Scripts/Loads.json', 'r') as LoadsJson:
     data = json.load(LoadsJson)
 
 

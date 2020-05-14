@@ -18,7 +18,7 @@ def GetMapPosition(HOOK_OPTION):
             return -1, -1, -1, -1
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateImage
+        from Engine.HookWindow import LocateImage
 
         top_right = LocateImage("images/MapSettings/MapSettings.png", Precision=0.8)
         map_size = 110  # 110px square

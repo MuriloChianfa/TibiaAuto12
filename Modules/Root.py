@@ -99,7 +99,7 @@ class root:
         def SetVariablesFromLoadedJson():
             global SETTED_VARIABLES
             if not SETTED_VARIABLES:
-                with open(LoadedJson + '.json', 'r') as LoadsJson:
+                with open('Scripts/' + LoadedJson + '.json', 'r') as LoadsJson:
                     data = json.load(LoadsJson)
 
                 global MOUSE_OPTION
@@ -250,7 +250,7 @@ def OpenAutoSSA():
 
 
 def OpenCaveBot():
-    CaveBot(root, MapPositions, BattlePositions, SQMs, HOOK_OPTION)
+    CaveBot(root, MapPositions, BattlePositions, SQMs, MOUSE_OPTION, HOOK_OPTION)
 
 
 def OpenColorChange():

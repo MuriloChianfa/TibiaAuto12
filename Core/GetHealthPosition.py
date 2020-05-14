@@ -8,7 +8,7 @@ def GetHealthPosition(HOOK_OPTION):
             HealthPositions[0], HealthPositions[1] = pyautogui.center(health)
             return HealthPositions[0], HealthPositions[1]
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateCenterImage
+        from Engine.HookWindow import LocateCenterImage
 
         HealthPositions = LocateCenterImage('images/PlayerSettings/health.png', Precision=0.8)
         if HealthPositions[0] != 0 and HealthPositions[1] != 0:

@@ -10,7 +10,7 @@ def NumberOfTargets(BattlePosition, monster, HOOK_OPTION):
             return 0
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateAllImages
+        from Engine.HookWindow import LocateAllImages
 
         target_number = LocateAllImages('images/Targets/' + monster + '.png', Precision=0.8, Region=(
             BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))

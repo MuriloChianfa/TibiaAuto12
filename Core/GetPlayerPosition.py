@@ -64,7 +64,7 @@ def GetPlayerPosition(HOOK_OPTION):
             return 0, 0, 0, 0, 0, 0
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateImage
+        from Engine.HookWindow import LocateImage
 
         left_gw[0], left_gw[1] = LocateImage("images/PlayerSettings/LeftOption1.png", Precision=0.75)
         if left_gw[0] == 0 and left_gw[1] == 0:

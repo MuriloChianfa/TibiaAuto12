@@ -14,7 +14,6 @@ manaColor = [83, 80, 218]
 percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 
 
-
 class AutoMana:
     def __init__(self, root, ManaLocation, MOUSE_OPTION, HOOK_OPTION):
         self.AutoMana = GUI('AutoMana', 'Module: Auto Mana')
@@ -56,13 +55,13 @@ class AutoMana:
                     if stage_two > mana or stage_two == mana:
                         self.SendToClient.Press(VarHotkeyStageTwo.get())
                         print("Pressed ", VarHotkeyStageTwo.get())
-                        time.sleep(0.2)
+                        time.sleep(.1)
                 elif VarCheckStageOne.get():
                     stage_one = VarPercentageStageOne.get()
                     if stage_one > mana or stage_one == mana:
                         self.SendToClient.Press(VarHotkeyStageOne.get())
                         print("Pressed ", VarHotkeyStageOne.get())
-                        time.sleep(0.2)
+                        time.sleep(.1)
                 else:
                     print("Modulo Not Configured")
                     time.sleep(1)

@@ -14,7 +14,7 @@ from Core.GetBattlePosition import GetBattlePosition
 from Core.GetStatsPosition import GetStatsPosition
 
 from Conf.SetSQMsPositions import SetSQMs
-from root import root
+from Modules.Root import root
 
 
 ItemsSquare = 32
@@ -44,8 +44,8 @@ class ChooseConfig:
 
         def CreateDefaultJson():
             ScriptToLoad = NameCreateJson.get()
-            if os.path.isfile(ScriptToLoad + '.json'):
-                with open(ScriptToLoad + '.json', 'r') as LoadsJson:
+            if os.path.isfile('Scripts/' + 'Scripts/' + ScriptToLoad + '.json'):
+                with open('Scripts/' + 'Scripts/' + ScriptToLoad + '.json', 'r') as LoadsJson:
                     data = json.load(LoadsJson)
 
                 time.sleep(.5)
@@ -55,7 +55,7 @@ class ChooseConfig:
 
                 if data['MouseOption'] != MouseMode.get():
                     data['MouseOption'] = MouseMode.get()
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + 'Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 pyautogui.PAUSE = 0.005
@@ -66,14 +66,14 @@ class ChooseConfig:
                     time.sleep(0.1)
                     root(CharName, ScriptToLoad)
                 else:
-                    os.remove(ScriptToLoad + '.json')
+                    os.remove('Scripts/' + 'Scripts/' + ScriptToLoad + '.json')
                     CreateDefaultJson()
             else:
                 print('Coping Default Json')
                 start_configuration = time.time()
                 Directory = os.getcwd()
 
-                shutil.copyfile(Directory + '\\Json.json', os.path.join(Directory + '\\' + NameCreateJson.get() + '.json'))
+                shutil.copyfile(Directory + '\\Scripts' + '\\Json.json', os.path.join(Directory + '\\Scripts' + '\\' + NameCreateJson.get() + '.json'))
 
                 TibiaAuto = pygetwindow.getWindowsWithTitle("Choose You Config")[0]
                 TibiaAuto.minimize()
@@ -82,7 +82,7 @@ class ChooseConfig:
 
                 time.sleep(.8)
 
-                with open(ScriptToLoad + '.json', 'r') as LoadsJson:
+                with open('Scripts/' + ScriptToLoad + '.json', 'r') as LoadsJson:
                     data = json.load(LoadsJson)
 
                 time.sleep(.5)
@@ -101,12 +101,12 @@ class ChooseConfig:
                     data['Positions']['LifePosition'][0]['x'] = HealthLocation[0]
                     data['Positions']['LifePosition'][0]['y'] = HealthLocation[1]
                     data['Positions']['LifePosition'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('Helth Position Error')
                     data['Positions']['LifePosition'][0]['Stats'] = False
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 try:
@@ -118,12 +118,12 @@ class ChooseConfig:
                     data['Positions']['ManaPosition'][0]['x'] = ManaLocation[0]
                     data['Positions']['ManaPosition'][0]['y'] = ManaLocation[1]
                     data['Positions']['ManaPosition'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('Mana Position Error')
                     data['Positions']['ManaPosition'][0]['Stats'] = False
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 try:
@@ -138,12 +138,12 @@ class ChooseConfig:
                     data['Boxes']['BattleBox'][0]['w'] = int(BattlePositions[2])
                     data['Boxes']['BattleBox'][0]['h'] = int(BattlePositions[3])
                     data['Boxes']['BattleBox'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('Battle Position Error')
                     data['Positions']['BattlePosition'][0]['Stats'] = False
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 try:
@@ -158,12 +158,12 @@ class ChooseConfig:
                     data['Boxes']['StatusBarBox'][0]['w'] = int(StatsPositions[2])
                     data['Boxes']['StatusBarBox'][0]['h'] = int(StatsPositions[3])
                     data['Boxes']['StatusBarBox'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('Status Bar Error')
                     data['Boxes']['StatusBarBox'][0]['Stats'] = False
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 try:
@@ -179,12 +179,12 @@ class ChooseConfig:
                     data['Boxes']['RingBox'][0]['w'] = int(RingPositions[2])
                     data['Boxes']['RingBox'][0]['h'] = int(RingPositions[3])
                     data['Boxes']['RingBox'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('RingPosition Error')
                     data['Boxes']['RingBox'][0]['Stats'] = False
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 try:
@@ -200,12 +200,12 @@ class ChooseConfig:
                     data['Boxes']['AmuletBox'][0]['w'] = int(AmuletPositions[2])
                     data['Boxes']['AmuletBox'][0]['h'] = int(AmuletPositions[3])
                     data['Boxes']['AmuletBox'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('AmuletPosition Error')
                     data['Boxes']['AmuletBox'][0]['Stats'] = False
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 try:
@@ -216,12 +216,12 @@ class ChooseConfig:
                     data['Boxes']['MapBox'][0]['w'] = int(MapPositions[2])
                     data['Boxes']['MapBox'][0]['h'] = int(MapPositions[3])
                     data['Boxes']['MapBox'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('MapPosition Error')
                     data['Boxes']['MapBox'][0]['Stats'] = False
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 try:
@@ -242,13 +242,13 @@ class ChooseConfig:
                     data['Boxes']['GameWindowBox'][0]['w'] = int(gameWindow[2])
                     data['Boxes']['GameWindowBox'][0]['h'] = int(gameWindow[3])
                     data['Boxes']['GameWindowBox'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('Player Position Error')
                     data['Positions']['PlayerPosition'][0]['Stats'] = False
                     data['Boxes']['GameWindowBox'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 try:
@@ -292,7 +292,7 @@ class ChooseConfig:
                     data['SQM']['SQM9'][0]['x'] = int(SQMs[16])
                     data['SQM']['SQM9'][0]['y'] = int(SQMs[17])
                     data['SQM']['SQM9'][0]['Stats'] = True
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
                 except Errno:
                     print('SQMs Error')
@@ -305,28 +305,28 @@ class ChooseConfig:
                     data['SQM']['SQM7'][0]['Stats'] = False
                     data['SQM']['SQM8'][0]['Stats'] = False
                     data['SQM']['SQM9'][0]['Stats'] = False
-                    with open(ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 data['Stats'] = True
-                with open(ScriptToLoad + '.json', 'w') as wJson:
+                with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
 
                 data['MouseOption'] = MouseMode.get()
-                with open(ScriptToLoad + '.json', 'w') as wJson:
+                with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
 
                 data['HookOption'] = HookMode.get()
-                with open(ScriptToLoad + '.json', 'w') as wJson:
+                with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
 
                 if CheckAuto.get():
-                    with open('Loads.json', 'r') as LoaderJson:
+                    with open('Scripts/Loads.json', 'r') as LoaderJson:
                         data2 = json.load(LoaderJson)
 
                     data2['Auto'] = True
                     data2['ScriptName'] = ScriptToLoad
-                    with open('Loads.json', 'w') as wwJson:
+                    with open('Scripts/Loads.json', 'w') as wwJson:
                         json.dump(data2, wwJson, indent=4)
 
                 end_configuration = time.time() - start_configuration
@@ -351,8 +351,8 @@ class ChooseConfig:
         HookMode = tk.IntVar()
         HookMode.set(1)
 
-        if os.path.isfile(NameCreateJson.get() + '.json'):
-            with open(NameCreateJson.get() + '.json', 'r') as LoadsJson:
+        if os.path.isfile('Scripts/' + NameCreateJson.get() + '.json'):
+            with open('Scripts/' + NameCreateJson.get() + '.json', 'r') as LoadsJson:
                 data = json.load(LoadsJson)
             if data['Stats']:
                 self.ChooseConfig.addButton('Load', CreateDefaultJson, [75, 23], [310, 166])

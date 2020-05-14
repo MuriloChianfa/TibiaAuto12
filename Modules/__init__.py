@@ -6,10 +6,10 @@ import threading
 from random import randint
 from Conf.WindowTitles import *
 from Engine.GUI import *
-from GetHWND import GetHWND
-from ChooseConfig import ChooseConfig
+from Core.GetHWND import GetHWND
+from Modules.ChooseConfig import ChooseConfig
 
-from root import root
+from Modules.Root import root
 
 Discovered = False
 data = None
@@ -33,6 +33,7 @@ def WindowSelectCharacter():
     print('\033[33m' + "Start in 1 Seconds...")
 
     def Searcher():
+        time.sleep(.1)
         global Discovered, data
         while not Discovered:
             try:
@@ -46,16 +47,16 @@ def WindowSelectCharacter():
                     print(CHARACTERS[0])
                     try:
                         hwnd = GetHWND('Tibia - ')
-                        with open('Loads.json', 'r') as LoadsJson:
+                        with open('Scripts/Loads.json', 'r') as LoadsJson:
                             data = json.load(LoadsJson)
 
                         print('You Current Tibia HWND: ', hwnd)
 
                         data['hwnd'] = hwnd
-                        with open('Loads.json', 'w') as wJson:
+                        with open('Scripts/Loads.json', 'w') as wJson:
                             json.dump(data, wJson, indent=4)
-                    except Exception:
-                        print('')
+                    except Exception as Ex:
+                        print(Ex, ' ? O.O ')
                         exit(1)
                     OptionSelectCharacter.configure(*CHARACTERS[0])
                     break
@@ -68,14 +69,24 @@ def WindowSelectCharacter():
     def Reconfigure():
         ScriptName = data['ScriptName']
 
-        if os.path.isfile(ScriptName + '.json'):
+        if os.path.isfile('Scripts/' + ScriptName + '.json'):
             data['Auto'] = False
             data['ScriptName'] = None
-            with open('Loads.json', 'w') as wJson:
+            with open('Scripts/Loads.json', 'w') as wJson:
                 json.dump(data, wJson, indent=4)
-            os.remove(ScriptName + '.json')
-            print("Please, Restart Me")
-            exiting()
+            os.remove('Scripts/' + ScriptName + '.json')
+            global Discovered
+            Discovered = False
+            CHARACTERS[0] = ""
+            time.sleep(.2)
+            ThreadSearcher.join()
+            SelectCharacter.destroy()
+            time.sleep(.4)
+            from Main import main
+            main()
+
+            # print("Please, Restart Me")
+            # exiting()
 
     def ReadyToConfig():
         global data
@@ -84,7 +95,7 @@ def WindowSelectCharacter():
             time.sleep(0.1)
             if data['Auto']:
                 ScriptName = data['ScriptName']
-                if os.path.isfile(ScriptName + '.json'):
+                if os.path.isfile('Scripts/' + ScriptName + '.json'):
                     root(CHARACTERS[0], ScriptName)
                 else:
                     print("File Not Loaded")
@@ -102,7 +113,7 @@ def WindowSelectCharacter():
     OptionSelectCharacter.pack()
     OptionSelectCharacter.place(w=230, h=24, x=15, y=17)
 
-    with open('Loads.json', 'r') as LoadsJson:
+    with open('Scripts/Loads.json', 'r') as LoadsJson:
         data = json.load(LoadsJson)
 
     if data['Auto']:
@@ -132,7 +143,10 @@ def WindowSelectCharacter():
     ExitButton.place(w=85, h=25, x=28, y=53)
 
     ThreadSearcher = threading.Thread(target=Searcher)
-    ThreadSearcher.start()
+    if ThreadSearcher.is_alive():
+        pass
+    else:
+        ThreadSearcher.start()
 
     SelectCharacter.mainloop()
 

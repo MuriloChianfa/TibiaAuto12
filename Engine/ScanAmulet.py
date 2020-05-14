@@ -11,7 +11,7 @@ def ScanAmulet(AmuletPositions, Amulet, HOOK_OPTION):
             return True
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateImage
+        from Engine.HookWindow import LocateImage
 
         HasAmulet[0], HasAmulet[1] = LocateImage('images/Amulets/' + Amulet + '.png', Precision=0.9, Region=(
             AmuletPositions[0], AmuletPositions[1], AmuletPositions[2], AmuletPositions[3]))
@@ -33,7 +33,7 @@ def SearchForAmulet(Amulet, HOOK_OPTION):
             return 0, 0
 
     elif HOOK_OPTION == 1:
-        from HookWindow import LocateCenterImage
+        from Engine.HookWindow import LocateCenterImage
 
         FoundAmulet[0], FoundAmulet[1] = LocateCenterImage('images/Amulets/' + Amulet + '.png', Precision=0.9)
         if FoundAmulet[0] != 0 and FoundAmulet[1] != 0:
