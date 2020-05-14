@@ -90,14 +90,17 @@ def LocateImage(image, Region=None, Precision=0.8):
     return 0, 0
 
 
-def LocateCenterImage(image, Region=None, Precision=0.8):
+def LocateCenterImage(image, Region=None, Precision=0.8, Gray=True):
     TakedImage = TakeImage(Region)
 
     img_rgb = np.array(TakedImage)
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(image, 0)
 
-    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+    if Gray:
+        res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+    else:
+        res = cv2.matchTemplate(TakedImage, template, cv2.TM_CCOEFF_NORMED)
     min_val, LocatedPrecision, min_loc, Position = cv2.minMaxLoc(res)
     if LocatedPrecision > Precision:
         needleWidth, needleHeight = GetImageSize(image)

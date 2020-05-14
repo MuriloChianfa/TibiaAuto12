@@ -16,11 +16,9 @@ def AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK
     Target[0], Target[1] = ScanTarget(BattlePosition, monster, HOOK_OPTION)
     TargetNumber2 = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
     print("Number of " + monster + ": ", TargetNumber2)
-    if TargetNumber2 < TargetNumber:
-        GetLoot('right', MOUSE_OPTION).TakeLoot(SQMs)
 
     if Target[0] != 0 and Target[1] != 0:
-        attacking = IsAttacking(BattlePosition, HOOK_OPTION)
+        attacking = Attacking(BattlePosition, HOOK_OPTION, monster)
         TargetNumber = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
         TargetNumber = int(TargetNumber)
         if not attacking:
@@ -37,7 +35,6 @@ def AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK
                 return TargetNumber
             else:
                 return 0
-                
         else:
             print("You are attacking")
             TargetNumber2 = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
@@ -47,4 +44,16 @@ def AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK
                 return 0
     else:
         return 0
+
+
+def Attacking(BattlePosition, HOOK_OPTION, monster):
+    Except = True
+    while Except:
+        try:
+            Attack = IsAttacking(BattlePosition, HOOK_OPTION, monster)
+            Except = False
+            return Attack
+        except Exception:
+            Except = True
+            pass
 

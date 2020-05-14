@@ -14,7 +14,7 @@ def SetFollow(HOOK_OPTION):
     elif HOOK_OPTION == 1:
         from Engine.HookWindow import LocateCenterImage
 
-        Follow[0], Follow[1] = LocateCenterImage('images/TibiaSettings/follow.png', Precision=0.8)
+        Follow[0], Follow[1] = LocateCenterImage('images/TibiaSettings/follow.png', Precision=0.8, Gray=False)
         if Follow[0] != 0 and Follow[1] != 0:
             print("Clicking in Follow")
             return int(Follow[0]), int(Follow[1])

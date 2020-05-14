@@ -111,15 +111,12 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
             if MOUSE_OPTION == 1:
                 SendToClient.MoveTo(mp[0], mp[1])
 
-            try:
-                number = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
-            except Exception:
-                number = 0
-                pass
+            number = Numbers(BattlePosition, monster, HOOK_OPTION)
+
             time.sleep(2.5)
             while number > 0:
                 try:
-                    TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
+                    TargetNumber = NumbersOfTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
                 except Exception:
                     TargetNumber = 0
                     pass
@@ -144,7 +141,7 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
                 time.sleep(.3)
 
                 try:
-                    TargetNumber2 = AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
+                    TargetNumber2 = NumbersOfTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
                 except Exception:
                     TargetNumber2 = 0
                     pass
@@ -154,11 +151,7 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
 
                 time.sleep(0.3)
 
-                try:
-                    number = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
-                except Exception:
-                    number = 0
-                    pass
+                number = Numbers(BattlePosition, monster, HOOK_OPTION)
 
                 if number == 0:
                     break
@@ -177,3 +170,27 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
                 EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPTION, HOOK_OPTION, ScriptName)
         else:
             print("Error to locate: " + data[i]["mark"])
+
+
+def Numbers(BattlePosition, monster, HOOK_OPTION):
+    Except = True
+    while Except:
+        try:
+            number = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
+            Except = False
+            return number
+        except Exception:
+            Except = True
+            pass
+
+
+def NumbersOfTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION):
+    Except = True
+    while Except:
+        try:
+            ReturnedNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
+            Except = False
+            return ReturnedNumber
+        except Exception:
+            Except = True
+            pass
