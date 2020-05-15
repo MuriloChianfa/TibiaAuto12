@@ -19,16 +19,11 @@ def CheckWaypoint(image, map_positions, HOOK_OPTION):
     elif HOOK_OPTION == 1:
         from Engine.HookWindow import LocateImage
 
-        try:
-            wpt[0], wpt[1] = LocateImage('images/MapSettings/' + image + '.png', Precision=0.7, Region=(middle_start[0], middle_start[1], middle_end[0], middle_end[1]))
-        except Exception:
-            wpt[0] = 0
-            wpt[1] = 0
-            pass
+        wpt[0], wpt[1] = LocateImage('images/MapSettings/' + image + '.png', Precision=0.7, Region=(middle_start[0], middle_start[1], middle_end[0], middle_end[1]))
 
         if wpt[0] != 0 and wpt[1] != 0:
             print("Arrived At Mark:", image)
             return True
         else:
-            print("Didn't Arrived At Mark:", image)
+            print("Didn't Arrived At Mark:", image, "\n")
             return False

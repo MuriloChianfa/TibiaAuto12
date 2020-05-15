@@ -64,16 +64,24 @@ class Hooker:
         if self.result == 1:
             return self.TakedImage
         else:
-            return print('Error From HookWindow')
+            return print('Debugged From HookWindow')
 
 
 def TakeImage(Region=None):
-    TakedImage = Hooker(hwnd).HookWindow()
-    if Region is not None:
-        TakedImage = TakedImage.crop((Region[0], Region[1], Region[0] + (Region[2] - Region[0]), Region[1] + (Region[3] - Region[1])))
-        return TakedImage
-    else:
-        return TakedImage
+    Except = True
+    while Except:
+        try:
+            TakedImage = Hooker(hwnd).HookWindow()
+            if Region is not None:
+                TakedImage = TakedImage.crop(
+                    (Region[0], Region[1], Region[0] + (Region[2] - Region[0]), Region[1] + (Region[3] - Region[1])))
+                return TakedImage
+            else:
+                return TakedImage
+        except Exception as Ex:
+            # print("Debugged From TakeImage: ", Ex)
+            Except = True
+            pass
 
 
 def LocateImage(image, Region=None, Precision=0.8):
@@ -90,24 +98,21 @@ def LocateImage(image, Region=None, Precision=0.8):
     return 0, 0
 
 
-def LocateCenterImage(image, Region=None, Precision=0.8, Gray=True):
+def LocateCenterImage(image, Region=None, Precision=0.8):
     TakedImage = TakeImage(Region)
 
     img_rgb = np.array(TakedImage)
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(image, 0)
 
-    if Gray:
-        res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
-    else:
-        res = cv2.matchTemplate(TakedImage, template, cv2.TM_CCOEFF_NORMED)
+    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
     min_val, LocatedPrecision, min_loc, Position = cv2.minMaxLoc(res)
     if LocatedPrecision > Precision:
         needleWidth, needleHeight = GetImageSize(image)
         if needleWidth:
             return Position[0] + int(needleWidth / 2), Position[1] + int(needleHeight / 2)
         else:
-            print('Error From LocateCenterImage')
+            print('Debugged From LocateCenterImage')
     return 0, 0
 
 

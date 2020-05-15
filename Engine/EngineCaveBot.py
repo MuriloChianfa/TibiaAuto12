@@ -82,26 +82,27 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
     elif HOOK_OPTION == 1:
         from Engine.HookWindow import LocateCenterImage
 
+        time.sleep(3.5)
+
         while not IsFocused():
             print("The Tibia's Window Is Not Focused !!")
             time.sleep(.3)
 
         while MarkLocation[0] == 0 and MarkLocation[1] == 0:
-            try:
-                MarkLocation[0], MarkLocation[1] = LocateCenterImage('images/MapSettings/' + data[i]["mark"] + '.png',
-                                                                     Region=(
-                                                                         MapPosition[0], MapPosition[1], MapPosition[2],
-                                                                         MapPosition[3]),
-                                                                     Precision=0.8)
-            except Exception:
-                MarkLocation[0] = 0
-                MarkLocation[1] = 0
-                print("Try Find a Mark ", data[i]["mark"])
-                pass
+            MarkLocation[0], MarkLocation[1] = LocateCenterImage('images/MapSettings/' + data[i]["mark"] + '.png',
+                                                                 Region=(
+                                                                     MapPosition[0], MapPosition[1], MapPosition[2],
+                                                                     MapPosition[3]),
+                                                                 Precision=0.8)
+            if MarkLocation[0] == 0 and MarkLocation[1] == 0:
+                print("Mark: { ", data[i]["mark"], " } Not Located, Try Again")
+                time.sleep(.3)
+            else:
+                print("successfully Located The Mark: { ", data[i]["mark"], " } Clicking On Your Position")
+                MarkLocation[0] = MapPosition[0] + MarkLocation[0]
+                MarkLocation[1] = MapPosition[1] + MarkLocation[1]
 
-        MarkLocation[0] = MapPosition[0] + MarkLocation[0]
-        MarkLocation[1] = MapPosition[1] + MarkLocation[1]
-        if data[i]['status'] is True and MarkLocation[0] != 0 and MarkLocation[1] != 0:
+        if data[i]['status'] is True:
 
             if MOUSE_OPTION == 1:
                 mp = SendToClient.Position()
@@ -111,22 +112,12 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
             if MOUSE_OPTION == 1:
                 SendToClient.MoveTo(mp[0], mp[1])
 
-            number = Numbers(BattlePosition, monster, HOOK_OPTION)
+            number = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
 
-            time.sleep(2.5)
             while number > 0:
-                try:
-                    TargetNumber = NumbersOfTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
-                except Exception:
-                    TargetNumber = 0
-                    pass
+                TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
 
-                try:
-                    follow_x_pos, follow_y_pos = SetFollow(HOOK_OPTION)
-                except Exception:
-                    follow_x_pos = 0
-                    follow_y_pos = 0
-                    pass
+                follow_x_pos, follow_y_pos = SetFollow(HOOK_OPTION)
 
                 if follow_x_pos != 0 and follow_y_pos != 0:
 
@@ -138,20 +129,16 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
                     if MOUSE_OPTION == 1:
                         SendToClient.MoveTo(mp[0], mp[1])
 
-                time.sleep(.3)
+                time.sleep(.2)
 
-                try:
-                    TargetNumber2 = NumbersOfTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
-                except Exception:
-                    TargetNumber2 = 0
-                    pass
+                TargetNumber2 = AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
 
                 if TargetNumber2 < TargetNumber:
                     GetLoot('right', MOUSE_OPTION).TakeLoot(SQMs)
 
-                time.sleep(0.3)
+                time.sleep(0.2)
 
-                number = Numbers(BattlePosition, monster, HOOK_OPTION)
+                number = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
 
                 if number == 0:
                     break
@@ -170,27 +157,3 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
                 EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPTION, HOOK_OPTION, ScriptName)
         else:
             print("Error to locate: " + data[i]["mark"])
-
-
-def Numbers(BattlePosition, monster, HOOK_OPTION):
-    Except = True
-    while Except:
-        try:
-            number = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
-            Except = False
-            return number
-        except Exception:
-            Except = True
-            pass
-
-
-def NumbersOfTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION):
-    Except = True
-    while Except:
-        try:
-            ReturnedNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
-            Except = False
-            return ReturnedNumber
-        except Exception:
-            Except = True
-            pass

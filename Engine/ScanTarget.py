@@ -17,11 +17,8 @@ def ScanTarget(BattlePosition, monster, HOOK_OPTION):
     elif HOOK_OPTION == 1:
         from Engine.HookWindow import LocateCenterImage
 
-        try:
-            has_target[0], has_target[1] = LocateCenterImage('images/Targets/' + monster + '.png', Precision=0.9, Region=(
-                BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
-        except Exception:
-            pass
+        has_target[0], has_target[1] = LocateCenterImage('images/Targets/' + monster + '.png', Precision=0.9, Region=(
+            BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
 
         if has_target[0] != 0 and has_target[1] != 0:
             if has_target[0] < BattlePosition[0]:
