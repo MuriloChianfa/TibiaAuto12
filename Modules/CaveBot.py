@@ -38,7 +38,7 @@ Scripts = [
     "StonerefinerVenore"
 ]
 
-DefaultScript = 'StonerefinerVenore'
+DefaultScript = 'ratThais'
 data = None
 
 

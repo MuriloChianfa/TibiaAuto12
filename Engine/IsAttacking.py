@@ -14,16 +14,19 @@ def IsAttacking(BattlePosition, HOOK_OPTION, MonsterName):
             return False
 
     elif HOOK_OPTION == 1:
-        from Engine.HookWindow import LocateImage
+        # from Engine.HookWindow import LocateImage
 
-        IsAttaking[0], IsAttaking[1] = LocateImage('images/MonstersAttack/' + MonsterName + '1.png', Precision=0.8, Region=(
-            BattlePosition[0] - 20, BattlePosition[1] - 1, BattlePosition[2], BattlePosition[3]))
-        if IsAttaking[0] != 0 and IsAttaking[1] != 0:
-            return True
-        else:
-            IsAttaking2[0], IsAttaking2[1] = LocateImage('images/MonstersAttack/' + MonsterName + '2.png', Precision=0.8, Region=(
-                BattlePosition[0] - 20, BattlePosition[1] - 1, BattlePosition[2], BattlePosition[3]))
-        if IsAttaking2[0] != 0 and IsAttaking2[1] != 0:
-            return True
-        else:
-            return False
+        return False
+
+
+'''IsAttaking[0], IsAttaking[1] = LocateImage('images/MonstersAttack/' + MonsterName + '1.png', Precision=0.8, Region=(
+    BattlePosition[0] - 20, BattlePosition[1] - 1, BattlePosition[2], BattlePosition[3]))
+if IsAttaking[0] != 0 and IsAttaking[1] != 0:
+    return True
+else:
+    IsAttaking2[0], IsAttaking2[1] = LocateImage('images/MonstersAttack/' + MonsterName + '2.png', Precision=0.8, Region=(
+        BattlePosition[0] - 20, BattlePosition[1] - 1, BattlePosition[2], BattlePosition[3]))
+if IsAttaking2[0] != 0 and IsAttaking2[1] != 0:
+    return True
+else:
+    return False'''

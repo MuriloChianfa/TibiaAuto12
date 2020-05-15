@@ -10,13 +10,5 @@
     {
         "mark": "ExclimationMark",
         "status": false
-    },
-    {
-        "mark": "Star",
-        "status": false
-    },
-    {
-        "mark": "Cross",
-        "status": false
     }
 ]
