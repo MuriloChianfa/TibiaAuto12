@@ -19,11 +19,13 @@
 
 - Install [opencv](https://pypi.org/project/opencv-python/) with: `pip install opencv-python`
 
-- Install [nump](https://pypi.org/project/numpy/) with: `pip install nump`
+- Install [numpy](https://pypi.org/project/numpy/) with: `pip install numpy`
 
 - Install [pyautogui](https://pypi.org/project/PyAutoGUI/) with: `pip install pyautogui`
 
 - Install [Pillow](https://pypi.org/project/Pillow/2.2.2/) with: `pip install Pillow`
+
+- Install [keyboard](https://pypi.org/project/keyboard/) with: `pip install keyboard`
 
 # Features Status
 
@@ -56,13 +58,13 @@
 
 # How To Use
 
-## Setuping OBS and Tibia
+## Setup OBS and Tibia
 
 To configure your OBS, you must open a game capture with tibia's window selected.
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/OBS/SetTibia.png)
 
-Click on Previw with a right mouse button for open the options and select this option:
+Click on Preview with a right mouse button for open the options and select this option:
 
 - ![Alt text](https://github.com/MuriloChianfa/TibiaAuto12/blob/master/images/ImagesReadme/OBS/Projetor.png)
 
