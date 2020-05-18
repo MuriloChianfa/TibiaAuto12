@@ -19,7 +19,14 @@ USE_IMAGE_NOT_FOUND_EXCEPTION = True
 
 unicode = str
 
-hwnd = GetHWND('Projetor em janela')
+
+hwnd = GetHWND('Windowed Projector')
+
+if hwnd == 0:
+    hwnd = GetHWND('Projetor em janela')
+
+if hwnd == 0:
+    exit(1)
 
 
 class ImageNotFoundException(Exception):

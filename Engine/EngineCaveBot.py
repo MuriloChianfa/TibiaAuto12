@@ -97,6 +97,14 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
             if MarkLocation[0] == 0 and MarkLocation[1] == 0:
                 print("Mark: { ", data[i]["mark"], " } Not Located, Try Again")
                 time.sleep(.3)
+                SendToClient.Press('up_arrow')
+                time.sleep(.1)
+                SendToClient.Press('left_arrow')
+                time.sleep(.7)
+                SendToClient.Press('down_arrow')
+                time.sleep(.1)
+                SendToClient.Press('right_arrow')
+                time.sleep(.1)
             else:
                 print("successfully Located The Mark: { ", data[i]["mark"], " } Clicking On Your Position")
                 MarkLocation[0] = MapPosition[0] + MarkLocation[0]

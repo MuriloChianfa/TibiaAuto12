@@ -8,8 +8,9 @@ def GetHWND(Title):
         b = a.split('=', 1)
         b = b[1].split(')', 1)
         hwnd = int(b[0])
+        print(f">>> OBS's Window Located")
         return hwnd
     except Exception as Ex:
-        print("\n")
-        print(Ex, ">>> " f"Window Not Located '{Title}'")
-        exit(1)
+        print("From GetHWND.py: ", Ex)
+        print(f">>> Window Not Located: '{Title}', Trying Again")
+        return 0

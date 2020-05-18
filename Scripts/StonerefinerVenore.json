@@ -1,11 +1,11 @@
 [
     {
         "mark": "CheckMark",
-        "status": false
+        "status": true
     },
     {
         "mark": "QuestionMark",
-        "status": true
+        "status": false
     },
     {
         "mark": "ExclimationMark",
