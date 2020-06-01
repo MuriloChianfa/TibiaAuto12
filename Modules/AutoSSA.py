@@ -6,7 +6,10 @@ import pygetwindow
 
 from Engine.GUI import *
 from Engine.ScanAmulet import ScanAmulet, SearchForAmulet
+from Engine.SetGUI import SetGUI
 from Conf.Hotkeys import Hotkey
+
+GUIChanges = []
 
 FoundedImg = False
 EnabledAutoSSA = False
@@ -27,6 +30,7 @@ class AutoSSA:
     def __init__(self, root, AmuletPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION):
         self.AutoSSA = GUI('AutoSSA', 'Module: Auto SSA')
         self.AutoSSA.DefaultWindow('AutoAmulet', [306, 397], [1.2, 2.29])
+        self.Setter = SetGUI("AmuletLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoAmulet():
@@ -211,21 +215,64 @@ class AutoSSA:
 
         WidthScreen, HeightScreen = pyautogui.size()
 
-        CheckPrint = tk.BooleanVar()
-        LowMana = tk.BooleanVar()
-        RadioButton = tk.IntVar()
-        NameAmulet = tk.StringVar()
-        NameAmulet.set('SSA')
-        HotkeyAmulet = tk.StringVar()
-        HotkeyAmulet.set("Shift + F2")
-        TextEntryX = tk.StringVar()
-        TextEntryY = tk.StringVar()
-        CheckLifeBellowThan = tk.BooleanVar()
-        CheckLifeBellowThan.set(False)
-        LifeBellowThan = tk.IntVar()
-        LifeBellowThan.set(30)
+        VarCheckPrint = tk.BooleanVar()
+        InitiatedCheckPrint = self.Setter.GetBoolVar("CheckPrint")
+        VarCheckPrint.set(InitiatedCheckPrint)
 
-        self.AutoSSA.addButton('Ok', self.AutoSSA.destroyWindow, [73, 21], [115, 365])
+        VarCheckBuff = tk.BooleanVar()
+        InitiatedCheckBuff = self.Setter.GetBoolVar("CheckBuff")
+        VarCheckBuff.set(InitiatedCheckPrint)
+
+        RadioButton = tk.IntVar()
+        InitiatedRadioButton = self.Setter.GetVar("RadioButton")
+        RadioButton.set(InitiatedRadioButton)
+
+        NameAmulet = tk.StringVar()
+        InitiatedNameAmulet = self.Setter.GetVar("NameAmulet")
+        NameAmulet.set(InitiatedNameAmulet)
+
+        HotkeyAmulet = tk.StringVar()
+        InitiatedHotkeyAmulet = self.Setter.GetVar("HotkeyAmulet")
+        HotkeyAmulet.set(InitiatedHotkeyAmulet)
+
+        TextEntryX = tk.StringVar()
+        InitiatedTextEntryX = self.Setter.GetVar("TextEntryX")
+        TextEntryX.set(InitiatedTextEntryX)
+
+        TextEntryY = tk.StringVar()
+        InitiatedTextEntryY = self.Setter.GetVar("TextEntryY")
+        TextEntryY.set(InitiatedTextEntryY)
+
+        CheckLifeBellowThan = tk.BooleanVar()
+        InitiatedLifeBellowThan = self.Setter.GetBoolVar("LifeBellowThan")
+        CheckLifeBellowThan.set(InitiatedLifeBellowThan)
+
+        LifeBellowThan = tk.IntVar()
+        InitiatedBellowThan = self.Setter.GetVar("BellowThan")
+        LifeBellowThan.set(InitiatedBellowThan)
+
+        def CheckingGUI(Init, Get, Name):
+            if Get != Init:
+                GUIChanges.append((Name, Get))
+
+        def Destroy():
+            CheckingGUI(InitiatedCheckPrint, VarCheckPrint.get(), 'CheckPrint')
+            CheckingGUI(InitiatedCheckBuff, VarCheckBuff.get(), 'CheckBuff')
+            CheckingGUI(InitiatedRadioButton, RadioButton.get(), 'RadioButton')
+            CheckingGUI(InitiatedNameAmulet, NameAmulet.get(), 'NameAmulet')
+            CheckingGUI(InitiatedHotkeyAmulet, HotkeyAmulet.get(), 'HotkeyAmulet')
+            CheckingGUI(InitiatedTextEntryX, TextEntryX.get(), 'TextEntryX')
+            CheckingGUI(InitiatedTextEntryY, TextEntryY.get(), 'TextEntryY')
+            CheckingGUI(InitiatedLifeBellowThan, CheckLifeBellowThan.get(), 'LifeBellowThan')
+            CheckingGUI(InitiatedBellowThan, LifeBellowThan.get(), 'BellowThan')
+
+            if len(GUIChanges) != 0:
+                for EachChange in range(len(GUIChanges)):
+                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+
+            self.AutoSSA.destroyWindow()
+
+        self.AutoSSA.addButton('Ok', Destroy, [73, 21], [115, 365])
 
         global EnabledAutoSSA
         if not EnabledAutoSSA:
@@ -234,9 +281,9 @@ class AutoSSA:
             ButtonEnabled = self.AutoSSA.addButton('AutoSSA: ON', SetAutoAmulet, [287, 23], [11, 336])
             ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        CheckPrint = self.AutoSSA.addCheck(CheckPrint, [11, 285], 0, "Print on Tibia's screen")
+        CheckPrint = self.AutoSSA.addCheck(VarCheckPrint, [11, 285], InitiatedCheckPrint, "Print on Tibia's screen")
         CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
-        CheckBuff = self.AutoSSA.addCheck(LowMana, [11, 305], 0, "Don't Buff")
+        CheckBuff = self.AutoSSA.addCheck(VarCheckBuff, [11, 305], InitiatedCheckBuff, "Don't Buff")
         CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
         BackImage = 'images/Fundo.png'
@@ -260,7 +307,7 @@ class AutoSSA:
         RButton1 = self.AutoSSA.addRadio('Hotkey', RadioButton, 0, [22, 155], CheckClick)
         RButton2 = self.AutoSSA.addRadio('Position', RadioButton, 1, [22, 175], CheckClick)
 
-        CheckBoxLifeBellowThan = self.AutoSSA.addCheck(CheckLifeBellowThan, [60, 210], 0,
+        CheckBoxLifeBellowThan = self.AutoSSA.addCheck(CheckLifeBellowThan, [60, 210], InitiatedLifeBellowThan,
                                                        'Use Only If Life Is Bellow Than')
         LabelLifeBellowThan = self.AutoSSA.addLabel('Life <= ', [90, 245])
         PercentageLifeBellowThan = self.AutoSSA.addOption(LifeBellowThan, percentage, [140, 240])
@@ -367,4 +414,5 @@ class AutoSSA:
 
         ConstantVerify()
 
+        self.AutoSSA.Protocol(Destroy)
         self.AutoSSA.loop()

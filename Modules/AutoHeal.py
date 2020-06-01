@@ -3,10 +3,13 @@ import threading
 
 from Engine.GUI import *
 from Engine.ScanStages import ScanStages
+from Engine.SetGUI import SetGUI
 from Conf.Hotkeys import Hotkey
 
+GUIChanges = []
 
 EnabledAutoHeal = False
+
 life = 0
 
 lifeColorFull = [194, 74, 74]
@@ -20,6 +23,7 @@ class AutoHeal:
     def __init__(self, root, HealthLocation, MOUSE_OPTION, HOOK_OPTION):
         self.AutoHeal = GUI('AutoHeal', 'Module: Auto Heal')
         self.AutoHeal.DefaultWindow('AutoHeal2', [306, 372], [1.2, 2.29])
+        self.Setter = SetGUI("HealthLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
         self.Scan = ScanStages('Life', HOOK_OPTION)
 
@@ -130,29 +134,77 @@ class AutoHeal:
                     time.sleep(1)
 
         VarCheckPrint = tk.BooleanVar()
+        InitiatedCheckPrint = self.Setter.GetBoolVar("CheckPrint")
+        VarCheckPrint.set(InitiatedCheckPrint)
+
         VarCheckBuff = tk.BooleanVar()
+        InitiatedCheckBuff = self.Setter.GetBoolVar("CheckBuff")
+        VarCheckBuff.set(InitiatedCheckBuff)
+
         VarCheckStageOne = tk.BooleanVar()
+        InitiatedCheckStageOne = self.Setter.GetBoolVar("CheckStageOne")
+        VarCheckStageOne.set(InitiatedCheckStageOne)
+
         VarCheckStageTwo = tk.BooleanVar()
+        InitiatedCheckStageTwo = self.Setter.GetBoolVar("CheckStageTwo")
+        VarCheckStageTwo.set(InitiatedCheckStageTwo)
+
         VarCheckStageThree = tk.BooleanVar()
+        InitiatedCheckStageThree = self.Setter.GetBoolVar("CheckStageThree")
+        VarCheckStageThree.set(InitiatedCheckStageThree)
+
         VarCheckCureStats = tk.BooleanVar()
+        InitiatedCheckCureStats = self.Setter.GetBoolVar("CheckCureStats")
+        VarCheckCureStats.set(InitiatedCheckCureStats)
+
         VarCheckParalyze = tk.BooleanVar()
+        InitiatedCheckParalyze = self.Setter.GetBoolVar("CheckParalyze")
+        VarCheckParalyze.set(InitiatedCheckParalyze)
+
         VarCheckPoison = tk.BooleanVar()
+        InitiatedCheckPoison = self.Setter.GetBoolVar("CheckPoison")
+        VarCheckPoison.set(InitiatedCheckPoison)
+
         VarCheckFire = tk.BooleanVar()
+        InitiatedCheckFire = self.Setter.GetBoolVar("CheckFire")
+        VarCheckFire.set(InitiatedCheckFire)
+
         VarCheckElectrify = tk.BooleanVar()
+        InitiatedCheckElectrify = self.Setter.GetBoolVar("CheckElectrify")
+        VarCheckElectrify.set(InitiatedCheckElectrify)
+
         VarCheckMort = tk.BooleanVar()
+        InitiatedCheckMort = self.Setter.GetBoolVar("CheckMort")
+        VarCheckMort.set(InitiatedCheckMort)
+
         VarCheckBlood = tk.BooleanVar()
+        InitiatedCheckBlood = self.Setter.GetBoolVar("CheckBlood")
+        VarCheckBlood.set(InitiatedCheckBlood)
+
         VarPercentageStageOne = tk.IntVar()
-        VarPercentageStageOne.set(90)
+        InitiatedPercentageStageOne = self.Setter.GetVar("PercentageStageOne")
+        VarPercentageStageOne.set(InitiatedPercentageStageOne)
+
         VarHotkeyStageOne = tk.StringVar()
-        VarHotkeyStageOne.set("F1")
+        InitiatedHotkeyStageOne = self.Setter.GetVar("HotkeyStageOne")
+        VarHotkeyStageOne.set(InitiatedHotkeyStageOne)
+
         VarPercentageStageTwo = tk.IntVar()
-        VarPercentageStageTwo.set(75)
+        InitiatedPercentageStageTwo = self.Setter.GetVar("PercentageStageTwo")
+        VarPercentageStageTwo.set(InitiatedPercentageStageTwo)
+
         VarHotkeyStageTwo = tk.StringVar()
-        VarHotkeyStageTwo.set("F2")
+        InitiatedHotkeyStageTwo = self.Setter.GetVar("HotkeyStageTwo")
+        VarHotkeyStageTwo.set(InitiatedHotkeyStageTwo)
+
         VarPercentageStageThree = tk.IntVar()
-        VarPercentageStageThree.set(35)
+        InitiatedPercentageStageThree = self.Setter.GetVar("PercentageStageThree")
+        VarPercentageStageThree.set(InitiatedPercentageStageThree)
+
         VarHotkeyStageThree = tk.StringVar()
-        VarHotkeyStageThree.set("F12")
+        InitiatedHotkeyStageThree = self.Setter.GetVar("HotkeyStageThree")
+        VarHotkeyStageThree.set(InitiatedHotkeyStageThree)
+
         ParalyzeImage = ImageTk.PhotoImage(Image.open('images/Stats/paralyze.webp'))
         PoisonImage = ImageTk.PhotoImage(Image.open('images/Stats/poison.webp'))
         FireImage = ImageTk.PhotoImage(Image.open('images/Stats/fire.webp'))
@@ -160,7 +212,37 @@ class AutoHeal:
         MortImage = ImageTk.PhotoImage(Image.open('images/Stats/mort.webp'))
         BloodImage = ImageTk.PhotoImage(Image.open('images/Stats/blood.webp'))
 
-        self.AutoHeal.addButton('Ok', self.AutoHeal.destroyWindow, [73, 21], [115, 340])
+        def CheckingGUI(Init, Get, Name):
+            if Get != Init:
+                GUIChanges.append((Name, Get))
+
+        def Destroy():
+            CheckingGUI(InitiatedCheckPrint, VarCheckPrint.get(), 'CheckPrint')
+            CheckingGUI(InitiatedCheckBuff, VarCheckBuff.get(), 'CheckBuff')
+            CheckingGUI(InitiatedCheckStageOne, VarCheckStageOne.get(), 'CheckStageOne')
+            CheckingGUI(InitiatedCheckStageTwo, VarCheckStageTwo.get(), 'CheckStageTwo')
+            CheckingGUI(InitiatedCheckStageThree, VarCheckStageThree.get(), 'CheckStageThree')
+            CheckingGUI(InitiatedCheckCureStats, VarCheckCureStats.get(), 'CheckCureStats')
+            CheckingGUI(InitiatedCheckParalyze, VarCheckParalyze.get(), 'CheckParalyze')
+            CheckingGUI(InitiatedCheckPoison, VarCheckPoison.get(), 'CheckPoison')
+            CheckingGUI(InitiatedCheckFire, VarCheckFire.get(), 'CheckFire')
+            CheckingGUI(InitiatedCheckElectrify, VarCheckElectrify.get(), 'CheckElectrify')
+            CheckingGUI(InitiatedCheckMort, VarCheckMort.get(), 'CheckMort')
+            CheckingGUI(InitiatedCheckBlood, VarCheckBlood.get(), 'CheckBlood')
+            CheckingGUI(InitiatedPercentageStageOne, VarPercentageStageOne.get(), 'PercentageStageOne')
+            CheckingGUI(InitiatedHotkeyStageOne, VarHotkeyStageOne.get(), 'HotkeyStageOne')
+            CheckingGUI(InitiatedPercentageStageTwo, VarPercentageStageTwo.get(), 'PercentageStageTwo')
+            CheckingGUI(InitiatedHotkeyStageTwo, VarHotkeyStageTwo.get(), 'HotkeyStageTwo')
+            CheckingGUI(InitiatedPercentageStageThree, VarPercentageStageThree.get(), 'PercentageStageThree')
+            CheckingGUI(InitiatedHotkeyStageThree, VarHotkeyStageThree.get(), 'HotkeyStageThree')
+
+            if len(GUIChanges) != 0:
+                for EachChange in range(len(GUIChanges)):
+                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+
+            self.AutoHeal.destroyWindow()
+
+        self.AutoHeal.addButton('Ok', Destroy, [73, 21], [115, 340])
 
         ''' button enable healing '''
 
@@ -171,25 +253,25 @@ class AutoHeal:
             ButtonEnabled = self.AutoHeal.addButton('AutoHealing: ON', SetAutoHeal, [287, 23], [11, 311])
             ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        CheckPrint = self.AutoHeal.addCheck(VarCheckPrint, [11, 260], 0, "Print on Tibia's screen")
+        CheckPrint = self.AutoHeal.addCheck(VarCheckPrint, [11, 260], InitiatedCheckPrint, "Print on Tibia's screen")
         CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
-        CheckBuff = self.AutoHeal.addCheck(VarCheckBuff, [11, 280], 0, "Don't Buff")
+        CheckBuff = self.AutoHeal.addCheck(VarCheckBuff, [11, 280], InitiatedCheckBuff, "Don't Buff")
         CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
         LabelPercentage = self.AutoHeal.addLabel('% Percentage', [145, 24])
         LabelHotkey = self.AutoHeal.addLabel('HotKey', [230, 24])
 
-        StageOne = self.AutoHeal.addCheck(VarCheckStageOne, [17, 55], 0, "Enable Stage One")
-        StageTwo = self.AutoHeal.addCheck(VarCheckStageTwo, [17, 105], 0, "Enable Stage Two")
-        StageThree = self.AutoHeal.addCheck(VarCheckStageThree, [17, 155], 0, "Enable Stage Three")
-        CheckStats = self.AutoHeal.addCheck(VarCheckCureStats, [95, 192], 0, "Enable Cure Stats")
+        StageOne = self.AutoHeal.addCheck(VarCheckStageOne, [17, 55], InitiatedCheckStageOne, "Enable Stage One")
+        StageTwo = self.AutoHeal.addCheck(VarCheckStageTwo, [17, 105], InitiatedCheckStageTwo, "Enable Stage Two")
+        StageThree = self.AutoHeal.addCheck(VarCheckStageThree, [17, 155], InitiatedCheckStageThree, "Enable Stage Three")
+        CheckStats = self.AutoHeal.addCheck(VarCheckCureStats, [95, 192], InitiatedCheckCureStats, "Enable Cure Stats")
 
-        Paralyze = self.AutoHeal.addCheck(VarCheckParalyze, [40, 226], 0, '', ParalyzeImage)
-        Poison = self.AutoHeal.addCheck(VarCheckPoison, [80, 226], 0, '', PoisonImage)
-        Fire = self.AutoHeal.addCheck(VarCheckFire, [120, 226], 0, '', FireImage)
-        Electrify = self.AutoHeal.addCheck(VarCheckElectrify, [160, 226], 0, '', ElectrifyImage)
-        Mort = self.AutoHeal.addCheck(VarCheckMort, [200, 226], 0, '', MortImage)
-        Blood = self.AutoHeal.addCheck(VarCheckBlood, [240, 226], 0, '', BloodImage)
+        Paralyze = self.AutoHeal.addCheck(VarCheckParalyze, [40, 226], InitiatedCheckParalyze, '', ParalyzeImage)
+        Poison = self.AutoHeal.addCheck(VarCheckPoison, [80, 226], InitiatedCheckPoison, '', PoisonImage)
+        Fire = self.AutoHeal.addCheck(VarCheckFire, [120, 226], InitiatedCheckFire, '', FireImage)
+        Electrify = self.AutoHeal.addCheck(VarCheckElectrify, [160, 226], InitiatedCheckElectrify, '', ElectrifyImage)
+        Mort = self.AutoHeal.addCheck(VarCheckMort, [200, 226], InitiatedCheckMort, '', MortImage)
+        Blood = self.AutoHeal.addCheck(VarCheckBlood, [240, 226], InitiatedCheckBlood, '', BloodImage)
 
         PercentageStageOne = self.AutoHeal.addOption(VarPercentageStageOne, percentage, [148, 54])
         HotkeyStageOne = self.AutoHeal.addOption(VarHotkeyStageOne, self.SendToClient.Hotkeys, [223, 54])
@@ -269,11 +351,12 @@ class AutoHeal:
                     Mort.configure(state='normal')
                     Blood.configure(state='normal')
 
-            self.AutoHeal.After(1, ConstantVerify)
+            self.AutoHeal.After(30, ConstantVerify)
 
         CheckingButtons()
 
         ConstantVerify()
 
+        self.AutoHeal.Protocol(Destroy)
         self.AutoHeal.loop()
 

@@ -3,7 +3,10 @@ import threading
 
 from Engine.GUI import *
 from Engine.ScanHur import ScanHur
+from Engine.SetGUI import SetGUI
 from Conf.Hotkeys import Hotkey
+
+GUIChanges = []
 
 EnabledAutoHur = False
 
@@ -12,6 +15,7 @@ class AutoHur:
     def __init__(self, root, StatsPositions, MOUSE_OPTION, HOOK_OPTION):
         self.AutoHur = GUI('AutoHur', 'Module: Auto Hur')
         self.AutoHur.DefaultWindow('AutoHur', [224, 258], [1.2, 2.29])
+        self.Setter = SetGUI("HurLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoHur():
@@ -50,14 +54,39 @@ class AutoHur:
         def Recapture():
             print("recapture")
 
-        CheckPrint = tk.BooleanVar()
-        LowMana = tk.BooleanVar()
-        VarHotkeyHur = tk.StringVar()
-        VarHotkeyHur.set("F6")
-        CheckLowMana = tk.BooleanVar()
-        CheckLowMana.set(False)
+        VarCheckPrint = tk.BooleanVar()
+        InitiatedCheckPrint = self.Setter.GetBoolVar("CheckPrint")
+        VarCheckPrint.set(InitiatedCheckPrint)
 
-        self.AutoHur.addButton('Ok', self.AutoHur.destroyWindow, [73, 21], [75, 225])
+        VarCheckBuff = tk.BooleanVar()
+        InitiatedCheckBuff = self.Setter.GetBoolVar("CheckBuff")
+        VarCheckBuff.set(InitiatedCheckBuff)
+
+        VarHotkeyHur = tk.StringVar()
+        InitiatedHotkeyHur = self.Setter.GetVar("HotkeyHur")
+        VarHotkeyHur.set(InitiatedHotkeyHur)
+
+        CheckLowMana = tk.BooleanVar()
+        InitiatedCheckLowMana = self.Setter.GetBoolVar("CheckLowMana")
+        CheckLowMana.set(InitiatedCheckLowMana)
+
+        def CheckingGUI(Init, Get, Name):
+            if Get != Init:
+                GUIChanges.append((Name, Get))
+
+        def Destroy():
+            CheckingGUI(InitiatedCheckPrint, VarCheckPrint.get(), 'CheckPrint')
+            CheckingGUI(InitiatedCheckBuff, VarCheckBuff.get(), 'CheckBuff')
+            CheckingGUI(InitiatedHotkeyHur, VarHotkeyHur.get(), 'HotkeyHur')
+            CheckingGUI(InitiatedCheckLowMana, CheckLowMana.get(), 'CheckLowMana')
+
+            if len(GUIChanges) != 0:
+                for EachChange in range(len(GUIChanges)):
+                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+
+            self.AutoHur.destroyWindow()
+
+        self.AutoHur.addButton('Ok', Destroy, [73, 21], [75, 225])
 
         global EnabledAutoHur
         if not EnabledAutoHur:
@@ -66,9 +95,9 @@ class AutoHur:
             ButtonEnabled = self.AutoHur.addButton('AutoHur: ON', SetAutoHur, [203, 23], [11, 195])
             ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        CheckPrint = self.AutoHur.addCheck(CheckPrint, [11, 150], 0, "Print on Tibia's screen")
+        CheckPrint = self.AutoHur.addCheck(VarCheckPrint, [11, 150], InitiatedCheckPrint, "Print on Tibia's screen")
         CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
-        CheckBuff = self.AutoHur.addCheck(LowMana, [11, 170], 0, "Don't Buff")
+        CheckBuff = self.AutoHur.addCheck(VarCheckBuff, [11, 170], InitiatedCheckBuff, "Don't Buff")
         CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
         ImgHur = 'images/PlayerStats/Hur.png'
@@ -82,7 +111,7 @@ class AutoHur:
 
         ButtonRecapture = self.AutoHur.addButton('Recapture', Recapture, [85, 24], [20, 111])
 
-        CheckBoxLowMana = self.AutoHur.addCheck(CheckLowMana, [118, 103], 0, 'Stop With\nLowMana')
+        CheckBoxLowMana = self.AutoHur.addCheck(CheckLowMana, [118, 103], InitiatedCheckLowMana, 'Stop With\nLowMana')
 
         def CheckingButtons():
             if EnabledAutoHur:
@@ -110,5 +139,6 @@ class AutoHur:
 
         CheckingButtons()
 
+        self.AutoHur.Protocol(Destroy)
         self.AutoHur.loop()
 

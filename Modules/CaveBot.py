@@ -4,6 +4,9 @@ import threading
 
 from Engine.GUI import *
 from Engine.EngineCaveBot import EngineCaveBot
+from Engine.SetGUI import SetGUI
+
+GUIChanges = []
 
 EnabledCaveBot = False
 
@@ -46,6 +49,7 @@ class CaveBot:
     def __init__(self, root, MapPositions, BattlePositions, SQMs, MOUSE_OPTION, HOOK_OPTION):
         self.CaveBot = GUI('CaveBot', 'Module: Cave Bot')
         self.CaveBot.DefaultWindow('CaveBot', [830, 634], [1.2, 2.29])
+        self.Setter = SetGUI("CaveBotLoader")
 
         def SetCaveBot():
             global EnabledCaveBot
@@ -84,10 +88,17 @@ class CaveBot:
             Checking()
 
         CheckDebugging = tk.BooleanVar()
+        InitiatedDebugging = self.Setter.GetBoolVar("Debugging")
+        CheckDebugging.set(InitiatedDebugging)
+
         CheckHotkeyPause = tk.BooleanVar()
-        CheckHotkeyPause.set(True)
+        InitiatedHotkeyPause = self.Setter.GetBoolVar("HotkeyPause")
+        CheckHotkeyPause.set(InitiatedHotkeyPause)
+
         HotkeyToPause = tk.StringVar()
-        HotkeyToPause.set('Page Up')
+        InitiatedHotkeyToPause = self.Setter.GetVar("HotkeyToPause")
+        HotkeyToPause.set(InitiatedHotkeyToPause)
+
         Script = tk.StringVar()
         Script.set(DefaultScript)
 
@@ -95,17 +106,15 @@ class CaveBot:
         Back = self.CaveBot.openImage(BackImage, [210, 60])
         Back2 = self.CaveBot.openImage(BackImage, [210, 100])
 
-        self.CaveBot.addButton('Ok', self.CaveBot.destroyWindow, [74, 22], [378, 601])
-
         global EnabledCaveBot
         if not EnabledCaveBot:
             ButtonEnabled = self.CaveBot.addButton('CaveBot: OFF', SetCaveBot, [810, 26], [10, 570])
         else:
             ButtonEnabled = self.CaveBot.addButton('CaveBot: ON', SetCaveBot, [810, 26], [10, 570])
 
-        CheckboxDebugging = self.CaveBot.addCheck(CheckDebugging, [434, 484], 0, "Enable Cavebot Debugging")
+        CheckboxDebugging = self.CaveBot.addCheck(CheckDebugging, [434, 484], InitiatedDebugging, "Enable Cavebot Debugging")
 
-        CheckboxHotkeyPause = self.CaveBot.addCheck(CheckHotkeyPause, [434, 526], 1,
+        CheckboxHotkeyPause = self.CaveBot.addCheck(CheckHotkeyPause, [434, 526], InitiatedHotkeyPause,
                                                     'Enable Hotkey To Break a  Cavebot')
         CheckboxHotkeyPause.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                       selectcolor=rgb((114, 94, 48)))
@@ -247,68 +256,190 @@ class CaveBot:
 
         # endregion
 
+        def CheckingGUI(Init, Get, Name):
+            if Get != Init:
+                GUIChanges.append((Name, Get))
+
+        def Destroy():
+            CheckingGUI(InitiatedDebugging, CheckDebugging.get(), 'Debugging')
+            CheckingGUI(InitiatedHotkeyPause, CheckHotkeyPause.get(), 'HotkeyPause')
+            CheckingGUI(InitiatedHotkeyToPause, HotkeyToPause.get(), 'HotkeyToPause')
+            CheckingGUI(InitiatedPriorityOne, PriorityOne.get(), 'PriorityOne')
+            CheckingGUI(InitiatedPriorityTwo, PriorityTwo.get(), 'PriorityTwo')
+            CheckingGUI(InitiatedPriorityThree, PriorityThree.get(), 'PriorityThree')
+            CheckingGUI(InitiatedPriorityFour, PriorityFour.get(), 'PriorityFour')
+            CheckingGUI(InitiatedSelectedMonster, SelectedMonster.get(), 'SelectedMonster')
+            CheckingGUI(InitiatedSelectedMonster2, SelectedMonster2.get(), 'SelectedMonster2')
+            CheckingGUI(InitiatedSelectedMonster3, SelectedMonster3.get(), 'SelectedMonster3')
+            CheckingGUI(InitiatedSelectedMonster4, SelectedMonster4.get(), 'SelectedMonster4')
+            CheckingGUI(InitiatedSelectedAttackMode, SelectedAttackMode.get(), 'SelectedAttackMode')
+            CheckingGUI(InitiatedAttackOne, CheckAttackOne.get(), 'AttackOne')
+            CheckingGUI(InitiatedAttackTwo, CheckAttackTwo.get(), 'AttackTwo')
+            CheckingGUI(InitiatedAttackThree, CheckAttackThree.get(), 'AttackThree')
+            CheckingGUI(InitiatedAttackFour, CheckAttackFour.get(), 'AttackFour')
+            CheckingGUI(InitiatedFollow, CheckFollow.get(), 'Follow')
+            CheckingGUI(InitiatedCantAttack, CheckCantAttack.get(), 'CantAttack')
+            CheckingGUI(InitiatedAttackPlayers, CheckAttackPlayers.get(), 'AttackPlayers')
+            CheckingGUI(InitiatedPlayerSeen, CheckPlayerSeen.get(), 'PlayerSeen')
+            CheckingGUI(InitiatedAttackingYou, CheckAttackingYou.get(), 'AttackingYou')
+            CheckingGUI(InitiatedForceAttack, CheckForceAttack.get(), 'ForceAttack')
+            CheckingGUI(InitiatedSuspendAfter, SuspendAfter.get(), 'SuspendAfter')
+            CheckingGUI(InitiatedMonstersRange, MonstersRange.get(), 'MonstersRange')
+            CheckingGUI(InitiatedCavebotMode, RadioCavebotMode.get(), 'CavebotMode')
+            CheckingGUI(InitiatedRadius, Radius.get(), 'Radius')
+            CheckingGUI(InitiatedDelay, Delay.get(), 'Delay')
+            CheckingGUI(InitiatedWaypoint_X, Waypoint_X.get(), 'Waypoint_X')
+            CheckingGUI(InitiatedWaypoint_Y, Waypoint_Y.get(), 'Waypoint_Y')
+            CheckingGUI(InitiatedWaypoint_Z, Waypoint_Z.get(), 'Waypoint_Z')
+            CheckingGUI(InitiatedStand, Stand.get(), 'Stand')
+            CheckingGUI(InitiatedResearchMap, ResearchMap.get(), 'ResearchMap')
+            CheckingGUI(InitiatedMarkValue, RadioMarkValue.get(), 'MarkValue')
+            CheckingGUI(InitiatedDropItems, CheckDropItems.get(), 'DropItems')
+            CheckingGUI(InitiatedLoadAutoSeller, LoadAutoSeller.get(), 'LoadAutoSeller')
+            CheckingGUI(InitiatedLoadAutoBanker, LoadAutoBanker.get(), 'LoadAutoBanker')
+            CheckingGUI(InitiatedLoadSortLoot, LoadSortLoot.get(), 'LoadSortLoot')
+            CheckingGUI(InitiatedCapBelowThan, CapBelowThan.get(), 'CapBelowThan')
+            CheckingGUI(InitiatedLootWhileKilling, CheckLootWhileKilling.get(), 'LootWhileKilling')
+            CheckingGUI(InitiatedTibiaCustomLoot, CheckTibiaCustomLoot.get(), 'TibiaCustomLoot')
+            CheckingGUI(InitiatedSQM1, CheckSQM1.get(), 'SQM1')
+            CheckingGUI(InitiatedSQM2, CheckSQM2.get(), 'SQM2')
+            CheckingGUI(InitiatedSQM3, CheckSQM3.get(), 'SQM3')
+            CheckingGUI(InitiatedSQM4, CheckSQM4.get(), 'SQM4')
+            CheckingGUI(InitiatedSQM5, CheckSQM5.get(), 'SQM5')
+            CheckingGUI(InitiatedSQM6, CheckSQM6.get(), 'SQM6')
+            CheckingGUI(InitiatedSQM7, CheckSQM7.get(), 'SQM7')
+            CheckingGUI(InitiatedSQM8, CheckSQM8.get(), 'SQM8')
+            CheckingGUI(InitiatedSQM9, CheckSQM9.get(), 'SQM9')
+            CheckingGUI(InitiatedCapLimit, CapLimit.get(), 'CapLimit')
+
+            if len(GUIChanges) != 0:
+                for EachChange in range(len(GUIChanges)):
+                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+
+            self.CaveBot.destroyWindow()
+
+
         # region Variables MonsterAttacking
 
         PriorityOne = tk.IntVar()
-        PriorityOne.set(priority[0])
+        InitiatedPriorityOne = self.Setter.GetVar("PriorityOne")
+        PriorityOne.set(InitiatedPriorityOne)
+
         PriorityTwo = tk.IntVar()
-        PriorityTwo.set(priority[1])
+        InitiatedPriorityTwo = self.Setter.GetVar("PriorityTwo")
+        PriorityTwo.set(InitiatedPriorityTwo)
+
         PriorityThree = tk.IntVar()
-        PriorityThree.set(priority[2])
+        InitiatedPriorityThree = self.Setter.GetVar("PriorityThree")
+        PriorityThree.set(InitiatedPriorityThree)
+
         PriorityFour = tk.IntVar()
-        PriorityFour.set(priority[3])
+        InitiatedPriorityFour = self.Setter.GetVar("PriorityFour")
+        PriorityFour.set(InitiatedPriorityFour)
 
         SelectedMonster = tk.StringVar()
-        SelectedMonster.set(monsters[0])
+        InitiatedSelectedMonster = self.Setter.GetVar("SelectedMonster")
+        SelectedMonster.set(InitiatedSelectedMonster)
+
         SelectedMonster2 = tk.StringVar()
-        SelectedMonster2.set(monsters[1])
+        InitiatedSelectedMonster2 = self.Setter.GetVar("SelectedMonster2")
+        SelectedMonster2.set(InitiatedSelectedMonster2)
+
         SelectedMonster3 = tk.StringVar()
-        SelectedMonster3.set(monsters[2])
+        InitiatedSelectedMonster3 = self.Setter.GetVar("SelectedMonster3")
+        SelectedMonster3.set(InitiatedSelectedMonster3)
+
         SelectedMonster4 = tk.StringVar()
-        SelectedMonster4.set(monsters[3])
+        InitiatedSelectedMonster4 = self.Setter.GetVar("SelectedMonster4")
+        SelectedMonster4.set(InitiatedSelectedMonster4)
+
         SelectedAttackMode = tk.StringVar()
-        SelectedAttackMode.set(AttackModes[0])
+        InitiatedSelectedAttackMode = self.Setter.GetVar("SelectedAttackMode")
+        SelectedAttackMode.set(InitiatedSelectedAttackMode)
 
         CheckAttackOne = tk.BooleanVar()
-        CheckAttackOne.set(True)
+        InitiatedAttackOne = self.Setter.GetBoolVar("AttackOne")
+        CheckAttackOne.set(InitiatedAttackOne)
+
         CheckAttackTwo = tk.BooleanVar()
-        CheckAttackTwo.set(False)
+        InitiatedAttackTwo = self.Setter.GetBoolVar("AttackTwo")
+        CheckAttackTwo.set(InitiatedAttackTwo)
+
         CheckAttackThree = tk.BooleanVar()
-        CheckAttackThree.set(False)
+        InitiatedAttackThree = self.Setter.GetBoolVar("AttackThree")
+        CheckAttackThree.set(InitiatedAttackThree)
+
         CheckAttackFour = tk.BooleanVar()
-        CheckAttackFour.set(False)
+        InitiatedAttackFour = self.Setter.GetBoolVar("AttackFour")
+        CheckAttackFour.set(InitiatedAttackFour)
+
         CheckFollow = tk.BooleanVar()
+        InitiatedFollow = self.Setter.GetBoolVar("Follow")
+        CheckFollow.set(InitiatedFollow)
+
         CheckCantAttack = tk.BooleanVar()
+        InitiatedCantAttack = self.Setter.GetBoolVar("CantAttack")
+        CheckCantAttack.set(InitiatedCantAttack)
+
         CheckAttackPlayers = tk.BooleanVar()
+        InitiatedAttackPlayers = self.Setter.GetBoolVar("AttackPlayers")
+        CheckAttackPlayers.set(InitiatedAttackPlayers)
+
         CheckPlayerSeen = tk.BooleanVar()
+        InitiatedPlayerSeen = self.Setter.GetBoolVar("PlayerSeen")
+        CheckPlayerSeen.set(InitiatedPlayerSeen)
+
         CheckAttackingYou = tk.BooleanVar()
+        InitiatedAttackingYou = self.Setter.GetBoolVar("AttackingYou")
+        CheckAttackingYou.set(InitiatedAttackingYou)
+
         CheckForceAttack = tk.BooleanVar()
+        InitiatedForceAttack = self.Setter.GetBoolVar("ForceAttack")
+        CheckForceAttack.set(InitiatedForceAttack)
 
         SuspendAfter = tk.StringVar()
-        SuspendAfter.set('15')
+        InitiatedSuspendAfter = self.Setter.GetVar("SuspendAfter")
+        SuspendAfter.set(InitiatedSuspendAfter)
+
         MonstersRange = tk.StringVar()
-        MonstersRange.set('6')
+        InitiatedMonstersRange = self.Setter.GetVar("MonstersRange")
+        MonstersRange.set(InitiatedMonstersRange)
 
         # endregion
 
         # region Variables Walker
 
         RadioCavebotMode = tk.IntVar()
-        RadioCavebotMode.set(0)
+        InitiatedCavebotMode = self.Setter.GetVar("CavebotMode")
+        RadioCavebotMode.set(InitiatedCavebotMode)
+
         Radius = tk.StringVar()
-        Radius.set('1')
+        InitiatedRadius = self.Setter.GetVar("Radius")
+        Radius.set(InitiatedRadius)
+
         Delay = tk.StringVar()
-        Delay.set('0')
+        InitiatedDelay = self.Setter.GetVar("Delay")
+        Delay.set(InitiatedDelay)
+
         Waypoint_X = tk.StringVar() # Lembrar de setar posição atual do player
-        Waypoint_X.set('32350')
+        InitiatedWaypoint_X = self.Setter.GetVar("Waypoint_X")
+        Waypoint_X.set(InitiatedWaypoint_X)
+
         Waypoint_Y = tk.StringVar() # Lembrar de setar posição atual do player
-        Waypoint_Y.set('32219')
+        InitiatedWaypoint_Y = self.Setter.GetVar("Waypoint_Y")
+        Waypoint_Y.set(InitiatedWaypoint_Y)
+
         Waypoint_Z = tk.StringVar() # Lembrar de setar posição atual do player
-        Waypoint_Z.set('6')
+        InitiatedWaypoint_Z = self.Setter.GetVar("Waypoint_Z")
+        Waypoint_Z.set(InitiatedWaypoint_Z)
+
         Stand = tk.StringVar()
-        Stand.set('2')
+        InitiatedStand = self.Setter.GetVar("Stand")
+        Stand.set(InitiatedStand)
+
         ResearchMap = tk.BooleanVar()
-        ResearchMap.set(True)
+        InitiatedResearchMap = self.Setter.GetBoolVar("ResearchMap")
+        ResearchMap.set(InitiatedResearchMap)
 
         ImageMark1 = ImageTk.PhotoImage(Image.open('images/MapSettings/CheckMark.png'))
         ImageMark2 = ImageTk.PhotoImage(Image.open('images/MapSettings/QuestionMark.png'))
@@ -332,82 +463,115 @@ class CaveBot:
         ImageMark20 = ImageTk.PhotoImage(Image.open('images/MapSettings/Bellow.png'))
 
         RadioMarkValue = tk.IntVar()
-        RadioMarkValue.set(1)
+        InitiatedMarkValue = self.Setter.GetVar("MarkValue")
+        RadioMarkValue.set(InitiatedMarkValue)
 
         # endregion
 
         # region Variables DepotWalker
 
         CheckDropItems = tk.BooleanVar()
-        CheckDropItems.set(True)
+        InitiatedDropItems = self.Setter.GetBoolVar("DropItems")
+        CheckDropItems.set(InitiatedDropItems)
+
         LoadAutoSeller = tk.BooleanVar()
-        LoadAutoSeller.set(True)
+        InitiatedLoadAutoSeller = self.Setter.GetBoolVar("LoadAutoSeller")
+        LoadAutoSeller.set(InitiatedLoadAutoSeller)
+
         LoadAutoBanker = tk.BooleanVar()
-        LoadAutoBanker.set(True)
+        InitiatedLoadAutoBanker = self.Setter.GetBoolVar("LoadAutoBanker")
+        LoadAutoBanker.set(InitiatedLoadAutoBanker)
+
         LoadSortLoot = tk.BooleanVar()
-        LoadSortLoot.set(True)
+        InitiatedLoadSortLoot = self.Setter.GetBoolVar("LoadSortLoot")
+        LoadSortLoot.set(InitiatedLoadSortLoot)
 
         CapBelowThan = tk.StringVar()
-        CapBelowThan.set('150')
+        InitiatedCapBelowThan = self.Setter.GetVar("CapBelowThan")
+        CapBelowThan.set(InitiatedCapBelowThan)
 
         # endregion
 
         # region Variables CorpseLooting
 
         CheckLootWhileKilling = tk.BooleanVar()
-        CheckLootWhileKilling.set(True)
+        InitiatedLootWhileKilling = self.Setter.GetBoolVar("LootWhileKilling")
+        CheckLootWhileKilling.set(InitiatedLootWhileKilling)
+
         CheckTibiaCustomLoot = tk.BooleanVar()
-        CheckTibiaCustomLoot.set(True)
-        CheckSQM1 = tk.StringVar()
-        CheckSQM1.set(True)
-        CheckSQM2 = tk.StringVar()
-        CheckSQM2.set(True)
-        CheckSQM3 = tk.StringVar()
-        CheckSQM3.set(True)
-        CheckSQM4 = tk.StringVar()
-        CheckSQM4.set(True)
-        CheckSQM5 = tk.StringVar()
-        CheckSQM5.set(True)
-        CheckSQM6 = tk.StringVar()
-        CheckSQM6.set(True)
-        CheckSQM7 = tk.StringVar()
-        CheckSQM7.set(True)
-        CheckSQM8 = tk.StringVar()
-        CheckSQM8.set(True)
-        CheckSQM9 = tk.StringVar()
-        CheckSQM9.set(True)
+        InitiatedTibiaCustomLoot = self.Setter.GetBoolVar("TibiaCustomLoot")
+        CheckTibiaCustomLoot.set(InitiatedTibiaCustomLoot)
+
+        CheckSQM1 = tk.BooleanVar()
+        InitiatedSQM1 = self.Setter.GetBoolVar("SQM1")
+        CheckSQM1.set(InitiatedSQM1)
+
+        CheckSQM2 = tk.BooleanVar()
+        InitiatedSQM2 = self.Setter.GetBoolVar("SQM2")
+        CheckSQM2.set(InitiatedSQM2)
+
+        CheckSQM3 = tk.BooleanVar()
+        InitiatedSQM3 = self.Setter.GetBoolVar("SQM3")
+        CheckSQM3.set(InitiatedSQM3)
+
+        CheckSQM4 = tk.BooleanVar()
+        InitiatedSQM4 = self.Setter.GetBoolVar("SQM4")
+        CheckSQM4.set(InitiatedSQM4)
+
+        CheckSQM5 = tk.BooleanVar()
+        InitiatedSQM5 = self.Setter.GetBoolVar("SQM5")
+        CheckSQM5.set(InitiatedSQM5)
+
+        CheckSQM6 = tk.BooleanVar()
+        InitiatedSQM6 = self.Setter.GetBoolVar("SQM6")
+        CheckSQM6.set(InitiatedSQM6)
+
+        CheckSQM7 = tk.BooleanVar()
+        InitiatedSQM7 = self.Setter.GetBoolVar("SQM7")
+        CheckSQM7.set(InitiatedSQM7)
+
+        CheckSQM8 = tk.BooleanVar()
+        InitiatedSQM8 = self.Setter.GetBoolVar("SQM8")
+        CheckSQM8.set(InitiatedSQM8)
+
+        CheckSQM9 = tk.BooleanVar()
+        InitiatedSQM9 = self.Setter.GetBoolVar("SQM9")
+        CheckSQM9.set(InitiatedSQM9)
 
         CapLimit = tk.StringVar()
-        CapLimit.set('50')
+        InitiatedCapLimit = self.Setter.GetVar("CapLimit")
+        CapLimit.set(InitiatedCapLimit)
 
         # endregion
+
+        self.CaveBot.addButton('Ok', Destroy, [74, 22], [378, 601])
 
         # region GUI MonsterAttacking
 
         OptionAttackMode = self.CaveBot.addOption(SelectedAttackMode, AttackModes, [103, 328], 10)
 
-        CheckboxAttackOne = self.CaveBot.addCheck(CheckAttackOne, [25, 40], 1, 'Monster One')
+        CheckboxAttackOne = self.CaveBot.addCheck(CheckAttackOne, [25, 40], InitiatedAttackOne, 'Monster One')
         OptionMonstersOne = self.CaveBot.addOption(SelectedMonster, monsters, [155, 40], 16)
         PriorityMonstersOne = self.CaveBot.addOption(PriorityOne, priority, [300, 40])
 
-        CheckboxAttackTwo = self.CaveBot.addCheck(CheckAttackTwo, [25, 80], 0, 'Monster Two')
+        CheckboxAttackTwo = self.CaveBot.addCheck(CheckAttackTwo, [25, 80], InitiatedAttackTwo, 'Monster Two')
         OptionMonstersTwo = self.CaveBot.addOption(SelectedMonster2, monsters, [155, 80], 16)
         PriorityMonstersTwo = self.CaveBot.addOption(PriorityTwo, priority, [300, 80])
 
-        CheckboxAttackThree = self.CaveBot.addCheck(CheckAttackThree, [25, 120], 0, 'Monster Three')
+        CheckboxAttackThree = self.CaveBot.addCheck(CheckAttackThree, [25, 120], InitiatedAttackThree, 'Monster Three')
         OptionMonstersThree = self.CaveBot.addOption(SelectedMonster3, monsters, [155, 120], 16)
         PriorityMonstersThree = self.CaveBot.addOption(PriorityThree, priority, [300, 120])
 
-        CheckboxAttackFour = self.CaveBot.addCheck(CheckAttackFour, [25, 160], 0, 'Monster Four')
+        CheckboxAttackFour = self.CaveBot.addCheck(CheckAttackFour, [25, 160], InitiatedAttackFour, 'Monster Four')
         OptionMonstersFour = self.CaveBot.addOption(SelectedMonster4, monsters, [155, 160], 16)
         PriorityMonstersFour = self.CaveBot.addOption(PriorityFour, priority, [300, 160])
 
-        CheckBoxFollow = self.CaveBot.addCheck(CheckFollow, [20, 200], 1, 'Auto Follow Mode')
-        CheckBoxCantAttack = self.CaveBot.addCheck(CheckCantAttack, [20, 220], 1, "Suspend When Can't Attack")
-        CheckBoxAttackPlayers = self.CaveBot.addCheck(CheckAttackPlayers, [20, 240], 1, "Don't Attack Players")
-        CheckBoxPlayerSeen = self.CaveBot.addCheck(CheckPlayerSeen, [195, 200], 1, 'Reduced Attack When Player Seen')
-        CheckBoxAttackingYou = self.CaveBot.addCheck(CheckAttackingYou, [183, 240], 0, 'Attack Only Monsters Attacking You')
-        CheckBoxForceAttack = self.CaveBot.addCheck(CheckForceAttack, [195, 220], 0, 'Force Attack When Attacked')
+        CheckBoxFollow = self.CaveBot.addCheck(CheckFollow, [20, 200], InitiatedFollow, 'Auto Follow Mode')
+        CheckBoxCantAttack = self.CaveBot.addCheck(CheckCantAttack, [20, 220], InitiatedCantAttack, "Suspend When Can't Attack")
+        CheckBoxAttackPlayers = self.CaveBot.addCheck(CheckAttackPlayers, [20, 240], InitiatedAttackPlayers, "Don't Attack Players")
+        CheckBoxPlayerSeen = self.CaveBot.addCheck(CheckPlayerSeen, [195, 200], InitiatedPlayerSeen, 'Reduced Attack When Player Seen')
+        CheckBoxAttackingYou = self.CaveBot.addCheck(CheckAttackingYou, [183, 240], InitiatedAttackingYou, 'Attack Only Monsters Attacking You')
+        CheckBoxForceAttack = self.CaveBot.addCheck(CheckForceAttack, [195, 220], InitiatedForceAttack, 'Force Attack When Attacked')
 
         LabelSuspendAfter = self.CaveBot.addLabel('Suspend After Unreachable:', [100, 280])
         LabelMonstersRange = self.CaveBot.addLabel('Consider Monsters In Range:', [100, 300])
@@ -433,7 +597,7 @@ class CaveBot:
 
         # region GUI DepotWalker
 
-        CheckboxDropItems = self.CaveBot.addCheck(CheckDropItems, [425, 28], 1, 'Drop Items Instead Of Deposit')
+        CheckboxDropItems = self.CaveBot.addCheck(CheckDropItems, [425, 28], InitiatedDropItems, 'Drop Items Instead Of Deposit')
         LabelGoDepot = self.CaveBot.addLabel('Go To Depot When Cap Below Than:', [480, 50])
 
         EntryCapBelowThan = self.CaveBot.addEntry([680, 50], CapBelowThan, 5)
@@ -449,20 +613,20 @@ class CaveBot:
         LabelCapLimit = self.CaveBot.addLabel('Loot Capacity Limit:', [435, 150])
         EntryCapLimit = self.CaveBot.addEntry([551, 148], CapLimit, 5)
 
-        CheckBoxLootWhileKilling = self.CaveBot.addCheck(CheckLootWhileKilling, [435, 180], 1, 'Loot While Killing')
-        CheckBoxTibiaCustomLoot = self.CaveBot.addCheck(CheckTibiaCustomLoot, [585, 180], 1, 'Loot From Tibia Custom Loot')
+        CheckBoxLootWhileKilling = self.CaveBot.addCheck(CheckLootWhileKilling, [435, 180], InitiatedLootWhileKilling, 'Loot While Killing')
+        CheckBoxTibiaCustomLoot = self.CaveBot.addCheck(CheckTibiaCustomLoot, [585, 180], InitiatedTibiaCustomLoot, 'Loot From Tibia Custom Loot')
 
         LabelLootAround = self.CaveBot.addLabel('Configure Loot Around:', [545, 220])
 
-        CheckBoxSQM1 = self.CaveBot.addCheck(CheckSQM1, [570, 310], 1)
-        CheckBoxSQM2 = self.CaveBot.addCheck(CheckSQM2, [600, 310], 1)
-        CheckBoxSQM3 = self.CaveBot.addCheck(CheckSQM3, [630, 310], 1)
-        CheckBoxSQM4 = self.CaveBot.addCheck(CheckSQM4, [570, 280], 1)
-        CheckBoxSQM5 = self.CaveBot.addCheck(CheckSQM5, [600, 280], 1)
-        CheckBoxSQM6 = self.CaveBot.addCheck(CheckSQM6, [630, 280], 1)
-        CheckBoxSQM7 = self.CaveBot.addCheck(CheckSQM7, [570, 250], 1)
-        CheckBoxSQM8 = self.CaveBot.addCheck(CheckSQM8, [600, 250], 1)
-        CheckBoxSQM9 = self.CaveBot.addCheck(CheckSQM9, [630, 250], 1)
+        CheckBoxSQM1 = self.CaveBot.addCheck(CheckSQM1, [570, 310], InitiatedSQM1)
+        CheckBoxSQM2 = self.CaveBot.addCheck(CheckSQM2, [600, 310], InitiatedSQM2)
+        CheckBoxSQM3 = self.CaveBot.addCheck(CheckSQM3, [630, 310], InitiatedSQM3)
+        CheckBoxSQM4 = self.CaveBot.addCheck(CheckSQM4, [570, 280], InitiatedSQM4)
+        CheckBoxSQM5 = self.CaveBot.addCheck(CheckSQM5, [600, 280], InitiatedSQM5)
+        CheckBoxSQM6 = self.CaveBot.addCheck(CheckSQM6, [630, 280], InitiatedSQM6)
+        CheckBoxSQM7 = self.CaveBot.addCheck(CheckSQM7, [570, 250], InitiatedSQM7)
+        CheckBoxSQM8 = self.CaveBot.addCheck(CheckSQM8, [600, 250], InitiatedSQM8)
+        CheckBoxSQM9 = self.CaveBot.addCheck(CheckSQM9, [630, 250], InitiatedSQM9)
 
         # endregion
 
@@ -763,4 +927,5 @@ class CaveBot:
 
         Checking()
 
+        self.CaveBot.Protocol(Destroy)
         self.CaveBot.loop()

@@ -65,6 +65,9 @@ class GUI:
     def loop(self):
         self.windowID.mainloop()
 
+    def Protocol(self, Function):
+        return self.windowID.protocol("WM_DELETE_WINDOW", Function)
+
     def UpdateWindow(self, X, Y):
         self.windowID.geometry('130x130+%d+%d' % (X - 65, Y - 65))
         self.windowID.update()
@@ -104,7 +107,7 @@ class GUI:
                                   offvalue=False,
                                   image=image)
         buttonID.place(x=position[0], y=position[1])
-        if selected == 1:
+        if selected:
             buttonID.select()
         else:
             buttonID.deselect()

@@ -94,6 +94,10 @@ class root:
 
         self.root.addButton('General Options', OpenGeneralOptions, [213, 23], [134, 426])
 
+        def Exit():
+            print("Exiting...")
+            self.root.destroyWindow()
+
         self.root.addButton('Exit', Exit, [92, 23], [10, 498])
 
         def SetVariablesFromLoadedJson():
@@ -316,7 +320,3 @@ def OpenSortLoot():
 def OpenTimedSpells():
     print("TimedSpells In Development...")
     # TimedSpells(root)
-
-
-def Exit():
-    exit(1)

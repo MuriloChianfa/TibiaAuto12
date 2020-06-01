@@ -6,7 +6,10 @@ import pygetwindow
 
 from Engine.GUI import *
 from Engine.ScanRing import ScanRing, SearchForRing
+from Engine.SetGUI import SetGUI
 from Conf.Hotkeys import Hotkey
+
+GUIChanges = []
 
 FoundedImg = False
 EnabledAutoRing = False
@@ -27,6 +30,7 @@ class AutoRing:
     def __init__(self, root, RingPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION):
         self.AutoRing = GUI('AutoRing', 'Module: Auto Ring')
         self.AutoRing.DefaultWindow('AutoRing', [306, 397], [1.2, 2.29])
+        self.Setter = SetGUI("RingLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoRing():
@@ -211,21 +215,64 @@ class AutoRing:
 
         WidthScreen, HeightScreen = pyautogui.size()
 
-        CheckPrint = tk.BooleanVar()
-        LowMana = tk.BooleanVar()
-        RadioButton = tk.IntVar()
-        NameRing = tk.StringVar()
-        NameRing.set('MightRing')
-        HotkeyRing = tk.StringVar()
-        HotkeyRing.set("Shift + F3")
-        TextEntryX = tk.StringVar()
-        TextEntryY = tk.StringVar()
-        CheckLifeBellowThan = tk.BooleanVar()
-        CheckLifeBellowThan.set(False)
-        LifeBellowThan = tk.IntVar()
-        LifeBellowThan.set(30)
+        VarCheckPrint = tk.BooleanVar()
+        InitiatedCheckPrint = self.Setter.GetBoolVar("CheckPrint")
+        VarCheckPrint.set(InitiatedCheckPrint)
 
-        self.AutoRing.addButton('Ok', self.AutoRing.destroyWindow, [73, 21], [115, 365])
+        VarCheckBuff = tk.BooleanVar()
+        InitiatedCheckBuff = self.Setter.GetBoolVar("CheckBuff")
+        VarCheckBuff.set(InitiatedCheckPrint)
+
+        RadioButton = tk.IntVar()
+        InitiatedRadioButton = self.Setter.GetVar("RadioButton")
+        RadioButton.set(InitiatedRadioButton)
+
+        NameRing = tk.StringVar()
+        InitiatedNameRing = self.Setter.GetVar("NameRing")
+        NameRing.set(InitiatedNameRing)
+
+        HotkeyRing = tk.StringVar()
+        InitiatedHotkeyRing = self.Setter.GetVar("HotkeyRing")
+        HotkeyRing.set(InitiatedHotkeyRing)
+
+        TextEntryX = tk.StringVar()
+        InitiatedTextEntryX = self.Setter.GetVar("TextEntryX")
+        TextEntryX.set(InitiatedTextEntryX)
+
+        TextEntryY = tk.StringVar()
+        InitiatedTextEntryY = self.Setter.GetVar("TextEntryY")
+        TextEntryY.set(InitiatedTextEntryY)
+
+        CheckLifeBellowThan = tk.BooleanVar()
+        InitiatedLifeBellowThan = self.Setter.GetBoolVar("LifeBellowThan")
+        CheckLifeBellowThan.set(InitiatedLifeBellowThan)
+
+        LifeBellowThan = tk.IntVar()
+        InitiatedBellowThan = self.Setter.GetVar("BellowThan")
+        LifeBellowThan.set(InitiatedBellowThan)
+
+        def CheckingGUI(Init, Get, Name):
+            if Get != Init:
+                GUIChanges.append((Name, Get))
+
+        def Destroy():
+            CheckingGUI(InitiatedCheckPrint, VarCheckPrint.get(), 'CheckPrint')
+            CheckingGUI(InitiatedCheckBuff, VarCheckBuff.get(), 'CheckBuff')
+            CheckingGUI(InitiatedRadioButton, RadioButton.get(), 'RadioButton')
+            CheckingGUI(InitiatedNameRing, NameRing.get(), 'NameRing')
+            CheckingGUI(InitiatedHotkeyRing, HotkeyRing.get(), 'HotkeyRing')
+            CheckingGUI(InitiatedTextEntryX, TextEntryX.get(), 'TextEntryX')
+            CheckingGUI(InitiatedTextEntryY, TextEntryY.get(), 'TextEntryY')
+            CheckingGUI(InitiatedLifeBellowThan, CheckLifeBellowThan.get(), 'LifeBellowThan')
+            CheckingGUI(InitiatedBellowThan, LifeBellowThan.get(), 'BellowThan')
+
+            if len(GUIChanges) != 0:
+                for EachChange in range(len(GUIChanges)):
+                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+
+            self.AutoRing.destroyWindow()
+
+        self.AutoRing.addButton('Ok', Destroy, [73, 21], [115, 365])
 
         global EnabledAutoRing
         if not EnabledAutoRing:
@@ -234,9 +281,9 @@ class AutoRing:
             ButtonEnabled = self.AutoRing.addButton('AutoRing: ON', SetAutoRing, [287, 23], [11, 336])
             ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        CheckPrint = self.AutoRing.addCheck(CheckPrint, [11, 285], 0, "Print on Tibia's screen")
+        CheckPrint = self.AutoRing.addCheck(VarCheckPrint, [11, 285], InitiatedCheckPrint, "Print on Tibia's screen")
         CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
-        CheckBuff = self.AutoRing.addCheck(LowMana, [11, 305], 0, "Don't Buff")
+        CheckBuff = self.AutoRing.addCheck(VarCheckBuff, [11, 305], InitiatedCheckBuff, "Don't Buff")
         CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
         BackImage = 'images/Fundo.png'
@@ -260,7 +307,7 @@ class AutoRing:
         RButton1 = self.AutoRing.addRadio('Hotkey', RadioButton, 0, [22, 155], CheckClick)
         RButton2 = self.AutoRing.addRadio('Position', RadioButton, 1, [22, 175], CheckClick)
 
-        CheckBoxLifeBellowThan = self.AutoRing.addCheck(CheckLifeBellowThan, [60, 210], 0,
+        CheckBoxLifeBellowThan = self.AutoRing.addCheck(CheckLifeBellowThan, [60, 210], InitiatedLifeBellowThan,
                                                         'Use Only If Life Is Bellow Than')
         LabelLifeBellowThan = self.AutoRing.addLabel('Life <= ', [90, 245])
         PercentageLifeBellowThan = self.AutoRing.addOption(LifeBellowThan, percentage, [140, 240])
@@ -367,5 +414,6 @@ class AutoRing:
 
         ConstantVerify()
 
+        self.AutoRing.Protocol(Destroy)
         self.AutoRing.loop()
 

@@ -64,7 +64,14 @@ def WindowSelectCharacter():
                 pass
 
     def exiting():
-        exit(1)
+        print("Exiting...")
+        try:
+            SelectCharacter.destroy()
+        except Exception as Ex:
+            print(Ex)
+            exit(0)
+
+
 
     def Reconfigure():
         ScriptName = data['ScriptName']
