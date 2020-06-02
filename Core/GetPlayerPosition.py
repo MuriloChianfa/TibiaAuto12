@@ -7,6 +7,7 @@ def GetPlayerPosition(HOOK_OPTION):
     left_gw = [0, 0]
     right_gw = [0, 0]
     button_gw = [0, 0]
+    waiting = False
 
     if HOOK_OPTION == 0:
 
@@ -102,17 +103,37 @@ def GetPlayerPosition(HOOK_OPTION):
         if gameWindow[0] != 0 and gameWindow[2] != 0:
             Player[0] = int(((gameWindow[2] - gameWindow[0]) / 2) + gameWindow[0])
         else:
-            print("X GAME WINDOW ERROR")
-            x, y = pyautogui.size()
-            Player[0] = x / 2
+            try:
+                raise Exception('ex')
+            except Exception:
+                print('X Game Window Error... Please Press "c" With Your Mouse On Player Position')
+                import keyboard
+                from Conf.Hotkeys import Hotkey
+                MoveMouse = Hotkey(1)
+                waiting = True
+                while waiting:
+                    if keyboard.is_pressed("c"):
+                        x, y = MoveMouse.Position()
+                        Player[0] = x
+                        Player[1] = y
+                        if gameWindow[0] == 0:
+                            gameWindow[0] = 1
+                        if gameWindow[1] == 0:
+                            gameWindow[1] = 1
+                        if gameWindow[2] == 0:
+                            gameWindow[2] = 1
+                        if gameWindow[3] == 0:
+                            gameWindow[3] = 1
+                        return x, y, gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[3]
 
         if gameWindow[1] != 0 and gameWindow[3] != 0:
             Player[1] = int(((gameWindow[3] - gameWindow[1]) / 2) + gameWindow[1])
         else:
-            print("Y GAME WINDOW ERROR")
-            x, y = pyautogui.size()
-            print(x, y)
-            Player[1] = y / 2
+            try:
+                raise Exception('Y Game Window Error')
+            except Exception as Ex:
+                print(Ex)
+                pass
 
         if Player[1] != 0:
             return Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[3]

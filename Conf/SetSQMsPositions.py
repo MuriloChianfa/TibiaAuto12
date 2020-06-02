@@ -13,7 +13,7 @@ def SetSQMs(HOOK_OPTION):
         print(f"Size of Your SQM [Width: {SQMsSizes[0]}px, Height: {SQMsSizes[1]}px]")
         print('')
     else:
-        print("Setting Window Size...")
+        print("Reconfiguring The Player Positionc")
         print('')
         Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
             3] = GetPlayerPosition(HOOK_OPTION)

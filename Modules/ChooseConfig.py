@@ -247,9 +247,10 @@ class ChooseConfig:
                 except Errno:
                     print('Player Position Error')
                     data['Positions']['PlayerPosition'][0]['Stats'] = False
-                    data['Boxes']['GameWindowBox'][0]['Stats'] = True
+                    data['Boxes']['GameWindowBox'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
+                    pass
 
                 try:
                     SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
