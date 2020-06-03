@@ -142,6 +142,18 @@ def LocateAllImages(image, Region=None, Precision=0.8):
     return Number
 
 
+def LocateBoolRGBImage(image, Region=None, Precision=0.9):
+    SaveImage('images/MonstersAttack/VerifyAttacking.png', Region)
+    img_rgb = cv2.imread('images/MonstersAttack/VerifyAttacking.png', 0)
+    template = cv2.imread(image, 0)
+
+    res = cv2.matchTemplate(img_rgb, template, cv2.TM_CCOEFF_NORMED)
+    min_val, LocatedPrecision, min_loc, Position = cv2.minMaxLoc(res)
+    if LocatedPrecision > Precision:
+        return True
+    return False
+
+
 def PixelMatchesColor(X, Y, expectedRGBColor):
     TakedImage = TakeImage(Region=(X, Y, X + 1, Y + 1))
     rgb = TakedImage.getpixel((0, 0))

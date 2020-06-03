@@ -125,14 +125,16 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
             while number > 0:
                 TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION)
 
-                follow_x_pos, follow_y_pos = SetFollow(HOOK_OPTION)
+                NeedFollow = SetFollow(HOOK_OPTION)
 
-                if follow_x_pos != 0 and follow_y_pos != 0:
-
+                if NeedFollow:
+                    print("Clicking in Follow")
+                    
                     if MOUSE_OPTION == 1:
                         mp = SendToClient.Position()
                     else:
                         mp = [0, 0]
+                    follow_x_pos, follow_y_pos = LocateCenterImage('images/TibiaSettings/follow.png', Precision=0.8)
                     SendToClient.LeftClick(follow_x_pos, follow_y_pos)
                     if MOUSE_OPTION == 1:
                         SendToClient.MoveTo(mp[0], mp[1])
