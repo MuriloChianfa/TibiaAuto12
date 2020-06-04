@@ -86,29 +86,17 @@
             "CavebotMode": 1,
             "Radius": "1",
             "Delay": "0",
-            "Waypoint_X": "32350",
-            "Waypoint_Y": "32219",
-            "Waypoint_Z": "6",
             "Stand": "2",
             "ResearchMap": true,
             "MarkValue": 1,
+            "TypeValue": 1,
+            "EnableWalking": false,
+            "Script": "ratThais",
             "DropItems": true,
             "LoadAutoSeller": true,
             "LoadAutoBanker": true,
             "LoadSortLoot": true,
-            "CapBelowThan": "150",
-            "LootWhileKilling": true,
-            "TibiaCustomLoot": true,
-            "SQM1": true,
-            "SQM2": true,
-            "SQM3": true,
-            "SQM4": true,
-            "SQM5": true,
-            "SQM6": true,
-            "SQM7": true,
-            "SQM8": true,
-            "SQM9": true,
-            "CapLimit": "50"
+            "CapBelowThan": "150"
         }
     }
 }

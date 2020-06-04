@@ -1,5 +1,5 @@
 {
-    "Auto": false,
-    "hwnd": 198276,
-    "ScriptName": null
+    "Auto": true,
+    "hwnd": 132462,
+    "ScriptName": "NewConfig"
 }

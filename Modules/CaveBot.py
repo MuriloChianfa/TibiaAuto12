@@ -1,3 +1,4 @@
+import os
 import json
 import time
 import threading
@@ -5,6 +6,7 @@ import threading
 from Engine.GUI import *
 from Engine.EngineCaveBot import EngineCaveBot
 from Engine.SetGUI import SetGUI
+from Engine.GUIManager import *
 
 GUIChanges = []
 
@@ -41,8 +43,29 @@ Scripts = [
     "StonerefinerVenore"
 ]
 
-DefaultScript = 'StonerefinerVenore'
-data = None
+ImageMarks = []
+NameMarks = [
+    'CheckMark',
+    'QuestionMark',
+    'ExclimationMark',
+    'Star',
+    'Cross',
+    'Church',
+    'Mouth',
+    'Shovel',
+    'Sword',
+    'Flag',
+    'Lock',
+    'Bag',
+    'Skull',
+    'Money',
+    'ArrowUp',
+    'ArrowDown',
+    'ArrowRight',
+    'ArrowLeft',
+    'Above',
+    'Bellow'
+]
 
 
 class CaveBot:
@@ -84,9 +107,6 @@ class CaveBot:
                     EngineCaveBot(data, i, MapPositions, BattlePositions, monster, SQMs, MOUSE_OPTION, HOOK_OPTION, Script.get())
                     time.sleep(1)
 
-        def CheckClick():
-            Checking()
-
         CheckDebugging = tk.BooleanVar()
         InitiatedDebugging = self.Setter.GetBoolVar("Debugging")
         CheckDebugging.set(InitiatedDebugging)
@@ -100,7 +120,8 @@ class CaveBot:
         HotkeyToPause.set(InitiatedHotkeyToPause)
 
         Script = tk.StringVar()
-        Script.set(DefaultScript)
+        InitiatedScript = self.Setter.GetVar("Script")
+        Script.set(InitiatedScript)
 
         BackImage = 'images/Fundo.png'
         Back = self.CaveBot.openImage(BackImage, [210, 60])
@@ -112,56 +133,16 @@ class CaveBot:
         else:
             ButtonEnabled = self.CaveBot.addButton('CaveBot: ON', SetCaveBot, [810, 26], [10, 570])
 
-        CheckboxDebugging = self.CaveBot.addCheck(CheckDebugging, [434, 484], InitiatedDebugging, "Enable Cavebot Debugging")
+        CheckboxDebugging = self.CaveBot.addCheck(CheckDebugging, [22, 511], InitiatedDebugging, "Enable Cavebot Debugging")
 
-        CheckboxHotkeyPause = self.CaveBot.addCheck(CheckHotkeyPause, [434, 526], InitiatedHotkeyPause,
+        CheckboxHotkeyPause = self.CaveBot.addCheck(CheckHotkeyPause, [22, 542], InitiatedHotkeyPause,
                                                     'Enable Hotkey To Break a  Cavebot')
         CheckboxHotkeyPause.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                       selectcolor=rgb((114, 94, 48)))
 
-        ButtonHotkeyPause = self.CaveBot.addOption(HotkeyToPause, Hotkeys, [644, 526], 8)
+        ButtonHotkeyPause = self.CaveBot.addOption(HotkeyToPause, Hotkeys, [232, 542], 8)
 
         # region Functions Walker
-
-        def ValidateRadius(*args):
-            s = Radius.get()
-            if len(s) > 2:
-                if not s[-1].isdigit():
-                    Radius.set(s[:-1])
-                else:
-                    Radius.set(s[:2])
-
-        def ValidateDelay(*args):
-            s = Delay.get()
-            if len(s) > 1:
-                if not s[-1].isdigit():
-                    Delay.set(s[:-1])
-                else:
-                    Delay.set(s[:1])
-
-        def ValidateWaypoint_X(*args):
-            s = Waypoint_X.get()
-            if len(s) > 5:
-                if not s[-1].isdigit():
-                    Waypoint_X.set(s[:-1])
-                else:
-                    Waypoint_X.set(s[:5])
-
-        def ValidateWaypoint_Y(*args):
-            s = Waypoint_Y.get()
-            if len(s) > 5:
-                if not s[-1].isdigit():
-                    Waypoint_Y.set(s[:-1])
-                else:
-                    Waypoint_Y.set(s[:5])
-
-        def ValidateWaypoint_Z(*args):
-            s = Waypoint_Z.get()
-            if len(s) > 2:
-                if not s[-1].isdigit():
-                    Waypoint_Z.set(s[:-1])
-                else:
-                    Waypoint_Z.set(s[:2])
 
         def ValidateStand(*args):
             s = Stand.get()
@@ -180,35 +161,85 @@ class CaveBot:
                 ButtonResearchMap.configure(relief=RAISED, bg=rgb((127, 17, 8)))
 
         def RemoveWalker():
-            print('Clicked on remove wlaker')
+            print('Clicked On Remove Waypoint: XXXXX')
 
         def AddWalker():
-            print('Clicked on add walker')
+            print('Clicked On Add Waypoint:', RadioMarkValue.get(), "With Type:", RadioTypeValue.get())
+
+        MarkDecoder = {
+            'CheckMark': 0,
+            'QuestionMark': 1,
+            'ExclimationMark': 2,
+            'Star': 3,
+            'Cross': 4,
+            'Church': 5,
+            'Mouth': 6,
+            'Shovel': 7,
+            'Sword': 8,
+            'Flag': 9,
+            'Lock': 10,
+            'Bag': 11,
+            'Skull': 12,
+            'Money': 13,
+            'ArrowUp': 14,
+            'ArrowDown': 15,
+            'ArrowRight': 16,
+            'ArrowLeft': 17,
+            'Above': 18,
+            'Bellow': 19
+        }
+
+        TypeDecoder = {
+            1: "Walk",
+            2: "Rope",
+            3: "Shovel"
+        }
+
+        def LoadScript():
+            GetScript = Script.get()
+            print("\nLoading Script:", GetScript + ".json")
+            if os.path.isfile('Scripts/' + GetScript + '.json'):
+                print(f"\nThe File {GetScript}.json Exist... Loading Them")
+                with open('Scripts/' + GetScript + '.json', 'r') as MarksJson:
+                    DataMark = json.load(MarksJson)
+                    for j in range(len(DataMark)):
+                        if DataMark[j]['status']:
+                            PreviousMarkData = DataMark[j - 1]['mark']
+                            PreviousWaypoint.configure(text=PreviousMarkData)
+                            PreviousImage.configure(image=ImageMarks[MarkDecoder.get(PreviousMarkData)])
+                            PreviousType.configure(text=TypeDecoder.get(DataMark[j - 1]['type']))
+
+                            CurrentMarkData = DataMark[j]['mark']
+                            CurrentWaypoint.configure(text=CurrentMarkData)
+                            CurrentImage.configure(image=ImageMarks[MarkDecoder.get(CurrentMarkData)])
+                            CurrentType.configure(text=TypeDecoder.get(DataMark[j]['type']))
+
+                            NextMarkData = DataMark[j + 1]['mark']
+                            NextWaypoint.configure(text=NextMarkData)
+                            NextImage.configure(image=ImageMarks[MarkDecoder.get(NextMarkData)])
+                            NextType.configure(text=TypeDecoder.get(DataMark[j + 1]['type']))
+            else:
+                print(f"\nThe File {GetScript}.json Not Exist... Please Enter With a Valid Script Name")
+
+        def SaveScript():
+            print("clicked on savescript")
 
         def CheckMarkClick():
-            print('Check Mark Click')
+            return 0
 
+        def ResetMarks():
+            GetScript = Script.get()
+            if os.path.isfile('Scripts/' + GetScript + '.json'):
+                with open('Scripts/' + GetScript + '.json', 'r') as MarksJson:
+                    DataMark = json.load(MarksJson)
+                    for j in range(len(DataMark)):
+                        if DataMark[j]['status']:
+                            DataMark[j]['status'] = False
+                    DataMark[0]['status'] = True
+                    with open('Scripts/' + GetScript + '.json', 'w') as wJson:
+                        json.dump(DataMark, wJson, indent=4)
+                    print(f"{GetScript}.json Reseted !!")
         # endregion
-
-        # region Functions MonstersAttacking
-
-        def AddMonsterAttack():
-            print('AddMonsterAttack')
-
-        def RemoveMonsterAttack():
-            print('RemoveMonsterAttack')
-
-        def AddMonsterIgnore():
-            print('AddMonsterIgnore')
-
-        def RemoveMonsterIgnore():
-            print('RemoveMonsterIgnore')
-
-        def UpMonsterAttack():
-            print('UpMonsterAttack')
-
-        def DownMonsterAttack():
-            print('DownMonsterAttack')
 
         def ValidateSuspendAfter(*args):
             s = SuspendAfter.get()
@@ -225,8 +256,6 @@ class CaveBot:
                     MonstersRange.set(s[:-1])
                 else:
                     MonstersRange.set(s[:2])
-
-        # endregion
 
         # region Functions DepotWalker
 
@@ -288,9 +317,8 @@ class CaveBot:
             CheckingGUI(InitiatedCavebotMode, RadioCavebotMode.get(), 'CavebotMode')
             CheckingGUI(InitiatedRadius, Radius.get(), 'Radius')
             CheckingGUI(InitiatedDelay, Delay.get(), 'Delay')
-            CheckingGUI(InitiatedWaypoint_X, Waypoint_X.get(), 'Waypoint_X')
-            CheckingGUI(InitiatedWaypoint_Y, Waypoint_Y.get(), 'Waypoint_Y')
-            CheckingGUI(InitiatedWaypoint_Z, Waypoint_Z.get(), 'Waypoint_Z')
+            CheckingGUI(InitiatedEnableWalking, CheckEnableWalking.get(), 'EnableWalking')
+            CheckingGUI(InitiatedTypeValue, RadioTypeValue.get(), 'TypeValue')
             CheckingGUI(InitiatedStand, Stand.get(), 'Stand')
             CheckingGUI(InitiatedResearchMap, ResearchMap.get(), 'ResearchMap')
             CheckingGUI(InitiatedMarkValue, RadioMarkValue.get(), 'MarkValue')
@@ -299,25 +327,13 @@ class CaveBot:
             CheckingGUI(InitiatedLoadAutoBanker, LoadAutoBanker.get(), 'LoadAutoBanker')
             CheckingGUI(InitiatedLoadSortLoot, LoadSortLoot.get(), 'LoadSortLoot')
             CheckingGUI(InitiatedCapBelowThan, CapBelowThan.get(), 'CapBelowThan')
-            CheckingGUI(InitiatedLootWhileKilling, CheckLootWhileKilling.get(), 'LootWhileKilling')
-            CheckingGUI(InitiatedTibiaCustomLoot, CheckTibiaCustomLoot.get(), 'TibiaCustomLoot')
-            CheckingGUI(InitiatedSQM1, CheckSQM1.get(), 'SQM1')
-            CheckingGUI(InitiatedSQM2, CheckSQM2.get(), 'SQM2')
-            CheckingGUI(InitiatedSQM3, CheckSQM3.get(), 'SQM3')
-            CheckingGUI(InitiatedSQM4, CheckSQM4.get(), 'SQM4')
-            CheckingGUI(InitiatedSQM5, CheckSQM5.get(), 'SQM5')
-            CheckingGUI(InitiatedSQM6, CheckSQM6.get(), 'SQM6')
-            CheckingGUI(InitiatedSQM7, CheckSQM7.get(), 'SQM7')
-            CheckingGUI(InitiatedSQM8, CheckSQM8.get(), 'SQM8')
-            CheckingGUI(InitiatedSQM9, CheckSQM9.get(), 'SQM9')
-            CheckingGUI(InitiatedCapLimit, CapLimit.get(), 'CapLimit')
+            CheckingGUI(InitiatedScript, Script.get(), 'Script')
 
             if len(GUIChanges) != 0:
                 for EachChange in range(len(GUIChanges)):
                     self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
 
             self.CaveBot.destroyWindow()
-
 
         # region Variables MonsterAttacking
 
@@ -421,18 +437,6 @@ class CaveBot:
         InitiatedDelay = self.Setter.GetVar("Delay")
         Delay.set(InitiatedDelay)
 
-        Waypoint_X = tk.StringVar() # Lembrar de setar posição atual do player
-        InitiatedWaypoint_X = self.Setter.GetVar("Waypoint_X")
-        Waypoint_X.set(InitiatedWaypoint_X)
-
-        Waypoint_Y = tk.StringVar() # Lembrar de setar posição atual do player
-        InitiatedWaypoint_Y = self.Setter.GetVar("Waypoint_Y")
-        Waypoint_Y.set(InitiatedWaypoint_Y)
-
-        Waypoint_Z = tk.StringVar() # Lembrar de setar posição atual do player
-        InitiatedWaypoint_Z = self.Setter.GetVar("Waypoint_Z")
-        Waypoint_Z.set(InitiatedWaypoint_Z)
-
         Stand = tk.StringVar()
         InitiatedStand = self.Setter.GetVar("Stand")
         Stand.set(InitiatedStand)
@@ -441,30 +445,23 @@ class CaveBot:
         InitiatedResearchMap = self.Setter.GetBoolVar("ResearchMap")
         ResearchMap.set(InitiatedResearchMap)
 
-        ImageMark1 = ImageTk.PhotoImage(Image.open('images/MapSettings/CheckMark.png'))
-        ImageMark2 = ImageTk.PhotoImage(Image.open('images/MapSettings/QuestionMark.png'))
-        ImageMark3 = ImageTk.PhotoImage(Image.open('images/MapSettings/ExclimationMark.png'))
-        ImageMark4 = ImageTk.PhotoImage(Image.open('images/MapSettings/Star.png'))
-        ImageMark5 = ImageTk.PhotoImage(Image.open('images/MapSettings/Cross.png'))
-        ImageMark6 = ImageTk.PhotoImage(Image.open('images/MapSettings/Church.png'))
-        ImageMark7 = ImageTk.PhotoImage(Image.open('images/MapSettings/Mouth.png'))
-        ImageMark8 = ImageTk.PhotoImage(Image.open('images/MapSettings/Shovel.png'))
-        ImageMark9 = ImageTk.PhotoImage(Image.open('images/MapSettings/Sword.png'))
-        ImageMark10 = ImageTk.PhotoImage(Image.open('images/MapSettings/Flag.png'))
-        ImageMark11 = ImageTk.PhotoImage(Image.open('images/MapSettings/Lock.png'))
-        ImageMark12 = ImageTk.PhotoImage(Image.open('images/MapSettings/Bag.png'))
-        ImageMark13 = ImageTk.PhotoImage(Image.open('images/MapSettings/Skull.png'))
-        ImageMark14 = ImageTk.PhotoImage(Image.open('images/MapSettings/Money.png'))
-        ImageMark15 = ImageTk.PhotoImage(Image.open('images/MapSettings/ArrowUp.png'))
-        ImageMark16 = ImageTk.PhotoImage(Image.open('images/MapSettings/ArrowDown.png'))
-        ImageMark17 = ImageTk.PhotoImage(Image.open('images/MapSettings/ArrowRight.png'))
-        ImageMark18 = ImageTk.PhotoImage(Image.open('images/MapSettings/ArrowLeft.png'))
-        ImageMark19 = ImageTk.PhotoImage(Image.open('images/MapSettings/Above.png'))
-        ImageMark20 = ImageTk.PhotoImage(Image.open('images/MapSettings/Bellow.png'))
+        for i in range(len(NameMarks)):
+            ImageMark = Image.open('images/MapSettings/' + NameMarks[i] + '.png')
+            ImageMark = ImageMark.resize((20, 20), Image.ANTIALIAS)
+            ImageMark = ImageTk.PhotoImage(ImageMark)
+            ImageMarks.append(ImageMark)
 
         RadioMarkValue = tk.IntVar()
         InitiatedMarkValue = self.Setter.GetVar("MarkValue")
         RadioMarkValue.set(InitiatedMarkValue)
+
+        RadioTypeValue = tk.IntVar()
+        InitiatedTypeValue = self.Setter.GetVar("TypeValue")
+        RadioTypeValue.set(InitiatedTypeValue)
+
+        CheckEnableWalking = tk.BooleanVar()
+        InitiatedEnableWalking = self.Setter.GetBoolVar("EnableWalking")
+        CheckEnableWalking.set(InitiatedResearchMap)
 
         # endregion
 
@@ -489,58 +486,6 @@ class CaveBot:
         CapBelowThan = tk.StringVar()
         InitiatedCapBelowThan = self.Setter.GetVar("CapBelowThan")
         CapBelowThan.set(InitiatedCapBelowThan)
-
-        # endregion
-
-        # region Variables CorpseLooting
-
-        CheckLootWhileKilling = tk.BooleanVar()
-        InitiatedLootWhileKilling = self.Setter.GetBoolVar("LootWhileKilling")
-        CheckLootWhileKilling.set(InitiatedLootWhileKilling)
-
-        CheckTibiaCustomLoot = tk.BooleanVar()
-        InitiatedTibiaCustomLoot = self.Setter.GetBoolVar("TibiaCustomLoot")
-        CheckTibiaCustomLoot.set(InitiatedTibiaCustomLoot)
-
-        CheckSQM1 = tk.BooleanVar()
-        InitiatedSQM1 = self.Setter.GetBoolVar("SQM1")
-        CheckSQM1.set(InitiatedSQM1)
-
-        CheckSQM2 = tk.BooleanVar()
-        InitiatedSQM2 = self.Setter.GetBoolVar("SQM2")
-        CheckSQM2.set(InitiatedSQM2)
-
-        CheckSQM3 = tk.BooleanVar()
-        InitiatedSQM3 = self.Setter.GetBoolVar("SQM3")
-        CheckSQM3.set(InitiatedSQM3)
-
-        CheckSQM4 = tk.BooleanVar()
-        InitiatedSQM4 = self.Setter.GetBoolVar("SQM4")
-        CheckSQM4.set(InitiatedSQM4)
-
-        CheckSQM5 = tk.BooleanVar()
-        InitiatedSQM5 = self.Setter.GetBoolVar("SQM5")
-        CheckSQM5.set(InitiatedSQM5)
-
-        CheckSQM6 = tk.BooleanVar()
-        InitiatedSQM6 = self.Setter.GetBoolVar("SQM6")
-        CheckSQM6.set(InitiatedSQM6)
-
-        CheckSQM7 = tk.BooleanVar()
-        InitiatedSQM7 = self.Setter.GetBoolVar("SQM7")
-        CheckSQM7.set(InitiatedSQM7)
-
-        CheckSQM8 = tk.BooleanVar()
-        InitiatedSQM8 = self.Setter.GetBoolVar("SQM8")
-        CheckSQM8.set(InitiatedSQM8)
-
-        CheckSQM9 = tk.BooleanVar()
-        InitiatedSQM9 = self.Setter.GetBoolVar("SQM9")
-        CheckSQM9.set(InitiatedSQM9)
-
-        CapLimit = tk.StringVar()
-        InitiatedCapLimit = self.Setter.GetVar("CapLimit")
-        CapLimit.set(InitiatedCapLimit)
 
         # endregion
 
@@ -585,13 +530,76 @@ class CaveBot:
         # endregion
 
         # region GUI Walker
+        CheckboxEnableWalking = self.CaveBot.addCheck(CheckEnableWalking, [560, 142], InitiatedEnableWalking,
+                                                      'Enable Walking')
 
-        RadioWaypoint = self.CaveBot.addRadio('Waypoints', RadioCavebotMode, 0, [26, 414], CheckClick)
-        RadioMark = self.CaveBot.addRadio('Marks', RadioCavebotMode, 1, [115, 414], CheckClick)
+        self.CaveBot.addLabel("Script Name:", [430, 160])
+        EntryCurrentScript = self.CaveBot.addEntry([440, 185], Script, 22)
+        ButtonLoadScript = self.CaveBot.addButton('Load Script', LoadScript, [110, 30], [590, 176])
+        ButtonSaveScript = self.CaveBot.addButton('Save Script', SaveScript, [100, 30], [710, 176])
 
-        LabelStand = self.CaveBot.addLabel('Stand Still After Reaching Waypoint For:', [24, 520])
+        self.CaveBot.addLabel('Marks:', [431, 210])
 
-        ButtonResearchMap = self.CaveBot.addButton('Auto Research Map', SetResearchMap, [130, 37], [268, 513])
+        RadioImage1 = self.CaveBot.addRadioImage('', RadioMarkValue, 1, [470, 230], CheckMarkClick, ImageMarks[0])
+        RadioImage2 = self.CaveBot.addRadioImage('', RadioMarkValue, 2, [510, 230], CheckMarkClick, ImageMarks[1])
+        RadioImage3 = self.CaveBot.addRadioImage('', RadioMarkValue, 3, [550, 230], CheckMarkClick, ImageMarks[2])
+        RadioImage4 = self.CaveBot.addRadioImage('', RadioMarkValue, 4, [590, 230], CheckMarkClick, ImageMarks[3])
+        RadioImage5 = self.CaveBot.addRadioImage('', RadioMarkValue, 5, [630, 230], CheckMarkClick, ImageMarks[4])
+        RadioImage6 = self.CaveBot.addRadioImage('', RadioMarkValue, 6, [670, 230], CheckMarkClick, ImageMarks[5])
+        RadioImage7 = self.CaveBot.addRadioImage('', RadioMarkValue, 7, [710, 230], CheckMarkClick, ImageMarks[6])
+        RadioImage8 = self.CaveBot.addRadioImage('', RadioMarkValue, 8, [470, 260], CheckMarkClick, ImageMarks[7])
+        RadioImage9 = self.CaveBot.addRadioImage('', RadioMarkValue, 9, [510, 260], CheckMarkClick, ImageMarks[8])
+        RadioImage10 = self.CaveBot.addRadioImage('', RadioMarkValue, 10, [550, 260], CheckMarkClick, ImageMarks[9])
+        RadioImage11 = self.CaveBot.addRadioImage('', RadioMarkValue, 11, [590, 260], CheckMarkClick, ImageMarks[10])
+        RadioImage12 = self.CaveBot.addRadioImage('', RadioMarkValue, 12, [630, 260], CheckMarkClick, ImageMarks[11])
+        RadioImage13 = self.CaveBot.addRadioImage('', RadioMarkValue, 13, [670, 260], CheckMarkClick, ImageMarks[12])
+        RadioImage14 = self.CaveBot.addRadioImage('', RadioMarkValue, 14, [710, 260], CheckMarkClick, ImageMarks[13])
+        RadioImage15 = self.CaveBot.addRadioImage('', RadioMarkValue, 15, [470, 290], CheckMarkClick, ImageMarks[14])
+        RadioImage16 = self.CaveBot.addRadioImage('', RadioMarkValue, 16, [510, 290], CheckMarkClick, ImageMarks[15])
+        RadioImage17 = self.CaveBot.addRadioImage('', RadioMarkValue, 17, [550, 290], CheckMarkClick, ImageMarks[16])
+        RadioImage18 = self.CaveBot.addRadioImage('', RadioMarkValue, 18, [590, 290], CheckMarkClick, ImageMarks[17])
+        RadioImage19 = self.CaveBot.addRadioImage('', RadioMarkValue, 19, [630, 290], CheckMarkClick, ImageMarks[18])
+        RadioImage20 = self.CaveBot.addRadioImage('', RadioMarkValue, 20, [670, 290], CheckMarkClick, ImageMarks[19])
+
+        self.CaveBot.addLabel('Type Of Waypoint:', [470, 325])
+
+        RadioWalk = self.CaveBot.addRadio('Walk', RadioTypeValue, 1, [580, 324])
+        RadioRope = self.CaveBot.addRadio('Rope', RadioTypeValue, 2, [635, 324])
+        RadioShovel = self.CaveBot.addRadio('Shovel', RadioTypeValue, 3, [690, 324])
+
+        ButtonRemoveWalker = self.CaveBot.addButton("Remove", RemoveWalker, [70, 21], [615, 355])
+        ButtonAddWalker = self.CaveBot.addButton("Add", AddWalker, [50, 21], [555, 355])
+
+        self.CaveBot.addLabel('Waypoints In Current Script:', [431, 385])
+
+        ButtonResetMarks = self.CaveBot.addButton('Reset Marks', ResetMarks, [100, 24], [701, 385])
+
+        self.CaveBot.addLabel("PreviousWaypoint:", [431, 415])
+        self.CaveBot.addLabel("CurrentWaypoint:", [570, 415])
+        self.CaveBot.addLabel("NextWaypoint:", [720, 415])
+
+        PreviousWaypoint = self.CaveBot.addLabel("", [435, 435])
+        CurrentWaypoint = self.CaveBot.addLabel("", [574, 435])
+        NextWaypoint = self.CaveBot.addLabel("", [724, 435])
+
+        PreviousImage = self.CaveBot.addImage(None, [465, 460])
+        CurrentImage = self.CaveBot.addImage(None, [614, 460])
+        NextImage = self.CaveBot.addImage(None, [754, 460])
+
+        self.CaveBot.addLabel("Type:", [431, 485])
+        self.CaveBot.addLabel("Type:", [580, 485])
+        self.CaveBot.addLabel("Type:", [720, 485])
+
+        PreviousType = self.CaveBot.addLabel("", [463, 485])
+        CurrentType = self.CaveBot.addLabel("", [612, 485])
+        NextType = self.CaveBot.addLabel("", [752, 485])
+
+        LabelStand = self.CaveBot.addLabel('Stand Still After Reaching Waypoint Per:', [431, 520])
+
+        EntryStand = self.CaveBot.addEntry([653, 521], Stand, 2)
+        Stand.trace("w", ValidateStand)
+
+        ButtonResearchMap = self.CaveBot.addButton('Auto Research Map', SetResearchMap, [130, 37], [684, 519])
 
         # endregion
 
@@ -608,257 +616,106 @@ class CaveBot:
 
         # endregion
 
-        # region GUI CorpseLooting
-
-        LabelCapLimit = self.CaveBot.addLabel('Loot Capacity Limit:', [435, 150])
-        EntryCapLimit = self.CaveBot.addEntry([551, 148], CapLimit, 5)
-
-        CheckBoxLootWhileKilling = self.CaveBot.addCheck(CheckLootWhileKilling, [435, 180], InitiatedLootWhileKilling, 'Loot While Killing')
-        CheckBoxTibiaCustomLoot = self.CaveBot.addCheck(CheckTibiaCustomLoot, [585, 180], InitiatedTibiaCustomLoot, 'Loot From Tibia Custom Loot')
-
-        LabelLootAround = self.CaveBot.addLabel('Configure Loot Around:', [545, 220])
-
-        CheckBoxSQM1 = self.CaveBot.addCheck(CheckSQM1, [570, 310], InitiatedSQM1)
-        CheckBoxSQM2 = self.CaveBot.addCheck(CheckSQM2, [600, 310], InitiatedSQM2)
-        CheckBoxSQM3 = self.CaveBot.addCheck(CheckSQM3, [630, 310], InitiatedSQM3)
-        CheckBoxSQM4 = self.CaveBot.addCheck(CheckSQM4, [570, 280], InitiatedSQM4)
-        CheckBoxSQM5 = self.CaveBot.addCheck(CheckSQM5, [600, 280], InitiatedSQM5)
-        CheckBoxSQM6 = self.CaveBot.addCheck(CheckSQM6, [630, 280], InitiatedSQM6)
-        CheckBoxSQM7 = self.CaveBot.addCheck(CheckSQM7, [570, 250], InitiatedSQM7)
-        CheckBoxSQM8 = self.CaveBot.addCheck(CheckSQM8, [600, 250], InitiatedSQM8)
-        CheckBoxSQM9 = self.CaveBot.addCheck(CheckSQM9, [630, 250], InitiatedSQM9)
-
-        # endregion
-
-        def Checking():
-            if RadioCavebotMode.get() == 0:
-                print('Walker Mode:', RadioCavebotMode.get())
-
-                self.CaveBot.addImage(Back, [23, 440])
-                self.CaveBot.addImage(Back, [23, 450])
-                self.CaveBot.addImage(Back2, [197, 405])
-
-                LabelWaypoints = self.CaveBot.addLabel('Waypoints:', [236, 402])
-                LabelRadius = self.CaveBot.addLabel('Radius:', [24, 451])
-                LabelDelay = self.CaveBot.addLabel('Delay:', [111, 451])
-
-                EntryRadius = self.CaveBot.addEntry([70, 452], Radius, 5)
-                Radius.trace("w", ValidateRadius)
-                EntryDelay = self.CaveBot.addEntry([154, 452], Delay, 5)
-                Delay.trace("w", ValidateDelay)
-                LabelWaypointX = self.CaveBot.addLabel('X:', [26, 479])
-                EntryWaypointX = self.CaveBot.addEntry([42, 480], Waypoint_X, 5)
-                Waypoint_X.trace("w", ValidateWaypoint_X)
-                LabelWaypointY = self.CaveBot.addLabel('Y:', [81, 479])
-                EntryWaypointY = self.CaveBot.addEntry([97, 480], Waypoint_Y, 5)
-                Waypoint_Y.trace("w", ValidateWaypoint_Y)
-                LabelWaypointZ = self.CaveBot.addLabel('Z:', [135, 479])
-                EntryWaypointZ = self.CaveBot.addEntry([151, 480], Waypoint_Z, 5)
-                Waypoint_Z.trace("w", ValidateWaypoint_Z)
-                EntryStand = self.CaveBot.addEntry([244, 520], Stand, 2)
-                Stand.trace("w", ValidateStand)
-
-                ButtonRemoveWalker = self.CaveBot.addButton('<<<', RemoveWalker, [29, 23], [197, 424])
-                ButtonAddWalker = self.CaveBot.addButton('>>>', AddWalker, [29, 23], [197, 479])
-                if EnabledCaveBot:
-                    LabelWaypoints.configure(state='disabled')
-                    LabelRadius.configure(state='disabled')
-                    LabelDelay.configure(state='disabled')
-                    EntryRadius.configure(state='disabled')
-                    EntryDelay.configure(state='disabled')
-                    LabelWaypointX.configure(state='disabled')
-                    EntryWaypointX.configure(state='disabled')
-                    LabelWaypointY.configure(state='disabled')
-                    EntryWaypointY.configure(state='disabled')
-                    LabelWaypointZ.configure(state='disabled')
-                    EntryWaypointZ.configure(state='disabled')
-                    EntryStand.configure(state='disabled')
-                    ButtonResearchMap.configure(state='disabled')
-                    ButtonRemoveWalker.configure(state='disabled')
-                    ButtonAddWalker.configure(state='disabled')
-                else:
-                    LabelWaypoints.configure(state='normal')
-                    LabelRadius.configure(state='normal')
-                    LabelDelay.configure(state='normal')
-                    EntryRadius.configure(state='normal')
-                    EntryDelay.configure(state='normal')
-                    LabelWaypointX.configure(state='normal')
-                    EntryWaypointX.configure(state='normal')
-                    LabelWaypointY.configure(state='normal')
-                    EntryWaypointY.configure(state='normal')
-                    LabelWaypointZ.configure(state='normal')
-                    EntryWaypointZ.configure(state='normal')
-                    EntryStand.configure(state='normal')
-                    ButtonResearchMap.configure(state='normal')
-                    ButtonRemoveWalker.configure(state='normal')
-                    ButtonAddWalker.configure(state='normal')
-            elif RadioCavebotMode.get() == 1:
-                print('Walker Mode:', RadioCavebotMode.get())
-
-                self.CaveBot.addImage(Back, [23, 450])
-                self.CaveBot.addImage(Back2, [197, 405])
-
-                LabelWaypoints = self.CaveBot.addLabel('Marks:', [246, 402])
-
-                self.CaveBot.addRadioImage('', RadioMarkValue, 1, [24, 441], CheckMarkClick, ImageMark1)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 2, [54, 441], CheckMarkClick, ImageMark2)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 3, [84, 441], CheckMarkClick, ImageMark3)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 4, [114, 441], CheckMarkClick, ImageMark4)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 5, [144, 441], CheckMarkClick, ImageMark5)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 6, [174, 441], CheckMarkClick, ImageMark6)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 7, [204, 441], CheckMarkClick, ImageMark7)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 8, [24, 461], CheckMarkClick, ImageMark8)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 9, [54, 461], CheckMarkClick, ImageMark9)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 0, [84, 461], CheckMarkClick, ImageMark10)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 11, [114, 461], CheckMarkClick, ImageMark11)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 12, [144, 461], CheckMarkClick, ImageMark12)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 13, [174, 461], CheckMarkClick, ImageMark13)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 14, [204, 461], CheckMarkClick, ImageMark14)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 15, [24, 481], CheckMarkClick, ImageMark15)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 16, [54, 481], CheckMarkClick, ImageMark16)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 17, [84, 481], CheckMarkClick, ImageMark17)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 18, [114, 481], CheckMarkClick, ImageMark18)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 19, [144, 481], CheckMarkClick, ImageMark19)
-                self.CaveBot.addRadioImage('', RadioMarkValue, 20, [174, 481], CheckMarkClick, ImageMark20)
-
-                if EnabledCaveBot:
-                    LabelWaypoints.configure(state='disabled')
-                else:
-                    LabelWaypoints.configure(state='normal')
-
         def CheckingButtons():
             if EnabledCaveBot:
-                CheckboxDebugging.configure(state='disabled')
-                CheckboxHotkeyPause.configure(state='disabled')
-                ButtonHotkeyPause.configure(state='disabled')
+                Disable(CheckboxDebugging)
+                Disable(CheckboxHotkeyPause)
+                Disable(ButtonHotkeyPause)
 
-                OptionAttackMode.configure(state='disabled')
-                CheckboxAttackOne.configure(state='disabled')
-                OptionMonstersOne.configure(state='disabled')
-                PriorityMonstersOne.configure(state='disabled')
-                CheckboxAttackTwo.configure(state='disabled')
-                OptionMonstersTwo.configure(state='disabled')
-                PriorityMonstersTwo.configure(state='disabled')
-                CheckboxAttackThree.configure(state='disabled')
-                OptionMonstersThree.configure(state='disabled')
-                PriorityMonstersThree.configure(state='disabled')
-                CheckboxAttackFour.configure(state='disabled')
-                OptionMonstersFour.configure(state='disabled')
-                PriorityMonstersFour.configure(state='disabled')
-                CheckBoxFollow.configure(state='disabled')
-                CheckBoxCantAttack.configure(state='disabled')
-                CheckBoxAttackPlayers.configure(state='disabled')
-                CheckBoxPlayerSeen.configure(state='disabled')
-                CheckBoxAttackingYou.configure(state='disabled')
-                CheckBoxForceAttack.configure(state='disabled')
-                LabelSuspendAfter.configure(state='disabled')
-                LabelMonstersRange.configure(state='disabled')
-                LabelAttackMode.configure(state='disabled')
-                EntrySuspendAfter.configure(state='disabled')
-                EntryMonstersRange.configure(state='disabled')
+                Disable(OptionAttackMode)
+                Disable(CheckboxAttackOne)
+                Disable(OptionMonstersOne)
+                Disable(PriorityMonstersOne)
+                Disable(CheckboxAttackTwo)
+                Disable(OptionMonstersTwo)
+                Disable(PriorityMonstersTwo)
+                Disable(CheckboxAttackThree)
+                Disable(OptionMonstersThree)
+                Disable(PriorityMonstersThree)
+                Disable(CheckboxAttackFour)
+                Disable(OptionMonstersFour)
+                Disable(PriorityMonstersFour)
+                Disable(CheckBoxFollow)
+                Disable(CheckBoxCantAttack)
+                Disable(CheckBoxAttackPlayers)
+                Disable(CheckBoxPlayerSeen)
+                Disable(CheckBoxAttackingYou)
+                Disable(CheckBoxForceAttack)
+                Disable(LabelSuspendAfter)
+                Disable(LabelMonstersRange)
+                Disable(LabelAttackMode)
+                Disable(EntrySuspendAfter)
+                Disable(EntryMonstersRange)
 
-                RadioWaypoint.configure(state='disabled')
-                RadioMark.configure(state='disabled')
-                LabelStand.configure(state='disabled')
+                Disable(LabelStand)
 
-                CheckboxDropItems.configure(state='disabled')
-                LabelGoDepot.configure(state='disabled')
-                EntryCapBelowThan.configure(state='disabled')
-                ButtonAutoSeller.configure(state='disabled')
-                ButtonAutoBanker.configure(state='disabled')
-                ButtonSortLoot.configure(state='disabled')
-
-                LabelCapLimit.configure(state='disabled')
-                EntryCapLimit.configure(state='disabled')
-                CheckBoxLootWhileKilling.configure(state='disabled')
-                CheckBoxTibiaCustomLoot.configure(state='disabled')
-                LabelLootAround.configure(state='disabled')
-                CheckBoxSQM1.configure(state='disabled')
-                CheckBoxSQM2.configure(state='disabled')
-                CheckBoxSQM3.configure(state='disabled')
-                CheckBoxSQM4.configure(state='disabled')
-                CheckBoxSQM5.configure(state='disabled')
-                CheckBoxSQM6.configure(state='disabled')
-                CheckBoxSQM7.configure(state='disabled')
-                CheckBoxSQM8.configure(state='disabled')
-                CheckBoxSQM9.configure(state='disabled')
+                Disable(CheckboxDropItems)
+                Disable(LabelGoDepot)
+                Disable(EntryCapBelowThan)
+                Disable(ButtonAutoSeller)
+                Disable(ButtonAutoBanker)
+                Disable(ButtonSortLoot)
             else:
-                CheckboxDebugging.configure(state='normal')
-                CheckboxHotkeyPause.configure(state='normal')
-                ButtonHotkeyPause.configure(state='normal')
+                Enable(CheckboxDebugging)
+                Enable(CheckboxDebugging)
+                Enable(CheckboxHotkeyPause)
+                Enable(ButtonHotkeyPause)
 
-                OptionAttackMode.configure(state='normal')
-                CheckboxAttackOne.configure(state='normal')
-                CheckboxAttackTwo.configure(state='normal')
-                CheckboxAttackThree.configure(state='normal')
-                CheckboxAttackFour.configure(state='normal')
+                Enable(OptionAttackMode)
+                Enable(CheckboxAttackOne)
+                Enable(CheckboxAttackTwo)
+                Enable(CheckboxAttackThree)
+                Enable(CheckboxAttackFour)
                 if not CheckAttackOne.get():
-                    OptionMonstersOne.configure(state='disabled')
-                    PriorityMonstersOne.configure(state='disabled')
+                    Disable(OptionMonstersOne)
+                    Disable(PriorityMonstersOne)
                 else:
-                    OptionMonstersOne.configure(state='normal')
-                    PriorityMonstersOne.configure(state='normal')
+                    Enable(OptionMonstersOne)
+                    Enable(PriorityMonstersOne)
                 if not CheckAttackTwo.get():
-                    OptionMonstersTwo.configure(state='disabled')
-                    PriorityMonstersTwo.configure(state='disabled')
+                    Disable(OptionMonstersTwo)
+                    Disable(PriorityMonstersTwo)
                 else:
-                    OptionMonstersTwo.configure(state='normal')
-                    PriorityMonstersTwo.configure(state='normal')
+                    Enable(OptionMonstersTwo)
+                    Enable(PriorityMonstersTwo)
                 if not CheckAttackThree.get():
-                    OptionMonstersThree.configure(state='disabled')
-                    PriorityMonstersThree.configure(state='disabled')
+                    Disable(OptionMonstersThree)
+                    Disable(PriorityMonstersThree)
                 else:
-                    OptionMonstersThree.configure(state='normal')
-                    PriorityMonstersThree.configure(state='normal')
+                    Enable(OptionMonstersThree)
+                    Enable(PriorityMonstersThree)
                 if not CheckAttackFour.get():
-                    OptionMonstersFour.configure(state='disabled')
-                    PriorityMonstersFour.configure(state='disabled')
+                    Disable(OptionMonstersFour)
+                    Disable(PriorityMonstersFour)
                 else:
-                    OptionMonstersFour.configure(state='normal')
-                    PriorityMonstersFour.configure(state='normal')
-                CheckBoxFollow.configure(state='normal')
-                CheckBoxCantAttack.configure(state='normal')
-                CheckBoxAttackPlayers.configure(state='normal')
-                CheckBoxPlayerSeen.configure(state='normal')
-                CheckBoxAttackingYou.configure(state='normal')
-                CheckBoxForceAttack.configure(state='normal')
-                LabelSuspendAfter.configure(state='normal')
-                LabelMonstersRange.configure(state='normal')
-                LabelAttackMode.configure(state='normal')
-                EntrySuspendAfter.configure(state='normal')
-                EntryMonstersRange.configure(state='normal')
+                    Enable(OptionMonstersFour)
+                    Enable(PriorityMonstersFour)
+                Enable(CheckBoxFollow)
+                Enable(CheckBoxCantAttack)
+                Enable(CheckBoxAttackPlayers)
+                Enable(CheckBoxPlayerSeen)
+                Enable(CheckBoxAttackingYou)
+                Enable(CheckBoxForceAttack)
+                Enable(LabelSuspendAfter)
+                Enable(LabelMonstersRange)
+                Enable(LabelAttackMode)
+                Enable(EntrySuspendAfter)
+                Enable(EntryMonstersRange)
+                Enable(LabelStand)
 
-                RadioWaypoint.configure(state='normal')
-                RadioMark.configure(state='normal')
-                LabelStand.configure(state='normal')
-
-                CheckboxDropItems.configure(state='normal')
+                Enable(CheckboxDropItems)
                 if CheckDropItems.get():
-                    LabelGoDepot.configure(state='disabled')
-                    EntryCapBelowThan.configure(state='disabled')
-                    ButtonAutoSeller.configure(state='disabled')
-                    ButtonAutoBanker.configure(state='disabled')
-                    ButtonSortLoot.configure(state='disabled')
+                    Disable(LabelGoDepot)
+                    Disable(EntryCapBelowThan)
+                    Disable(ButtonAutoSeller)
+                    Disable(ButtonAutoBanker)
+                    Disable(ButtonSortLoot)
                 else:
-                    LabelGoDepot.configure(state='normal')
-                    EntryCapBelowThan.configure(state='normal')
-                    ButtonAutoSeller.configure(state='normal')
-                    ButtonAutoBanker.configure(state='normal')
-                    ButtonSortLoot.configure(state='normal')
-                LabelCapLimit.configure(state='normal')
-                EntryCapLimit.configure(state='normal')
-                CheckBoxLootWhileKilling.configure(state='normal')
-                CheckBoxTibiaCustomLoot.configure(state='normal')
-                LabelLootAround.configure(state='normal')
-                CheckBoxSQM1.configure(state='normal')
-                CheckBoxSQM2.configure(state='normal')
-                CheckBoxSQM3.configure(state='normal')
-                CheckBoxSQM4.configure(state='normal')
-                CheckBoxSQM5.configure(state='normal')
-                CheckBoxSQM6.configure(state='normal')
-                CheckBoxSQM7.configure(state='normal')
-                CheckBoxSQM8.configure(state='normal')
-                CheckBoxSQM9.configure(state='normal')
+                    Enable(LabelGoDepot)
+                    Enable(EntryCapBelowThan)
+                    Enable(ButtonAutoSeller)
+                    Enable(ButtonAutoBanker)
+                    Enable(ButtonSortLoot)
 
                 if ResearchMap.get():
                     ButtonResearchMap.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
@@ -880,52 +737,122 @@ class CaveBot:
         def ConstantVerify():
             if not EnabledCaveBot:
                 if not CheckAttackOne.get():
-                    OptionMonstersOne.configure(state='disabled')
-                    PriorityMonstersOne.configure(state='disabled')
+                    Disable(OptionMonstersOne)
+                    Disable(PriorityMonstersOne)
                 else:
-                    OptionMonstersOne.configure(state='normal')
-                    PriorityMonstersOne.configure(state='normal')
+                    Enable(OptionMonstersOne)
+                    Enable(PriorityMonstersOne)
                 if not CheckAttackTwo.get():
-                    OptionMonstersTwo.configure(state='disabled')
-                    PriorityMonstersTwo.configure(state='disabled')
+                    Disable(OptionMonstersTwo)
+                    Disable(PriorityMonstersTwo)
                 else:
-                    OptionMonstersTwo.configure(state='normal')
-                    PriorityMonstersTwo.configure(state='normal')
+                    Enable(OptionMonstersTwo)
+                    Enable(PriorityMonstersTwo)
                 if not CheckAttackThree.get():
-                    OptionMonstersThree.configure(state='disabled')
-                    PriorityMonstersThree.configure(state='disabled')
+                    Disable(OptionMonstersThree)
+                    Disable(PriorityMonstersThree)
                 else:
-                    OptionMonstersThree.configure(state='normal')
-                    PriorityMonstersThree.configure(state='normal')
+                    Enable(OptionMonstersThree)
+                    Enable(PriorityMonstersThree)
                 if not CheckAttackFour.get():
-                    OptionMonstersFour.configure(state='disabled')
-                    PriorityMonstersFour.configure(state='disabled')
+                    Disable(OptionMonstersFour)
+                    Disable(PriorityMonstersFour)
                 else:
-                    OptionMonstersFour.configure(state='normal')
-                    PriorityMonstersFour.configure(state='normal')
+                    Enable(OptionMonstersFour)
+                    Enable(PriorityMonstersFour)
                 if CheckDropItems.get():
-                    LabelGoDepot.configure(state='disabled')
-                    EntryCapBelowThan.configure(state='disabled')
-                    ButtonAutoSeller.configure(state='disabled')
-                    ButtonAutoBanker.configure(state='disabled')
-                    ButtonSortLoot.configure(state='disabled')
+                    Disable(LabelGoDepot)
+                    Disable(EntryCapBelowThan)
+                    Disable(ButtonAutoSeller)
+                    Disable(ButtonAutoBanker)
+                    Disable(ButtonSortLoot)
                 else:
-                    LabelGoDepot.configure(state='normal')
-                    EntryCapBelowThan.configure(state='normal')
-                    ButtonAutoSeller.configure(state='normal')
-                    ButtonAutoBanker.configure(state='normal')
-                    ButtonSortLoot.configure(state='normal')
+                    Enable(LabelGoDepot)
+                    Enable(EntryCapBelowThan)
+                    Enable(ButtonAutoSeller)
+                    Enable(ButtonAutoBanker)
+                    Enable(ButtonSortLoot)
                 if not CheckHotkeyPause.get():
-                    ButtonHotkeyPause.configure(state='disabled')
+                    Disable(ButtonHotkeyPause)
                 elif CheckHotkeyPause.get():
-                    ButtonHotkeyPause.configure(state='normal')
+                    Enable(ButtonHotkeyPause)
+                if not CheckEnableWalking.get():
+                    Disable(EntryCurrentScript)
+                    Disable(ButtonLoadScript)
+                    Disable(ButtonSaveScript)
+                    Disable(RadioImage1)
+                    Disable(RadioImage2)
+                    Disable(RadioImage3)
+                    Disable(RadioImage4)
+                    Disable(RadioImage5)
+                    Disable(RadioImage6)
+                    Disable(RadioImage7)
+                    Disable(RadioImage8)
+                    Disable(RadioImage9)
+                    Disable(RadioImage10)
+                    Disable(RadioImage11)
+                    Disable(RadioImage12)
+                    Disable(RadioImage13)
+                    Disable(RadioImage14)
+                    Disable(RadioImage15)
+                    Disable(RadioImage16)
+                    Disable(RadioImage17)
+                    Disable(RadioImage18)
+                    Disable(RadioImage19)
+                    Disable(RadioImage20)
+                    Disable(ButtonRemoveWalker)
+                    Disable(ButtonAddWalker)
+                    Disable(ButtonResetMarks)
+                    Disable(PreviousImage)
+                    Disable(CurrentImage)
+                    Disable(NextImage)
+                    Disable(EntryStand)
+                    Disable(ButtonResearchMap)
+                    Disable(RadioWalk)
+                    Disable(RadioRope)
+                    Disable(RadioShovel)
+                else:
+                    Enable(EntryCurrentScript)
+                    Enable(ButtonLoadScript)
+                    Enable(ButtonSaveScript)
+                    Enable(RadioImage1)
+                    Enable(RadioImage2)
+                    Enable(RadioImage3)
+                    Enable(RadioImage4)
+                    Enable(RadioImage5)
+                    Enable(RadioImage6)
+                    Enable(RadioImage7)
+                    Enable(RadioImage8)
+                    Enable(RadioImage9)
+                    Enable(RadioImage10)
+                    Enable(RadioImage11)
+                    Enable(RadioImage12)
+                    Enable(RadioImage13)
+                    Enable(RadioImage14)
+                    Enable(RadioImage15)
+                    Enable(RadioImage16)
+                    Enable(RadioImage17)
+                    Enable(RadioImage18)
+                    Enable(RadioImage19)
+                    Enable(RadioImage20)
+                    Enable(ButtonRemoveWalker)
+                    Enable(ButtonAddWalker)
+                    Enable(ButtonResetMarks)
+                    Enable(PreviousImage)
+                    Enable(CurrentImage)
+                    Enable(NextImage)
+                    Enable(EntryStand)
+                    Enable(ButtonResearchMap)
+                    Enable(RadioWalk)
+                    Enable(RadioRope)
+                    Enable(RadioShovel)
 
-            self.CaveBot.After(300, ConstantVerify)
+            ExecGUITrigger()
+
+            self.CaveBot.After(200, ConstantVerify)
 
         CheckingButtons()
         ConstantVerify()
-
-        Checking()
 
         self.CaveBot.Protocol(Destroy)
         self.CaveBot.loop()

@@ -44,8 +44,8 @@ class ChooseConfig:
 
         def CreateDefaultJson():
             ScriptToLoad = NameCreateJson.get()
-            if os.path.isfile('Scripts/' + 'Scripts/' + ScriptToLoad + '.json'):
-                with open('Scripts/' + 'Scripts/' + ScriptToLoad + '.json', 'r') as LoadsJson:
+            if os.path.isfile('Scripts/' + ScriptToLoad + '.json'):
+                with open('Scripts/' + ScriptToLoad + '.json', 'r') as LoadsJson:
                     data = json.load(LoadsJson)
 
                 time.sleep(.5)
@@ -66,7 +66,7 @@ class ChooseConfig:
                     time.sleep(0.1)
                     root(CharName, ScriptToLoad)
                 else:
-                    os.remove('Scripts/' + 'Scripts/' + ScriptToLoad + '.json')
+                    os.remove('Scripts/' + ScriptToLoad + '.json')
                     CreateDefaultJson()
             else:
                 print('Coping Default Json')
