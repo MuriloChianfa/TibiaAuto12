@@ -2,7 +2,7 @@ import time
 import threading
 
 from Conf.Hotkeys import Hotkey
-from Conf.Constants import GUIChanges, LifeColor, LifeColorFull, Percentage, ImageStats, Stats
+from Conf.Constants import LifeColor, LifeColorFull, Percentage, ImageStats, Stats
 
 from Engine.GUI import *
 from Engine.GUIManager import *
@@ -12,7 +12,7 @@ from Engine.ScanStages import ScanStages
 
 
 EnabledAutoHeal = False
-
+GUIChanges = []
 Life = 0
 
 
@@ -54,77 +54,77 @@ class AutoHeal:
                 if Life is None:
                     Life = 0
 
-                if VarCheckStageThree.get():
-                    stage_three = VarPercentageStageThree.get()
+                if LifeCheckStageThree.get():
+                    stage_three = LifePercentageStageThree.get()
                     if stage_three > Life or stage_three == Life:
-                        self.SendToClient.Press(VarHotkeyStageThree.get())
-                        print("Pressed ", VarHotkeyStageThree.get())
+                        self.SendToClient.Press(LifeHotkeyStageThree.get())
+                        print("Pressed ", LifeHotkeyStageThree.get())
                         time.sleep(.15)
-                    elif VarCheckStageTwo.get():
-                        stage_two = VarPercentageStageTwo.get()
+                    elif LifeCheckStageTwo.get():
+                        stage_two = LifePercentageStageTwo.get()
                         if stage_two > Life or stage_two == Life:
-                            self.SendToClient.Press(VarHotkeyStageTwo.get())
-                            print("Pressed ", VarHotkeyStageTwo.get())
+                            self.SendToClient.Press(LifeHotkeyStageTwo.get())
+                            print("Pressed ", LifeHotkeyStageTwo.get())
                             time.sleep(.15)
-                        elif VarCheckStageOne.get():
-                            stage_one = VarPercentageStageOne.get()
+                        elif LifeCheckStageOne.get():
+                            stage_one = LifePercentageStageOne.get()
                             if stage_one > Life or stage_one == Life:
-                                self.SendToClient.Press(VarHotkeyStageOne.get())
-                                print("Pressed ", VarHotkeyStageOne.get())
+                                self.SendToClient.Press(LifeHotkeyStageOne.get())
+                                print("Pressed ", LifeHotkeyStageOne.get())
                                 time.sleep(.15)
-                    elif VarCheckStageOne.get():
-                        stage_one = VarPercentageStageOne.get()
+                    elif LifeCheckStageOne.get():
+                        stage_one = LifePercentageStageOne.get()
                         if stage_one > Life or stage_one == Life:
-                            self.SendToClient.Press(VarHotkeyStageOne.get())
-                            print("Pressed ", VarHotkeyStageOne.get())
+                            self.SendToClient.Press(LifeHotkeyStageOne.get())
+                            print("Pressed ", LifeHotkeyStageOne.get())
                             time.sleep(.15)
-                elif VarCheckStageTwo.get():
-                    stage_two = VarPercentageStageTwo.get()
+                elif LifeCheckStageTwo.get():
+                    stage_two = LifePercentageStageTwo.get()
                     if stage_two > Life or stage_two == Life:
-                        self.SendToClient.Press(VarHotkeyStageTwo.get())
-                        print("Pressed ", VarHotkeyStageTwo.get())
+                        self.SendToClient.Press(LifeHotkeyStageTwo.get())
+                        print("Pressed ", LifeHotkeyStageTwo.get())
                         time.sleep(.15)
-                    elif VarCheckStageThree.get():
-                        stage_three = VarPercentageStageThree.get()
+                    elif LifeCheckStageThree.get():
+                        stage_three = LifePercentageStageThree.get()
                         if stage_three > Life or stage_three == Life:
-                            self.SendToClient.Press(VarHotkeyStageThree.get())
-                            print("Pressed ", VarHotkeyStageThree.get())
+                            self.SendToClient.Press(LifeHotkeyStageThree.get())
+                            print("Pressed ", LifeHotkeyStageThree.get())
                             time.sleep(.15)
-                        elif VarCheckStageOne.get():
-                            stage_one = VarPercentageStageOne.get()
+                        elif LifeCheckStageOne.get():
+                            stage_one = LifePercentageStageOne.get()
                             if stage_one > Life or stage_one == Life:
-                                self.SendToClient.Press(VarHotkeyStageOne.get())
-                                print("Pressed ", VarHotkeyStageOne.get())
+                                self.SendToClient.Press(LifeHotkeyStageOne.get())
+                                print("Pressed ", LifeHotkeyStageOne.get())
                                 time.sleep(.15)
-                    elif VarCheckStageOne.get():
-                        stage_one = VarPercentageStageOne.get()
+                    elif LifeCheckStageOne.get():
+                        stage_one = LifePercentageStageOne.get()
                         if stage_one > Life or stage_one == Life:
-                            self.SendToClient.Press(VarHotkeyStageOne.get())
-                            print("Pressed ", VarHotkeyStageOne.get())
+                            self.SendToClient.Press(LifeHotkeyStageOne.get())
+                            print("Pressed ", LifeHotkeyStageOne.get())
                             time.sleep(.15)
-                elif VarCheckStageOne.get():
-                    stage_one = VarPercentageStageOne.get()
+                elif LifeCheckStageOne.get():
+                    stage_one = LifePercentageStageOne.get()
                     if stage_one > Life or stage_one == Life:
-                        self.SendToClient.Press(VarHotkeyStageOne.get())
-                        print("Pressed ", VarHotkeyStageOne.get())
+                        self.SendToClient.Press(LifeHotkeyStageOne.get())
+                        print("Pressed ", LifeHotkeyStageOne.get())
                         time.sleep(.15)
-                    elif VarCheckStageTwo.get():
-                        stage_two = VarPercentageStageTwo.get()
+                    elif LifeCheckStageTwo.get():
+                        stage_two = LifePercentageStageTwo.get()
                         if stage_two > Life or stage_two == Life:
-                            self.SendToClient.Press(VarHotkeyStageTwo.get())
-                            print("Pressed ", VarHotkeyStageTwo.get())
+                            self.SendToClient.Press(LifeHotkeyStageTwo.get())
+                            print("Pressed ", LifeHotkeyStageTwo.get())
                             time.sleep(.15)
-                        elif VarCheckStageThree.get():
-                            stage_three = VarPercentageStageThree.get()
+                        elif LifeCheckStageThree.get():
+                            stage_three = LifePercentageStageThree.get()
                             if stage_three > Life or stage_three == Life:
-                                self.SendToClient.Press(VarHotkeyStageThree.get())
-                                print("Pressed ", VarHotkeyStageThree.get())
+                                self.SendToClient.Press(LifeHotkeyStageThree.get())
+                                print("Pressed ", LifeHotkeyStageThree.get())
                                 time.sleep(.15)
-                    elif VarCheckStageThree.get():
-                        stage_three = VarPercentageStageThree.get()
+                    elif LifeCheckStageThree.get():
+                        stage_three = LifePercentageStageThree.get()
                         if stage_three > Life or stage_three == Life:
-                            self.SendToClient.Press(VarHotkeyStageThree.get())
-                            print("Pressed ", VarHotkeyStageThree.get())
+                            self.SendToClient.Press(LifeHotkeyStageThree.get())
+                            print("Pressed ", LifeHotkeyStageThree.get())
                             time.sleep(.15)
                 else:
                     print("Module Not Configured")
@@ -133,9 +133,9 @@ class AutoHeal:
         VarCheckPrint, InitiatedCheckPrint = self.Setter.Variables.Bool('CheckPrint')
         VarCheckBuff, InitiatedCheckBuff = self.Setter.Variables.Bool('CheckBuff')
 
-        VarCheckStageOne, InitiatedCheckStageOne = self.Setter.Variables.Bool('CheckStageOne')
-        VarCheckStageTwo, InitiatedCheckStageTwo = self.Setter.Variables.Bool('CheckStageTwo')
-        VarCheckStageThree, InitiatedCheckStageThree = self.Setter.Variables.Bool('CheckStageThree')
+        LifeCheckStageOne, InitiatedLifeCheckStageOne = self.Setter.Variables.Bool('LifeCheckStageOne')
+        LifeCheckStageTwo, InitiatedLifeCheckStageTwo = self.Setter.Variables.Bool('LifeCheckStageTwo')
+        LifeCheckStageThree, InitiatedLifeCheckStageThree = self.Setter.Variables.Bool('LifeCheckStageThree')
 
         VarCheckCureStats, InitiatedCheckCureStats = self.Setter.Variables.Bool('CheckCureStats')
 
@@ -146,14 +146,14 @@ class AutoHeal:
         VarCheckMort, InitiatedCheckMort = self.Setter.Variables.Bool('CheckMort')
         VarCheckBlood, InitiatedCheckBlood = self.Setter.Variables.Bool('CheckBlood')
 
-        VarPercentageStageOne, InitiatedPercentageStageOne = self.Setter.Variables.Int('PercentageStageOne')
-        VarHotkeyStageOne, InitiatedHotkeyStageOne = self.Setter.Variables.Str('HotkeyStageOne')
+        LifePercentageStageOne, InitiatedLifePercentageStageOne = self.Setter.Variables.Int('LifePercentageStageOne')
+        LifeHotkeyStageOne, InitiatedLifeHotkeyStageOne = self.Setter.Variables.Str('LifeHotkeyStageOne')
 
-        VarPercentageStageTwo, InitiatedPercentageStageTwo = self.Setter.Variables.Int('PercentageStageTwo')
-        VarHotkeyStageTwo, InitiatedHotkeyStageTwo = self.Setter.Variables.Str('HotkeyStageTwo')
+        LifePercentageStageTwo, InitiatedLifePercentageStageTwo = self.Setter.Variables.Int('LifePercentageStageTwo')
+        LifeHotkeyStageTwo, InitiatedLifeHotkeyStageTwo = self.Setter.Variables.Str('LifeHotkeyStageTwo')
 
-        VarPercentageStageThree, InitiatedPercentageStageThree = self.Setter.Variables.Int('PercentageStageThree')
-        VarHotkeyStageThree, InitiatedHotkeyStageThree = self.Setter.Variables.Str('HotkeyStageThree')
+        LifePercentageStageThree, InitiatedLifePercentageStageThree = self.Setter.Variables.Int('LifePercentageStageThree')
+        LifeHotkeyStageThree, InitiatedLifeHotkeyStageThree = self.Setter.Variables.Str('LifeHotkeyStageThree')
 
         for i in range(len(Stats)):
             ImageStatus = Image.open('images/Stats/' + Stats[i] + '.webp')
@@ -168,9 +168,9 @@ class AutoHeal:
         def Destroy():
             CheckingGUI(InitiatedCheckPrint, VarCheckPrint.get(), 'CheckPrint')
             CheckingGUI(InitiatedCheckBuff, VarCheckBuff.get(), 'CheckBuff')
-            CheckingGUI(InitiatedCheckStageOne, VarCheckStageOne.get(), 'CheckStageOne')
-            CheckingGUI(InitiatedCheckStageTwo, VarCheckStageTwo.get(), 'CheckStageTwo')
-            CheckingGUI(InitiatedCheckStageThree, VarCheckStageThree.get(), 'CheckStageThree')
+            CheckingGUI(InitiatedLifeCheckStageOne, LifeCheckStageOne.get(), 'LifeCheckStageOne')
+            CheckingGUI(InitiatedLifeCheckStageTwo, LifeCheckStageTwo.get(), 'LifeCheckStageTwo')
+            CheckingGUI(InitiatedLifeCheckStageThree, LifeCheckStageThree.get(), 'LifeCheckStageThree')
             CheckingGUI(InitiatedCheckCureStats, VarCheckCureStats.get(), 'CheckCureStats')
             CheckingGUI(InitiatedCheckParalyze, VarCheckParalyze.get(), 'CheckParalyze')
             CheckingGUI(InitiatedCheckPoison, VarCheckPoison.get(), 'CheckPoison')
@@ -178,12 +178,12 @@ class AutoHeal:
             CheckingGUI(InitiatedCheckElectrify, VarCheckElectrify.get(), 'CheckElectrify')
             CheckingGUI(InitiatedCheckMort, VarCheckMort.get(), 'CheckMort')
             CheckingGUI(InitiatedCheckBlood, VarCheckBlood.get(), 'CheckBlood')
-            CheckingGUI(InitiatedPercentageStageOne, VarPercentageStageOne.get(), 'PercentageStageOne')
-            CheckingGUI(InitiatedHotkeyStageOne, VarHotkeyStageOne.get(), 'HotkeyStageOne')
-            CheckingGUI(InitiatedPercentageStageTwo, VarPercentageStageTwo.get(), 'PercentageStageTwo')
-            CheckingGUI(InitiatedHotkeyStageTwo, VarHotkeyStageTwo.get(), 'HotkeyStageTwo')
-            CheckingGUI(InitiatedPercentageStageThree, VarPercentageStageThree.get(), 'PercentageStageThree')
-            CheckingGUI(InitiatedHotkeyStageThree, VarHotkeyStageThree.get(), 'HotkeyStageThree')
+            CheckingGUI(InitiatedLifePercentageStageOne, LifePercentageStageOne.get(), 'LifePercentageStageOne')
+            CheckingGUI(InitiatedLifeHotkeyStageOne, LifeHotkeyStageOne.get(), 'LifeHotkeyStageOne')
+            CheckingGUI(InitiatedLifePercentageStageTwo, LifePercentageStageTwo.get(), 'LifePercentageStageTwo')
+            CheckingGUI(InitiatedLifeHotkeyStageTwo, LifeHotkeyStageTwo.get(), 'LifeHotkeyStageTwo')
+            CheckingGUI(InitiatedLifePercentageStageThree, LifePercentageStageThree.get(), 'LifePercentageStageThree')
+            CheckingGUI(InitiatedLifeHotkeyStageThree, LifeHotkeyStageThree.get(), 'LifeHotkeyStageThree')
 
             if len(GUIChanges) != 0:
                 for EachChange in range(len(GUIChanges)):
@@ -210,9 +210,9 @@ class AutoHeal:
         LabelPercentage = self.AutoHeal.addLabel('% Percentage', [145, 24])
         LabelHotkey = self.AutoHeal.addLabel('HotKey', [230, 24])
 
-        StageOne = self.AutoHeal.addCheck(VarCheckStageOne, [17, 55], InitiatedCheckStageOne, "Enable Stage One")
-        StageTwo = self.AutoHeal.addCheck(VarCheckStageTwo, [17, 105], InitiatedCheckStageTwo, "Enable Stage Two")
-        StageThree = self.AutoHeal.addCheck(VarCheckStageThree, [17, 155], InitiatedCheckStageThree, "Enable Stage Three")
+        StageOne = self.AutoHeal.addCheck(LifeCheckStageOne, [17, 55], InitiatedLifeCheckStageOne, "Enable Stage One")
+        StageTwo = self.AutoHeal.addCheck(LifeCheckStageTwo, [17, 105], InitiatedLifeCheckStageTwo, "Enable Stage Two")
+        StageThree = self.AutoHeal.addCheck(LifeCheckStageThree, [17, 155], InitiatedLifeCheckStageThree, "Enable Stage Three")
         CheckStats = self.AutoHeal.addCheck(VarCheckCureStats, [95, 192], InitiatedCheckCureStats, "Enable Cure Stats")
 
         Paralyze = self.AutoHeal.addCheck(VarCheckParalyze, [40, 226], InitiatedCheckParalyze, '', ImageStats[0])
@@ -222,14 +222,14 @@ class AutoHeal:
         Mort = self.AutoHeal.addCheck(VarCheckMort, [200, 226], InitiatedCheckMort, '', ImageStats[4])
         Blood = self.AutoHeal.addCheck(VarCheckBlood, [240, 226], InitiatedCheckBlood, '', ImageStats[5])
 
-        PercentageStageOne = self.AutoHeal.addOption(VarPercentageStageOne, Percentage, [148, 54])
-        HotkeyStageOne = self.AutoHeal.addOption(VarHotkeyStageOne, self.SendToClient.Hotkeys, [223, 54])
+        PercentageStageOne = self.AutoHeal.addOption(LifePercentageStageOne, Percentage, [148, 54])
+        HotkeyStageOne = self.AutoHeal.addOption(LifeHotkeyStageOne, self.SendToClient.Hotkeys, [223, 54])
 
-        PercentageStageTwo = self.AutoHeal.addOption(VarPercentageStageTwo, Percentage, [148, 104])
-        HotkeyStageTwo = self.AutoHeal.addOption(VarHotkeyStageTwo, self.SendToClient.Hotkeys, [223, 104])
+        PercentageStageTwo = self.AutoHeal.addOption(LifePercentageStageTwo, Percentage, [148, 104])
+        HotkeyStageTwo = self.AutoHeal.addOption(LifeHotkeyStageTwo, self.SendToClient.Hotkeys, [223, 104])
 
-        PercentageStageThree = self.AutoHeal.addOption(VarPercentageStageThree, Percentage, [148, 154])
-        HotkeyStageThree = self.AutoHeal.addOption(VarHotkeyStageThree, self.SendToClient.Hotkeys, [223, 154])
+        PercentageStageThree = self.AutoHeal.addOption(LifePercentageStageThree, Percentage, [148, 154])
+        HotkeyStageThree = self.AutoHeal.addOption(LifeHotkeyStageThree, self.SendToClient.Hotkeys, [223, 154])
 
         def CheckingButtons():
             if EnabledAutoHeal:

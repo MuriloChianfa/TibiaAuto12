@@ -4,13 +4,15 @@ import time
 import threading
 
 from Conf.MarksConf import *
-from Conf.Constants import GUIChanges, Monsters, Priority, Hotkeys, AttackModes
+from Conf.Constants import Monsters, Priority, Hotkeys, AttackModes
 
 from Engine.GUI import *
 from Engine.GUIManager import *
 from Engine.GUISetter import GUISetter
 
 from Engine.EngineCaveBot import EngineCaveBot
+
+GUIChanges = []
 
 EnabledCaveBot = False
 

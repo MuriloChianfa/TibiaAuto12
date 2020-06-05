@@ -4,13 +4,15 @@ import threading
 import pygetwindow
 
 from Conf.Hotkeys import Hotkey
-from Conf.Constants import GUIChanges, LifeColor, LifeColorFull, Percentage, Amulets
+from Conf.Constants import LifeColor, LifeColorFull, Percentage, Amulets
 
 from Engine.GUI import *
 from Engine.GUIManager import *
 from Engine.GUISetter import GUISetter
 
 from Engine.ScanAmulet import ScanAmulet
+
+GUIChanges = []
 
 FoundedImg = False
 EnabledAutoSSA = False

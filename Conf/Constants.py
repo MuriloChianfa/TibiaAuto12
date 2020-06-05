@@ -1,6 +1,3 @@
-# Array For Check GUI Changes
-GUIChanges = []
-
 # Percentage For ScanStages.py, More Percents Require Mode Hardware Work ! But Elevate The Bot Precision
 Percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 Priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

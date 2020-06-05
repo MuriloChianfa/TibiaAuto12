@@ -2,7 +2,6 @@ import time
 import threading
 
 from Conf.Hotkeys import Hotkey
-from Conf.Constants import GUIChanges
 
 from Engine.GUI import *
 from Engine.GUIManager import *
@@ -11,6 +10,8 @@ from Engine.GUISetter import GUISetter
 from Engine.ScanHur import ScanHur
 
 EnabledAutoHur = False
+
+GUIChanges = []
 
 
 class AutoHur:
