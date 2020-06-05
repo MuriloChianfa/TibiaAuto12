@@ -2,39 +2,38 @@ import json
 
 from Engine.GUI import *
 
-from Modules.AdjustConfig import AdjustConfig
-from Modules.AmmoRestack import AmmoRestack
-from Modules.AutoAttack import AutoAttack
-from Modules.AutoBanker import AutoBanker
-from Modules.AutoFish import AutoFish
-from Modules.AutoGrouping import AutoGrouping
+# from Modules.AdjustConfig import AdjustConfig
+# from Modules.AmmoRestack import AmmoRestack
+# from Modules.AutoAttack import AutoAttack
+# from Modules.AutoBanker import AutoBanker
+# from Modules.AutoFish import AutoFish
+# from Modules.AutoGrouping import AutoGrouping
 from Modules.AutoHeal import AutoHeal
 from Modules.AutoHur import AutoHur
-from Modules.AutoLogin import AutoLogin
-from Modules.AutoLooter import AutoLooter
+# from Modules.AutoLogin import AutoLogin
+# from Modules.AutoLooter import AutoLooter
 from Modules.AutoMana import AutoMana
 from Modules.AutoRing import AutoRing
-from Modules.AutoSeller import AutoSeller
+# from Modules.AutoSeller import AutoSeller
 from Modules.AutoSSA import AutoSSA
 from Modules.CaveBot import CaveBot
-from Modules.ColorChange import ColorChange
-from Modules.CreatureInfo import CreatureInfo
-from Modules.FoodEater import FoodEater
-from Modules.FPSChanger import FPSChanger
-from Modules.GeneralOptions import GeneralOptions
-from Modules.HealerFriend import HealerFriend
-from Modules.LoadConfig import LoadConfig
-from Modules.Modules import Modules
-from Modules.Monsters import Monsters
-from Modules.PythonScripts import PythonScripts
-from Modules.SaveConfig import SaveConfig
-from Modules.SortLoot import SortLoot
-from Modules.TimedSpells import TimedSpells
+# from Modules.ColorChange import ColorChange
+# from Modules.CreatureInfo import CreatureInfo
+# from Modules.FoodEater import FoodEater
+# from Modules.FPSChanger import FPSChanger
+# from Modules.GeneralOptions import GeneralOptions
+# from Modules.HealerFriend import HealerFriend
+# from Modules.LoadConfig import LoadConfig
+# from Modules.Modules import Modules
+# from Modules.Monsters import Monsters
+# from Modules.PythonScripts import PythonScripts
+# from Modules.SaveConfig import SaveConfig
+# from Modules.SortLoot import SortLoot
+# from Modules.TimedSpells import TimedSpells
 
 
 SETTED_VARIABLES = False
 MOUSE_OPTION = None
-HOOK_OPTION = None
 
 ItemsSquare = 32
 
@@ -112,13 +111,6 @@ class root:
                     print("Your Mouse Option Is: Send Events To Client")
                 else:
                     print("Your Mouse Option Is: Movement Mouse")
-
-                global HOOK_OPTION
-                HOOK_OPTION = data['HookOption']
-                if HOOK_OPTION == 0:
-                    print("Your Hook Option Is: Grab Window Screen")
-                else:
-                    print("Your Hook Option Is: Hook Directly OBS")
 
                 if data['Positions']['LifePosition'][0]['Stats']:
                     HealthLocation[0] = data['Positions']['LifePosition'][0]['x']
@@ -200,7 +192,7 @@ def OpenAmmoRestack():
 
 def OpenAutoAttack():
     print("ShowMap In Development...")
-    # AutoAttack(root, SQMs, BattlePositions)
+    # AutoAttack(SQMs, BattlePositions)
 
 
 def OpenAutoBanker():
@@ -219,11 +211,11 @@ def OpenAutoGrouping():
 
 
 def OpenAutoHeal():
-    AutoHeal(root, HealthLocation, MOUSE_OPTION, HOOK_OPTION)
+    AutoHeal(HealthLocation, MOUSE_OPTION)
 
 
 def OpenAutoHur():
-    AutoHur(root, StatsPositions, MOUSE_OPTION, HOOK_OPTION)
+    AutoHur(StatsPositions, MOUSE_OPTION)
 
 
 def OpenAutoLogin():
@@ -233,15 +225,15 @@ def OpenAutoLogin():
 
 def OpenAutoLooter():
     print("AutoLooter In Development...")
-    # AutoLooter(root, Player, SQMs)
+    # AutoLooter(Player, SQMs)
 
 
 def OpenAutoMana():
-    AutoMana(root, ManaLocation, MOUSE_OPTION, HOOK_OPTION)
+    AutoMana(ManaLocation, MOUSE_OPTION)
 
 
 def OpenAutoRing():
-    AutoRing(root, RingPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION)
+    AutoRing(root, RingPositions, HealthLocation, MOUSE_OPTION)
 
 
 def OpenAutoSeller():
@@ -250,16 +242,16 @@ def OpenAutoSeller():
 
 
 def OpenAutoSSA():
-    AutoSSA(root, AmuletPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION)
+    AutoSSA(root, AmuletPositions, HealthLocation, MOUSE_OPTION)
 
 
 def OpenCaveBot():
-    CaveBot(root, MapPositions, BattlePositions, SQMs, MOUSE_OPTION, HOOK_OPTION)
+    CaveBot(MapPositions, BattlePositions, SQMs, MOUSE_OPTION)
 
 
 def OpenColorChange():
     print("ColorChange In Development...")
-    # ColorChange(root, Player)
+    # ColorChange(Player)
 
 
 def OpenCreatureInfo():

@@ -1,29 +1,25 @@
 import time
 import threading
 
-from Engine.GUI import *
-from Engine.ScanStages import ScanStages
-from Engine.SetGUI import SetGUI
 from Conf.Hotkeys import Hotkey
+from Conf.Constants import GUIChanges, ManaColor, ManaColorFull, Percentage
 
-GUIChanges = []
+from Engine.GUI import *
+from Engine.GUIManager import *
+from Engine.GUISetter import GUISetter
+
+from Engine.ScanStages import ScanStages
 
 EnabledAutoMana = False
 
-manaColorFull = [45, 45, 105]
-
-manaColor = [83, 80, 218]
-
-percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
-
 
 class AutoMana:
-    def __init__(self, root, ManaLocation, MOUSE_OPTION, HOOK_OPTION):
+    def __init__(self, ManaLocation, MOUSE_OPTION):
         self.AutoMana = GUI('AutoMana', 'Module: Auto Mana')
         self.AutoMana.DefaultWindow('AutoMana', [306, 272], [1.2, 2.29])
-        self.Setter = SetGUI("ManaLoader")
+        self.Setter = GUISetter("ManaLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
-        self.Scan = ScanStages('Mana', HOOK_OPTION)
+        self.Scan = ScanStages('Mana')
 
         def SetAutoMana():
             global EnabledAutoMana
@@ -46,7 +42,7 @@ class AutoMana:
         def ScanAutoMana():
             while EnabledAutoMana:
                 try:
-                    mana = self.Scan.ScanStages(ManaLocation, manaColor, manaColorFull)
+                    mana = self.Scan.ScanStages(ManaLocation, ManaColor, ManaColorFull)
                 except Exception:
                     mana = 100
                     pass
@@ -70,37 +66,17 @@ class AutoMana:
                     print("Modulo Not Configured")
                     time.sleep(1)
 
-        VarCheckPrint = tk.BooleanVar()
-        InitiatedCheckPrint = self.Setter.GetBoolVar("CheckPrint")
-        VarCheckPrint.set(InitiatedCheckPrint)
+        VarCheckPrint, InitiatedCheckPrint = self.Setter.Variables.Bool('CheckPrint')
+        VarCheckBuff, InitiatedCheckBuff = self.Setter.Variables.Bool('CheckBuff')
 
-        VarCheckBuff = tk.BooleanVar()
-        InitiatedCheckBuff = self.Setter.GetBoolVar("CheckBuff")
-        VarCheckBuff.set(InitiatedCheckBuff)
+        VarCheckStageOne, InitiatedCheckStageOne = self.Setter.Variables.Bool('CheckStageOne')
+        VarCheckStageTwo, InitiatedCheckStageTwo = self.Setter.Variables.Bool('CheckStageTwo')
 
-        VarCheckStageOne = tk.BooleanVar()
-        InitiatedCheckStageOne = self.Setter.GetBoolVar("CheckStageOne")
-        VarCheckStageOne.set(InitiatedCheckStageOne)
+        VarPercentageStageOne, InitiatedPercentageStageOne = self.Setter.Variables.Int('PercentageStageOne')
+        VarHotkeyStageOne, InitiatedHotkeyStageOne = self.Setter.Variables.Str('HotkeyStageOne')
 
-        VarCheckStageTwo = tk.BooleanVar()
-        InitiatedCheckStageTwo = self.Setter.GetBoolVar("CheckStageTwo")
-        VarCheckStageTwo.set(InitiatedCheckStageTwo)
-
-        VarPercentageStageOne = tk.IntVar()
-        InitiatedPercentageStageOne = self.Setter.GetVar("PercentageStageOne")
-        VarPercentageStageOne.set(InitiatedPercentageStageOne)
-
-        VarHotkeyStageOne = tk.StringVar()
-        InitiatedHotkeyStageOne = self.Setter.GetVar("HotkeyStageOne")
-        VarHotkeyStageOne.set(InitiatedHotkeyStageOne)
-
-        VarPercentageStageTwo = tk.IntVar()
-        InitiatedPercentageStageTwo = self.Setter.GetVar("PercentageStageTwo")
-        VarPercentageStageTwo.set(InitiatedPercentageStageTwo)
-
-        VarHotkeyStageTwo = tk.StringVar()
-        InitiatedHotkeyStageTwo = self.Setter.GetVar("HotkeyStageTwo")
-        VarHotkeyStageTwo.set(InitiatedHotkeyStageTwo)
+        VarPercentageStageTwo, InitiatedPercentageStageTwo = self.Setter.Variables.Int('PercentageStageTwo')
+        VarHotkeyStageTwo, InitiatedHotkeyStageTwo = self.Setter.Variables.Str('HotkeyStageTwo')
 
         def CheckingGUI(Init, Get, Name):
             if Get != Init:
@@ -118,7 +94,7 @@ class AutoMana:
 
             if len(GUIChanges) != 0:
                 for EachChange in range(len(GUIChanges)):
-                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+                    self.Setter.SetVariables.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
 
             self.AutoMana.destroyWindow()
 
@@ -144,38 +120,38 @@ class AutoMana:
         StageOne = self.AutoMana.addCheck(VarCheckStageOne, [17, 55], InitiatedCheckStageOne, "Enable Stage One")
         StageTwo = self.AutoMana.addCheck(VarCheckStageTwo, [17, 105], InitiatedCheckStageTwo, "Enable Stage Two")
 
-        PercentageStageOne = self.AutoMana.addOption(VarPercentageStageOne, percentage, [148, 54])
+        PercentageStageOne = self.AutoMana.addOption(VarPercentageStageOne, Percentage, [148, 54])
         HotkeyStageOne = self.AutoMana.addOption(VarHotkeyStageOne, self.SendToClient.Hotkeys, [223, 54])
 
-        PercentageStageTwo = self.AutoMana.addOption(VarPercentageStageTwo, percentage, [148, 104])
+        PercentageStageTwo = self.AutoMana.addOption(VarPercentageStageTwo, Percentage, [148, 104])
         HotkeyStageTwo = self.AutoMana.addOption(VarHotkeyStageTwo, self.SendToClient.Hotkeys, [223, 104])
 
         def CheckingButtons():
             if EnabledAutoMana:
-                CheckPrint.configure(state='disabled')
-                CheckBuff.configure(state='disabled')
-                StageOne.configure(state='disabled')
-                StageTwo.configure(state='disabled')
-                PercentageStageOne.configure(state='disabled')
-                HotkeyStageOne.configure(state='disabled')
-                PercentageStageTwo.configure(state='disabled')
-                HotkeyStageTwo.configure(state='disabled')
-                LabelPercentage.configure(state='disabled')
-                LabelHotkey.configure(state='disabled')
+                Disable(CheckPrint)
+                Disable(CheckBuff)
+                Disable(StageOne)
+                Disable(StageTwo)
+                Disable(PercentageStageOne)
+                Disable(HotkeyStageOne)
+                Disable(PercentageStageTwo)
+                Disable(HotkeyStageTwo)
+                Disable(LabelPercentage)
+                Disable(LabelHotkey)
             else:
-                CheckPrint.configure(state='normal')
-                CheckBuff.configure(state='normal')
-                StageOne.configure(state='normal')
-                StageTwo.configure(state='normal')
-                PercentageStageOne.configure(state='normal')
-                HotkeyStageOne.configure(state='normal')
-                PercentageStageTwo.configure(state='normal')
-                HotkeyStageTwo.configure(state='normal')
-                LabelPercentage.configure(state='normal')
-                LabelHotkey.configure(state='normal')
+                Enable(CheckPrint)
+                Enable(CheckBuff)
+                Enable(StageOne)
+                Enable(StageTwo)
+                Enable(PercentageStageOne)
+                Enable(HotkeyStageOne)
+                Enable(PercentageStageTwo)
+                Enable(HotkeyStageTwo)
+                Enable(LabelPercentage)
+                Enable(LabelHotkey)
+            ExecGUITrigger()
 
         CheckingButtons()
 
         self.AutoMana.Protocol(Destroy)
         self.AutoMana.loop()
-

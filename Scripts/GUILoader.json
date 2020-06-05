@@ -3,9 +3,9 @@
         "HealthLoader": {
             "CheckPrint": false,
             "CheckBuff": false,
-            "CheckStageOne": false,
-            "CheckStageTwo": false,
-            "CheckStageThree": false,
+            "CheckStageOne": true,
+            "CheckStageTwo": true,
+            "CheckStageThree": true,
             "CheckCureStats": false,
             "CheckParalyze": false,
             "CheckPoison": false,
@@ -16,25 +16,30 @@
             "PercentageStageOne": 90,
             "HotkeyStageOne": "F1",
             "PercentageStageTwo": 75,
-            "HotkeyStageTwo": "F2",
-            "PercentageStageThree": 50,
-            "HotkeyStageThree": "F12"
+            "HotkeyStageTwo": "Ctrl + F1",
+            "PercentageStageThree": 55,
+            "HotkeyStageThree": "F2"
         },
         "ManaLoader": {
             "CheckPrint": false,
             "CheckBuff": false,
-            "CheckStageOne": false,
-            "CheckStageTwo": false,
-            "PercentageStageOne": 60,
+            "CheckStageOne": true,
+            "CheckStageTwo": true,
+            "PercentageStageOne": 70,
             "HotkeyStageOne": "F3",
             "PercentageStageTwo": 45,
-            "HotkeyStageTwo": "F4"
+            "HotkeyStageTwo": "Ctrl + F1",
+            "CheckLowMana": false,
+            "CheckStageThree": true,
+            "PercentageStageThree": 55,
+            "HotkeyStageThree": "F2"
         },
         "HurLoader": {
             "CheckPrint": false,
             "CheckBuff": false,
             "HotkeyHur": "F6",
-            "CheckLowMana": false
+            "CheckLowMana": false,
+            "CheckStageOne": true
         },
         "AmuletLoader": {
             "CheckPrint": false,
@@ -45,7 +50,8 @@
             "TextEntryX": "0",
             "TextEntryY": "0",
             "LifeBellowThan": false,
-            "BellowThan": 30
+            "BellowThan": 30,
+            "CheckStageOne": true
         },
         "RingLoader": {
             "CheckPrint": false,
@@ -56,7 +62,8 @@
             "TextEntryX": "0",
             "TextEntryY": "0",
             "LifeBellowThan": false,
-            "BellowThan": 30
+            "BellowThan": 30,
+            "CheckStageOne": true
         },
         "CaveBotLoader": {
             "Debugging": false,
@@ -66,7 +73,7 @@
             "PriorityTwo": 2,
             "PriorityThree": 3,
             "PriorityFour": 4,
-            "SelectedMonster": "Rotworm",
+            "SelectedMonster": "Rat",
             "SelectedMonster2": "CaveRat",
             "SelectedMonster3": "Orc",
             "SelectedMonster4": "OrcWarrior",
@@ -90,12 +97,13 @@
             "ResearchMap": true,
             "MarkValue": 1,
             "TypeValue": 1,
-            "EnableWalking": false,
-            "Script": "ratThais",
+            "EnableWalking": true,
+            "Script": "StonerefinerVenore",
             "DropItems": true,
             "LoadAutoSeller": true,
             "LoadAutoBanker": true,
             "LoadSortLoot": true,
+            "WalkForDebug": true,
             "CapBelowThan": "150"
         }
     }

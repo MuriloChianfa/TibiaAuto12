@@ -1,42 +1,52 @@
 [
     {
         "mark": "CheckMark",
+        "type": 1,
         "status": true
     },
     {
         "mark": "QuestionMark",
+        "type": 1,
         "status": false
     },
     {
         "mark": "ExclimationMark",
+        "type": 1,
         "status": false
     },
     {
         "mark": "Star",
+        "type": 1,
         "status": false
     },
     {
         "mark": "Cross",
+        "type": 1,
         "status": false
     },
     {
         "mark": "Church",
+        "type": 1,
         "status": false
     },
     {
         "mark": "Mouth",
+        "type": 1,
         "status": false
     },
     {
         "mark": "Shovel",
+        "type": 1,
         "status": false
     },
     {
         "mark": "Sword",
+        "type": 1,
         "status": false
     },
     {
         "mark": "Flag",
+        "type": 1,
         "status": false
     }
 ]

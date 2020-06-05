@@ -1,36 +1,30 @@
 import time
-
 import keyboard
 import threading
 import pygetwindow
 
-from Engine.GUI import *
-from Engine.ScanAmulet import ScanAmulet, SearchForAmulet
-from Engine.SetGUI import SetGUI
 from Conf.Hotkeys import Hotkey
+from Conf.Constants import GUIChanges, LifeColor, LifeColorFull, Percentage, Amulets
 
-GUIChanges = []
+from Engine.GUI import *
+from Engine.GUIManager import *
+from Engine.GUISetter import GUISetter
+
+from Engine.ScanAmulet import ScanAmulet
 
 FoundedImg = False
 EnabledAutoSSA = False
 WaitingForClick = False
-Amulets = [
-    'SSA',
-    'PlatinumAmulet'
-]
 Amulet = 'SSA'
 AmuletLocate = [0, 0]
-percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
-lifeColorFull = [194, 74, 74]
-lifeColor = [219, 79, 79]
 MaxLen = 4
 
 
 class AutoSSA:
-    def __init__(self, root, AmuletPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION):
+    def __init__(self, root, AmuletPositions, HealthLocation, MOUSE_OPTION):
         self.AutoSSA = GUI('AutoSSA', 'Module: Auto SSA')
         self.AutoSSA.DefaultWindow('AutoAmulet', [306, 397], [1.2, 2.29])
-        self.Setter = SetGUI("AmuletLoader")
+        self.Setter = GUISetter("AmuletLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoAmulet():
@@ -60,38 +54,38 @@ class AutoSSA:
                 if EnabledAutoHeal:
                     while EnabledAutoSSA and EnabledAutoHeal:
                         try:
-                            NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, HOOK_OPTION)
+                            NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
                         except Exception:
                             NoHasAmulet = False
                             pass
 
-                        from Modules.AutoHeal import life
-                        if NoHasAmulet and life <= BellowThan:
+                        from Modules.AutoHeal import Life
+                        if NoHasAmulet and Life <= BellowThan:
                             Execute()
                 else:
                     from Engine.ScanStages import ScanStages
                     while EnabledAutoSSA:
                         try:
-                            life = ScanStages('Life From AutoAmulet', HOOK_OPTION).ScanStages(HealthLocation, lifeColor, lifeColorFull)
+                            Life = ScanStages('Life From AutoAmulet').ScanStages(HealthLocation, LifeColor, LifeColorFull)
                         except Exception:
-                            life = 100
+                            Life = 100
                             pass
 
-                        if life is None:
-                            life = 0
+                        if Life is None:
+                            Life = 0
 
                         try:
-                            NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, HOOK_OPTION)
+                            NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
                         except Exception:
                             NoHasAmulet = False
                             pass
 
-                        if NoHasAmulet and life < BellowThan:
+                        if NoHasAmulet and Life < BellowThan:
                             Execute()
             elif not CheckLifeBellowThan.get():
                 while EnabledAutoSSA:
                     try:
-                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, HOOK_OPTION)
+                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
                     except Exception:
                         NoHasAmulet = False
                         pass
@@ -215,41 +209,19 @@ class AutoSSA:
 
         WidthScreen, HeightScreen = pyautogui.size()
 
-        VarCheckPrint = tk.BooleanVar()
-        InitiatedCheckPrint = self.Setter.GetBoolVar("CheckPrint")
-        VarCheckPrint.set(InitiatedCheckPrint)
+        VarCheckPrint, InitiatedCheckPrint = self.Setter.Variables.Bool('CheckPrint')
+        VarCheckBuff, InitiatedCheckBuff = self.Setter.Variables.Bool('CheckBuff')
 
-        VarCheckBuff = tk.BooleanVar()
-        InitiatedCheckBuff = self.Setter.GetBoolVar("CheckBuff")
-        VarCheckBuff.set(InitiatedCheckPrint)
+        RadioButton, InitiatedRadioButton = self.Setter.Variables.Int('RadioButton')
 
-        RadioButton = tk.IntVar()
-        InitiatedRadioButton = self.Setter.GetVar("RadioButton")
-        RadioButton.set(InitiatedRadioButton)
+        NameAmulet, InitiatedNameAmulet = self.Setter.Variables.Str('NameAmulet')
+        HotkeyAmulet, InitiatedHotkeyAmulet = self.Setter.Variables.Str('HotkeyAmulet')
 
-        NameAmulet = tk.StringVar()
-        InitiatedNameAmulet = self.Setter.GetVar("NameAmulet")
-        NameAmulet.set(InitiatedNameAmulet)
+        TextEntryX, InitiatedTextEntryX = self.Setter.Variables.Str('TextEntryX')
+        TextEntryY, InitiatedTextEntryY = self.Setter.Variables.Str('TextEntryY')
 
-        HotkeyAmulet = tk.StringVar()
-        InitiatedHotkeyAmulet = self.Setter.GetVar("HotkeyAmulet")
-        HotkeyAmulet.set(InitiatedHotkeyAmulet)
-
-        TextEntryX = tk.StringVar()
-        InitiatedTextEntryX = self.Setter.GetVar("TextEntryX")
-        TextEntryX.set(InitiatedTextEntryX)
-
-        TextEntryY = tk.StringVar()
-        InitiatedTextEntryY = self.Setter.GetVar("TextEntryY")
-        TextEntryY.set(InitiatedTextEntryY)
-
-        CheckLifeBellowThan = tk.BooleanVar()
-        InitiatedLifeBellowThan = self.Setter.GetBoolVar("LifeBellowThan")
-        CheckLifeBellowThan.set(InitiatedLifeBellowThan)
-
-        LifeBellowThan = tk.IntVar()
-        InitiatedBellowThan = self.Setter.GetVar("BellowThan")
-        LifeBellowThan.set(InitiatedBellowThan)
+        CheckLifeBellowThan, InitiatedLifeBellowThan = self.Setter.Variables.Bool('LifeBellowThan')
+        LifeBellowThan, InitiatedBellowThan = self.Setter.Variables.Int('BellowThan')
 
         def CheckingGUI(Init, Get, Name):
             if Get != Init:
@@ -268,7 +240,7 @@ class AutoSSA:
 
             if len(GUIChanges) != 0:
                 for EachChange in range(len(GUIChanges)):
-                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+                    self.Setter.SetVariables.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
 
             self.AutoSSA.destroyWindow()
 
@@ -310,7 +282,7 @@ class AutoSSA:
         CheckBoxLifeBellowThan = self.AutoSSA.addCheck(CheckLifeBellowThan, [60, 210], InitiatedLifeBellowThan,
                                                        'Use Only If Life Is Bellow Than')
         LabelLifeBellowThan = self.AutoSSA.addLabel('Life <= ', [90, 245])
-        PercentageLifeBellowThan = self.AutoSSA.addOption(LifeBellowThan, percentage, [140, 240])
+        PercentageLifeBellowThan = self.AutoSSA.addOption(LifeBellowThan, Percentage, [140, 240])
 
         def Checking():
             global FoundedImg, Amulet
@@ -359,53 +331,55 @@ class AutoSSA:
 
         def CheckingButtons():
             if EnabledAutoSSA:
-                CheckPrint.configure(state='disabled')
-                CheckBuff.configure(state='disabled')
+                Disable(CheckPrint)
+                Disable(CheckBuff)
 
-                DescLabel.configure(state='disabled')
-                ImgLabel.configure(state='disabled')
-                ButtonRecapture.configure(state='disabled')
-                ButtonAddNewAmulet.configure(state='disabled')
+                Disable(DescLabel)
+                Disable(ImgLabel)
+                Disable(ButtonRecapture)
+                Disable(ButtonAddNewAmulet)
 
-                RButton1.configure(state='disabled')
-                RButton2.configure(state='disabled')
-                AmuletLabel.configure(state='disabled')
-                OptionNameAmulet.configure(state='disabled')
+                Disable(RButton1)
+                Disable(RButton2)
+                Disable(AmuletLabel)
+                Disable(OptionNameAmulet)
 
-                CheckBoxLifeBellowThan.configure(state='disabled')
-                LabelLifeBellowThan.configure(state='disabled')
-                PercentageLifeBellowThan.configure(state='disabled')
+                Disable(CheckBoxLifeBellowThan)
+                Disable(LabelLifeBellowThan)
+                Disable(PercentageLifeBellowThan)
             else:
-                CheckPrint.configure(state='normal')
-                CheckBuff.configure(state='normal')
+                Enable(CheckPrint)
+                Enable(CheckBuff)
 
-                DescLabel.configure(state='normal')
-                ImgLabel.configure(state='normal')
-                ButtonRecapture.configure(state='normal')
-                ButtonAddNewAmulet.configure(state='normal')
+                Enable(DescLabel)
+                Enable(ImgLabel)
+                Enable(ButtonRecapture)
+                Enable(ButtonAddNewAmulet)
 
-                RButton1.configure(state='normal')
-                RButton2.configure(state='normal')
-                AmuletLabel.configure(state='normal')
-                OptionNameAmulet.configure(state='normal')
+                Enable(RButton1)
+                Enable(RButton2)
+                Enable(AmuletLabel)
+                Enable(OptionNameAmulet)
 
-                CheckBoxLifeBellowThan.configure(state='normal')
+                Enable(CheckBoxLifeBellowThan)
 
                 if not CheckLifeBellowThan.get():
-                    LabelLifeBellowThan.configure(state='disabled')
-                    PercentageLifeBellowThan.configure(state='disabled')
+                    Disable(LabelLifeBellowThan)
+                    Disable(PercentageLifeBellowThan)
                 elif CheckLifeBellowThan.get():
-                    LabelLifeBellowThan.configure(state='normal')
-                    PercentageLifeBellowThan.configure(state='normal')
+                    Enable(LabelLifeBellowThan)
+                    Enable(PercentageLifeBellowThan)
+            ExecGUITrigger()
 
         def ConstantVerify():
             if not EnabledAutoSSA:
                 if not CheckLifeBellowThan.get():
-                    LabelLifeBellowThan.configure(state='disabled')
-                    PercentageLifeBellowThan.configure(state='disabled')
+                    Disable(LabelLifeBellowThan)
+                    Disable(PercentageLifeBellowThan)
                 elif CheckLifeBellowThan.get():
-                    LabelLifeBellowThan.configure(state='normal')
-                    PercentageLifeBellowThan.configure(state='normal')
+                    Enable(LabelLifeBellowThan)
+                    Enable(PercentageLifeBellowThan)
+                ExecGUITrigger()
 
             self.AutoSSA.After(1, ConstantVerify)
 

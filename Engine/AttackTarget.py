@@ -9,17 +9,17 @@ global monster
 Target = [0, 0]
 
 
-def AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK_OPTION):
+def AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION):
 
     SendToClient = Hotkey(MOUSE_OPTION)
 
-    Target[0], Target[1] = ScanTarget(BattlePosition, monster, HOOK_OPTION)
-    TargetNumber = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
+    Target[0], Target[1] = ScanTarget(BattlePosition, monster)
+    TargetNumber = NumberOfTargets(BattlePosition, monster)
     print("Number of " + monster + ": ", TargetNumber)
 
     if Target[0] != 0 and Target[1] != 0:
-        attacking = IsAttacking(BattlePosition, HOOK_OPTION, monster)
-        TargetNumber = int(NumberOfTargets(BattlePosition, monster, HOOK_OPTION))
+        attacking = IsAttacking(BattlePosition, monster)
+        TargetNumber = int(NumberOfTargets(BattlePosition, monster))
         if not attacking:
             print("Attacking a Target")
 
@@ -40,7 +40,7 @@ def AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION, HOOK
 
         else:
             print("You are attacking")
-            TargetNumber = NumberOfTargets(BattlePosition, monster, HOOK_OPTION)
+            TargetNumber = NumberOfTargets(BattlePosition, monster)
             if TargetNumber != 0:
                 return TargetNumber
             else:

@@ -1,36 +1,31 @@
 import time
-
 import keyboard
 import threading
 import pygetwindow
 
-from Engine.GUI import *
-from Engine.ScanRing import ScanRing, SearchForRing
-from Engine.SetGUI import SetGUI
 from Conf.Hotkeys import Hotkey
+from Conf.Constants import GUIChanges, LifeColor, LifeColorFull, Percentage, Rings
 
-GUIChanges = []
+from Engine.GUI import *
+from Engine.GUIManager import *
+from Engine.GUISetter import GUISetter
+
+from Engine.ScanRing import ScanRing
 
 FoundedImg = False
 EnabledAutoRing = False
 WaitingForClick = False
-Rings = [
-    'MightRing',
-    'EnergyRing'
-]
+
 Ring = 'MightRing'
 RingLocate = [0, 0]
-percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
-lifeColorFull = [194, 74, 74]
-lifeColor = [219, 79, 79]
 MaxLen = 4
 
 
 class AutoRing:
-    def __init__(self, root, RingPositions, HealthLocation, MOUSE_OPTION, HOOK_OPTION):
+    def __init__(self, root, RingPositions, HealthLocation, MOUSE_OPTION):
         self.AutoRing = GUI('AutoRing', 'Module: Auto Ring')
         self.AutoRing.DefaultWindow('AutoRing', [306, 397], [1.2, 2.29])
-        self.Setter = SetGUI("RingLoader")
+        self.Setter = GUISetter("RingLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoRing():
@@ -60,37 +55,37 @@ class AutoRing:
                 if EnabledAutoHeal:
                     while EnabledAutoRing and EnabledAutoHeal:
                         try:
-                            NoHasRing = ScanRing(RingPositions, HOOK_OPTION)
+                            NoHasRing = ScanRing(RingPositions)
                         except Exception:
                             NoHasRing = False
                             pass
 
-                        from Modules.AutoHeal import life
-                        if NoHasRing and life <= BellowThan:
+                        from Modules.AutoHeal import Life
+                        if NoHasRing and Life <= BellowThan:
                             Execute()
                 else:
                     from Engine.ScanStages import ScanStages
                     while EnabledAutoRing:
                         try:
-                            life = ScanStages('Life From AutoRing', HOOK_OPTION).ScanStages(HealthLocation, lifeColor, lifeColorFull)
+                            Life = ScanStages('Life From AutoRing').ScanStages(HealthLocation, LifeColor, LifeColorFull)
                         except Exception:
-                            life = 100
+                            Life = 100
                             pass
 
-                        if life is None:
-                            life = 0
+                        if Life is None:
+                            Life = 0
                         try:
-                            NoHasRing = ScanRing(RingPositions, HOOK_OPTION)
+                            NoHasRing = ScanRing(RingPositions)
                         except Exception:
                             NoHasRing = False
                             pass
 
-                        if NoHasRing and life < BellowThan:
+                        if NoHasRing and Life < BellowThan:
                             Execute()
             else:
                 while EnabledAutoRing:
                     try:
-                        NoHasRing = ScanRing(RingPositions, HOOK_OPTION)
+                        NoHasRing = ScanRing(RingPositions)
                     except Exception:
                         NoHasRing = False
                         pass
@@ -215,41 +210,19 @@ class AutoRing:
 
         WidthScreen, HeightScreen = pyautogui.size()
 
-        VarCheckPrint = tk.BooleanVar()
-        InitiatedCheckPrint = self.Setter.GetBoolVar("CheckPrint")
-        VarCheckPrint.set(InitiatedCheckPrint)
+        VarCheckPrint, InitiatedCheckPrint = self.Setter.Variables.Bool('CheckPrint')
+        VarCheckBuff, InitiatedCheckBuff = self.Setter.Variables.Bool('CheckBuff')
 
-        VarCheckBuff = tk.BooleanVar()
-        InitiatedCheckBuff = self.Setter.GetBoolVar("CheckBuff")
-        VarCheckBuff.set(InitiatedCheckPrint)
+        RadioButton, InitiatedRadioButton = self.Setter.Variables.Int('RadioButton')
 
-        RadioButton = tk.IntVar()
-        InitiatedRadioButton = self.Setter.GetVar("RadioButton")
-        RadioButton.set(InitiatedRadioButton)
+        NameRing, InitiatedNameRing = self.Setter.Variables.Str('NameRing')
+        HotkeyRing, InitiatedHotkeyRing = self.Setter.Variables.Str('HotkeyRing')
 
-        NameRing = tk.StringVar()
-        InitiatedNameRing = self.Setter.GetVar("NameRing")
-        NameRing.set(InitiatedNameRing)
+        TextEntryX, InitiatedTextEntryX = self.Setter.Variables.Str('TextEntryX')
+        TextEntryY, InitiatedTextEntryY = self.Setter.Variables.Str('TextEntryY')
 
-        HotkeyRing = tk.StringVar()
-        InitiatedHotkeyRing = self.Setter.GetVar("HotkeyRing")
-        HotkeyRing.set(InitiatedHotkeyRing)
-
-        TextEntryX = tk.StringVar()
-        InitiatedTextEntryX = self.Setter.GetVar("TextEntryX")
-        TextEntryX.set(InitiatedTextEntryX)
-
-        TextEntryY = tk.StringVar()
-        InitiatedTextEntryY = self.Setter.GetVar("TextEntryY")
-        TextEntryY.set(InitiatedTextEntryY)
-
-        CheckLifeBellowThan = tk.BooleanVar()
-        InitiatedLifeBellowThan = self.Setter.GetBoolVar("LifeBellowThan")
-        CheckLifeBellowThan.set(InitiatedLifeBellowThan)
-
-        LifeBellowThan = tk.IntVar()
-        InitiatedBellowThan = self.Setter.GetVar("BellowThan")
-        LifeBellowThan.set(InitiatedBellowThan)
+        CheckLifeBellowThan, InitiatedLifeBellowThan = self.Setter.Variables.Bool('LifeBellowThan')
+        LifeBellowThan, InitiatedBellowThan = self.Setter.Variables.Int('BellowThan')
 
         def CheckingGUI(Init, Get, Name):
             if Get != Init:
@@ -268,7 +241,7 @@ class AutoRing:
 
             if len(GUIChanges) != 0:
                 for EachChange in range(len(GUIChanges)):
-                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+                    self.Setter.SetVariables.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
 
             self.AutoRing.destroyWindow()
 
@@ -310,7 +283,7 @@ class AutoRing:
         CheckBoxLifeBellowThan = self.AutoRing.addCheck(CheckLifeBellowThan, [60, 210], InitiatedLifeBellowThan,
                                                         'Use Only If Life Is Bellow Than')
         LabelLifeBellowThan = self.AutoRing.addLabel('Life <= ', [90, 245])
-        PercentageLifeBellowThan = self.AutoRing.addOption(LifeBellowThan, percentage, [140, 240])
+        PercentageLifeBellowThan = self.AutoRing.addOption(LifeBellowThan, Percentage, [140, 240])
 
         def Checking():
             global FoundedImg, Ring
@@ -320,9 +293,9 @@ class AutoRing:
                 FoundedImg = False
                 HotkeyOption = self.AutoRing.addOption(HotkeyRing, self.SendToClient.Hotkeys, [145, 170], 10)
                 if EnabledAutoRing:
-                    HotkeyOption.configure(state='disabled')
+                    Disable(HotkeyOption)
                 else:
-                    HotkeyOption.configure(state='normal')
+                    Enable(HotkeyOption)
             elif RadioButton.get() == 1:
                 DescLabel.configure(text='Position To Search')
                 self.AutoRing.addImage(Back, [120, 165])
@@ -337,75 +310,78 @@ class AutoRing:
                 EntryY = self.AutoRing.addEntry([150, 185], TextEntryY, width=4)
                 TextEntryY.trace("w", ValidateEntryY)
                 if EnabledAutoRing:
-                    ButtonGetPosition.configure(state='disabled')
+                    Disable(ButtonGetPosition)
 
-                    LabelX.configure(state='disabled')
-                    EntryX.configure(state='disabled')
-                    LabelY.configure(state='disabled')
-                    EntryY.configure(state='disabled')
+                    Disable(LabelX)
+                    Disable(EntryX)
+                    Disable(LabelY)
+                    Disable(EntryY)
                 else:
-                    ButtonGetPosition.configure(state='normal')
+                    Enable(ButtonGetPosition)
 
-                    LabelX.configure(state='normal')
-                    EntryX.configure(state='normal')
-                    LabelY.configure(state='normal')
-                    EntryY.configure(state='normal')
+                    Enable(LabelX)
+                    Enable(EntryX)
+                    Enable(LabelY)
+                    Enable(EntryY)
             if not CheckLifeBellowThan.get():
-                LabelLifeBellowThan.configure(state='disabled')
-                PercentageLifeBellowThan.configure(state='disabled')
+                Disable(LabelLifeBellowThan)
+                Disable(PercentageLifeBellowThan)
             elif CheckLifeBellowThan.get():
-                LabelLifeBellowThan.configure(state='normal')
-                PercentageLifeBellowThan.configure(state='normal')
+                Enable(LabelLifeBellowThan)
+                Enable(PercentageLifeBellowThan)
+            ExecGUITrigger()
 
         def CheckingButtons():
             if EnabledAutoRing:
-                CheckPrint.configure(state='disabled')
-                CheckBuff.configure(state='disabled')
+                Disable(CheckPrint)
+                Disable(CheckBuff)
 
-                DescLabel.configure(state='disabled')
-                ImgLabel.configure(state='disabled')
-                ButtonRecapture.configure(state='disabled')
-                ButtonAddNewRing.configure(state='disabled')
+                Disable(DescLabel)
+                Disable(ImgLabel)
+                Disable(ButtonRecapture)
+                Disable(ButtonAddNewRing)
 
-                RButton1.configure(state='disabled')
-                RButton2.configure(state='disabled')
-                RingLabel.configure(state='disabled')
-                OptionNameRing.configure(state='disabled')
+                Disable(RButton1)
+                Disable(RButton2)
+                Disable(RingLabel)
+                Disable(OptionNameRing)
 
-                CheckBoxLifeBellowThan.configure(state='disabled')
-                LabelLifeBellowThan.configure(state='disabled')
-                PercentageLifeBellowThan.configure(state='disabled')
+                Disable(CheckBoxLifeBellowThan)
+                Disable(LabelLifeBellowThan)
+                Disable(PercentageLifeBellowThan)
             else:
-                CheckPrint.configure(state='normal')
-                CheckBuff.configure(state='normal')
+                Enable(CheckPrint)
+                Enable(CheckBuff)
 
-                DescLabel.configure(state='normal')
-                ImgLabel.configure(state='normal')
-                ButtonRecapture.configure(state='normal')
-                ButtonAddNewRing.configure(state='normal')
+                Enable(DescLabel)
+                Enable(ImgLabel)
+                Enable(ButtonRecapture)
+                Enable(ButtonAddNewRing)
 
-                RButton1.configure(state='normal')
-                RButton2.configure(state='normal')
-                RingLabel.configure(state='normal')
-                OptionNameRing.configure(state='normal')
+                Enable(RButton1)
+                Enable(RButton2)
+                Enable(RingLabel)
+                Enable(OptionNameRing)
 
-                CheckBoxLifeBellowThan.configure(state='normal')
+                Enable(CheckBoxLifeBellowThan)
 
                 if not CheckLifeBellowThan.get():
-                    LabelLifeBellowThan.configure(state='disabled')
-                    PercentageLifeBellowThan.configure(state='disabled')
+                    Disable(LabelLifeBellowThan)
+                    Disable(PercentageLifeBellowThan)
                 elif CheckLifeBellowThan.get():
-                    LabelLifeBellowThan.configure(state='normal')
-                    PercentageLifeBellowThan.configure(state='normal')
+                    Enable(LabelLifeBellowThan)
+                    Enable(PercentageLifeBellowThan)
+            ExecGUITrigger()
 
         def ConstantVerify():
             if not EnabledAutoRing:
                 if not CheckLifeBellowThan.get():
-                    LabelLifeBellowThan.configure(state='disabled')
-                    PercentageLifeBellowThan.configure(state='disabled')
+                    Disable(LabelLifeBellowThan)
+                    Disable(PercentageLifeBellowThan)
                 elif CheckLifeBellowThan.get():
-                    LabelLifeBellowThan.configure(state='normal')
-                    PercentageLifeBellowThan.configure(state='normal')
+                    Enable(LabelLifeBellowThan)
+                    Enable(PercentageLifeBellowThan)
+                ExecGUITrigger()
 
             self.AutoRing.After(1, ConstantVerify)
 
@@ -416,4 +392,3 @@ class AutoRing:
 
         self.AutoRing.Protocol(Destroy)
         self.AutoRing.loop()
-

@@ -1,21 +1,23 @@
 import time
 import threading
 
-from Engine.GUI import *
-from Engine.ScanHur import ScanHur
-from Engine.SetGUI import SetGUI
 from Conf.Hotkeys import Hotkey
+from Conf.Constants import GUIChanges
 
-GUIChanges = []
+from Engine.GUI import *
+from Engine.GUIManager import *
+from Engine.GUISetter import GUISetter
+
+from Engine.ScanHur import ScanHur
 
 EnabledAutoHur = False
 
 
 class AutoHur:
-    def __init__(self, root, StatsPositions, MOUSE_OPTION, HOOK_OPTION):
+    def __init__(self, StatsPositions, MOUSE_OPTION):
         self.AutoHur = GUI('AutoHur', 'Module: Auto Hur')
         self.AutoHur.DefaultWindow('AutoHur', [224, 258], [1.2, 2.29])
-        self.Setter = SetGUI("HurLoader")
+        self.Setter = GUISetter("HurLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
 
         def SetAutoHur():
@@ -39,36 +41,25 @@ class AutoHur:
         def ScanAutoHur():
             while EnabledAutoHur:
                 try:
-                    NeedHur = ScanHur(StatsPositions, HOOK_OPTION)
+                    NeedHur = ScanHur(StatsPositions)
                 except Exception:
                     NeedHur = False
                     pass
                 if NeedHur:
                     self.SendToClient.Press(VarHotkeyHur.get())
                     print("Hur Pressed ", VarHotkeyHur.get())
-                    time.sleep(.15)
-
-            # if EnabledAutoHur:
-            # root.after(500, ScanAutoHur)
+                    time.sleep(.3)
+                time.sleep(.3)
 
         def Recapture():
             print("recapture")
 
-        VarCheckPrint = tk.BooleanVar()
-        InitiatedCheckPrint = self.Setter.GetBoolVar("CheckPrint")
-        VarCheckPrint.set(InitiatedCheckPrint)
+        VarCheckPrint, InitiatedCheckPrint = self.Setter.Variables.Bool('CheckPrint')
+        VarCheckBuff, InitiatedCheckBuff = self.Setter.Variables.Bool('CheckBuff')
 
-        VarCheckBuff = tk.BooleanVar()
-        InitiatedCheckBuff = self.Setter.GetBoolVar("CheckBuff")
-        VarCheckBuff.set(InitiatedCheckBuff)
+        VarHotkeyHur, InitiatedHotkeyHur = self.Setter.Variables.Str('HotkeyHur')
 
-        VarHotkeyHur = tk.StringVar()
-        InitiatedHotkeyHur = self.Setter.GetVar("HotkeyHur")
-        VarHotkeyHur.set(InitiatedHotkeyHur)
-
-        CheckLowMana = tk.BooleanVar()
-        InitiatedCheckLowMana = self.Setter.GetBoolVar("CheckLowMana")
-        CheckLowMana.set(InitiatedCheckLowMana)
+        CheckLowMana, InitiatedCheckLowMana = self.Setter.Variables.Bool('CheckLowMana')
 
         def CheckingGUI(Init, Get, Name):
             if Get != Init:
@@ -82,7 +73,7 @@ class AutoHur:
 
             if len(GUIChanges) != 0:
                 for EachChange in range(len(GUIChanges)):
-                    self.Setter.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+                    self.Setter.SetVariables.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
 
             self.AutoHur.destroyWindow()
 
@@ -115,27 +106,28 @@ class AutoHur:
 
         def CheckingButtons():
             if EnabledAutoHur:
-                CheckPrint.configure(state='disabled')
-                CheckBuff.configure(state='disabled')
+                Disable(CheckPrint)
+                Disable(CheckBuff)
 
-                LabelImage.configure(state='disabled')
-                ImgLabel.configure(state='disabled')
+                Disable(LabelImage)
+                Disable(ImgLabel)
 
-                ButtonRecapture.configure(state='disabled')
-                CheckBoxLowMana.configure(state='disabled')
-                LabelHotkey.configure(state='disabled')
-                HotkeyHur.configure(state='disabled')
+                Disable(ButtonRecapture)
+                Disable(CheckBoxLowMana)
+                Disable(LabelHotkey)
+                Disable(HotkeyHur)
             else:
-                CheckPrint.configure(state='normal')
-                CheckBuff.configure(state='normal')
+                Enable(CheckPrint)
+                Enable(CheckBuff)
 
-                LabelImage.configure(state='normal')
-                ImgLabel.configure(state='normal')
+                Enable(LabelImage)
+                Enable(ImgLabel)
 
-                ButtonRecapture.configure(state='normal')
-                CheckBoxLowMana.configure(state='normal')
-                LabelHotkey.configure(state='normal')
-                HotkeyHur.configure(state='normal')
+                Enable(ButtonRecapture)
+                Enable(CheckBoxLowMana)
+                Enable(LabelHotkey)
+                Enable(HotkeyHur)
+            ExecGUITrigger()
 
         CheckingButtons()
 

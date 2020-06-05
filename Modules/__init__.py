@@ -71,8 +71,6 @@ def WindowSelectCharacter():
             print(Ex)
             exit(0)
 
-
-
     def Reconfigure():
         ScriptName = data['ScriptName']
 
@@ -91,9 +89,6 @@ def WindowSelectCharacter():
             time.sleep(.4)
             from Main import main
             main()
-
-            # print("Please, Restart Me")
-            # exiting()
 
     def ReadyToConfig():
         global data

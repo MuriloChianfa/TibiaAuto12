@@ -317,10 +317,6 @@ class ChooseConfig:
                 with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
 
-                data['HookOption'] = HookMode.get()
-                with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
-                    json.dump(data, wJson, indent=4)
-
                 if CheckAuto.get():
                     with open('Scripts/Loads.json', 'r') as LoaderJson:
                         data2 = json.load(LoaderJson)
@@ -366,10 +362,6 @@ class ChooseConfig:
 
         self.ChooseConfig.addLabel('Name Of The Json Conf', [24, 35])
 
-        # RadioLoadAuto = self.ChooseConfig.addCheck(CheckAuto, [10, 114], 1, 'Load automatically This Script')
-        # RadioLoadAuto.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114,
-        # 94, 48)))
-
         LabelSelectOP1 = self.ChooseConfig.addLabel('Select Your Mouse And Keyboard Option', [30, 76])
         LabelSelectOP1.configure(bg=rgb((114, 94, 48)), fg='black')
 
@@ -386,10 +378,6 @@ class ChooseConfig:
 
         RadioHookWindow = self.ChooseConfig.addRadio("{Global} Hook Directly OBS Screen", HookMode, 1, [10, 155])
         RadioHookWindow.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
-                                  selectcolor=rgb((114, 94, 48)))
-        RadioGrabScreen = self.ChooseConfig.addRadio('Grab Screen', HookMode, 0,
-                                                     [10, 174])
-        RadioGrabScreen.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                   selectcolor=rgb((114, 94, 48)))
 
         self.ChooseConfig.loop()
