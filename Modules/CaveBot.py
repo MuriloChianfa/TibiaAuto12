@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import shutil
 import threading
 
 from Conf.MarksConf import *
@@ -15,6 +16,7 @@ from Engine.EngineCaveBot import EngineCaveBot
 GUIChanges = []
 
 EnabledCaveBot = False
+LoadedScript = False
 
 
 class CaveBot:
@@ -94,45 +96,157 @@ class CaveBot:
                 ButtonResearchMap.configure(relief=RAISED, bg=rgb((127, 17, 8)))
 
         def RemoveWalker():
-            print('Clicked On Remove Waypoint: XXXXX')
+            global LoadedScript
+            if not LoadedScript:
+                LoadScript()
+
+            GetScript = Script.get()
+
+            with open('Scripts/' + GetScript + '.json', 'r') as MarksJson:
+                DataMark = json.load(MarksJson)
+
+            MarkedMark = 99999
+
+            for k in range(len(DataMark)):
+                if DataMark[k]['status']:
+                    DataMark[k]['status'] = False
+                    del DataMark[k]
+                    with open('Scripts/' + GetScript + '.json', 'w') as wJson:
+                        json.dump(DataMark, wJson, indent=4)
+                    MarkedMark = k
+                    break
+
+            if MarkedMark != 99999:
+                with open('Scripts/' + GetScript + '.json', 'r') as MarksJson:
+                    DataMark = json.load(MarksJson)
+                if MarkedMark - 1 >= len(DataMark):
+                    DataMark[-1]['status'] = True
+                else:
+                    DataMark[MarkedMark - 1]['status'] = True
+                with open('Scripts/' + GetScript + '.json', 'w') as wJson:
+                    json.dump(DataMark, wJson, indent=4)
+            LoadScript()
 
         def AddWalker():
+            global LoadedScript
+            if not LoadedScript:
+                LoadScript()
+                time.sleep(.1)
+
             MarkToAdd = MarkEncoder.get(RadioMarkValue.get())
             TypeToAdd = RadioTypeValue.get()
-            print('Clicked On Add Waypoint:', MarkToAdd, "With Type:", TypeToAdd)
+
             with open('Scripts/' + Script.get() + '.json', 'r') as MarksJson:
                 DataMark = json.load(MarksJson)
 
-            print(MarkToAdd)
-            print(TypeToAdd)
+            MarkedMark = 99999
 
-            # DataMark[-1].append({"mark": MarkToAdd, "type": TypeToAdd, "status": False})
+            print(len(DataMark))
+
+            if DataMark[0]['status'] == "NotConfigured":
+                DataMark.insert(0, {"mark": MarkToAdd, "type": TypeToAdd, "status": True})
+                del DataMark[1]
+                with open('Scripts/' + Script.get() + '.json', 'w') as wJson:
+                    json.dump(DataMark, wJson, indent=4)
+
+                LoadCurrent(DataMark, 0)
+            else:
+                for j in range(len(DataMark)):
+                    if DataMark[j]['status']:
+
+                        DataMark.insert(j + 1, {"mark": MarkToAdd, "type": TypeToAdd, "status": False})
+                        with open('Scripts/' + Script.get() + '.json', 'w') as wJson:
+                            json.dump(DataMark, wJson, indent=4)
+                        DataMark[j]['status'] = False
+                        MarkedMark = j
+
+                if MarkedMark != 99999:
+                    if MarkedMark + 1 >= len(DataMark):
+                        DataMark[0]['status'] = True
+                    else:
+                        DataMark[MarkedMark + 1]['status'] = True
+                    with open('Scripts/' + Script.get() + '.json', 'w') as wJson:
+                        json.dump(DataMark, wJson, indent=4)
+
+                LoadScript()
+
+                print("\n" + MarkToAdd, "Added With Type:", TypeDecoder.get(TypeToAdd), "On Index Position:", MarkedMark + 2,
+                      "Of Your Script")
+
+        def LoadPrevious(DataMark, index):
+            if DataMark[index] == DataMark[0]:
+                PreviousMarkData = DataMark[-1]['mark']
+            else:
+                PreviousMarkData = DataMark[index - 1]['mark']
+            PreviousWaypoint.configure(text=PreviousMarkData)
+
+            PreviousImage.configure(image=ImageMarks[MarkDecoder.get(PreviousMarkData) - 1])
+
+            if DataMark[index] == DataMark[0]:
+                PreviousTypeData = DataMark[-1]['type']
+            else:
+                PreviousTypeData = DataMark[index - 1]['type']
+            PreviousType.configure(text=TypeDecoder.get(PreviousTypeData))
+
+        def LoadCurrent(DataMark, index):
+            CurrentMarkData = DataMark[index]['mark']
+            CurrentWaypoint.configure(text=CurrentMarkData)
+            CurrentImage.configure(image=ImageMarks[MarkDecoder.get(CurrentMarkData) - 1])
+            CurrentType.configure(text=TypeDecoder.get(DataMark[index]['type']))
+
+        def LoadNext(DataMark, index):
+            if DataMark[index] == DataMark[-1]:
+                NextMarkData = DataMark[0]['mark']
+            else:
+                NextMarkData = DataMark[index + 1]['mark']
+            NextWaypoint.configure(text=NextMarkData)
+
+            NextImage.configure(image=ImageMarks[MarkDecoder.get(NextMarkData) - 1])
+
+            if DataMark[index] == DataMark[-1]:
+                NextTypeData = DataMark[0]['type']
+            else:
+                NextTypeData = DataMark[index + 1]['type']
+            NextType.configure(text=TypeDecoder.get(NextTypeData))
 
         def LoadScript():
             GetScript = Script.get()
-            print("\nLoading Script:", GetScript + ".json")
+
             if os.path.isfile('Scripts/' + GetScript + '.json'):
-                print(f"\nThe File {GetScript}.json Exist... Loading Them")
                 with open('Scripts/' + GetScript + '.json', 'r') as MarksJson:
                     DataMark = json.load(MarksJson)
+
+                if DataMark[0]['status'] == "NotConfigured":
+                    pass
+                else:
                     for j in range(len(DataMark)):
                         if DataMark[j]['status']:
-                            PreviousMarkData = DataMark[j - 1]['mark']
-                            PreviousWaypoint.configure(text=PreviousMarkData)
-                            PreviousImage.configure(image=ImageMarks[MarkDecoder.get(PreviousMarkData)])
-                            PreviousType.configure(text=TypeDecoder.get(DataMark[j - 1]['type']))
+                            LoadPrevious(DataMark, j)
+                            LoadCurrent(DataMark, j)
+                            LoadNext(DataMark, j)
 
-                            CurrentMarkData = DataMark[j]['mark']
-                            CurrentWaypoint.configure(text=CurrentMarkData)
-                            CurrentImage.configure(image=ImageMarks[MarkDecoder.get(CurrentMarkData)])
-                            CurrentType.configure(text=TypeDecoder.get(DataMark[j]['type']))
-
-                            NextMarkData = DataMark[j + 1]['mark']
-                            NextWaypoint.configure(text=NextMarkData)
-                            NextImage.configure(image=ImageMarks[MarkDecoder.get(NextMarkData)])
-                            NextType.configure(text=TypeDecoder.get(DataMark[j + 1]['type']))
+                            global LoadedScript
+                            LoadedScript = True
             else:
-                print(f"\nThe File {GetScript}.json Not Exist... Please Enter With a Valid Script Name")
+                # print(f"\nThe File {GetScript}.json Not Exist... Please Enter With a Valid Script Name")
+                Directory = os.getcwd()
+
+                shutil.copyfile(Directory + '\\Scripts' + '\\DefaultWalk.json',
+                                os.path.join(Directory + '\\Scripts' + '\\' + Script.get() + '.json'))
+
+                print("Script", Script.get() + ".json Created")
+
+                PreviousWaypoint.configure(text="")
+                PreviousImage.configure(image=Back)
+                PreviousType.configure(text="")
+
+                CurrentWaypoint.configure(text="")
+                CurrentImage.configure(image=Back)
+                CurrentType.configure(text="")
+
+                NextWaypoint.configure(text="")
+                NextImage.configure(image=Back)
+                NextType.configure(text="")
 
         def SaveScript():
             print("clicked on savescript")
@@ -145,13 +259,63 @@ class CaveBot:
             if os.path.isfile('Scripts/' + GetScript + '.json'):
                 with open('Scripts/' + GetScript + '.json', 'r') as MarksJson:
                     DataMark = json.load(MarksJson)
-                    for j in range(len(DataMark)):
-                        if DataMark[j]['status']:
-                            DataMark[j]['status'] = False
-                    DataMark[0]['status'] = True
+
+                for j in range(len(DataMark)):
+                    if DataMark[j]['status']:
+                        DataMark[j]['status'] = False
+                DataMark[0]['status'] = True
+                with open('Scripts/' + GetScript + '.json', 'w') as wJson:
+                    json.dump(DataMark, wJson, indent=4)
+                print(f"{GetScript}.json Reseted !!")
+
+                global LoadedScript
+                LoadedScript = False
+                LoadScript()
+
+        def SelectNextWaypoint():
+            global LoadedScript
+            if LoadedScript:
+                GetScript = Script.get()
+                with open('Scripts/' + GetScript + '.json', 'r') as MarksJson:
+                    DataMark = json.load(MarksJson)
+                MarkedMark = 99999
+                for j in range(len(DataMark)):
+                    if DataMark[j]['status']:
+                        DataMark[j]['status'] = False
+                        MarkedMark = j
+                if MarkedMark != 99999:
+                    if MarkedMark + 1 >= len(DataMark):
+                        DataMark[0]['status'] = True
+                    else:
+                        DataMark[MarkedMark + 1]['status'] = True
                     with open('Scripts/' + GetScript + '.json', 'w') as wJson:
                         json.dump(DataMark, wJson, indent=4)
-                    print(f"{GetScript}.json Reseted !!")
+                LoadScript()
+            else:
+                print("Please Load Your Script First...")
+
+        def SelectPreviousWaypoint():
+            global LoadedScript
+            if LoadedScript:
+                GetScript = Script.get()
+                with open('Scripts/' + GetScript + '.json', 'r') as MarksJson:
+                    DataMark = json.load(MarksJson)
+                MarkedMark = 99999
+                for j in range(len(DataMark)):
+                    if DataMark[j]['status']:
+                        DataMark[j]['status'] = False
+                        MarkedMark = j
+                if MarkedMark != 99999:
+                    if MarkedMark - 1 >= len(DataMark):
+                        DataMark[-1]['status'] = True
+                    else:
+                        DataMark[MarkedMark - 1]['status'] = True
+                    with open('Scripts/' + GetScript + '.json', 'w') as wJson:
+                        json.dump(DataMark, wJson, indent=4)
+                LoadScript()
+            else:
+                print("Please Load Your Script First...")
+
         # endregion
 
         def ValidateSuspendAfter(*args):
@@ -279,6 +443,9 @@ class CaveBot:
         # endregion
 
         # region Variables Walker
+
+        BackImage = 'images/Fundo.png'
+        Back = self.CaveBot.openImage(BackImage, [20, 20])
 
         RadioCavebotMode, InitiatedCavebotMode = self.Setter.Variables.Int('CavebotMode')
 
@@ -425,8 +592,11 @@ class CaveBot:
         CurrentType = self.CaveBot.addLabel("", [612, 480])
         NextType = self.CaveBot.addLabel("", [752, 480])
 
+        ButtonPreviousWaypoint = self.CaveBot.addButton('<<<', SelectPreviousWaypoint, [30, 21], [430, 456])
+        ButtonNextWaypoint = self.CaveBot.addButton('>>>', SelectNextWaypoint, [30, 21], [786, 456])
+
         CheckboxWalkForDebug = self.CaveBot.addCheck(CheckWalkForDebug, [431, 497], InitiatedWalkForDebug,
-                              "Enable Walk For Refresh Map (RECOMMENDED)")
+                                                     "Enable Walk For Refresh Map (RECOMMENDED)")
 
         self.CaveBot.addLabel('Stand Still After Reaching Waypoint Per:', [431, 520])
 
@@ -538,6 +708,8 @@ class CaveBot:
 
                 Disable(EntryStand)
                 Disable(CheckboxWalkForDebug)
+                Disable(ButtonPreviousWaypoint)
+                Disable(ButtonNextWaypoint)
             else:
                 Enable(CheckboxDebugging)
                 Enable(CheckboxDebugging)
@@ -587,6 +759,8 @@ class CaveBot:
                 Enable(EntryMonstersRange)
 
                 Enable(CheckboxDropItems)
+                Enable(ButtonPreviousWaypoint)
+                Enable(ButtonNextWaypoint)
                 if CheckDropItems.get():
                     Disable(LabelGoDepot)
                     Disable(EntryCapBelowThan)
@@ -783,13 +957,15 @@ class CaveBot:
                     Enable(RadioRope)
                     Enable(RadioShovel)
                     Enable(CheckboxWalkForDebug)
-
                 ExecGUITrigger()
 
             self.CaveBot.After(200, ConstantVerify)
 
         CheckingButtons()
         ConstantVerify()
+
+        if os.path.isfile('Scripts/' + Script.get() + '.json'):
+            LoadScript()
 
         self.CaveBot.Protocol(Destroy)
         self.CaveBot.loop()

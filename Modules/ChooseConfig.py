@@ -6,31 +6,15 @@ import pygetwindow
 
 from Engine.GUI import *
 
-from Core.GetPlayerPosition import GetPlayerPosition
-from Core.GetManaPosition import GetManaPosition
-from Core.GetHealthPosition import GetHealthPosition
-from Core.GetMapPosition import GetMapPosition
-from Core.GetBattlePosition import GetBattlePosition
-from Core.GetStatsPosition import GetStatsPosition
+from Core.Getters import *
 
-from Conf.SetSQMsPositions import SetSQMs
 from Modules.Root import root
 
 
 ItemsSquare = 32
 
-mark = [0, 0]
-Player = [0, 0]
-Target = [0, 0]
-gameWindow = [0, 0, 0, 0]
-ManaLocation = [0, 0]
-MapPositions = [0, 0, 0, 0]
 RingPositions = [0, 0, 0, 0]
-StatsPositions = [0, 0, 0, 0]
-HealthLocation = [0, 0]
-BattlePositions = [0, 0, 0, 0]
 AmuletPositions = [0, 0, 0, 0]
-SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
 class Errno(Exception):
@@ -55,7 +39,7 @@ class ChooseConfig:
 
                 if data['MouseOption'] != MouseMode.get():
                     data['MouseOption'] = MouseMode.get()
-                    with open('Scripts/' + 'Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
+                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
                 pyautogui.PAUSE = 0.005
@@ -82,20 +66,14 @@ class ChooseConfig:
 
                 time.sleep(.8)
 
-                with open('Scripts/' + ScriptToLoad + '.json', 'r') as LoadsJson:
-                    data = json.load(LoadsJson)
+                with open('Scripts/' + ScriptToLoad + '.json', 'r') as LoadedJson:
+                    data = json.load(LoadedJson)
 
                 time.sleep(.5)
                 time.sleep(.5)
-
-                if HookMode.get() == 1:
-                    print("Hooking OBS")
-                else:
-                    print("Grabing Screen")
 
                 try:
-                    HealthLocation[0], HealthLocation[1] = GetHealthPosition(HookMode.get())
-                    HealthLocation[0], HealthLocation[1] = int(HealthLocation[0]), int(HealthLocation[1])
+                    HealthLocation = GetHealthPosition()
                     print('')
                     print(f"Health Location [X: {HealthLocation[0]} Y: {HealthLocation[1]}]")
                     data['Positions']['LifePosition'][0]['x'] = HealthLocation[0]
@@ -110,8 +88,7 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    ManaLocation[0], ManaLocation[1] = GetManaPosition(HookMode.get())
-                    ManaLocation[0], ManaLocation[1] = int(ManaLocation[0]), int(ManaLocation[1])
+                    ManaLocation = GetManaPosition()
                     print('')
                     print(f"Mana Location [X: {ManaLocation[0]} Y: {ManaLocation[1]}]")
                     print('')
@@ -127,7 +104,7 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition(HookMode.get())
+                    BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition()
                     print(f"Battle Location [X: {BattlePositions[0]} Y: {BattlePositions[1]}]")
                     data['Positions']['BattlePosition'][0]['x'] = BattlePositions[0]
                     data['Positions']['BattlePosition'][0]['y'] = BattlePositions[1]
@@ -147,7 +124,7 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition(HookMode.get())
+                    StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition()
                     print('')
                     print(f"Status Bar Start [X: {StatsPositions[0]}, Y: {StatsPositions[1]}]")
                     print(f"Status Bar End [X: {StatsPositions[2]}, Y: {StatsPositions[3]}]")
@@ -209,7 +186,7 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition(HookMode.get())
+                    MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition()
                     time.sleep(.2)
                     data['Boxes']['MapBox'][0]['x'] = int(MapPositions[0])
                     data['Boxes']['MapBox'][0]['y'] = int(MapPositions[1])
@@ -225,22 +202,22 @@ class ChooseConfig:
                         json.dump(data, wJson, indent=4)
 
                 try:
-                    Player[0], Player[1], gameWindow[0], gameWindow[1], gameWindow[2], gameWindow[
-                        3] = GetPlayerPosition(HookMode.get())
+                    Player[0], Player[1], GameWindow[0], GameWindow[1], GameWindow[2], GameWindow[
+                        3] = GetPlayerPosition()
                     print('')
                     print(f"Player Position [X: {Player[0]}, Y: {Player[1]}]")
                     print('')
-                    print(f"Game Window Start [X: {gameWindow[0]}, Y: {gameWindow[1]}]")
-                    print(f"Game Window End [X: {gameWindow[2]}, Y: {gameWindow[3]}]")
+                    print(f"Game Window Start [X: {GameWindow[0]}, Y: {GameWindow[1]}]")
+                    print(f"Game Window End [X: {GameWindow[2]}, Y: {GameWindow[3]}]")
                     print('')
                     time.sleep(.2)
                     data['Positions']['PlayerPosition'][0]['x'] = Player[0]
                     data['Positions']['PlayerPosition'][0]['y'] = Player[1]
                     data['Positions']['PlayerPosition'][0]['Stats'] = True
-                    data['Boxes']['GameWindowBox'][0]['x'] = int(gameWindow[0])
-                    data['Boxes']['GameWindowBox'][0]['y'] = int(gameWindow[1])
-                    data['Boxes']['GameWindowBox'][0]['w'] = int(gameWindow[2])
-                    data['Boxes']['GameWindowBox'][0]['h'] = int(gameWindow[3])
+                    data['Boxes']['GameWindowBox'][0]['x'] = int(GameWindow[0])
+                    data['Boxes']['GameWindowBox'][0]['y'] = int(GameWindow[1])
+                    data['Boxes']['GameWindowBox'][0]['w'] = int(GameWindow[2])
+                    data['Boxes']['GameWindowBox'][0]['h'] = int(GameWindow[3])
                     data['Boxes']['GameWindowBox'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
@@ -254,7 +231,7 @@ class ChooseConfig:
 
                 try:
                     SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
-                        11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs(HookMode.get())
+                        11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs()
                     time.sleep(0.1)
                     print(f"1° SQM Location [X: {SQMs[0]}, Y: {SQMs[1]}]")
                     print(f"2° SQM Location [X: {SQMs[2]}, Y: {SQMs[3]}]")

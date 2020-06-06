@@ -93,7 +93,7 @@
             "Delay": "0",
             "Stand": "2",
             "ResearchMap": true,
-            "MarkValue": 1,
+            "MarkValue": 12,
             "TypeValue": 1,
             "EnableWalking": true,
             "Script": "StonerefinerVenore",
