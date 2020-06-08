@@ -76,10 +76,10 @@ def GetStatsPosition():
 def GetPlayerPosition():
     LeftGameWindow = LocateImage("images/PlayerSettings/LeftOption1.png", Precision=0.75)
     if LeftGameWindow[0] == 0 and LeftGameWindow[1] == 0:
-        LeftGameWindow[0], LeftGameWindow[1] = LocateImage("images/PlayerSettings/LeftOption2.png", Precision=0.75)
+        LeftGameWindow = LocateImage("images/PlayerSettings/LeftOption2.png", Precision=0.75)
 
     if LeftGameWindow[0] == 0 and LeftGameWindow[1] == 0:
-        LeftGameWindow[0], LeftGameWindow[1] = LocateImage("images/PlayerSettings/LeftOption3.png", Precision=0.75)
+        LeftGameWindow = LocateImage("images/PlayerSettings/LeftOption3.png", Precision=0.75)
 
     try:
         GameWindow[0] = int(LeftGameWindow[0])
@@ -89,13 +89,13 @@ def GetPlayerPosition():
 
     RightGameWindow = LocateImage("images/PlayerSettings/RightOption1.png", Precision=0.75)
     if RightGameWindow[0] == 0 and RightGameWindow[1] == 0:
-        RightGameWindow[0], RightGameWindow[1] = LocateImage("images/PlayerSettings/RightOption2.png", Precision=0.75)
+        RightGameWindow = LocateImage("images/PlayerSettings/RightOption2.png", Precision=0.75)
 
     if RightGameWindow[0] == 0 and RightGameWindow[1] == 0:
-        RightGameWindow[0], RightGameWindow[1] = LocateImage("images/PlayerSettings/RightOption3.png", Precision=0.75)
+        RightGameWindow = LocateImage("images/PlayerSettings/RightOption3.png", Precision=0.75)
 
     if RightGameWindow[0] == 0 and RightGameWindow[1] == 0:
-        RightGameWindow[0], RightGameWindow[1] = LocateImage("images/PlayerSettings/RightOption4.png", Precision=0.75)
+        RightGameWindow = LocateImage("images/PlayerSettings/RightOption4.png", Precision=0.75)
     try:
         GameWindow[2] = int(RightGameWindow[0])
     except Exception as errno:
