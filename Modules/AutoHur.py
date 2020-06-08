@@ -1,15 +1,17 @@
 import time
-import threading
 
 from Conf.Hotkeys import Hotkey
 
 from Core.GUI import *
 from Core.GUIManager import *
 from Core.GUISetter import GUISetter
+from Core.ThreadManager import ThreadManager
 
 from Engine.ScanHur import ScanHur
 
 EnabledAutoHur = False
+
+ThreadStarted = False
 
 GUIChanges = []
 
@@ -20,6 +22,7 @@ class AutoHur:
         self.AutoHur.DefaultWindow('AutoHur', [224, 258], [1.2, 2.29])
         self.Setter = GUISetter("HurLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
+        self.ThreadManager = ThreadManager("ThreadAutoHur")
 
         def SetAutoHur():
             global EnabledAutoHur
@@ -28,16 +31,16 @@ class AutoHur:
                 ButtonEnabled.configure(text='AutoHur: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 print("AutoHur: ON")
                 CheckingButtons()
-                try:
-                    ThreadAutoHur = threading.Thread(target=ScanAutoHur)
-                    ThreadAutoHur.start()
-                except:
-                    print("Error: Unable To Start ThreadAutoHur!")
+                if not ThreadStarted:
+                    self.ThreadManager.NewThread(ScanAutoHur)
+                else:
+                    self.ThreadManager.UnPauseThread()
             else:
                 EnabledAutoHur = False
                 CheckingButtons()
                 print("AutoHur: OFF")
                 ButtonEnabled.configure(text='AutoHur: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
+                self.ThreadManager.PauseThread()
 
         def ScanAutoHur():
             while EnabledAutoHur:

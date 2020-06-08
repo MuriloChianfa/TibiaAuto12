@@ -1,5 +1,4 @@
 import time
-import threading
 
 from Conf.Hotkeys import Hotkey
 from Conf.Constants import LifeColor, LifeColorFull, Percentage, ImageStats, Stats
@@ -7,13 +6,16 @@ from Conf.Constants import LifeColor, LifeColorFull, Percentage, ImageStats, Sta
 from Core.GUI import *
 from Core.GUIManager import *
 from Core.GUISetter import GUISetter
-# from Core.ThreadManager import ThreadManager
+from Core.ThreadManager import ThreadManager
 
 from Engine.ScanStages import ScanStages
 
 
 EnabledAutoHeal = False
+ThreadStarted = False
+
 GUIChanges = []
+
 Life = 0
 
 
@@ -24,7 +26,7 @@ class AutoHeal:
         self.Setter = GUISetter("HealthLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
         self.Scan = ScanStages('Life')
-        # self.ThreadManager = ThreadManager("AutoHeal")
+        self.ThreadManager = ThreadManager("ThreadAutoHeal")
 
         def SetAutoHeal():
             global EnabledAutoHeal
@@ -33,17 +35,16 @@ class AutoHeal:
                 ButtonEnabled.configure(text='AutoHealing: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 print("AutoHealing: ON")
                 CheckingButtons()
-                try:
-                    ThreadCaveBot = threading.Thread(target=scanning_auto_life)
-                    ThreadCaveBot.start()
-                except:
-                    print("Error: Unable To Start ThreadCaveBot!")
-                # self.ThreadManager.StartNewThread(scanning_auto_life)
+                if not ThreadStarted:
+                    self.ThreadManager.NewThread(scanning_auto_life)
+                else:
+                    self.ThreadManager.UnPauseThread()
             else:
                 EnabledAutoHeal = False
                 print("AutoHealing: OFF")
                 CheckingButtons()
                 ButtonEnabled.configure(text='AutoHealing: OFF', relief=RAISED, bg=rgb((114, 0, 0)))
+                self.ThreadManager.PauseThread()
 
         def scanning_auto_life():
             while EnabledAutoHeal:

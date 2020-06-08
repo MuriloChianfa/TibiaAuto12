@@ -2,7 +2,6 @@ import os
 import json
 import time
 import shutil
-import threading
 
 from Conf.MarksConf import *
 from Conf.Constants import Monsters, Priority, Hotkeys, AttackModes
@@ -10,13 +9,14 @@ from Conf.Constants import Monsters, Priority, Hotkeys, AttackModes
 from Core.GUI import *
 from Core.GUIManager import *
 from Core.GUISetter import GUISetter
-# from Core.ThreadManager import ThreadManager
+from Core.ThreadManager import ThreadManager
 
 from Engine.EngineCaveBot import EngineCaveBot
 
 GUIChanges = []
 
 EnabledCaveBot = False
+ThreadStarted = False
 LoadedScript = False
 
 
@@ -25,7 +25,7 @@ class CaveBot:
         self.CaveBot = GUI('CaveBot', 'Module: Cave Bot')
         self.CaveBot.DefaultWindow('CaveBot', [830, 634], [1.2, 2.29])
         self.Setter = GUISetter("CaveBotLoader")
-        # self.ThreadManager = ThreadManager("CaveBot")
+        self.ThreadManager = ThreadManager("ThreadCaveBot")
 
         def SetCaveBot():
             global EnabledCaveBot
@@ -33,19 +33,15 @@ class CaveBot:
                 EnabledCaveBot = True
                 ButtonEnabled.configure(text='CaveBot: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 CheckingButtons()
-                InitScan()
+                if not ThreadStarted:
+                    self.ThreadManager.NewThread(ScanCaveBot)
+                else:
+                    self.ThreadManager.UnPauseThread()
             else:
                 EnabledCaveBot = False
                 CheckingButtons()
                 ButtonEnabled.configure(text='CaveBot: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
-
-        def InitScan():
-            # self.ThreadManager.StartNewThread(ScanCaveBot)
-            try:
-                ThreadCaveBot = threading.Thread(target=ScanCaveBot)
-                ThreadCaveBot.start()
-            except:
-                print("Error: Unable To Start ThreadCaveBot!")
+                self.ThreadManager.PauseThread()
 
         def ScanCaveBot():
             with open('Scripts/' + Script.get() + '.json', 'r') as rJson:
@@ -55,8 +51,9 @@ class CaveBot:
             monster = SelectedMonster.get()
             while EnabledCaveBot:
                 for a in range(len(data)):
-                    EngineCaveBot(data, a, MapPositions, BattlePositions, monster, SQMs, MOUSE_OPTION, Script.get())
-                    time.sleep(1)
+                    if EnabledCaveBot:
+                        EngineCaveBot(data, a, MapPositions, BattlePositions, monster, SQMs, MOUSE_OPTION, Script.get())
+                        time.sleep(1)
 
         CheckDebugging, InitiatedDebugging = self.Setter.Variables.Bool('Debugging')
 

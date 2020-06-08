@@ -23,6 +23,9 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
     time.sleep(3.5)
 
     while MarkLocation[0] == 0 and MarkLocation[1] == 0:
+        from Modules.CaveBot import EnabledCaveBot
+        if not EnabledCaveBot:
+            return
         MarkLocation[0], MarkLocation[1] = LocateCenterImage('images/MapSettings/' + data[i]["mark"] + '.png',
                                                              Region=(
                                                                  MapPosition[0], MapPosition[1], MapPosition[2],
@@ -57,6 +60,9 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
         number = NumberOfTargets(BattlePosition, monster)
 
         while number > 0:
+            from Modules.CaveBot import EnabledCaveBot
+            if not EnabledCaveBot:
+                return
             TargetNumber = AttackTarget(monster, BattlePosition, SQMs, TargetNumber, MOUSE_OPTION)
 
             NeedFollow = SetFollow()
@@ -100,4 +106,4 @@ def EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPT
         else:
             EngineCaveBot(data, i, MapPosition, BattlePosition, monster, SQMs, MOUSE_OPTION, ScriptName)
     else:
-        print("Error to locate: " + data[i]["mark"])
+        print(data[i]["mark"], "Is Not TRUE, Searching For Other Point")

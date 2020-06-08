@@ -1,5 +1,4 @@
 import time
-import threading
 
 from Conf.Hotkeys import Hotkey
 from Conf.Constants import ManaColor, ManaColorFull, Percentage
@@ -7,10 +6,12 @@ from Conf.Constants import ManaColor, ManaColorFull, Percentage
 from Core.GUI import *
 from Core.GUIManager import *
 from Core.GUISetter import GUISetter
+from Core.ThreadManager import ThreadManager
 
 from Engine.ScanStages import ScanStages
 
 EnabledAutoMana = False
+ThreadStarted = False
 
 GUIChanges = []
 
@@ -22,41 +23,42 @@ class AutoMana:
         self.Setter = GUISetter("ManaLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
         self.Scan = ScanStages('Mana')
+        self.ThreadManager = ThreadManager("ThreadAutoMana")
 
         def SetAutoMana():
             global EnabledAutoMana
             if not EnabledAutoMana:
-                EnabledAutoMana = True
                 ButtonEnabled.configure(text='AutoMana: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 print("AutoMana: ON")
+                EnabledAutoMana = True
                 CheckingButtons()
-                try:
-                    ThreadAutoMana = threading.Thread(target=ScanAutoMana)
-                    ThreadAutoMana.start()
-                except:
-                    print("Error: Unable To Start ThreadAutoMana!")
+                if not ThreadStarted:
+                    self.ThreadManager.NewThread(ScanAutoMana)
+                else:
+                    self.ThreadManager.UnPauseThread()
             else:
-                EnabledAutoMana = False
                 print("AutoMana: OFF")
+                EnabledAutoMana = False
                 CheckingButtons()
                 ButtonEnabled.configure(text='AutoMana: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
+                self.ThreadManager.PauseThread()
 
         def ScanAutoMana():
             while EnabledAutoMana:
-                mana = self.Scan.ScanStages(ManaLocation, ManaColor, ManaColorFull)
+                Mana = self.Scan.ScanStages(ManaLocation, ManaColor, ManaColorFull)
 
-                if mana is None:
-                    mana = 0
+                if Mana is None:
+                    Mana = 0
 
                 if ManaCheckStageTwo.get():
                     stage_two = ManaPercentageStageTwo.get()
-                    if stage_two > mana or stage_two == mana:
+                    if stage_two > Mana or stage_two == Mana:
                         self.SendToClient.Press(ManaHotkeyStageTwo.get())
                         print("Pressed ", ManaHotkeyStageTwo.get())
                         time.sleep(.1)
                 elif ManaCheckStageOne.get():
                     stage_one = ManaPercentageStageOne.get()
-                    if stage_one > mana or stage_one == mana:
+                    if stage_one > Mana or stage_one == Mana:
                         self.SendToClient.Press(ManaHotkeyStageOne.get())
                         print("Pressed ", ManaHotkeyStageOne.get())
                         time.sleep(.1)

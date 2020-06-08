@@ -1,6 +1,5 @@
 import time
 import keyboard
-import threading
 import pygetwindow
 
 from Conf.Hotkeys import Hotkey
@@ -9,6 +8,7 @@ from Conf.Constants import LifeColor, LifeColorFull, Percentage, Rings
 from Core.GUI import *
 from Core.GUIManager import *
 from Core.GUISetter import GUISetter
+from Core.ThreadManager import ThreadManager
 
 from Engine.ScanRing import ScanRing
 
@@ -17,6 +17,7 @@ GUIChanges = []
 FoundedImg = False
 EnabledAutoRing = False
 WaitingForClick = False
+ThreadStarted = False
 
 Ring = 'MightRing'
 RingLocate = [0, 0]
@@ -29,6 +30,7 @@ class AutoRing:
         self.AutoRing.DefaultWindow('AutoRing', [306, 397], [1.2, 2.29])
         self.Setter = GUISetter("RingLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
+        self.ThreadManager = ThreadManager("ThreadAutoRing")
 
         def SetAutoRing():
             global EnabledAutoRing
@@ -41,14 +43,17 @@ class AutoRing:
                 Checking()
                 CheckingButtons()
                 time.sleep(0.03)
-                ThreadAutoRing = threading.Thread(target=ScanAutoRing)
-                ThreadAutoRing.start()
+                if not ThreadStarted:
+                    self.ThreadManager.NewThread(ScanAutoRing)
+                else:
+                    self.ThreadManager.UnPauseThread()
             else:
                 EnabledAutoRing = False
                 print('AutoRing: OFF')
                 ButtonEnabled.configure(text='AutoRing: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
                 Checking()
                 CheckingButtons()
+                self.ThreadManager.PauseThread()
 
         def ScanAutoRing():
             if CheckLifeBellowThan.get():

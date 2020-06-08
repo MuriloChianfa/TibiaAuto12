@@ -9,14 +9,18 @@ from Conf.Constants import LifeColor, LifeColorFull, Percentage, Amulets
 from Core.GUI import *
 from Core.GUIManager import *
 from Core.GUISetter import GUISetter
+from Core.ThreadManager import ThreadManager
 
 from Engine.ScanAmulet import ScanAmulet
 
 GUIChanges = []
 
+ThreadStarted = False
+
 FoundedImg = False
 EnabledAutoSSA = False
 WaitingForClick = False
+
 Amulet = 'SSA'
 AmuletLocate = [0, 0]
 MaxLen = 4
@@ -28,6 +32,7 @@ class AutoSSA:
         self.AutoSSA.DefaultWindow('AutoAmulet', [306, 397], [1.2, 2.29])
         self.Setter = GUISetter("AmuletLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
+        self.ThreadManager = ThreadManager("ThreadAutoAmulet")
 
         def SetAutoAmulet():
             global EnabledAutoSSA
@@ -40,14 +45,17 @@ class AutoSSA:
                 Checking()
                 CheckingButtons()
                 time.sleep(0.03)
-                ThreadAutoAmulet = threading.Thread(target=ScanAutoAmulet)
-                ThreadAutoAmulet.start()
+                if not ThreadStarted:
+                    self.ThreadManager.NewThread(ScanAutoAmulet)
+                else:
+                    self.ThreadManager.UnPauseThread()
             else:
                 EnabledAutoSSA = False
                 ButtonEnabled.configure(text='AutoSSA: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
                 print("AutoSSA: OFF")
                 Checking()
                 CheckingButtons()
+                self.ThreadManager.PauseThread()
 
         def ScanAutoAmulet():
             if CheckLifeBellowThan.get():
