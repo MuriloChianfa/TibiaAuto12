@@ -1,10 +1,10 @@
 import json
 
-from Engine.GUI import *
+from Core.GUI import *
 
 # from Modules.AdjustConfig import AdjustConfig
 # from Modules.AmmoRestack import AmmoRestack
-# from Modules.AutoAttack import AutoAttack
+# from Modules.ShowMap import ShowMap
 # from Modules.AutoBanker import AutoBanker
 # from Modules.AutoFish import AutoFish
 # from Modules.AutoGrouping import AutoGrouping
@@ -82,7 +82,7 @@ class root:
         self.root.addButton('Creature Info', OpenCreatureInfo, [92, 23], [147, 188])
         self.root.addButton('Monsters', OpenMonsters, [92, 23], [245, 188])
 
-        self.root.addButton('Show Map', OpenAutoAttack, [92, 23], [147, 290])
+        self.root.addButton('Show Map', OpenShowMap, [92, 23], [147, 290])
         self.root.addButton('Cave Bot', OpenCaveBot, [92, 23], [245, 290])
 
         self.root.addButton('Load Config', OpenLoadConfig, [92, 23], [147, 340])
@@ -190,9 +190,9 @@ def OpenAmmoRestack():
     # AmmoRestack(root)
 
 
-def OpenAutoAttack():
+def OpenShowMap():
     print("ShowMap In Development...")
-    # AutoAttack(SQMs, BattlePositions)
+    # ShowMap(SQMs, BattlePositions)
 
 
 def OpenAutoBanker():

@@ -1,4 +1,4 @@
-from Engine.HookWindow import LocateBoolRGBImage
+from Core.HookWindow import LocateBoolRGBImage
 
 
 def IsAttacking(BattlePosition, MonsterName):

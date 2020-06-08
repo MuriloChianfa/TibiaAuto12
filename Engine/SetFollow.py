@@ -1,4 +1,4 @@
-from Engine.HookWindow import LocateImage, LocateBoolRGBImage
+from Core.HookWindow import LocateImage, LocateBoolRGBImage
 
 
 def SetFollow():

@@ -9,7 +9,7 @@ from Engine.AttackTarget import AttackTarget
 from Engine.CheckWaypoint import CheckWaypoint
 from Engine.TakeLoot import GetLoot
 
-from Engine.HookWindow import LocateCenterImage
+from Core.HookWindow import LocateCenterImage
 
 TargetNumber = 0
 

@@ -1,4 +1,4 @@
-from Engine.HookWindow import LocateCenterImage, LocateImage
+from Core.HookWindow import LocateCenterImage, LocateImage
 
 
 def ScanAmulet(AmuletPositions, Amulet):

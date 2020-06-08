@@ -5,7 +5,7 @@ import threading
 
 from random import randint
 from Conf.WindowTitles import *
-from Engine.GUI import *
+from Core.GUI import *
 from Core.GetHWND import GetHWND
 from Modules.ChooseConfig import ChooseConfig
 

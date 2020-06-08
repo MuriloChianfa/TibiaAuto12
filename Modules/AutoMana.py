@@ -4,9 +4,9 @@ import threading
 from Conf.Hotkeys import Hotkey
 from Conf.Constants import ManaColor, ManaColorFull, Percentage
 
-from Engine.GUI import *
-from Engine.GUIManager import *
-from Engine.GUISetter import GUISetter
+from Core.GUI import *
+from Core.GUIManager import *
+from Core.GUISetter import GUISetter
 
 from Engine.ScanStages import ScanStages
 
@@ -43,11 +43,7 @@ class AutoMana:
 
         def ScanAutoMana():
             while EnabledAutoMana:
-                try:
-                    mana = self.Scan.ScanStages(ManaLocation, ManaColor, ManaColorFull)
-                except Exception:
-                    mana = 100
-                    pass
+                mana = self.Scan.ScanStages(ManaLocation, ManaColor, ManaColorFull)
 
                 if mana is None:
                     mana = 0

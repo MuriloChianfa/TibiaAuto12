@@ -3,9 +3,9 @@ import threading
 
 from Conf.Hotkeys import Hotkey
 
-from Engine.GUI import *
-from Engine.GUIManager import *
-from Engine.GUISetter import GUISetter
+from Core.GUI import *
+from Core.GUIManager import *
+from Core.GUISetter import GUISetter
 
 from Engine.ScanHur import ScanHur
 

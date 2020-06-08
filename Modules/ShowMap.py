@@ -1,4 +1,5 @@
-from Engine.GUI import *
+from Core.GUI import *
+
 from Engine.AttackTarget import AttackTarget
 from Engine.SetFollow import SetFollow
 
@@ -23,10 +24,10 @@ monsters = [
 monster = 'Rat'
 
 
-class AutoAttack:
+class ShowMap:
     def __init__(self, root, SQMs, BattlePosition):
-        self.AutoAttack = GUI('AutoAttack', 'Module: Auto Attack')
-        self.AutoAttack.DefaultWindow('DefaultWindow')
+        self.ShowMap = GUI('AutoAttack', 'Module: Auto Attack')
+        self.ShowMap.DefaultWindow('DefaultWindow')
 
         def SetAutoAttack():
             global EnabledAutoAttack
@@ -67,25 +68,25 @@ class AutoAttack:
         PriorityOne = tk.IntVar()
         PriorityOne.set(1)
 
-        self.AutoAttack.addButton('Ok', self.AutoAttack.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
+        self.ShowMap.addButton('Ok', self.ShowMap.destroyWindow, [84, 29, 130, 504], [127, 17, 8], [123, 13, 5])
 
         global EnabledAutoAttack
         if not EnabledAutoAttack:
-            ButtonEnabled = self.AutoAttack.addButton('AutoAttack: OFF', SetAutoAttack, [328, 29, 12, 469],
+            ButtonEnabled = self.ShowMap.addButton('AutoAttack: OFF', SetAutoAttack, [328, 29, 12, 469],
                                                        [127, 17, 8], [123, 13, 5])
         else:
-            ButtonEnabled = self.AutoAttack.addButton('AutoAttack: ON', SetAutoAttack, [328, 29, 12, 469],
+            ButtonEnabled = self.ShowMap.addButton('AutoAttack: ON', SetAutoAttack, [328, 29, 12, 469],
                                                        [127, 17, 8], [123, 13, 5])
 
-        ButtonPrint = self.AutoAttack.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
+        ButtonPrint = self.ShowMap.addCheck(CheckPrint, [10, 408], [120, 98, 51], 0, "Print on Tibia's screen")
 
-        ButtonLowMana = self.AutoAttack.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
+        ButtonLowMana = self.ShowMap.addCheck(LowMana, [10, 440], [120, 98, 51], 0, "Low Mana Warnings")
 
-        CheckAttackOne = self.AutoAttack.addCheck(AttackOne, [32, 74], [130, 16, 6], 1, 'Monster One')
+        CheckAttackOne = self.ShowMap.addCheck(AttackOne, [32, 74], [130, 16, 6], 1, 'Monster One')
 
-        OptionMonstersOne = self.AutoAttack.addOption(monster2, monsters, [155, 70])
+        OptionMonstersOne = self.ShowMap.addOption(monster2, monsters, [155, 70])
 
-        PriorityMonstersOne = self.AutoAttack.addOption(PriorityOne, priority, [240, 70])
+        PriorityMonstersOne = self.ShowMap.addOption(PriorityOne, priority, [240, 70])
 
-        self.AutoAttack.loop()
+        self.ShowMap.loop()
 

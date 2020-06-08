@@ -1,4 +1,4 @@
-from Engine.HookWindow import PixelMatchesColor
+from Core.HookWindow import PixelMatchesColor
 
 
 class ScanStages:

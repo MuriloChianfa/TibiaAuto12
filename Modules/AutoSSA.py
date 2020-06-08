@@ -6,9 +6,9 @@ import pygetwindow
 from Conf.Hotkeys import Hotkey
 from Conf.Constants import LifeColor, LifeColorFull, Percentage, Amulets
 
-from Engine.GUI import *
-from Engine.GUIManager import *
-from Engine.GUISetter import GUISetter
+from Core.GUI import *
+from Core.GUIManager import *
+from Core.GUISetter import GUISetter
 
 from Engine.ScanAmulet import ScanAmulet
 

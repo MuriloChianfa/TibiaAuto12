@@ -4,9 +4,10 @@ import threading
 from Conf.Hotkeys import Hotkey
 from Conf.Constants import LifeColor, LifeColorFull, Percentage, ImageStats, Stats
 
-from Engine.GUI import *
-from Engine.GUIManager import *
-from Engine.GUISetter import GUISetter
+from Core.GUI import *
+from Core.GUIManager import *
+from Core.GUISetter import GUISetter
+# from Core.ThreadManager import ThreadManager
 
 from Engine.ScanStages import ScanStages
 
@@ -23,6 +24,7 @@ class AutoHeal:
         self.Setter = GUISetter("HealthLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
         self.Scan = ScanStages('Life')
+        # self.ThreadManager = ThreadManager("AutoHeal")
 
         def SetAutoHeal():
             global EnabledAutoHeal
@@ -36,6 +38,7 @@ class AutoHeal:
                     ThreadCaveBot.start()
                 except:
                     print("Error: Unable To Start ThreadCaveBot!")
+                # self.ThreadManager.StartNewThread(scanning_auto_life)
             else:
                 EnabledAutoHeal = False
                 print("AutoHealing: OFF")
@@ -45,11 +48,7 @@ class AutoHeal:
         def scanning_auto_life():
             while EnabledAutoHeal:
                 global Life
-                try:
-                    Life = self.Scan.ScanStages(HealthLocation, LifeColor, LifeColorFull)
-                except Exception:
-                    Life = 100
-                    pass
+                Life = self.Scan.ScanStages(HealthLocation, LifeColor, LifeColorFull)
 
                 if Life is None:
                     Life = 0

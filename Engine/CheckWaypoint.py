@@ -1,4 +1,4 @@
-from Engine.HookWindow import LocateImage
+from Core.HookWindow import LocateImage
 
 
 def CheckWaypoint(image, map_positions):

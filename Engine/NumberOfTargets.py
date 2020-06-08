@@ -1,4 +1,4 @@
-from Engine.HookWindow import LocateAllImages
+from Core.HookWindow import LocateAllImages
 
 
 def NumberOfTargets(BattlePosition, monster):

@@ -1,4 +1,4 @@
-from Engine.GUI import *
+from Core.GUI import *
 
 
 class AdjustConfig:

@@ -1,4 +1,4 @@
-from Engine.HookWindow import LocateCenterImage, LocateImage
+from Core.HookWindow import LocateCenterImage, LocateImage
 
 BattlePositions = [0, 0, 0, 0]
 MapPositions = [0, 0, 0, 0]

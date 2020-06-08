@@ -1,4 +1,4 @@
-from Engine.HookWindow import LocateCenterImage
+from Core.HookWindow import LocateCenterImage
 
 
 def ScanTarget(BattlePosition, monster):

@@ -4,7 +4,7 @@ import time
 import json
 import pygetwindow
 
-from Engine.GUI import *
+from Core.GUI import *
 
 from Core.Getters import *
 

@@ -1,6 +1,6 @@
 import time
 import keyboard
-from Engine.GUI import *
+from Core.GUI import *
 
 EnabledColorChange = False
 

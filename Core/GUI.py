@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import SUNKEN, RAISED
 from PIL import Image, ImageTk
 
-from Engine.Defaults import *
+from Core.Defaults import *
 
 
 class GUI:

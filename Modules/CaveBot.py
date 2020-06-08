@@ -7,9 +7,10 @@ import threading
 from Conf.MarksConf import *
 from Conf.Constants import Monsters, Priority, Hotkeys, AttackModes
 
-from Engine.GUI import *
-from Engine.GUIManager import *
-from Engine.GUISetter import GUISetter
+from Core.GUI import *
+from Core.GUIManager import *
+from Core.GUISetter import GUISetter
+# from Core.ThreadManager import ThreadManager
 
 from Engine.EngineCaveBot import EngineCaveBot
 
@@ -24,6 +25,7 @@ class CaveBot:
         self.CaveBot = GUI('CaveBot', 'Module: Cave Bot')
         self.CaveBot.DefaultWindow('CaveBot', [830, 634], [1.2, 2.29])
         self.Setter = GUISetter("CaveBotLoader")
+        # self.ThreadManager = ThreadManager("CaveBot")
 
         def SetCaveBot():
             global EnabledCaveBot
@@ -38,6 +40,7 @@ class CaveBot:
                 ButtonEnabled.configure(text='CaveBot: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
 
         def InitScan():
+            # self.ThreadManager.StartNewThread(ScanCaveBot)
             try:
                 ThreadCaveBot = threading.Thread(target=ScanCaveBot)
                 ThreadCaveBot.start()
