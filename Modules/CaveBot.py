@@ -35,6 +35,7 @@ class CaveBot:
                 CheckingButtons()
                 if not ThreadStarted:
                     self.ThreadManager.NewThread(ScanCaveBot)
+                    self.ThreadManager.NewThread(ScanForPause)
                 else:
                     self.ThreadManager.UnPauseThread()
             else:
@@ -70,6 +71,12 @@ class CaveBot:
                 MonstersToAttack.append(SelectedMonster4.get())
 
             Controller.StartCaveBot(data, MonstersToAttack)
+
+        def ScanForPause():
+            import keyboard
+            while EnabledCaveBot:
+                if keyboard.is_pressed("page_up"):
+                    SetCaveBot()
 
         CheckDebugging, InitiatedDebugging = self.Setter.Variables.Bool('Debugging')
 

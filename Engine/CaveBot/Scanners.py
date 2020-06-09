@@ -45,25 +45,21 @@ def IsAttacking(BattlePosition):
     X, Y = LocateCenterImage('images/MonstersAttack/RedColor1.png', Precision=0.75, Region=(
         BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
     if X != 0 and Y != 0:
-        print('1', X, Y)
         return True
     else:
-        X, Y = LocateCenterImage('images/MonstersAttack/RedColor2.png', Precision=0.85, Region=(
+        X, Y = LocateCenterImage('images/MonstersAttack/RedColor2.png', Precision=0.80, Region=(
             BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
         if X != 0 and Y != 0:
-            print('2', X, Y)
             return True
         else:
-            X, Y = LocateCenterImage('images/MonstersAttack/RedColor3.png', Precision=0.65, Region=(
+            X, Y = LocateCenterImage('images/MonstersAttack/RedColor3.png', Precision=0.7, Region=(
                 BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
             if X != 0 and Y != 0:
-                print('3', X, Y)
                 return True
             else:
                 X, Y = LocateCenterImage('images/MonstersAttack/RedColor4.png', Precision=0.75, Region=(
                     BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
                 if X != 0 and Y != 0:
-                    print('4', X, Y)
                     return True
                 else:
                     return False

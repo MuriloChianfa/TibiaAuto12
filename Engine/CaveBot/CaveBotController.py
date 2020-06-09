@@ -124,9 +124,7 @@ class CaveBotController:
                 if self.Target[0] != 0 and self.Target[1] != 0:
 
                     # Verify If You Are Already Attacking !
-                    Attacking = IsAttacking(self.BattlePosition)
-
-                    if not Attacking:
+                    if not IsAttacking(self.BattlePosition):
                         print("Attacking The Target")
 
                         if self.MOUSE_OPTION == 1:
@@ -169,9 +167,8 @@ class CaveBotController:
                 if self.Target[0] != 0 and self.Target[1] != 0:
 
                     # Verify If You Are Already Attacking !
-                    Attacking = IsAttacking(self.BattlePosition)
 
-                    if not Attacking:
+                    if IsAttacking(self.BattlePosition):
                         # For Debugging
                         # print("Attacking The Target")
 
