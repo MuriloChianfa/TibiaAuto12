@@ -11,7 +11,7 @@ from Core.GUIManager import *
 from Core.GUISetter import GUISetter
 from Core.ThreadManager import ThreadManager
 
-from Engine.EngineCaveBot import EngineCaveBot
+from Engine.CaveBot.CaveBotController import CaveBotController
 
 GUIChanges = []
 
@@ -44,16 +44,32 @@ class CaveBot:
                 self.ThreadManager.PauseThread()
 
         def ScanCaveBot():
-            with open('Scripts/' + Script.get() + '.json', 'r') as rJson:
+            ScriptName = Script.get()
+            with open('Scripts/' + ScriptName + '.json', 'r') as rJson:
                 data = json.load(rJson)
-            print("The Script " + Script.get() + ".json Have a", len(data), "Marks")
 
-            monster = SelectedMonster.get()
-            while EnabledCaveBot:
-                for a in range(len(data)):
-                    if EnabledCaveBot:
-                        EngineCaveBot(data, a, MapPositions, BattlePositions, monster, SQMs, MOUSE_OPTION, Script.get())
-                        time.sleep(1)
+            # For Debugging
+            # print("The Script " + ScriptName + ".json Have a", len(data), "Marks")
+
+            Controller = CaveBotController(MOUSE_OPTION, ScriptName, 'right', Stand.get(),
+                                           CheckEnableWalking.get(), True, CheckWalkForDebug.get(), MapPositions,
+                                           BattlePositions, SQMs)
+
+            MonstersToAttack = []
+
+            if CheckAttackOne.get():
+                MonstersToAttack.append(SelectedMonster.get())
+
+            if CheckAttackTwo.get():
+                MonstersToAttack.append(SelectedMonster2.get())
+
+            if CheckAttackThree.get():
+                MonstersToAttack.append(SelectedMonster3.get())
+
+            if CheckAttackFour.get():
+                MonstersToAttack.append(SelectedMonster4.get())
+
+            Controller.StartCaveBot(data, MonstersToAttack)
 
         CheckDebugging, InitiatedDebugging = self.Setter.Variables.Bool('Debugging')
 
@@ -449,9 +465,9 @@ class CaveBot:
 
         RadioCavebotMode, InitiatedCavebotMode = self.Setter.Variables.Int('CavebotMode')
 
-        Radius, InitiatedRadius = self.Setter.Variables.Str('Radius')
-        Delay, InitiatedDelay = self.Setter.Variables.Str('Delay')
-        Stand, InitiatedStand = self.Setter.Variables.Str('Stand')
+        Radius, InitiatedRadius = self.Setter.Variables.Int('Radius')
+        Delay, InitiatedDelay = self.Setter.Variables.Int('Delay')
+        Stand, InitiatedStand = self.Setter.Variables.Int('Stand')
 
         ResearchMap, InitiatedResearchMap = self.Setter.Variables.Bool('ResearchMap')
 
