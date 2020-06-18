@@ -78,7 +78,7 @@ And you is ready to start a Bot.
 
 ## Starting the Bot
 
-The first step is install all libs needed to run the Bot, After this, if you want use with loggin in console, execute the file with name `main`, else execute the file with name `StartBot`.
+The first step is install all libs needed to run the Bot, After this, if you want use with loggin in console, execute the file with name `Main.py`.
 
 Running it will open the following window:
 

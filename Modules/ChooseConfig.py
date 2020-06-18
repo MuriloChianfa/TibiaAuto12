@@ -21,13 +21,37 @@ class Errno(Exception):
     pass
 
 
+'''
+    Windows Are Now Created From GUI.py On 'Core' Folder,
+    
+    Take A Look Around...
+'''
+
+
 class ChooseConfig:
     def __init__(self, CharName):
         self.ChooseConfig = GUI('ChooseConfig', 'Choose You Config')
         self.ChooseConfig.MainWindow('Config', [414, 202], [2, 2.36])
 
+        '''
+            This Is The Main Function If The ChooseConfig...
+            
+            He Is Called When The Player Click On 'Load' Or 'Create' Button.
+        '''
+
         def CreateDefaultJson():
             ScriptToLoad = NameCreateJson.get()
+
+            '''
+                When This Function Is Called, He Take A Name From EntryBox, 
+                To Do Some Checks In The File.
+                
+                If The File Already Exist, He Just Throw You For Root Window
+                Because You Already Configure Your File.
+                
+                Else He Create One File With The Name Getted And Starts The Configuration
+            '''
+
             if os.path.isfile('Scripts/' + ScriptToLoad + '.json'):
                 with open('Scripts/' + ScriptToLoad + '.json', 'r') as LoadsJson:
                     data = json.load(LoadsJson)
@@ -53,6 +77,21 @@ class ChooseConfig:
                     os.remove('Scripts/' + ScriptToLoad + '.json')
                     CreateDefaultJson()
             else:
+
+                '''
+                    Here, He Copy The Base To Default Configuration,
+                    
+                    After The Copy, He Starts The Search For Configurations,
+                    You Can See The Progress On Console,
+                    If You Dont Have Any Error, It Takes, Usually Around 4 or 5 seconds
+                    For Complete The Configuration
+                    
+                    I recommended You, If You Dont Have Any Errors In The Configuration,
+                    Save Your Configuration File In Other Folder, Because If You
+                    Download Another Actualization In The Github, You Can Throw The 
+                    Files, To Not Have Configure Again.
+                '''
+
                 print('Coping Default Json')
                 start_configuration = time.time()
                 Directory = os.getcwd()
@@ -314,7 +353,15 @@ class ChooseConfig:
                 self.ChooseConfig.destroyWindow()
                 time.sleep(.1)
                 ScriptToLoad = NameCreateJson.get()
+
+                '''
+                    If Dont Have Any Error, He Throw You For The Root Window, In The 'Modules'
+                    In the 'Root.py' File.
+                '''
+
                 root(CharName, ScriptToLoad)
+
+        # region Valiables
 
         NameCreateJson = tk.StringVar()
         NameCreateJson.set('NewConfig')
@@ -324,6 +371,10 @@ class ChooseConfig:
         MouseMode.set(1)
         HookMode = tk.IntVar()
         HookMode.set(1)
+
+        # endregion
+
+        # region Buttons
 
         if os.path.isfile('Scripts/' + NameCreateJson.get() + '.json'):
             with open('Scripts/' + NameCreateJson.get() + '.json', 'r') as LoadsJson:
@@ -356,5 +407,7 @@ class ChooseConfig:
         RadioHookWindow = self.ChooseConfig.addRadio("{Global} Hook Directly OBS Screen", HookMode, 1, [10, 155])
         RadioHookWindow.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                   selectcolor=rgb((114, 94, 48)))
+
+        # endregion
 
         self.ChooseConfig.loop()

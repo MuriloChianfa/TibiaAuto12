@@ -58,6 +58,8 @@ class root:
 
         self.root.addMinimalLabel(f'Logged as: {CharName}', [14, 14])
 
+        # regions Buttons
+
         self.root.addButton('Healer Friend', OpenHealerFriend, [92, 23], [23, 56])
         self.root.addButton('Color Change', OpenColorChange, [92, 23], [23, 108])
         self.root.addButton('Ammo Restack', OpenAmmoRestack, [92, 23], [23, 135])
@@ -98,6 +100,15 @@ class root:
             self.root.destroyWindow()
 
         self.root.addButton('Exit', Exit, [92, 23], [10, 498])
+
+        # endregion
+
+        '''
+            This Functions Is Called From Line 186, As Soon As Window Is Loaded.
+            
+            It Sets For Program, The Variables Loaded From The Script You Chose,
+            So That It Can Pass To The Modules That Are Opened.
+        '''
 
         def SetVariablesFromLoadedJson():
             global SETTED_VARIABLES
@@ -178,6 +189,13 @@ class root:
         SetVariablesFromLoadedJson()
 
         self.root.loop()
+
+
+'''
+    Functions For Open The Modules, Passing The Arguments Necessary Loaded From The Script.
+'''
+
+# region Functions
 
 
 def OpenAdjustConfig():
@@ -312,3 +330,5 @@ def OpenSortLoot():
 def OpenTimedSpells():
     print("TimedSpells In Development...")
     # TimedSpells(root)
+
+# endregion

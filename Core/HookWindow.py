@@ -1,11 +1,9 @@
-import time
 import collections
 from ctypes import windll
 import win32ui
 import win32gui
 import cv2
 import numpy as np
-import pygetwindow as gw
 from PIL import Image, ImageOps
 
 from Core.GetHWND import GetHWND
@@ -19,6 +17,11 @@ USE_IMAGE_NOT_FOUND_EXCEPTION = True
 
 unicode = str
 
+'''
+    The OBS Window Name, To Search For The HWND
+    
+    If You Have The Other Language, Put The 'Windowed Projector' Name Here. 
+'''
 
 hwnd = GetHWND('Windowed Projector')
 
@@ -29,8 +32,10 @@ if hwnd == 0:
     exit(1)
 
 
-class ImageNotFoundException(Exception):
-    pass
+'''
+    I Did This Class So There Are No Errors Between The Threads.
+    Because I Throw 'self' In All Components >.< Hahahahaha.
+'''
 
 
 class Hooker:
@@ -74,6 +79,12 @@ class Hooker:
             return print('Debugged From HookWindow')
 
 
+'''
+    Here It Call The Hook Class, Passing The Region For Crop,
+    Returning The Img Cropped.
+'''
+
+
 def TakeImage(Region=None):
     Except = True
     while Except:
@@ -91,6 +102,21 @@ def TakeImage(Region=None):
             pass
 
 
+'''
+    In LocateImage, It Compare With Another Image, If The Two Have Any
+    Similarity To Each Other.
+    
+    If Have Similarity, He Return The X And Y Position.
+    
+    Examples:
+    
+    1°: LocateImage('images/TibiaSettings/BattleList.png')
+    
+    2°: LocateImage('images/TibiaSettings/BattleList.png', (1234, 435, 1280, 460)) == He Locate The Image On Passed Folder,
+    In X: 1234 Up Until 1280 And Y: 435 Up Until 460.
+'''
+
+
 def LocateImage(image, Region=None, Precision=0.8):
     TakedImage = TakeImage(Region)
 
@@ -103,6 +129,15 @@ def LocateImage(image, Region=None, Precision=0.8):
     if LocatedPrecision > Precision:
         return Position[0], Position[1]
     return 0, 0
+
+
+'''
+    In LocateCenterImage, It Compare With Another Image, If The Two Have Any
+    Similarity To Each Other.
+
+    If Have Similarity, He Return The X And Y Position More Half Of Size The Image
+    For Return The Position Of Center Of Image...
+'''
 
 
 def LocateCenterImage(image, Region=None, Precision=0.8):
@@ -121,6 +156,17 @@ def LocateCenterImage(image, Region=None, Precision=0.8):
         else:
             print('Debugged From LocateCenterImage')
     return 0, 0
+
+
+'''
+    Here, It Search For All Images Passed From Argument
+    And It Return The Number Of Images Found.
+    
+    Examples:
+    
+    LocateAllImages('images/Foods/Cheese.png'), He Search For All Cheeses On Your Screen,
+    And Will Return This Number.
+'''
 
 
 def LocateAllImages(image, Region=None, Precision=0.8):
@@ -154,6 +200,16 @@ def LocateBoolRGBImage(image, Region=None, Precision=0.9):
     return False
 
 
+'''
+    In PixelMatchesColor, It Compare The RGB Color Of The Pixel Nedded,
+    But This Dont Work 100% >.< Hahahaha.
+    
+    Example:
+    
+    PixelMatchesColor(657, 432, (255, 255, 255)), He Verify If Pixel X: 657 And Y: 432, Is Black.
+'''
+
+
 def PixelMatchesColor(X, Y, expectedRGBColor):
     TakedImage = TakeImage(Region=(X, Y, X + 1, Y + 1))
     rgb = TakedImage.getpixel((0, 0))
@@ -161,6 +217,15 @@ def PixelMatchesColor(X, Y, expectedRGBColor):
         return True
     else:
         return False
+
+
+'''
+    When Called, It Save The Image On Folder And Name Passed Per Argument, Examples:
+    
+    1°: SaveImage('TakedImage.png') == Save The Image In Current Directory,
+    2°: SaveImage('images/Foods/Cheese.png', (1234, 435, 1280, 460)) == Save The Image On Passed Folder,
+    And Crop Then In X: 1234 Up Until 1280 And Y: 435 Up Until 460.
+'''
 
 
 def SaveImage(Name, Region=None):

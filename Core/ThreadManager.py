@@ -5,6 +5,33 @@ ActivatedThreads = []
 Queue = Queue(maxsize=19)
 Event = Event()
 
+'''
+    This Class Has Been Rewritten So That We Can Pause The Modules Enabled,
+    In Original Class, Its Not Possible, There He Had To Keep Creating New Threads
+    And That, Overloads The System.
+    
+    Example For Usage:
+    
+    # Import The Module Fist
+    from Core.ThreadManager import ThreadManager
+    
+    # And Create The Instance
+    ThreadManager = ThreadManager("NameOfYourThread")
+    
+    # For Start The New Thread
+    ThreadManager.NewThread(TargetFunctionHere) [DOES NOT ACCEPT ARGUMENTS YET]
+    
+    # For Pause All Threads
+    ThreadManager.PauseThread()
+    
+    # For UnPause All Threads
+    ThreadManager.UnPauseThread()
+    
+    #
+    # The Kill Threads Functions Not Ready Yet !!! Sorry
+    #
+'''
+
 
 class ThreadManager:
     def __init__(self, Name):
@@ -12,6 +39,7 @@ class ThreadManager:
         self.Queue = Queue
         self.Target = None
 
+    # Create One New Thread And Put Them In The Pipeline
     def NewThread(self, _Target):
         # The Handle Need The 1st Arg to Work..
         def HandleTarget(PipeOBJ):
@@ -26,12 +54,14 @@ class ThreadManager:
         TheThread.start()
         ActivatedThreads.append((TheThread, str(self.Name)))
 
+    # Pause The All Threads Created From Manager Object
     def PauseThread(self):
         for i in range(len(ActivatedThreads)):
             if ActivatedThreads[i][1] == self.Name:
                 ActivatedThreads[i][0].PauseOn()
         # print(self.Queue.queue)
 
+    # UnPause The All Threads Created From Manager Object
     def UnPauseThread(self):
         for i in range(len(ActivatedThreads)):
             if ActivatedThreads[i][1] == self.Name:
@@ -47,6 +77,10 @@ class ThreadManager:
 
     def __repr__(self) -> str:
         return str(self.Name)
+
+    '''
+        This Is Thread Class Rewrited, To Can Pause Them.
+    '''
 
     class ThreadHandler(Thread):
         def __init__(self, Target, Qqueue, *, Name='Handler'):
