@@ -1,4 +1,7 @@
-from Core.HookWindow import LocateAllImages, LocateCenterImage, LocateBoolRGBImage, LocateImage
+import cv2
+import numpy as np
+
+from Core.HookWindow import LocateAllImages, LocateCenterImage, LocateBoolRGBImage, LocateImage, TakeImage
 
 
 def NumberOfTargets(BattlePosition, Monster):
@@ -42,27 +45,80 @@ def CheckWaypoint(image, map_positions):
 
 
 def IsAttacking(BattlePosition):
-    X, Y = LocateCenterImage('images/MonstersAttack/RedColor1.png', Precision=0.75, Region=(
+    ImagesAttacking = {
+        "LeftRed": False,
+        "TopRed": False,
+        "RightRed": False,
+        "BottomRed": False,
+
+        "LeftBlackRed": False,
+        "TopBlackRed": False,
+        "RightBlackRed": False,
+        "BottomBlackRed": False,
+
+        "LeftPink": False,
+        "TopPink": False,
+        "RightPink": False,
+        "BottomPink": False,
+
+        "LeftBlackPink": False,
+        "TopBlackPink": False,
+        "RightBlackPink": False,
+        "BottomBlackPink": False
+    }
+
+    TakedImage = TakeImage(Region=(
+        BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
+
+    img_rgb = np.array(TakedImage)
+    img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+
+    def ScannerAttack(image, Precision=0.8):
+        template = cv2.imread(image, 0)
+
+        res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+        min_val, LocatedPrecision, min_loc, Position = cv2.minMaxLoc(res)
+        if LocatedPrecision > Precision:
+            return True
+        return False
+
+    for Image in ImagesAttacking:
+        if ScannerAttack('images/MonstersAttack/' + Image + '.png'):
+            ImagesAttacking[Image] = True
+
+    if ImagesAttacking['LeftRed'] and ImagesAttacking['TopRed'] and ImagesAttacking['RightRed'] and ImagesAttacking['BottomRed']:
+        return True
+    elif ImagesAttacking['LeftBlackRed'] and ImagesAttacking['TopBlackRed'] and ImagesAttacking['RightBlackRed'] and ImagesAttacking['BottomBlackRed']:
+        return True
+    elif ImagesAttacking['LeftPink'] and ImagesAttacking['TopPink'] and ImagesAttacking['RightPink'] and ImagesAttacking['BottomPink']:
+        return True
+    elif ImagesAttacking['LeftBlackPink'] and ImagesAttacking['TopBlackPink'] and ImagesAttacking['RightBlackPink'] and ImagesAttacking['BottomBlackPink']:
+        return True
+    else:
+        return False
+
+
+'''X, Y = LocateCenterImage('images/MonstersAttack/top.png', Precision=0.85, Region=(
+    BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
+if X != 0 and Y != 0:
+    return True
+else:
+    X, Y = LocateCenterImage('images/MonstersAttack/right.png', Precision=0.85, Region=(
         BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
     if X != 0 and Y != 0:
         return True
     else:
-        X, Y = LocateCenterImage('images/MonstersAttack/RedColor2.png', Precision=0.80, Region=(
+        X, Y = LocateCenterImage('images/MonstersAttack/left.png', Precision=0.85, Region=(
             BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
         if X != 0 and Y != 0:
             return True
         else:
-            X, Y = LocateCenterImage('images/MonstersAttack/RedColor3.png', Precision=0.7, Region=(
+            X, Y = LocateCenterImage('images/MonstersAttack/bottom.png', Precision=0.85, Region=(
                 BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
             if X != 0 and Y != 0:
                 return True
             else:
-                X, Y = LocateCenterImage('images/MonstersAttack/RedColor4.png', Precision=0.75, Region=(
-                    BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
-                if X != 0 and Y != 0:
-                    return True
-                else:
-                    return False
+                return False'''
 
 
 def NeedFollow():

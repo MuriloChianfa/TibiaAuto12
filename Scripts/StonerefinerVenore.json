@@ -2,12 +2,12 @@
     {
         "mark": "CheckMark",
         "type": 1,
-        "status": true
+        "status": false
     },
     {
         "mark": "QuestionMark",
         "type": 1,
-        "status": false
+        "status": true
     },
     {
         "mark": "ExclimationMark",

@@ -1,0 +1,155 @@
+{
+    "Stats": true,
+    "MouseOption": 1,
+    "Positions": {
+        "LifePosition": [
+            {
+                "x": 1204,
+                "y": 124,
+                "Stats": true
+            }
+        ],
+        "ManaPosition": [
+            {
+                "x": 1205,
+                "y": 137,
+                "Stats": true
+            }
+        ],
+        "BattlePosition": [
+            {
+                "x": 1018,
+                "y": 3,
+                "Stats": true
+            }
+        ],
+        "PlayerPosition": [
+            {
+                "x": 590,
+                "y": 273,
+                "Stats": true
+            }
+        ]
+    },
+    "Boxes": {
+        "StatusBarBox": [
+            {
+                "x": 1199,
+                "y": 292,
+                "w": 1304,
+                "h": 302,
+                "Stats": true
+            }
+        ],
+        "BattleBox": [
+            {
+                "x": 1018,
+                "y": 3,
+                "w": 1173,
+                "h": 418,
+                "Stats": true
+            }
+        ],
+        "RingBox": [
+            {
+                "x": 1199,
+                "y": 234,
+                "w": 1230,
+                "h": 265,
+                "Stats": true
+            }
+        ],
+        "AmuletBox": [
+            {
+                "x": 1199,
+                "y": 162,
+                "w": 1230,
+                "h": 193,
+                "Stats": true
+            }
+        ],
+        "GameWindowBox": [
+            {
+                "x": 174,
+                "y": 2,
+                "w": 1007,
+                "h": 545,
+                "Stats": true
+            }
+        ],
+        "MapBox": [
+            {
+                "x": 1199,
+                "y": 5,
+                "w": 1304,
+                "h": 113,
+                "Stats": true
+            }
+        ]
+    },
+    "SQM": {
+        "SQM1": [
+            {
+                "x": 535,
+                "y": 322,
+                "Stats": true
+            }
+        ],
+        "SQM2": [
+            {
+                "x": 590,
+                "y": 322,
+                "Stats": true
+            }
+        ],
+        "SQM3": [
+            {
+                "x": 645,
+                "y": 322,
+                "Stats": true
+            }
+        ],
+        "SQM4": [
+            {
+                "x": 535,
+                "y": 273,
+                "Stats": true
+            }
+        ],
+        "SQM5": [
+            {
+                "x": 590,
+                "y": 273,
+                "Stats": true
+            }
+        ],
+        "SQM6": [
+            {
+                "x": 645,
+                "y": 273,
+                "Stats": true
+            }
+        ],
+        "SQM7": [
+            {
+                "x": 535,
+                "y": 224,
+                "Stats": true
+            }
+        ],
+        "SQM8": [
+            {
+                "x": 590,
+                "y": 224,
+                "Stats": true
+            }
+        ],
+        "SQM9": [
+            {
+                "x": 645,
+                "y": 224,
+                "Stats": true
+            }
+        ]
+    }
+}

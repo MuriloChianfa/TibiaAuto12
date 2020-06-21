@@ -136,8 +136,6 @@ class AutoRing:
             Ring = NameRing.get()
             AutoRingWindow = pygetwindow.getWindowsWithTitle("Module: Auto Ring")[0]
             TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
-            RootWindowX = root.winfo_x()
-            RootWindowY = root.winfo_y()
             AutoRingWindowX = self.AutoRing.PositionOfWindow('X')
             AutoRingWindowY = self.AutoRing.PositionOfWindow('Y')
             time.sleep(0.1)
@@ -150,12 +148,11 @@ class AutoRing:
                 if keyboard.is_pressed("c"):
                     sX, sY = GetPosition()
                     time.sleep(0.03)
-                    pyautogui.screenshot('images/Rings/' + Ring + '.png',
-                                         region=(sX - 5, sY - 5, 12, 12))
+                    from Core.HookWindow import SaveImage
+                    SaveImage('images/Rings/' + Ring + '.png', Region=(sX - 5, sY - 31, sX + 12, sY - 14))
                     WaitingForClick = False
                     Invisible.destroyWindow()
                     TibiaAuto.maximize()
-                    TibiaAuto.moveTo(RootWindowX, RootWindowY)
                     time.sleep(0.04)
                     AutoRingWindow.maximize()
                     AutoRingWindow.moveTo(AutoRingWindowX, AutoRingWindowY)
@@ -173,8 +170,6 @@ class AutoRing:
             WaitingForClick = True
             AutoRingWindow = pygetwindow.getWindowsWithTitle("Module: Auto Ring")[0]
             TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
-            RootWindowX = root.winfo_x()
-            RootWindowY = root.winfo_y()
             AutoRingWindowX = self.AutoRing.PositionOfWindow('X')
             AutoRingWindowY = self.AutoRing.PositionOfWindow('Y')
             time.sleep(0.1)
@@ -192,7 +187,6 @@ class AutoRing:
                     TextEntryY.set(Y)
                     Invisible.destroyWindow()
                     TibiaAuto.maximize()
-                    TibiaAuto.moveTo(RootWindowX, RootWindowY)
                     time.sleep(0.08)
                     AutoRingWindow.maximize()
                     AutoRingWindow.moveTo(AutoRingWindowX, AutoRingWindowY)
@@ -390,7 +384,7 @@ class AutoRing:
                     Enable(PercentageLifeBellowThan)
                 ExecGUITrigger()
 
-            self.AutoRing.After(1, ConstantVerify)
+            self.AutoRing.After(200, ConstantVerify)
 
         Checking()
         CheckingButtons()

@@ -124,7 +124,7 @@ class CaveBotController:
                 if self.Target[0] != 0 and self.Target[1] != 0:
 
                     # Verify If You Are Already Attacking !
-                    if not IsAttacking(self.BattlePosition):
+                    if IsAttacking(self.BattlePosition):
                         print("Attacking The Target")
 
                         if self.MOUSE_OPTION == 1:
@@ -167,10 +167,9 @@ class CaveBotController:
                 if self.Target[0] != 0 and self.Target[1] != 0:
 
                     # Verify If You Are Already Attacking !
-
                     if IsAttacking(self.BattlePosition):
                         # For Debugging
-                        # print("Attacking The Target")
+                        # print("Attacking The Target2")
 
                         if self.MOUSE_OPTION == 1:
                             PastPosition = self.SendToClient.Position()
@@ -185,7 +184,7 @@ class CaveBotController:
                         SecondMonstersNumber = NumberOfTargets(self.BattlePosition, Monster)
                     else:
                         # For Debugging
-                        # print("You are attacking")
+                        # print("You are attacking2")
 
                         SecondMonstersNumber = NumberOfTargets(self.BattlePosition, Monster)
 
@@ -200,6 +199,14 @@ class CaveBotController:
 
                 if Number == 0:
                     break
+
+        '''
+            If Walk Option Is Enabled, It Verify If The Player Already
+            Arrived To The Current Mark.
+            
+            If Already Arrived, It Set On Script, The Current Mark As False
+            And The Next Mark As True, For The Next Check.
+        '''
 
         if self.EnabledWalk:
             if CheckWaypoint(data[i]["mark"], self.MapPosition):
@@ -216,6 +223,10 @@ class CaveBotController:
                 self.HandleCaveBot(data, i, Monsters)
 
         # endregion
+
+    '''
+        Clicking Around Of The Player To Get A Loot.
+    '''
 
     def TakeLoot(self):
         if self.MOUSE_OPTION == 1:
@@ -240,6 +251,12 @@ class CaveBotController:
 
         # For Debugging
         # print("Looted In: ", EndLootTime)
+
+
+'''
+    Import The EnabledCaveBot Variable From CaveBot Module, To Verify
+    If CaveBot Is Enabled.
+'''
 
 
 def IsEnable():

@@ -1,6 +1,5 @@
 import time
 import keyboard
-import threading
 import pygetwindow
 
 from Conf.Hotkeys import Hotkey
@@ -63,11 +62,7 @@ class AutoSSA:
                 from Modules.AutoHeal import EnabledAutoHeal
                 if EnabledAutoHeal:
                     while EnabledAutoSSA and EnabledAutoHeal:
-                        try:
-                            NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
-                        except Exception:
-                            NoHasAmulet = False
-                            pass
+                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
 
                         from Modules.AutoHeal import Life
                         if NoHasAmulet and Life <= BellowThan:
@@ -75,30 +70,18 @@ class AutoSSA:
                 else:
                     from Engine.ScanStages import ScanStages
                     while EnabledAutoSSA:
-                        try:
-                            Life = ScanStages('Life From AutoAmulet').ScanStages(HealthLocation, LifeColor, LifeColorFull)
-                        except Exception:
-                            Life = 100
-                            pass
+                        Life = ScanStages('Life From AutoAmulet').ScanStages(HealthLocation, LifeColor, LifeColorFull)
 
                         if Life is None:
                             Life = 0
 
-                        try:
-                            NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
-                        except Exception:
-                            NoHasAmulet = False
-                            pass
+                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
 
                         if NoHasAmulet and Life < BellowThan:
                             Execute()
             elif not CheckLifeBellowThan.get():
                 while EnabledAutoSSA:
-                    try:
-                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
-                    except Exception:
-                        NoHasAmulet = False
-                        pass
+                    NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
 
                     if NoHasAmulet:
                         Execute()
@@ -139,8 +122,6 @@ class AutoSSA:
             Amulet = NameAmulet.get()
             AutoSSAWindow = pygetwindow.getWindowsWithTitle("Module: Auto SSA")[0]
             TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
-            RootWindowX = root.winfo_x()
-            RootWindowY = root.winfo_y()
             AutoSSAWindowX = self.AutoSSA.PositionOfWindow('X')
             AutoSSAWindowY = self.AutoSSA.PositionOfWindow('Y')
             time.sleep(0.1)
@@ -153,11 +134,11 @@ class AutoSSA:
                 if keyboard.is_pressed("c"):
                     sX, sY = GetPosition()
                     time.sleep(0.03)
-                    pyautogui.screenshot('images/Amulets/' + Amulet + '.png', region=(sX - 5, sY - 5, 12, 12))
+                    from Core.HookWindow import SaveImage
+                    SaveImage('images/Amulets/' + Amulet + '.png', Region=(sX - 5, sY - 31, sX + 12, sY - 14))
                     WaitingForClick = False
                     Invisible.destroyWindow()
                     TibiaAuto.maximize()
-                    TibiaAuto.moveTo(RootWindowX, RootWindowY)
                     time.sleep(0.04)
                     AutoSSAWindow.maximize()
                     AutoSSAWindow.moveTo(AutoSSAWindowX, AutoSSAWindowY)
@@ -175,8 +156,6 @@ class AutoSSA:
             WaitingForClick = True
             AutoSSAWindow = pygetwindow.getWindowsWithTitle("Module: Auto SSA")[0]
             TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
-            RootWindowX = root.winfo_x()
-            RootWindowY = root.winfo_y()
             AutoSSAWindowX = self.AutoSSA.PositionOfWindow('X')
             AutoSSAWindowY = self.AutoSSA.PositionOfWindow('Y')
             time.sleep(0.1)
@@ -194,7 +173,6 @@ class AutoSSA:
                     TextEntryY.set(Y)
                     Invisible.destroyWindow()
                     TibiaAuto.maximize()
-                    TibiaAuto.moveTo(RootWindowX, RootWindowY)
                     time.sleep(0.08)
                     AutoSSAWindow.maximize()
                     AutoSSAWindow.moveTo(AutoSSAWindowX, AutoSSAWindowY)
@@ -391,7 +369,7 @@ class AutoSSA:
                     Enable(PercentageLifeBellowThan)
                 ExecGUITrigger()
 
-            self.AutoSSA.After(1, ConstantVerify)
+            self.AutoSSA.After(200, ConstantVerify)
 
         Checking()
         CheckingButtons()

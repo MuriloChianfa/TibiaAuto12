@@ -104,7 +104,7 @@ class root:
         # endregion
 
         '''
-            This Functions Is Called From Line 186, As Soon As Window Is Loaded.
+            This Functions Is Called From Line 189, As Soon As Window Is Loaded.
             
             It Sets For Program, The Variables Loaded From The Script You Chose,
             So That It Can Pass To The Modules That Are Opened.

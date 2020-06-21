@@ -23,6 +23,7 @@ class GUI:
         self.windowID.title(self.name)
         self.windowID.resizable(width=False, height=False)
         self.windowID.configure(background='#000', takefocus=True)
+        self.windowID.iconbitmap('images/icone2.ico')
         image = Image.open('images/Modules/' + BackgroundImage + '.png')
         photo = ImageTk.PhotoImage(image)
         label = tk.Label(self.windowID, image=photo, bg='#000')
@@ -43,6 +44,7 @@ class GUI:
         self.windowID.title(self.name)
         self.windowID.resizable(width=False, height=False)
         self.windowID.configure(background='#000', takefocus=True)
+        self.windowID.iconbitmap('images/icone2.ico')
         image = Image.open('images/Modules/' + BackgroundImage + '.png')
         photo = ImageTk.PhotoImage(image)
         label = tk.Label(self.windowID, image=photo, bg='#000')
@@ -193,6 +195,7 @@ class GUI:
     def After(self, Time, Function):
         return self.windowID.after(Time, Function)
 
+    # @staticmethod
     def openImage(self, image, size):
         ImageID = Image.open(image)
         ImageID = ImageID.resize((size[0], size[1]), Image.ANTIALIAS)

@@ -31,6 +31,7 @@ def WindowSelectCharacter():
     SelectCharacter.resizable(width=False, height=False)
     SelectCharacter.title('Choose Your Character')
     SelectCharacter.configure(background=rgb((120, 98, 51)), takefocus=True)
+    SelectCharacter.iconbitmap('images/icone2.ico')
 
     CHARACTERS = [""]
 
@@ -132,7 +133,7 @@ def WindowSelectCharacter():
             ThreadSearcher.join()
             SelectCharacter.destroy()
             time.sleep(.4)
-            from Main import main
+            from StartBot import main
             main()
 
     '''
