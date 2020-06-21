@@ -8,7 +8,8 @@ from Modules.__init__ import WindowSelectCharacter
     Take A Look Over There
 '''
 
-if __name__ == '__main__':
+
+def main():
     with open('Scripts/Loads.json', 'r') as LoadsJson:
         data = json.load(LoadsJson)
 
@@ -24,3 +25,7 @@ if __name__ == '__main__':
                 json.dump(data, wJson, indent=4)
 
     WindowSelectCharacter()
+
+
+if __name__ == '__main__':
+    main()
