@@ -12,6 +12,42 @@ ManaColor = [83, 80, 218]
 
 # region Items
 
+# Containers
+Containers = [
+    "Backpack",
+    "Bag",
+    "Basket",
+    "BeachBackpack",
+    "BlueBackpack",
+    "BrocadeBag",
+    "BuggyBackpack",
+    "CamouflageBackpack",
+    "CrownBackpack",
+    "DeeplingBackpack",
+    "DemonBackpack",
+    "DragonBackpack",
+    "ExpeditionBackpack",
+    "FurBackpack",
+    "FurBag",
+    "GloothBackpack",
+    "GoldenBackpack",
+    "GreenBackpack",
+    "GreenBag",
+    "GreyBackpack",
+    "JewelledBackpack",
+    "MinotaurBackpack",
+    "OrangeBackpack",
+    "PirateBackpack",
+    "PirateBag",
+    "Present",
+    "PurpleBackpack",
+    "RedBackpack",
+    "RedBag",
+    "ShoppingBag",
+    "StampedParcel",
+    "YellowBackpack"
+]
+
 # Rings
 Rings = [
     'MightRing',
@@ -22,6 +58,24 @@ Rings = [
 Amulets = [
     'SSA',
     'PlatinumAmulet'
+]
+
+# Foods
+Foods = [
+    "BrownMushrooms",
+    "Cheese",
+    "Corncobs",
+    "DeeplingFilet",
+    "FireMushrooms",
+    "Fish",
+    "GloothSandwichs",
+    "Grapes",
+    "GreenMushrooms",
+    "Melons",
+    "OrangeMushrooms",
+    "Peanuts",
+    "RedMushrooms",
+    "WhiteMushrooms",
 ]
 
 # endregion

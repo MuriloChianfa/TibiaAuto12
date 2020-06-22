@@ -1,0 +1,12 @@
+[
+    {
+        "mark": "Lock",
+        "type": 1,
+        "status": false
+    },
+    {
+        "mark": "Bag",
+        "type": 1,
+        "status": true
+    }
+]
