@@ -18,17 +18,17 @@ def GetAccountNamePosition():
 
 
 def GetBattlePosition():
-    BattlePositions[0], BattlePositions[1] = LocateCenterImage('images/TibiaSettings/BattleList.png', Precision=0.75)
-    BattlePositions[0] = BattlePositions[0] - 40
-    BattlePositions[1] = BattlePositions[1] - 5
-    BattlePositions[2] = BattlePositions[0] + 155
-    BattlePositions[3] = BattlePositions[1] + 415
-
-    if BattlePositions[0] != 0 and BattlePositions[1] != 0:
-        return int(BattlePositions[0]), int(BattlePositions[1]), int(BattlePositions[2]), int(
-            BattlePositions[3])
-    else:
+    BattlePositions[0], BattlePositions[1] = LocateCenterImage('images/TibiaSettings/BattleList.png', Precision=0.85)
+    if BattlePositions[0] == 0 and BattlePositions[1] == 0:
         return 0, 0, 0, 0
+    else:
+        BattlePositions[0], BattlePositions[1] = LocateImage('images/TibiaSettings/BattleList.png',
+                                                             Precision=0.85)
+        BattlePositions[2] = BattlePositions[0] + 155
+        BattlePositions[3] = BattlePositions[1] + 415
+
+        return int(BattlePositions[0] + 8), int(BattlePositions[1]), int(BattlePositions[2]), int(
+            BattlePositions[3])
 
 
 def GetHealthPosition():

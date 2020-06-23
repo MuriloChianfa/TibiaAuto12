@@ -136,3 +136,9 @@ class SendToClient:
         win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, 0, ToPosition)
         win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, ToPosition)
         win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, ToPosition)
+
+    @staticmethod
+    def MainWindowSize():
+        from win32api import GetSystemMetrics
+        return GetSystemMetrics(0), GetSystemMetrics(1)
+

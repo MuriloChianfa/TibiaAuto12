@@ -10,15 +10,12 @@ from Core.Getters import *
 
 from Modules.Root import root
 
-
 ItemsSquare = 32
 
 RingPositions = [0, 0, 0, 0]
 AmuletPositions = [0, 0, 0, 0]
 
-
-class Errno(Exception):
-    pass
+NumberOfExcepts = []
 
 
 '''
@@ -96,7 +93,8 @@ class ChooseConfig:
                 start_configuration = time.time()
                 Directory = os.getcwd()
 
-                shutil.copyfile(Directory + '\\Scripts' + '\\Json.json', os.path.join(Directory + '\\Scripts' + '\\' + NameCreateJson.get() + '.json'))
+                shutil.copyfile(Directory + '\\Scripts' + '\\Json.json',
+                                os.path.join(Directory + '\\Scripts' + '\\' + NameCreateJson.get() + '.json'))
 
                 TibiaAuto = pygetwindow.getWindowsWithTitle("Choose You Config")[0]
                 TibiaAuto.minimize()
@@ -120,11 +118,15 @@ class ChooseConfig:
                     data['Positions']['LifePosition'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
-                except Errno:
+                except Exception:
                     print('Helth Position Error')
                     data['Positions']['LifePosition'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
+
+                    NumberOfExcepts.append("LifePosition")
+
+                    pass
 
                 try:
                     ManaLocation = GetManaPosition()
@@ -136,31 +138,42 @@ class ChooseConfig:
                     data['Positions']['ManaPosition'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
-                except Errno:
+                except Exception:
                     print('Mana Position Error')
                     data['Positions']['ManaPosition'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
+                    NumberOfExcepts.append("ManaPosition")
+
+                    pass
+
                 try:
                     BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition()
-                    print(f"Battle Location [X: {BattlePositions[0]} Y: {BattlePositions[1]}]")
-                    data['Positions']['BattlePosition'][0]['x'] = BattlePositions[0]
-                    data['Positions']['BattlePosition'][0]['y'] = BattlePositions[1]
-                    data['Positions']['BattlePosition'][0]['Stats'] = True
-                    time.sleep(.4)
-                    data['Boxes']['BattleBox'][0]['x'] = int(BattlePositions[0])
-                    data['Boxes']['BattleBox'][0]['y'] = int(BattlePositions[1])
-                    data['Boxes']['BattleBox'][0]['w'] = int(BattlePositions[2])
-                    data['Boxes']['BattleBox'][0]['h'] = int(BattlePositions[3])
-                    data['Boxes']['BattleBox'][0]['Stats'] = True
-                    with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
-                        json.dump(data, wJson, indent=4)
-                except Errno:
+                    if BattlePositions[0] and BattlePositions[1] and BattlePositions[2] and BattlePositions[3] != 0:
+                        print(f"Battle Location [X: {BattlePositions[0]} Y: {BattlePositions[1]}]")
+                        data['Positions']['BattlePosition'][0]['x'] = BattlePositions[0]
+                        data['Positions']['BattlePosition'][0]['y'] = BattlePositions[1]
+                        data['Positions']['BattlePosition'][0]['Stats'] = True
+                        time.sleep(.4)
+                        data['Boxes']['BattleBox'][0]['x'] = int(BattlePositions[0])
+                        data['Boxes']['BattleBox'][0]['y'] = int(BattlePositions[1])
+                        data['Boxes']['BattleBox'][0]['w'] = int(BattlePositions[2])
+                        data['Boxes']['BattleBox'][0]['h'] = int(BattlePositions[3])
+                        data['Boxes']['BattleBox'][0]['Stats'] = True
+                        with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
+                            json.dump(data, wJson, indent=4)
+                    else:
+                        raise Exception
+                except Exception:
                     print('Battle Position Error')
                     data['Positions']['BattlePosition'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
+
+                    NumberOfExcepts.append("BattlePosition")
+
+                    pass
 
                 try:
                     StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition()
@@ -176,11 +189,15 @@ class ChooseConfig:
                     data['Boxes']['StatusBarBox'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
-                except Errno:
+                except Exception:
                     print('Status Bar Error')
                     data['Boxes']['StatusBarBox'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
+
+                    NumberOfExcepts.append("StatusBarBox")
+
+                    pass
 
                 try:
                     RingPositions[0], RingPositions[1] = StatsPositions[0], StatsPositions[1] - 58
@@ -197,11 +214,15 @@ class ChooseConfig:
                     data['Boxes']['RingBox'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
-                except Errno:
+                except Exception:
                     print('RingPosition Error')
                     data['Boxes']['RingBox'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
+
+                    NumberOfExcepts.append("RingBox")
+
+                    pass
 
                 try:
                     AmuletPositions[0], AmuletPositions[1] = StatsPositions[0], StatsPositions[1] - 130
@@ -218,11 +239,15 @@ class ChooseConfig:
                     data['Boxes']['AmuletBox'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
-                except Errno:
+                except Exception:
                     print('AmuletPosition Error')
                     data['Boxes']['AmuletBox'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
+
+                    NumberOfExcepts.append("AmuletBox")
+
+                    pass
 
                 try:
                     MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition()
@@ -234,11 +259,15 @@ class ChooseConfig:
                     data['Boxes']['MapBox'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
-                except Errno:
+                except Exception:
                     print('MapPosition Error')
                     data['Boxes']['MapBox'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
+
+                    NumberOfExcepts.append("MapBox")
+
+                    pass
 
                 try:
                     Player[0], Player[1], GameWindow[0], GameWindow[1], GameWindow[2], GameWindow[
@@ -260,16 +289,21 @@ class ChooseConfig:
                     data['Boxes']['GameWindowBox'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
-                except Errno:
+                except Exception:
                     print('Player Position Error')
                     data['Positions']['PlayerPosition'][0]['Stats'] = False
                     data['Boxes']['GameWindowBox'][0]['Stats'] = False
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
+
+                    NumberOfExcepts.append("PlayerPosition")
+                    NumberOfExcepts.append("GameWindowBox")
+
                     pass
 
                 try:
-                    SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[
+                    SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], \
+                    SQMs[
                         11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs()
                     time.sleep(0.1)
                     print(f"1° SQM Location [X: {SQMs[0]}, Y: {SQMs[1]}]")
@@ -311,7 +345,7 @@ class ChooseConfig:
                     data['SQM']['SQM9'][0]['Stats'] = True
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
-                except Errno:
+                except Exception:
                     print('SQMs Error')
                     data['SQM']['SQM1'][0]['Stats'] = False
                     data['SQM']['SQM2'][0]['Stats'] = False
@@ -325,11 +359,81 @@ class ChooseConfig:
                     with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                         json.dump(data, wJson, indent=4)
 
-                data['Stats'] = True
+                    NumberOfExcepts.append("SQM'sPositionError")
+
+                    pass
+
+                data['MouseOption'] = MouseMode.get()
                 with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
 
-                data['MouseOption'] = MouseMode.get()
+                data['ItemsMode'] = ItemsMode.get()
+                with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
+                    json.dump(data, wJson, indent=4)
+
+                # Paths Setter
+                from Conf.Constants import MainPath, ChestsPath, CavebotScriptsPath, ContainersNamePath
+
+                data['Paths']['MainPath'] = MainPath
+
+                if ItemsMode.get() == "Frames":
+                    from Conf.Constants import FramesItemsPath
+
+                    data['Paths']['ItemsPath'] = FramesItemsPath
+                elif ItemsMode.get() == "Corners":
+                    from Conf.Constants import CornersItemsPath
+
+                    data['Paths']['ItemsPath'] = CornersItemsPath
+                elif ItemsMode.get() == "None":
+                    from Conf.Constants import NoneItemsPath
+
+                    data['Paths']['ItemsPath'] = NoneItemsPath
+
+                data['Paths']['ChestsPath'] = ChestsPath
+                data['Paths']['ContainersNamePath'] = ContainersNamePath
+                data['Paths']['CavebotScriptsPath'] = CavebotScriptsPath
+                with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
+                    json.dump(data, wJson, indent=4)
+
+                if len(NumberOfExcepts) != 0:
+                    print("\nSome Errors Occurred... Opening The Manual Config.")
+
+                    print("Unfortunately, You Will Have To Manually Configure The Following Errors:\n")
+
+                    time.sleep(.3)
+                    self.ChooseConfig.destroyWindow()
+                    time.sleep(.1)
+
+                    def ManualConfig(ErrorName):
+                        ManualConfiguration = GUI('ManualConfiguration', 'Manual Configuration')
+                        ManualConfiguration.MainWindow('Config', [414, 202], [2, 2.36])
+
+                        def Solving():
+                            ManualConfiguration.destroyWindow()
+                            return True
+
+                        '''LabelError = ManualConfiguration.addLabel("Solving Manually: " + ErrorName, [85, 31])
+                        LabelError.configure(font=24)'''
+
+                        ManualConfiguration.addMinimalLabel("One Error Was Occured In: " + ErrorName, [35, 31], 10)
+                        ManualConfiguration.addMinimalLabel("... But This Option Is In Development.", [35, 51])
+
+                        ManualConfiguration.addButton('Ok', Solving, [75, 23], [310, 166])
+
+                        ManualConfiguration.Protocol(Solving)
+                        ManualConfiguration.loop()
+
+                    for i in range(len(NumberOfExcepts)):
+                        print("Error[" + str(i + 1) + "] =", NumberOfExcepts[i])
+
+                    for i in range(len(NumberOfExcepts)):
+                        ManualConfig(NumberOfExcepts[i])
+
+                    print("\nExiting Of The Program... Please Solve The Errors")
+
+                    exit(1)
+
+                data['Stats'] = True
                 with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
 
@@ -371,6 +475,8 @@ class ChooseConfig:
         MouseMode.set(1)
         HookMode = tk.IntVar()
         HookMode.set(1)
+        ItemsMode = tk.StringVar()
+        ItemsMode.set("Frames")
 
         # endregion
 
@@ -393,7 +499,8 @@ class ChooseConfig:
         LabelSelectOP1 = self.ChooseConfig.addLabel('Select Your Mouse And Keyboard Option', [30, 76])
         LabelSelectOP1.configure(bg=rgb((114, 94, 48)), fg='black')
 
-        RadioMouseMoviment = self.ChooseConfig.addRadio('{Global} Movement Mouse On Focused Window', MouseMode, 1, [10, 95])
+        RadioMouseMoviment = self.ChooseConfig.addRadio('{Global} Movement Mouse On Focused Window', MouseMode, 1,
+                                                        [10, 95])
         RadioMouseMoviment.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                      selectcolor=rgb((114, 94, 48)))
         RadioSenderMouse = self.ChooseConfig.addRadio("{OTServer} Send Mouse Events To Tibia's Window", MouseMode, 0,
@@ -407,6 +514,22 @@ class ChooseConfig:
         RadioHookWindow = self.ChooseConfig.addRadio("{Global} Hook Directly OBS Screen", HookMode, 1, [10, 155])
         RadioHookWindow.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                   selectcolor=rgb((114, 94, 48)))
+
+        LabelSelectOP3 = self.ChooseConfig.addLabel('Select The Items Mode', [280, 76])
+        LabelSelectOP3.configure(bg=rgb((114, 94, 48)), fg='black')
+
+        RadioFrames = self.ChooseConfig.addRadio('Frames', ItemsMode, "Frames",
+                                                 [310, 95])
+        RadioFrames.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
+                              selectcolor=rgb((114, 94, 48)))
+        RadioCorners = self.ChooseConfig.addRadio("Corners", ItemsMode, "Corners",
+                                                  [310, 114])
+        RadioCorners.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
+                               selectcolor=rgb((114, 94, 48)))
+        RadioNone = self.ChooseConfig.addRadio("None", ItemsMode, "None",
+                                               [310, 133])
+        RadioNone.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
+                            selectcolor=rgb((114, 94, 48)))
 
         # endregion
 

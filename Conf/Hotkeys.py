@@ -77,3 +77,9 @@ class Hotkey:
 
     def MoveTo(self, X, Y):
         self.SendToClient.MoveTo(X, Y)
+
+    def MainWindowSize(self):
+        return self.SendToClient.MainWindowSize()
+
+    def DragTo(self, From, To):
+        self.SendToClient.DragTo(From, To)

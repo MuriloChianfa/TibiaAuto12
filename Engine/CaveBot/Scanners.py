@@ -1,11 +1,11 @@
 import cv2
 import numpy as np
 
-from Core.HookWindow import LocateAllImages, LocateCenterImage, LocateBoolRGBImage, LocateImage, TakeImage
+from Core.HookWindow import LocateAllImages, LocateCenterImage, LocateImage, TakeImage
 
 
 def NumberOfTargets(BattlePosition, Monster):
-    Number = LocateAllImages('images/Targets/' + Monster + '.png', Precision=0.8, Region=(
+    Number = LocateAllImages('images/Targets/Names/' + Monster + '.png', Precision=0.8, Region=(
         BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
 
     if Number > 0:
@@ -17,7 +17,7 @@ def NumberOfTargets(BattlePosition, Monster):
 def ScanTarget(BattlePosition, Monster):
     HasTarget = [0, 0]
 
-    HasTarget[0], HasTarget[1] = LocateCenterImage('images/Targets/' + Monster + '.png', Precision=0.86, Region=(
+    HasTarget[0], HasTarget[1] = LocateCenterImage('images/Targets/Names/' + Monster + '.png', Precision=0.86, Region=(
         BattlePosition[0], BattlePosition[1], BattlePosition[2], BattlePosition[3]))
 
     if HasTarget[0] != 0 and HasTarget[1] != 0:

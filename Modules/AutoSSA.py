@@ -20,13 +20,13 @@ FoundedImg = False
 EnabledAutoSSA = False
 WaitingForClick = False
 
-Amulet = 'SSA'
+Amulet = 'StoneSkinAmulet'
 AmuletLocate = [0, 0]
 MaxLen = 4
 
 
 class AutoSSA:
-    def __init__(self, root, AmuletPositions, HealthLocation, MOUSE_OPTION):
+    def __init__(self, root, AmuletPositions, HealthLocation, MOUSE_OPTION, ItemsPath):
         self.AutoSSA = GUI('AutoSSA', 'Module: Auto SSA')
         self.AutoSSA.DefaultWindow('AutoAmulet', [306, 397], [1.2, 2.29])
         self.Setter = GUISetter("AmuletLoader")
@@ -57,12 +57,14 @@ class AutoSSA:
                 self.ThreadManager.PauseThread()
 
         def ScanAutoAmulet():
+            global Amulet
+            Amulet = NameAmulet.get()
             if CheckLifeBellowThan.get():
                 BellowThan = LifeBellowThan.get()
                 from Modules.AutoHeal import EnabledAutoHeal
                 if EnabledAutoHeal:
                     while EnabledAutoSSA and EnabledAutoHeal:
-                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
+                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, Amulets[Amulet]["Precision"])
 
                         from Modules.AutoHeal import Life
                         if NoHasAmulet and Life <= BellowThan:
@@ -75,13 +77,13 @@ class AutoSSA:
                         if Life is None:
                             Life = 0
 
-                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
+                        NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, Amulets[Amulet]["Precision"])
 
                         if NoHasAmulet and Life < BellowThan:
                             Execute()
             elif not CheckLifeBellowThan.get():
                 while EnabledAutoSSA:
-                    NoHasAmulet = ScanAmulet(AmuletPositions, Amulet)
+                    NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, Amulets[Amulet]["Precision"])
 
                     if NoHasAmulet:
                         Execute()
@@ -102,12 +104,16 @@ class AutoSSA:
                     time.sleep(1)
                 if X and Y is not None:
                     if X < WidthScreen and Y < HeightScreen:
-                        MousePosition = pyautogui.position()
-                        pyautogui.moveTo(X, Y)
-                        pyautogui.mouseDown(button='left')
-                        pyautogui.moveTo(AmuletPositions[0] + 16, AmuletPositions[1] + 16)
-                        pyautogui.mouseUp(button='left')
-                        pyautogui.moveTo(MousePosition)
+                        if MOUSE_OPTION == 1:
+                            MousePosition = self.SendToClient.Position()
+                        else:
+                            MousePosition = [0, 0]
+
+                        self.SendToClient.DragTo([X, Y], [AmuletPositions[0] + 16, AmuletPositions[1] + 16])
+
+                        if MOUSE_OPTION == 1:
+                            self.SendToClient.MoveTo(MousePosition[0], MousePosition[1])
+
                         print("Amulet Reallocated On: X =", AmuletPositions[0] + 16, "Y =", AmuletPositions[1] + 16,
                               "From: X =",
                               X, "Y =", Y)
@@ -135,7 +141,7 @@ class AutoSSA:
                     sX, sY = GetPosition()
                     time.sleep(0.03)
                     from Core.HookWindow import SaveImage
-                    SaveImage('images/Amulets/' + Amulet + '.png', Region=(sX - 5, sY - 31, sX + 12, sY - 14))
+                    SaveImage(ItemsPath + 'Amulets/' + Amulet + '.png', Region=(sX - 6, sY - 28, sX + 6, sY - 16))
                     WaitingForClick = False
                     Invisible.destroyWindow()
                     TibiaAuto.maximize()
@@ -146,7 +152,7 @@ class AutoSSA:
                 Invisible.UpdateWindow(X, Y)
 
         def AddNewAmulet():
-            print('....')
+            print('Option In Development...')
 
         def CheckClick():
             Checking()
@@ -249,11 +255,28 @@ class AutoSSA:
         BackImage = 'images/Fundo.png'
         Back = self.AutoSSA.openImage(BackImage, [150, 45])
 
-        AmuletImg = 'images/Amulets/SSA.png'
-        ImageID = self.AutoSSA.openImage(AmuletImg, [64, 64])
+        AmuletImages = []
+        AmuletName = []
+        for NameOfCurrentAmulet in Amulets:
+            CurrentAmuletName = ItemsPath + 'Amulets/' + NameOfCurrentAmulet + '.png'
+            CurrentAmuletImage = self.AutoSSA.openImage(CurrentAmuletName, [64, 64])
+
+            AmuletImages.append(CurrentAmuletImage)
+            AmuletName.append(NameOfCurrentAmulet)
 
         ImgLabel = self.AutoSSA.addLabel('Image To Search', [16, 22])
-        self.AutoSSA.addImage(ImageID, [28, 43])
+
+        def UpdateImg():
+            for XAmulet in Amulets:
+                if NameAmulet.get() == XAmulet:
+                    self.AutoSSA.addImage(AmuletImages[AmuletName.index(XAmulet)], [28, 43])
+
+            global Amulet
+            Amulet = NameAmulet.get()
+
+        UpdateImg()
+
+        WidthScreen, HeightScreen = self.SendToClient.MainWindowSize()
 
         AmuletLabel = self.AutoSSA.addLabel('Select Name Of Amulet', [135, 55])
         OptionNameAmulet = self.AutoSSA.addOption(NameAmulet, Amulets, [120, 80], width=21)
@@ -367,6 +390,10 @@ class AutoSSA:
                 elif CheckLifeBellowThan.get():
                     Enable(LabelLifeBellowThan)
                     Enable(PercentageLifeBellowThan)
+
+                if NameAmulet.get() != Amulet:
+                    UpdateImg()
+
                 ExecGUITrigger()
 
             self.AutoSSA.After(200, ConstantVerify)
