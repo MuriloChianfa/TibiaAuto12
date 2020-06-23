@@ -195,8 +195,8 @@ class GUI:
     def After(self, Time, Function):
         return self.windowID.after(Time, Function)
 
-    # @staticmethod
-    def openImage(self, image, size):
+    @staticmethod
+    def openImage(image, size):
         ImageID = Image.open(image)
         ImageID = ImageID.resize((size[0], size[1]), Image.ANTIALIAS)
         ImageID = ImageTk.PhotoImage(ImageID)

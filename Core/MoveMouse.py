@@ -31,7 +31,7 @@ class MoveMouse:
         self.MOUSEEVENTF_RIGHTCLICK = self.MOUSEEVENTF_RIGHTDOWN + self.MOUSEEVENTF_RIGHTUP
 
     def MainWindowSize(self):
-        return self.DLL.GetSystemMetrics(0), ctypes.windll.user32.GetSystemMetrics(1)
+        return self.DLL.GetSystemMetrics(0), self.DLL.GetSystemMetrics(1)
 
     def Position(self):
         Cursor = POINT()
@@ -60,7 +60,7 @@ class MoveMouse:
         self.DLL.SetCursorPos(X, Y + 24)
 
     def DragTo(self, From, To):
-        self.DLL.SetCursorPos(From[0], From[1] + 24)
+        self.DLL.SetCursorPos(From[0], From[1])
         self.DLL.mouse_event(self.MOUSEEVENTF_LEFTDOWN, ctypes.c_long(From[0]), ctypes.c_long(From[1] + 24), 0, 0)
         self.DLL.SetCursorPos(To[0], To[1] + 24)
         self.DLL.mouse_event(self.MOUSEEVENTF_LEFTUP, ctypes.c_long(To[0]), ctypes.c_long(To[1] + 24), 0, 0)

@@ -273,7 +273,7 @@ def OpenAutoSeller():
 
 
 def OpenAutoSSA():
-    AutoSSA(root, AmuletPositions, HealthLocation, MOUSE_OPTION)
+    AutoSSA(root, AmuletPositions, HealthLocation, MOUSE_OPTION, ItemsPath)
 
 
 def OpenCaveBot():

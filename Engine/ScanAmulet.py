@@ -1,11 +1,11 @@
 from Core.HookWindow import LocateCenterImage, LocateImage
 
 
-def ScanAmulet(AmuletPositions, Amulet):
+def ScanAmulet(AmuletPositions, Amulet, Precision):
     HasAmulet = [0, 0]
 
-    HasAmulet[0], HasAmulet[1] = LocateImage('images/Amulets/' + Amulet + '.png', Precision=0.9, Region=(
-        AmuletPositions[0], AmuletPositions[1], AmuletPositions[2], AmuletPositions[3]))
+    HasAmulet[0], HasAmulet[1] = LocateImage('images/Items/None/Amulets/' + Amulet + '.png', Precision=Precision, Region=(
+        AmuletPositions[0] - 1, AmuletPositions[1] - 1, AmuletPositions[2] + 1, AmuletPositions[3] + 1))
     if HasAmulet[0] != 0 and HasAmulet[1] != 0:
         return False
     else:

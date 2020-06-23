@@ -57,6 +57,8 @@ class AutoRing:
                 self.ThreadManager.PauseThread()
 
         def ScanAutoRing():
+            global Ring
+            Ring = NameRing.get()
             if CheckLifeBellowThan.get():
                 BellowThan = LifeBellowThan.get()
                 from Modules.AutoHeal import EnabledAutoHeal
@@ -95,19 +97,24 @@ class AutoRing:
                 try:
                     X = int(TextEntryX.get())
                     Y = int(TextEntryY.get())
-                except:
+                except Exception:
                     X = None
                     Y = None
                     print("Error To Get Type Of Position")
                     time.sleep(1)
                 if X and Y is not None:
                     if X < WidthScreen and Y < HeightScreen:
-                        MousePosition = pyautogui.position()
-                        pyautogui.moveTo(X, Y)
-                        pyautogui.mouseDown(button='left')
-                        pyautogui.moveTo(RingPositions[0] + 16, RingPositions[1] + 16)
-                        pyautogui.mouseUp(button='left')
-                        pyautogui.moveTo(MousePosition)
+
+                        if MOUSE_OPTION == 1:
+                            MousePosition = self.SendToClient.Position()
+                        else:
+                            MousePosition = [0, 0]
+
+                        self.SendToClient.DragTo([X, Y], [RingPositions[0] + 16, RingPositions[1] + 16])
+
+                        if MOUSE_OPTION == 1:
+                            self.SendToClient.MoveTo(MousePosition[0], MousePosition[1])
+
                         print("Ring Reallocated On: X =", RingPositions[0] + 16, "Y =", RingPositions[1] + 16,
                               "From: X =",
                               X, "Y =", Y)
@@ -135,19 +142,20 @@ class AutoRing:
                     sX, sY = GetPosition()
                     time.sleep(0.03)
                     from Core.HookWindow import SaveImage
-
-                    SaveImage(ItemsPath + 'Rings/' + Ring + '.png', Region=(sX - 5, sY - 31, sX + 12, sY - 14))
+                    SaveImage(ItemsPath + 'Rings/' + Ring + '.png', Region=(sX - 6, sY - 28, sX + 6, sY - 16))
                     WaitingForClick = False
                     Invisible.destroyWindow()
                     TibiaAuto.maximize()
                     time.sleep(0.04)
                     AutoRingWindow.maximize()
                     AutoRingWindow.moveTo(AutoRingWindowX, AutoRingWindowY)
+
+                    UpdateImg()
                     break
                 Invisible.UpdateWindow(X, Y)
 
         def AddNewAmulet():
-            print('....')
+            print('Option In Development...')
 
         def CheckClick():
             Checking()
@@ -195,8 +203,6 @@ class AutoRing:
                     TextEntryY.set(s[:-1])
                 else:
                     TextEntryY.set(s[:MaxLen])
-
-        WidthScreen, HeightScreen = pyautogui.size()
 
         VarCheckPrint, InitiatedCheckPrint = self.Setter.Variables.Bool('CheckPrint')
         VarCheckBuff, InitiatedCheckBuff = self.Setter.Variables.Bool('CheckBuff')
@@ -250,11 +256,28 @@ class AutoRing:
         BackImage = 'images/Fundo.png'
         Back = self.AutoRing.openImage(BackImage, [150, 45])
 
-        RingImg = ItemsPath + 'Rings/MightRing.png'
-        ImageID = self.AutoRing.openImage(RingImg, [64, 64])
+        RingImages = []
+        RingName = []
+        for NameOfCurrentRing in Rings:
+            CurrentRingName = ItemsPath + 'Rings/' + NameOfCurrentRing + '.png'
+            CurrentRingImage = self.AutoRing.openImage(CurrentRingName, [64, 64])
+
+            RingImages.append(CurrentRingImage)
+            RingName.append(NameOfCurrentRing)
 
         ImgLabel = self.AutoRing.addLabel('Image To Search', [16, 22])
-        self.AutoRing.addImage(ImageID, [28, 43])
+
+        def UpdateImg():
+            for XRing in Rings:
+                if NameRing.get() == XRing:
+                    self.AutoRing.addImage(RingImages[RingName.index(XRing)], [28, 43])
+
+            global Ring
+            Ring = NameRing.get()
+
+        UpdateImg()
+
+        WidthScreen, HeightScreen = self.SendToClient.MainWindowSize()
 
         RingLabel = self.AutoRing.addLabel('Select Name Of Ring', [135, 55])
         OptionNameRing = self.AutoRing.addOption(NameRing, Rings, [120, 80], width=21)
@@ -369,6 +392,10 @@ class AutoRing:
                 elif CheckLifeBellowThan.get():
                     Enable(LabelLifeBellowThan)
                     Enable(PercentageLifeBellowThan)
+
+                if NameRing.get() != Ring:
+                    UpdateImg()
+
                 ExecGUITrigger()
 
             self.AutoRing.After(200, ConstantVerify)
