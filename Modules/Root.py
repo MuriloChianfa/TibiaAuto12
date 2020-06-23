@@ -49,6 +49,12 @@ HealthLocation = [0, 0]
 BattlePositions = [0, 0, 0, 0]
 AmuletPositions = [0, 0, 0, 0]
 SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+MainPath = None
+ItemsPath = None
+ChestsPath = None
+ContainersNamePath = None
+CavebotScriptsPath = None
+
 
 
 class root:
@@ -184,6 +190,13 @@ class root:
                     SQMs[16] = data['SQM']['SQM9'][0]['x']
                     SQMs[17] = data['SQM']['SQM9'][0]['y']
 
+                global MainPath, ItemsPath, ChestsPath, ContainersNamePath, CavebotScriptsPath
+                MainPath = data["Paths"]["MainPath"]
+                ItemsPath = data["Paths"]["ItemsPath"]
+                ChestsPath = data["Paths"]["ChestsPath"]
+                ContainersNamePath = data["Paths"]["ContainersNamePath"]
+                CavebotScriptsPath = data["Paths"]["CavebotScriptsPath"]
+
                 SETTED_VARIABLES = True
 
         SetVariablesFromLoadedJson()
@@ -251,7 +264,7 @@ def OpenAutoMana():
 
 
 def OpenAutoRing():
-    AutoRing(root, RingPositions, HealthLocation, MOUSE_OPTION)
+    AutoRing(root, RingPositions, HealthLocation, MOUSE_OPTION, ItemsPath)
 
 
 def OpenAutoSeller():

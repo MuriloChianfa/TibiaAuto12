@@ -2,427 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6e36c5b-40a9-47d0-83fd-838d18fd43e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Names/Chest9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Chests/Sprites/Chest9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Depot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/DepotActions.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/DepotChest.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/FreeSlot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/LockerDown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/LockerLeft.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/LockerName.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/LockerRight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/LockerUp.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Mail.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/MailBox.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Market.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Stash.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Depot/Trash.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/Backpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/Bag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/Basket.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/BeachBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/BlueBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/BrocadeBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/BuggyBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/CamouflageBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/CrownBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/DeeplingBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/DemonBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/DragonBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/ExpeditionBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/FurBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/FurBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/GloothBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/GoldenBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/GreenBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/GreenBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/GreyBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/JewelledBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/MinotaurBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/OrangeBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/PirateBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/PirateBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/Present.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/PurpleBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/RedBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/RedBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/ShoppingBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/StampedParcel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/ContainersName/YellowBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/Backpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/Bag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/Basket.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/BeachBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/BlueBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/BrocadeBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/BuggyBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/CamouflageBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/CrownBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/DeeplingBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/DemonBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/DragonBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/ExpeditionBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/FurBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/FurBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/GloothBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/GoldenBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/GreenBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/GreenBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/GreyBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/JewelledBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/MinotaurBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/OrangeBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/PirateBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/PirateBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/Present.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/PurpleBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/RedBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/RedBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/ShoppingBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/StampedParcel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Containers/YellowBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/BrownMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/Cheese.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/Corncobs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/DeeplingFilet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/FireMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/Fish.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/GloothSandwichs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/Grapes.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/GreenMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/Melons.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/OrangeMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/Peanuts.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/RedMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Foods/WhiteMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/AxeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/BrokenKeyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/BrokenRingOfEnding.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/ButterflyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/ClubRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/CrystalRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/DeathRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/DwarvenRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/EnergyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/GoldRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/LifeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/MightRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/PowerRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/RingOfBluePlasma.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/RingOfHealing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/StealthRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/SweetheartRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/SwordRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/TimeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Rings/WeddingRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/Crowbar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/FishingRod.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/LightShovel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/Machete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/Pick.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/Rope.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/Scythe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/Shovel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/SmallAxe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/Torch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Corners/Tools/Watch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/Backpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/Bag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/Basket.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/BeachBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/BlueBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/BrocadeBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/BuggyBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/CamouflageBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/CrownBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/DeeplingBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/DemonBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/DragonBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/ExpeditionBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/FurBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/FurBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/GloothBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/GoldenBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/GreenBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/GreenBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/GreyBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/JewelledBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/MinotaurBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/OrangeBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/PirateBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/PirateBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/Present.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/PurpleBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/RedBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/RedBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/ShoppingBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/StampedParcel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Containers/YellowBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/BrownMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/Cheese.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/Corncobs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/DeeplingFilet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/FireMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/Fish.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/GloothSandwichs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/Grapes.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/GreenMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/Melons.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/OrangeMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/Peanuts.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/RedMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Foods/WhiteMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/AxeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/BrokenKeyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/BrokenRingOfEnding.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/ButterflyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/ClubRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/CrystalRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/DeathRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/DwarvenRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/EnergyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/GoldRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/LifeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/MightRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/PowerRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/RingOfBluePlasma.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/RingOfHealing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/StealthRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/SweetheartRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/SwordRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/TimeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Rings/WeddingRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/Crowbar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/FishingRod.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/LightShovel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/Machete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/Pick.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/Rope.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/Scythe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/Shovel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/SmallAxe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/Torch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/Frames/Tools/Watch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Ammunitions/DiamondArrow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Ammunitions/SpectralBolt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/Backpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/Bag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/Basket.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/BeachBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/BlueBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/BrocadeBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/BuggyBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/CamouflageBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/CrownBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/DeeplingBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/DemonBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/DragonBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/ExpeditionBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/FurBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/FurBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/GloothBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/GoldenBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/GreenBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/GreenBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/GreyBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/JewelledBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/MinotaurBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/OrangeBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/PirateBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/PirateBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/Present.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/PurpleBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/RedBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/RedBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/ShoppingBag.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/StampedParcel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Containers/YellowBackpack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/BrownMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/Cheese.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/Corncobs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/DeeplingFilet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/FireMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/Fish.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/GloothSandwichs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/Grapes.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/GreenMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/Melons.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/OrangeMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/Peanuts.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/RedMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Foods/WhiteMushrooms.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/AxeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/BrokenKeyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/BrokenRingOfEnding.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/ButterflyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/ClubRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/CrystalRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/DeathRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/DwarvenRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/EnergyRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/GoldRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/LifeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/MightRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/PowerRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/RingOfBluePlasma.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/RingOfHealing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/StealthRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/SweetheartRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/SwordRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/TimeRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Rings/WeddingRing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/Crowbar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/FishingRod.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/LightShovel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/Machete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/Pick.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/Rope.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/Scythe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/Shovel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/SmallAxe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/Torch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Items/None/Tools/Watch.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/0_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/10_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/11_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/12_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/13_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/14_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/15_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/1_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/2_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/3_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/4_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/5_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/6_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/7_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/8_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/8a.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Maps/9_path.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/CaveRat.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/CorymCharlatan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/CorymSkirmisher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/CorymVanguard.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/Cyclops.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/Dog.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/Orc.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/OrcSpearman.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/OrcWarrior.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/Rat.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/Rotworm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Names/Stonerefiner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/CarrionWorm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/CorymCharlatan.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/CorymSkirmisher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/CorymVanguard.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Crocodile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Cyclops.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/CyclopsSmith.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Dragon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/DragonHatchling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/EmeraldDamselfly.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Ghoul.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/MarshStalker.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/MutatedHuman.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Rotworm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Salamander.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Skeleton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Slime.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/SpitNeetle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Swampling.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Terramite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/ThornbackTortoise.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Toad.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/Targets/Sprites/Tortoise.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TibiaSettings/Battle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TibiaSettings/Engine.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TibiaSettings/Exit.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TibiaSettings/Options.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TibiaSettings/SliderDown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TibiaSettings/SliderUp.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TibiaSettings/Store.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TibiaSettings/VIPList.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scripts/NewConfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Conf/Constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/Conf/Constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/CaveBot/Scanners.py" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/CaveBot/Scanners.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Getters.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Getters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/AutoRing.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/AutoRing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/ChooseConfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/ChooseConfig.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Root.py" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Root.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Scripts/GUILoader.json" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/GUILoader.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/BrownMushrooms.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/Cheese.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/Corncobs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/DeeplingFilet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/FireMushrooms.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/Fish.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/GloothSandwichs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/Grapes.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/GreenMushrooms.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/GreenMushrooms2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/Melons.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/OrangeMushrooms.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/Peanuts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/RedMushrooms.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Foods/WhiteMushrooms.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/AnyCorym.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/CaveRat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/CorymCharlatan.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/CorymSkirmisher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/CorymVanguard.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/Cyclops.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/Dog.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/Orc.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/OrcSpearman.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/OrcWarrior.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/Rat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/Rotworm.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Targets/Stonerefiner.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scripts/Json.json" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Json.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scripts/Loads.json" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts/Loads.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scripts/ScriptExemplo.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -577,7 +167,7 @@
     </state>
     <state x="693" y="248" key="FileChooserDialogImpl/0.0.1826.984/-1366.246.1366.768/1826.12.1366.768@0.0.1826.984" timestamp="1584297345251" />
     <state x="2344" y="206" key="FileChooserDialogImpl/0.0.1826.984/-1366.246.1366.768/1826.12.1366.768@1826.12.1366.768" timestamp="1584998707257" />
-    <state width="1805" height="94" key="GridCell.Tab.0.bottom" timestamp="1592728912351">
+    <state width="1805" height="94" key="GridCell.Tab.0.bottom" timestamp="1592940132802">
       <screen x="1366" y="-259" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.bottom/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -606,9 +196,10 @@
     <state width="1805" height="133" key="GridCell.Tab.0.bottom/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.bottom/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1805" height="94" key="GridCell.Tab.0.bottom/1366.-259.1826.1024/0.0.1366.768/3192.-243.1366.768@1366.-259.1826.1024" timestamp="1592728912351" />
+    <state width="1805" height="94" key="GridCell.Tab.0.bottom/1366.-259.1826.1024/0.0.1366.768/3192.-259.1366.768@1366.-259.1826.1024" timestamp="1592940132802" />
     <state width="1805" height="74" key="GridCell.Tab.0.bottom/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1588000370060" />
     <state width="1805" height="134" key="GridCell.Tab.0.bottom/3192.-254.1366.768/0.0.1366.768/1366.-252.1826.984@1366.-252.1826.984" timestamp="1589816330641" />
-    <state width="1805" height="94" key="GridCell.Tab.0.center" timestamp="1592728912351">
+    <state width="1805" height="94" key="GridCell.Tab.0.center" timestamp="1592940132801">
       <screen x="1366" y="-259" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.center/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -637,9 +228,10 @@
     <state width="1805" height="133" key="GridCell.Tab.0.center/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.center/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1805" height="94" key="GridCell.Tab.0.center/1366.-259.1826.1024/0.0.1366.768/3192.-243.1366.768@1366.-259.1826.1024" timestamp="1592728912351" />
+    <state width="1805" height="94" key="GridCell.Tab.0.center/1366.-259.1826.1024/0.0.1366.768/3192.-259.1366.768@1366.-259.1826.1024" timestamp="1592940132801" />
     <state width="1805" height="74" key="GridCell.Tab.0.center/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1588000370060" />
     <state width="1805" height="134" key="GridCell.Tab.0.center/3192.-254.1366.768/0.0.1366.768/1366.-252.1826.984@1366.-252.1826.984" timestamp="1589816330641" />
-    <state width="1805" height="94" key="GridCell.Tab.0.left" timestamp="1592728912351">
+    <state width="1805" height="94" key="GridCell.Tab.0.left" timestamp="1592940132800">
       <screen x="1366" y="-259" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.left/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -668,9 +260,10 @@
     <state width="1805" height="133" key="GridCell.Tab.0.left/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.left/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1805" height="94" key="GridCell.Tab.0.left/1366.-259.1826.1024/0.0.1366.768/3192.-243.1366.768@1366.-259.1826.1024" timestamp="1592728912351" />
+    <state width="1805" height="94" key="GridCell.Tab.0.left/1366.-259.1826.1024/0.0.1366.768/3192.-259.1366.768@1366.-259.1826.1024" timestamp="1592940132800" />
     <state width="1805" height="74" key="GridCell.Tab.0.left/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1588000370060" />
     <state width="1805" height="134" key="GridCell.Tab.0.left/3192.-254.1366.768/0.0.1366.768/1366.-252.1826.984@1366.-252.1826.984" timestamp="1589816330641" />
-    <state width="1805" height="94" key="GridCell.Tab.0.right" timestamp="1592728912351">
+    <state width="1805" height="94" key="GridCell.Tab.0.right" timestamp="1592940132801">
       <screen x="1366" y="-259" width="1826" height="1024" />
     </state>
     <state width="1805" height="127" key="GridCell.Tab.0.right/-1826.-11.1826.984/-3192.233.1366.768/0.0.1366.728@-1826.-11.1826.984" timestamp="1585237938596" />
@@ -699,6 +292,7 @@
     <state width="1805" height="133" key="GridCell.Tab.0.right/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@1366.-257.1826.984" timestamp="1585344254960" />
     <state width="1805" height="112" key="GridCell.Tab.0.right/1366.-257.1826.984/0.0.1366.728/3192.-234.1366.768@3192.-234.1366.768" timestamp="1585334102437" />
     <state width="1805" height="94" key="GridCell.Tab.0.right/1366.-259.1826.1024/0.0.1366.768/3192.-243.1366.768@1366.-259.1826.1024" timestamp="1592728912351" />
+    <state width="1805" height="94" key="GridCell.Tab.0.right/1366.-259.1826.1024/0.0.1366.768/3192.-259.1366.768@1366.-259.1826.1024" timestamp="1592940132801" />
     <state width="1805" height="74" key="GridCell.Tab.0.right/3192.-234.1366.768/0.0.1366.768/1366.-257.1826.984@1366.-257.1826.984" timestamp="1588000370060" />
     <state width="1805" height="134" key="GridCell.Tab.0.right/3192.-254.1366.768/0.0.1366.768/1366.-252.1826.984@1366.-252.1826.984" timestamp="1589816330641" />
     <state width="1805" height="134" key="GridCell.Tab.1.bottom" timestamp="1591126020607">

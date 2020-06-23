@@ -1,6 +1,14 @@
 {
     "Stats": false,
     "MouseOption": null,
+    "ItemsMode": null,
+    "Paths": {
+        "MainPath": null,
+        "ItemsPath": null,
+        "ChestsPath":  null,
+        "ContainersNamePath": null,
+        "CavebotScriptsPath": null
+    },
     "Positions": {
         "LifePosition": [
             {
