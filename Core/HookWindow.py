@@ -92,7 +92,12 @@ class Hooker:
         if self.result == 1:
             return self.TakedImage
         else:
-            return print('Debugged From HookWindow')
+            self.win32gui.SetForegroundWindow(self.hwnd)
+            self.TakedImage = Hooker().HookWindow()
+            if self.result == 1:
+                return self.TakedImage
+            else:
+                return print('Debugged From HookWindow')
 
 
 '''
