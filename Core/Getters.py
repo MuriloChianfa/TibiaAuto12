@@ -40,7 +40,7 @@ def GetHealthPosition():
 
 
 def GetManaPosition():
-    ManaPositions = LocateCenterImage('images/PlayerSettings/mana.png', Precision=0.9)
+    ManaPositions = LocateCenterImage('images/PlayerSettings/mana.png', Precision=0.8)
     if ManaPositions[0] != 0 and ManaPositions[1] != 0:
         return ManaPositions[0], ManaPositions[1]
 
