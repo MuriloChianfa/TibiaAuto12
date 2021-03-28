@@ -52,13 +52,13 @@ class AutoMana:
 
                 if ManaCheckStageTwo.get():
                     stage_two = ManaPercentageStageTwo.get()
-                    if stage_two > Mana or stage_two == Mana:
+                    if Mana > stage_two or stage_two == Mana:
                         self.SendToClient.Press(ManaHotkeyStageTwo.get())
                         print("Pressed ", ManaHotkeyStageTwo.get())
                         time.sleep(.1)
                 elif ManaCheckStageOne.get():
                     stage_one = ManaPercentageStageOne.get()
-                    if stage_one > Mana or stage_one == Mana:
+                    if Mana > stage_one or stage_one == Mana:
                         self.SendToClient.Press(ManaHotkeyStageOne.get())
                         print("Pressed ", ManaHotkeyStageOne.get())
                         time.sleep(.1)
