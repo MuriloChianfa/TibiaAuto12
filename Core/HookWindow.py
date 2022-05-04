@@ -26,13 +26,10 @@ from PIL import Image, ImageOps
 '''
 
 if data['Platform'] == "Windows":
-    hwnd = GetHWND('Windowed Projector')
+    with open('Scripts/Loads.json', 'r') as LoadsJson:
+        data = json.load(LoadsJson)
 
-    if hwnd == 0:
-        hwnd = GetHWND('Projetor em janela')
-
-    if hwnd == 0:
-        exit(1)
+    hwnd = data['hwnd']
 
 elif data['Platform'] == "Linux":
     AnotherWindow = FindAnotherWindow()

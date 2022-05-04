@@ -1,6 +1,6 @@
 {
-    "Auto": false,
-    "hwnd": 787176,
-    "ScriptName": null,
+    "Auto": true,
+    "hwnd": 2164386,
+    "ScriptName": "NewConfig",
     "Platform": "Windows"
 }

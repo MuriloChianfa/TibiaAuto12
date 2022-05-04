@@ -2,17 +2,14 @@ import time
 import json
 import os
 import threading
-from random import randint
 
-from Conf.WindowTitles import *
 from Core.GUI import *
-from Core.GetHWND import GetHWND
+from Conf.WindowTitles import get_titles
 from Modules.ChooseConfig import ChooseConfig
 
 from Modules.Root import root
 
-Discovered = False
-data = None
+titles = get_titles()
 
 '''
     Starts The Interface For Your Visualization.
@@ -33,79 +30,17 @@ def WindowSelectCharacter():
     SelectCharacter.configure(background=rgb((120, 98, 51)), takefocus=True)
     SelectCharacter.iconbitmap('images/icone2.ico')
 
-    CHARACTERS = [""]
+    with open('Scripts/Loads.json', 'r') as LoadsJson:
+        data = json.load(LoadsJson)
 
     print('\033[33m' + "Start in 1 Seconds...")
 
-    '''
-        This Function Is Called From Line 217...
-        
-        These Functions Need To Be Started With Threads For 
-        Dont Interfere On Main Process With The Interface... 
-        
-        =] 
-    '''
-
-    def Searcher():
-        time.sleep(.1)
-        global Discovered, data
-        while not Discovered:
-            try:
-                # A Loop For Search Your Character Name In Conf, On The WindowTitles.py
-                TibiaName = FindTibiaTitle()
-                TibiaCharacter = TibiaName.split(' - ')
-
-                '''
-                    If TibiaCharacter Received Anyway From TibiaName, He Generate One
-                    Aleatory Number For Set On Your Character And Write In Loads.json, The
-                    HWND Number Of Your Tibia Window.
-                '''
-
-                if TibiaCharacter:
-                    Discovered = True
-                    NumberOfTheClient = str(randint(1000, 9999))
-                    CHARACTERS[0] = '[' + NumberOfTheClient + '] ' + TibiaCharacter[1]
-                    Char.set(CHARACTERS[0])
-                    print(CHARACTERS[0])
-                    try:
-                        hwnd = GetHWND('Tibia - ')
-                        with open('Scripts/Loads.json', 'r') as LoadsJson:
-                            data = json.load(LoadsJson)
-
-                        print('You Current Tibia HWND: ', hwnd)
-
-                        data['hwnd'] = hwnd
-                        with open('Scripts/Loads.json', 'w') as wJson:
-                            json.dump(data, wJson, indent=4)
-                    except Exception as Ex:
-                        print(Ex, ' ? O.O ')
-                        exit(1)
-
-                    '''
-                        If Dont Have Any Error, He Write On ComboBox, The Name Of Your Character
-                        This, Interrupts The Loop, And Wait The Player Select A Conf Option...
-                    '''
-
-                    # Write On ComboBox Your Character
-                    OptionSelectCharacter.configure(*CHARACTERS[0])
-
-                    '''
-                        Now, If The Player Select:
-                        
-                        The Configure Button, He Throw You For Function On Line 151
-                        The Reconfigure Button, He Throw You For Function On Line 119
-                        The Exit Button, He Throw You For Function On Line 104
-                    '''
-
-                    break
-
-            except Exception:
-                pass
-
     def exiting():
         print("Exiting...")
+
         try:
             SelectCharacter.destroy()
+            exit(0)
         except Exception as Ex:
             print(Ex)
             exit(0)
@@ -118,19 +53,17 @@ def WindowSelectCharacter():
     '''
 
     def Reconfigure():
-        ScriptName = data['ScriptName']
+        with open('Scripts/Loads.json', 'r') as LoadsJson:
+            data = json.load(LoadsJson)
 
-        if os.path.isfile('Scripts/' + ScriptName + '.json'):
+        if os.path.isfile('Scripts/' + data['ScriptName'] + '.json'):
             data['Auto'] = False
-            data['ScriptName'] = None
             with open('Scripts/Loads.json', 'w') as wJson:
                 json.dump(data, wJson, indent=4)
-            os.remove('Scripts/' + ScriptName + '.json')
+            os.remove('Scripts/' + data['ScriptName'] + '.json')
             global Discovered
             Discovered = False
-            CHARACTERS[0] = ""
             time.sleep(.2)
-            ThreadSearcher.join()
             SelectCharacter.destroy()
             time.sleep(.4)
             from StartBot import main
@@ -150,32 +83,37 @@ def WindowSelectCharacter():
     '''
 
     def ReadyToConfig():
-        global data
-        if CHARACTERS[0] != '':
-            SelectCharacter.destroy()
-            time.sleep(0.1)
-            if data['Auto']:
-                ScriptName = data['ScriptName']
-                if os.path.isfile('Scripts/' + ScriptName + '.json'):
-                    root(CHARACTERS[0], ScriptName)
-                else:
-                    print("File Not Loaded")
-                    exiting()
-            else:
-                ChooseConfig(CHARACTERS[0])
-        else:
-            print('Please, Login First')
+        with open('Scripts/Loads.json', 'r') as LoadsJson:
+            data = json.load(LoadsJson)
+
+        selected_hwnd = list(titles.keys())[list(titles.values()).index(Char.get())]
+
+        SelectCharacter.destroy()
+        time.sleep(0.1)
+        if not data['Auto']:
+            ChooseConfig(Char.get())
+            return
+
+        if data['ScriptName'] is None:
+            data['ScriptName'] = 'NewConfig'
+
+        if not os.path.isfile('Scripts/' + data['ScriptName'] + '.json'):
+            print("File Not Loaded")
+            exiting()
+
+        data['hwnd'] = selected_hwnd
+        with open('Scripts/Loads.json', 'w') as wJson:
+            json.dump(data, wJson, indent=4)
+
+        root(Char.get(), data['ScriptName'])
 
     Char = tk.StringVar()
-    Char.set(CHARACTERS[0])
+    Char.set(list(titles.values())[1])
 
-    OptionSelectCharacter = tk.OptionMenu(SelectCharacter, Char, *CHARACTERS)
+    OptionSelectCharacter = tk.OptionMenu(SelectCharacter, Char, *list(titles.values()))
     OptionSelectCharacter.configure(anchor='w')
     OptionSelectCharacter.pack()
     OptionSelectCharacter.place(w=230, h=24, x=15, y=17)
-
-    with open('Scripts/Loads.json', 'r') as LoadsJson:
-        data = json.load(LoadsJson)
 
     # region Buttons
 
@@ -206,19 +144,5 @@ def WindowSelectCharacter():
     ExitButton.place(w=85, h=25, x=28, y=53)
 
     # endregion
-
-    '''
-        This Thread Start The Function Searcher In Other Thread For Dont
-        Disturb The Interface Thread...
-        
-        If The Thread Already Alive, He Pass, Used If The Player Click In Reconfigure Button.
-        Else Init The Thread.
-    '''
-
-    ThreadSearcher = threading.Thread(target=Searcher)
-    if ThreadSearcher.is_alive():
-        pass
-    else:
-        ThreadSearcher.start()
 
     SelectCharacter.mainloop()

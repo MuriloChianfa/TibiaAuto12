@@ -27,3 +27,4 @@ var/
 .idea/
 .vscode/
 venv
+Scripts/NewConfig.json

@@ -1,27 +1,74 @@
 import ctypes
-
-EnumWindows = ctypes.windll.user32.EnumWindows
-EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
-GetWindowText = ctypes.windll.user32.GetWindowTextW
-GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
-IsWindowVisible = ctypes.windll.user32.IsWindowVisible
-
-titles = []
+from ctypes import wintypes
+from collections import namedtuple
+from Core.GetHWND import GetHWND
 
 
-def foreach_window(hwnd, lParam):
-    if IsWindowVisible(hwnd):
-        length = GetWindowTextLength(hwnd)
-        buff = ctypes.create_unicode_buffer(length + 1)
-        GetWindowText(hwnd, buff, length + 1)
-        if buff.value.find('Tibia - ') == -1:
-            pass
-        else:
-            titles.append(buff.value)
-    return True
+def check_zero(result, func, args):
+    if not result:
+        err = ctypes.get_last_error()
+
+        if err:
+            raise ctypes.WinError(err)
+
+    return args
 
 
-def FindTibiaTitle():
-    EnumWindows(EnumWindowsProc(foreach_window), 0)
-    return titles[0]
+if not hasattr(wintypes, 'LPDWORD'): # PY2
+    wintypes.LPDWORD = ctypes.POINTER(wintypes.DWORD)
 
+WindowInfo = namedtuple('WindowInfo', 'hwnd title')
+
+WNDENUMPROC = ctypes.WINFUNCTYPE(
+    wintypes.BOOL,
+    wintypes.HWND,    # _In_ hWnd
+    wintypes.LPARAM,) # _In_ lParam
+
+user32 = ctypes.WinDLL('user32', use_last_error=True)
+
+user32.EnumWindows.errcheck = check_zero
+user32.EnumWindows.argtypes = (
+   WNDENUMPROC,      # _In_ lpEnumFunc
+   wintypes.LPARAM,) # _In_ lParam
+
+user32.IsWindowVisible.argtypes = (
+    wintypes.HWND,) # _In_ hWnd
+
+user32.GetWindowThreadProcessId.restype = wintypes.DWORD
+user32.GetWindowThreadProcessId.argtypes = (
+  wintypes.HWND,     # _In_      hWnd
+  wintypes.LPDWORD,) # _Out_opt_ lpdwProcessId
+
+user32.GetWindowTextLengthW.errcheck = check_zero
+user32.GetWindowTextLengthW.argtypes = (
+   wintypes.HWND,) # _In_ hWnd
+
+user32.GetWindowTextW.errcheck = check_zero
+user32.GetWindowTextW.argtypes = (
+    wintypes.HWND,   # _In_  hWnd
+    wintypes.LPWSTR, # _Out_ lpString
+    ctypes.c_int,)   # _In_  nMaxCount
+
+
+def get_titles():
+    titles = {}
+
+    @WNDENUMPROC
+    def enum_proc(hWnd, lParam):
+        if not user32.IsWindowVisible(hWnd):
+            return True
+
+        pid = wintypes.DWORD()
+        user32.GetWindowThreadProcessId(
+                    hWnd, ctypes.byref(pid))
+        length = user32.GetWindowTextLengthW(hWnd) + 1
+        title = ctypes.create_unicode_buffer(length)
+        user32.GetWindowTextW(hWnd, title, length)
+
+        titles[GetHWND(title.value)] = title.value
+
+        return True
+
+    user32.EnumWindows(enum_proc, 0)
+
+    return titles

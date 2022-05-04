@@ -29,7 +29,7 @@
             "ManaPercentageStageOne": 70,
             "ManaHotkeyStageOne": "F3",
             "ManaPercentageStageTwo": 45,
-            "ManaHotkeyStageTwo": "Shift + F12",
+            "ManaHotkeyStageTwo": "F3",
             "CheckLowMana": false
         },
         "HurLoader": {

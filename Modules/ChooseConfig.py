@@ -437,14 +437,13 @@ class ChooseConfig:
                 with open('Scripts/' + ScriptToLoad + '.json', 'w') as wJson:
                     json.dump(data, wJson, indent=4)
 
-                if CheckAuto.get():
-                    with open('Scripts/Loads.json', 'r') as LoaderJson:
-                        data2 = json.load(LoaderJson)
+                with open('Scripts/Loads.json', 'r') as LoaderJson:
+                    data2 = json.load(LoaderJson)
 
-                    data2['Auto'] = True
-                    data2['ScriptName'] = ScriptToLoad
-                    with open('Scripts/Loads.json', 'w') as wwJson:
-                        json.dump(data2, wwJson, indent=4)
+                data2['Auto'] = True
+                data2['ScriptName'] = ScriptToLoad
+                with open('Scripts/Loads.json', 'w') as wwJson:
+                    json.dump(data2, wwJson, indent=4)
 
                 end_configuration = time.time() - start_configuration
                 print('')
