@@ -28,3 +28,4 @@ var/
 .vscode/
 venv
 Scripts/NewConfig.json
+Scripts/Loads.json

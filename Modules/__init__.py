@@ -33,7 +33,7 @@ def WindowSelectCharacter():
     with open('Scripts/Loads.json', 'r') as LoadsJson:
         data = json.load(LoadsJson)
 
-    print('\033[33m' + "Start in 1 Seconds...")
+    print("Start in 1 Seconds...")
 
     def exiting():
         print("Exiting...")
