@@ -1,20 +1,21 @@
+"""
+
+The SendToClient.py, Dont Work On Tibia Global
+Because The Client Block The Requests =(
+
+If You Choose The Option 'SendsToClient'
+He Load The HWND from Loads.json
+
+You Can Use This Class For Send Commands To Another Window Too,
+You Just Need Change The HWND Number
+
+"""
+
 import win32gui
 import win32api
 import win32con
-import json
 
 from Conf.HexMapKeys import KeyToHex
-
-'''
-    The SendToClient.py, Dont Work On Tibia Global
-    Because The Client Block The Requests =(
-    
-    If You Choose The Option 'SendsToClient'
-    He Load The HWND from Loads.json
-    
-    You Can Use This Class For Send Commands To Another Window Too,
-    You Just Need Change The HWND Number
-'''
 
 with open('Scripts/Loads.json', 'r') as LoadsJson:
     data = json.load(LoadsJson)
@@ -141,4 +142,3 @@ class SendToClient:
     def MainWindowSize():
         from win32api import GetSystemMetrics
         return GetSystemMetrics(0), GetSystemMetrics(1)
-

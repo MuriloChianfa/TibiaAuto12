@@ -9,4 +9,3 @@ class TimedSpells:
         self.TimedSpells.DefaultWindow('TimedSpells', [306, 473], [1.2, 2.29])
 
         self.TimedSpells.loop()
-
