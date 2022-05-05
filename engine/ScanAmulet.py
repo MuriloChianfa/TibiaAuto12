@@ -1,15 +1,9 @@
-from core.HookWindow import LocateCenterImage, LocateImage
+from core.HookWindow import LocateCenterImage, LocateBoolRGBImage
 
 
 def ScanAmulet(AmuletPositions, Amulet, Precision):
-    HasAmulet = [0, 0]
-
-    HasAmulet[0], HasAmulet[1] = LocateImage('images/Items/None/Amulets/' + Amulet + '.png', Precision=Precision, Region=(
+    return not LocateBoolRGBImage('images/Amulets/' + Amulet + '.png', Precision=Precision, Region=(
         AmuletPositions[0] - 1, AmuletPositions[1] - 1, AmuletPositions[2] + 1, AmuletPositions[3] + 1))
-    if HasAmulet[0] != 0 and HasAmulet[1] != 0:
-        return False
-    else:
-        return True
 
 
 def SearchForAmulet(Amulet):

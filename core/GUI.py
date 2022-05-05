@@ -44,7 +44,7 @@ class GUI:
         self.windowID.title(self.name)
         self.windowID.resizable(width=False, height=False)
         self.windowID.configure(background='#000', takefocus=True)
-        self.windowID.iconbitmap('images/icone2.ico')
+        self.windowID.iconbitmap('images/icon.ico')
         image = Image.open('images/Modules/' + BackgroundImage + '.png')
         photo = ImageTk.PhotoImage(image)
         label = tk.Label(self.windowID, image=photo, bg='#000')

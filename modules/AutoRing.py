@@ -61,7 +61,7 @@ class AutoRing:
             Ring = NameRing.get()
             if CheckLifeBellowThan.get():
                 BellowThan = LifeBellowThan.get()
-                from Modules.AutoHeal import EnabledAutoHeal
+                from modules.AutoHeal import EnabledAutoHeal
                 if EnabledAutoHeal:
                     while EnabledAutoRing and EnabledAutoHeal:
                         NoHasRing = ScanRing(RingPositions)
@@ -70,7 +70,7 @@ class AutoRing:
                         if NoHasRing and Life <= BellowThan:
                             Execute()
                 else:
-                    from Engine.ScanStages import ScanStages
+                    from engine.ScanStages import ScanStages
                     while EnabledAutoRing:
                         Life = ScanStages('Life From AutoRing').ScanStages(HealthLocation, LifeColor, LifeColorFull)
 
@@ -141,7 +141,7 @@ class AutoRing:
                 if keyboard.is_pressed("c"):
                     sX, sY = GetPosition()
                     time.sleep(0.03)
-                    from Core.HookWindow import SaveImage
+                    from core.HookWindow import SaveImage
                     SaveImage(ItemsPath + 'Rings/' + Ring + '.png', Region=(sX - 6, sY - 28, sX + 6, sY - 16))
                     WaitingForClick = False
                     Invisible.destroyWindow()

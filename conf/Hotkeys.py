@@ -1,10 +1,10 @@
 class Hotkey:
     def __init__(self, MOUSE_OPTION):
         if MOUSE_OPTION == 0:
-            from Core.SendToClient import SendToClient
+            from core.SendToClient import SendToClient
             self.SendToClient = SendToClient()
         else:
-            from Core.MoveMouse import MoveMouse
+            from core.MoveMouse import MoveMouse
             self.SendToClient = MoveMouse()
 
     Hotkeys = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "Ctrl + F1", "Ctrl + F2", "Ctrl + F3", "Ctrl + F4", "Ctrl + F5", "Ctrl + F6",

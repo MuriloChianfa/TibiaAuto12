@@ -1,15 +1,9 @@
-from core.HookWindow import LocateCenterImage, LocateImage
+from core.HookWindow import LocateCenterImage, LocateBoolRGBImage
 
 
 def ScanRing(RingPositions):
-    NoHasRing = [0, 0]
-
-    NoHasRing[0], NoHasRing[1] = LocateImage('images/PlayerStats/NoRing.png', Precision=0.9, Region=(
+    return LocateBoolRGBImage('images/PlayerStats/NoRing.png', Precision=0.9, Region=(
         RingPositions[0], RingPositions[1], RingPositions[2], RingPositions[3]))
-    if NoHasRing[0] != 0 and NoHasRing[1] != 0:
-        return True
-    else:
-        return False
 
 
 def SearchForRing(Ring):

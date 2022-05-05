@@ -1,12 +1,9 @@
-import json
 import tkinter as tk
+from conf.conf_manager import ConfManager
 
 
 def GetData():
-    with open("Scripts/GUILoader.json", 'r') as LoadsJson:
-        data = json.load(LoadsJson)
-
-    return data
+    return ConfManager.get('GUILoader.json')
 
 
 class GUISetter:
@@ -55,16 +52,14 @@ class SetVariables:
     def GetBoolVar(self, VarName):
         if GetData()['Loaders'][self.Locate][VarName]:
             return True
-        else:
-            return False
+        return False
 
     def GetVar(self, VarName):
-        Returned = GetData()['Loaders'][self.Locate][VarName]
-        return Returned
+        return GetData()['Loaders'][self.Locate][VarName]
 
     # self.Setter.SetVariables.SetVar
     def SetVar(self, Name, Value):
         Returned = GetData()
         Returned['Loaders'][self.Locate][Name] = Value
-        with open("Scripts/GUILoader.json", 'w') as wJson:
-            json.dump(Returned, wJson, indent=4)
+
+        ConfManager.set(Returned, 'GUILoader.json')

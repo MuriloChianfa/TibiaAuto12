@@ -12,9 +12,9 @@ class ScanStages:
             self.stage = 100
             # print(f"Get {self.name}: {self.stage}%")
             return self.stage
-        else:
-            for i in range(95, 5, -5):
-                if PixelMatchesColor(Localization[0] + i, Localization[1], (color[0], color[1], color[2])):
-                    self.stage = i
-                    # print(f"Get {self.name}: {self.stage}%")
-                    return self.stage
+
+        for i in range(95, 5, -5):
+            if PixelMatchesColor(Localization[0] + i, Localization[1], (color[0], color[1], color[2])):
+                self.stage = i
+                # print(f"Get {self.name}: {self.stage}%")
+                return self.stage

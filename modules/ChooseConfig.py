@@ -24,7 +24,7 @@ class ChooseConfig:
     """
 
     def __init__(self, selected_window_name):
-        self.window = GUI('ChooseConfig', 'Choose you config')
+        self.window = GUI('ChooseConfig', 'Choose your config')
         self.window.MainWindow('Config', [414, 202], [2, 2.36])
 
         '''
@@ -94,7 +94,7 @@ class ChooseConfig:
             shutil.copyfile(Directory + '\\Scripts' + '\\Json.json',
                             os.path.join(Directory + '\\Scripts' + '\\' + NameCreateJson.get() + '.json'))
 
-            TibiaAuto = pygetwindow.getWindowsWithTitle("Choose You Config")[0]
+            TibiaAuto = pygetwindow.getWindowsWithTitle("Choose your config")[0]
             TibiaAuto.minimize()
 
             pyautogui.PAUSE = 0.005

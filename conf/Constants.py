@@ -85,24 +85,24 @@ Rings = {
 
 # Amulets
 Amulets = {
-    "AmuletOfLoss": {"Name": "AmuletOfLoss", "Precision": 0.9},
-    "AncientAmulet": {"Name": "AncientAmulet", "Precision": 0.9},
-    "BronzeAmulet": {"Name": "BronzeAmulet", "Precision": 0.9},
-    "ElvenAmulet": {"Name": "ElvenAmulet", "Precision": 0.9},
-    "GlacierAmulet": {"Name": "GlacierAmulet", "Precision": 0.9},
-    "GloothAmulet": {"Name": "GloothAmulet", "Precision": 0.9},
-    "LeviathansAmulet": {"Name": "LeviathansAmulet", "Precision": 0.9},
-    "MagmaAmulet": {"Name": "MagmaAmulet", "Precision": 0.9},
-    "PlatinumAmulet": {"Name": "PlatinumAmulet", "Precision": 0.9},
-    "ProtectionAmulet": {"Name": "ProtectionAmulet", "Precision": 0.9},
-    "SacredTreeAmulet": {"Name": "SacredTreeAmulet", "Precision": 0.9},
-    "ScarabAmulet": {"Name": "ScarabAmulet", "Precision": 0.9},
-    "ShockwaveAmulet": {"Name": "ShockwaveAmulet", "Precision": 0.9},
-    "SilverAmulet": {"Name": "SilverAmulet", "Precision": 0.9},
-    "StarAmulet": {"Name": "StarAmulet", "Precision": 0.9},
-    "StoneSkinAmulet": {"Name": "StoneSkinAmulet", "Precision": 0.9},
-    "TerraAmulet": {"Name": "TerraAmulet", "Precision": 0.9},
-    "WerewolfAmulet": {"Name": "WerewolfAmulet", "Precision": 0.9}
+    "AmuletOfLoss": {"Name": "AmuletOfLoss", "Precision": 0.8},
+    "AncientAmulet": {"Name": "AncientAmulet", "Precision": 0.8},
+    "BronzeAmulet": {"Name": "BronzeAmulet", "Precision": 0.8},
+    "ElvenAmulet": {"Name": "ElvenAmulet", "Precision": 0.8},
+    "GlacierAmulet": {"Name": "GlacierAmulet", "Precision": 0.8},
+    "GloothAmulet": {"Name": "GloothAmulet", "Precision": 0.8},
+    "LeviathansAmulet": {"Name": "LeviathansAmulet", "Precision": 0.8},
+    "MagmaAmulet": {"Name": "MagmaAmulet", "Precision": 0.8},
+    "PlatinumAmulet": {"Name": "PlatinumAmulet", "Precision": 0.8},
+    "ProtectionAmulet": {"Name": "ProtectionAmulet", "Precision": 0.8},
+    "SacredTreeAmulet": {"Name": "SacredTreeAmulet", "Precision": 0.8},
+    "ScarabAmulet": {"Name": "ScarabAmulet", "Precision": 0.8},
+    "ShockwaveAmulet": {"Name": "ShockwaveAmulet", "Precision": 0.8},
+    "SilverAmulet": {"Name": "SilverAmulet", "Precision": 0.8},
+    "StarAmulet": {"Name": "StarAmulet", "Precision": 0.8},
+    "StoneSkinAmulet": {"Name": "StoneSkinAmulet", "Precision": 0.8},
+    "TerraAmulet": {"Name": "TerraAmulet", "Precision": 0.8},
+    "WerewolfAmulet": {"Name": "WerewolfAmulet", "Precision": 0.8}
 }
 
 # Foods
@@ -166,7 +166,7 @@ AttackModes = [
     'Full Defence'
 ]
 
-CavebotScriptsPath = "Scripts/"
+CavebotScriptsPath = "scripts/"
 
 # Script's Name For Load To Walk In CaveBot Module
 Scripts = [

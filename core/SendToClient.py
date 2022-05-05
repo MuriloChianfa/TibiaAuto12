@@ -16,9 +16,9 @@ import win32api
 import win32con
 
 from conf.HexMapKeys import KeyToHex
+from conf.conf_manager import ConfManager
 
-with open('Scripts/Loads.json', 'r') as LoadsJson:
-    data = json.load(LoadsJson)
+data = ConfManager.get('conf.json')
 
 
 class SendToClient:
@@ -55,8 +55,7 @@ class SendToClient:
             return False
         elif self.hwnd != win32gui.GetForegroundWindow():
             return False
-        else:
-            return True
+        return True
 
     '''
         Send One Press Button For Client

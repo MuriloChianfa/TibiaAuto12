@@ -58,7 +58,7 @@ class Hooker:
             self.mfcDC.DeleteDC()
             self.win32gui.ReleaseDC(self.hwnd, self.hwndDC)
 
-    elif data['platform'] == 'Linux':
+    elif data['platform'] == 'linux':
         def __init__(self, FileName="images/tmp_screen.png"):
             Execute(["scrot", "-u", FileName])
             self.TakedImage = cv2.imread(FileName)

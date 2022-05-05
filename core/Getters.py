@@ -13,30 +13,28 @@ def GetAccountNamePosition():
     AccountName = LocateCenterImage('images/TibiaSettings/AccountName.png', Precision=0.9)
     if AccountName[0] != 0 and AccountName[1] != 0:
         return AccountName[0], AccountName[1]
-    else:
-        return 0, 0
+    return 0, 0
 
 
 def GetBattlePosition():
     BattlePositions[0], BattlePositions[1] = LocateCenterImage('images/TibiaSettings/BattleList.png', Precision=0.85)
     if BattlePositions[0] == 0 and BattlePositions[1] == 0:
         return 0, 0, 0, 0
-    else:
-        BattlePositions[0], BattlePositions[1] = LocateImage('images/TibiaSettings/BattleList.png',
-                                                             Precision=0.85)
-        BattlePositions[2] = BattlePositions[0] + 155
-        BattlePositions[3] = BattlePositions[1] + 415
 
-        return int(BattlePositions[0] + 8), int(BattlePositions[1]), int(BattlePositions[2]), int(
-            BattlePositions[3])
+    BattlePositions[0], BattlePositions[1] = LocateImage('images/TibiaSettings/BattleList.png',
+                                                         Precision=0.85)
+    BattlePositions[2] = BattlePositions[0] + 155
+    BattlePositions[3] = BattlePositions[1] + 415
+
+    return int(BattlePositions[0] + 8), int(BattlePositions[1]), int(BattlePositions[2]), int(
+        BattlePositions[3])
 
 
 def GetHealthPosition():
     HealthPositions = LocateCenterImage('images/PlayerSettings/health.png', Precision=0.8)
     if HealthPositions[0] != 0 and HealthPositions[1] != 0:
         return HealthPositions[0], HealthPositions[1]
-    else:
-        return 0, 0
+    return 0, 0
 
 
 def GetManaPosition():
@@ -56,9 +54,9 @@ def GetMapPosition():
         print("")
         print(f"Size of MiniMap [X: {MapPositions[2] - MapPositions[0]}, Y: {MapPositions[3] - MapPositions[1]}]")
         return MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3]
-    else:
-        print("Error To Get Map Positions")
-        return -1, -1, -1, -1
+
+    print("Error To Get Map Positions")
+    return -1, -1, -1, -1
 
 
 def GetStatsPosition():
@@ -69,8 +67,8 @@ def GetStatsPosition():
         StatsPositions[2] = StatsPositions[0] + 105
         StatsPositions[3] = StatsPositions[1] + 10
         return StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3]
-    else:
-        return 0, 0, 0, 0
+
+    return 0, 0, 0, 0
 
 
 def GetPlayerPosition():
@@ -85,7 +83,7 @@ def GetPlayerPosition():
         GameWindow[0] = int(LeftGameWindow[0])
         GameWindow[1] = int(LeftGameWindow[1])
     except Exception as errno:
-        print("?Error On ", errno)
+        return 0, 0, 0, 0, 0, 0
 
     RightGameWindow = LocateImage("images/PlayerSettings/RightOption1.png", Precision=0.75)
     if RightGameWindow[0] == 0 and RightGameWindow[1] == 0:
@@ -99,48 +97,23 @@ def GetPlayerPosition():
     try:
         GameWindow[2] = int(RightGameWindow[0])
     except Exception as errno:
-        print("?Error On ", errno)
+        return 0, 0, 0, 0, 0, 0
 
     ButtomGameWindow = LocateImage("images/PlayerSettings/EndLocation.png", Precision=0.7)
     if ButtomGameWindow[0] == 0 and ButtomGameWindow[1] == 0:
-        print("BUTTON GAME WINDOWS IS NONE")
+        return 0, 0, 0, 0, 0, 0
     else:
         GameWindow[3] = int(ButtomGameWindow[1])
 
     if GameWindow[0] != 0 and GameWindow[2] != 0:
         Player[0] = int(((GameWindow[2] - GameWindow[0]) / 2) + GameWindow[0])
     else:
-        try:
-            raise Exception('ex')
-        except Exception as Ex:
-            print('X Game Window Error... Please Press "c" With Your Mouse On Player Position')
-            import keyboard
-            from Conf.Hotkeys import Hotkey
-            MoveMouse = Hotkey(1)
-            Waiting = True
-            while Waiting:
-                if keyboard.is_pressed("c"):
-                    x, y = MoveMouse.Position()
-                    Player[0] = x
-                    Player[1] = y
-                    if GameWindow[0] == 0:
-                        GameWindow[0] = 1
-                    if GameWindow[1] == 0:
-                        GameWindow[1] = 1
-                    if GameWindow[2] == 0:
-                        GameWindow[2] = 1
-                    if GameWindow[3] == 0:
-                        GameWindow[3] = 1
-                    return x, y, GameWindow[0], GameWindow[1], GameWindow[2], GameWindow[3]
+        return 0, 0, 0, 0, 0, 0
 
     if GameWindow[1] != 0 and GameWindow[3] != 0:
         Player[1] = int(((GameWindow[3] - GameWindow[1]) / 2) + GameWindow[1])
     else:
-        try:
-            raise Exception('Y Game Window Error')
-        except Exception as Ex:
-            print(Ex)
-            pass
+        return 0, 0, 0, 0, 0, 0
 
     if Player[1] != 0:
         return Player[0], Player[1], GameWindow[0], GameWindow[1], GameWindow[2], GameWindow[3]
@@ -184,8 +157,8 @@ def SetSQMs():
         return SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], \
                SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[11], SQMs[12], SQMs[13], \
                SQMs[14], SQMs[15], SQMs[16], SQMs[17]
-    else:
-        print("Setting Player Position...")
-        Player[0], Player[1], GameWindow[0], GameWindow[1], GameWindow[2], GameWindow[
-            3] = GetPlayerPosition()
-        SetSQMs()
+
+    print("Setting Player Position...")
+    Player[0], Player[1], GameWindow[0], GameWindow[1], GameWindow[2], GameWindow[
+        3] = GetPlayerPosition()
+    SetSQMs()

@@ -61,7 +61,7 @@ class AutoSSA:
             Amulet = NameAmulet.get()
             if CheckLifeBellowThan.get():
                 BellowThan = LifeBellowThan.get()
-                from Modules.AutoHeal import EnabledAutoHeal
+                from modules.AutoHeal import EnabledAutoHeal
                 if EnabledAutoHeal:
                     while EnabledAutoSSA and EnabledAutoHeal:
                         NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, Amulets[Amulet]["Precision"])
@@ -70,7 +70,7 @@ class AutoSSA:
                         if NoHasAmulet and Life <= BellowThan:
                             Execute()
                 else:
-                    from Engine.ScanStages import ScanStages
+                    from engine.ScanStages import ScanStages
                     while EnabledAutoSSA:
                         Life = ScanStages('Life From AutoAmulet').ScanStages(HealthLocation, LifeColor, LifeColorFull)
 
@@ -140,7 +140,7 @@ class AutoSSA:
                 if keyboard.is_pressed("c"):
                     sX, sY = GetPosition()
                     time.sleep(0.03)
-                    from Core.HookWindow import SaveImage
+                    from core.HookWindow import SaveImage
                     SaveImage(ItemsPath + 'Amulets/' + Amulet + '.png', Region=(sX - 6, sY - 28, sX + 6, sY - 16))
                     WaitingForClick = False
                     Invisible.destroyWindow()
