@@ -132,7 +132,10 @@ class CaveBotController:
                         else:
                             PastPosition = [0, 0]
 
-                        self.SendToClient.LeftClick(self.Target[0], self.Target[1])
+                        print(self.Target[0] - 10)
+                        print(self.Target[1])
+
+                        self.SendToClient.LeftClick(self.Target[0] - 10, self.Target[1])
 
                         if self.MOUSE_OPTION == 1:
                             self.SendToClient.MoveTo(PastPosition[0], PastPosition[1])
@@ -260,5 +263,5 @@ class CaveBotController:
 
 
 def IsEnable():
-    from Modules.CaveBot import EnabledCaveBot
+    from modules.CaveBot import EnabledCaveBot
     return EnabledCaveBot

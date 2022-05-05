@@ -3,6 +3,7 @@ import ctypes
 import ctypes.wintypes
 
 from conf.HexMapKeys import KeyToHex
+from conf.conf_manager import ConfManager
 
 
 class POINT(ctypes.Structure):
@@ -10,8 +11,7 @@ class POINT(ctypes.Structure):
                 ("y", ctypes.c_long)]
 
 
-with open('Scripts/Loads.json', 'r') as LoadsJson:
-    data = json.load(LoadsJson)
+data = ConfManager.get('conf.json')
 
 
 class MoveMouse:
@@ -72,4 +72,3 @@ class MoveMouse:
         self.DLL.SetCursorPos(To[0], To[1] + 24)
         self.DLL.mouse_event(self.MOUSEEVENTF_LEFTDOWN, ctypes.c_long(To[0]), ctypes.c_long(To[1] + 24), 0, 0)
         self.DLL.mouse_event(self.MOUSEEVENTF_LEFTUP, ctypes.c_long(To[0]), ctypes.c_long(To[1] + 24), 0, 0)
-

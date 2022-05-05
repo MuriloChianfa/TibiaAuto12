@@ -103,7 +103,7 @@ class SendToClient:
 
     def RightClick(self, Position):
         ClientPosition = win32gui.ScreenToClient(self.hwnd, Position)
-        PositionToClick = win32api.MAKELONG(ClientPosition[0], ClientPosition[1] + 23)
+        PositionToClick = win32api.MAKELONG(ClientPosition[0], ClientPosition[1])
         win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, 0, PositionToClick)
         win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONDOWN, win32con.MK_RBUTTON, PositionToClick)
         win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONUP, win32con.MK_RBUTTON, PositionToClick)

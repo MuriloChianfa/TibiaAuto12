@@ -87,15 +87,15 @@ def IsAttacking(BattlePosition):
             ImagesAttacking[Image] = True
 
     if ImagesAttacking['LeftRed'] and ImagesAttacking['TopRed'] and ImagesAttacking['RightRed'] and ImagesAttacking['BottomRed']:
-        return True
-    elif ImagesAttacking['LeftBlackRed'] and ImagesAttacking['TopBlackRed'] and ImagesAttacking['RightBlackRed'] and ImagesAttacking['BottomBlackRed']:
-        return True
-    elif ImagesAttacking['LeftPink'] and ImagesAttacking['TopPink'] and ImagesAttacking['RightPink'] and ImagesAttacking['BottomPink']:
-        return True
-    elif ImagesAttacking['LeftBlackPink'] and ImagesAttacking['TopBlackPink'] and ImagesAttacking['RightBlackPink'] and ImagesAttacking['BottomBlackPink']:
-        return True
-    else:
         return False
+    elif ImagesAttacking['LeftBlackRed'] and ImagesAttacking['TopBlackRed'] and ImagesAttacking['RightBlackRed'] and ImagesAttacking['BottomBlackRed']:
+        return False
+    elif ImagesAttacking['LeftPink'] and ImagesAttacking['TopPink'] and ImagesAttacking['RightPink'] and ImagesAttacking['BottomPink']:
+        return False
+    elif ImagesAttacking['LeftBlackPink'] and ImagesAttacking['TopBlackPink'] and ImagesAttacking['RightBlackPink'] and ImagesAttacking['BottomBlackPink']:
+        return False
+    else:
+        return True
 
 
 def NeedFollow():
