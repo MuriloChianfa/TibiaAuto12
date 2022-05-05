@@ -1,31 +1,31 @@
+"""
+the main init throws you into the character selection window.
+"""
+
 import sys
-import json
 
-from Modules.__init__ import WindowSelectCharacter
-
-'''
-    The Main Init Throws You Into The Character Selection Window In Modules On __init__.py...
-    Take A Look Over There
-'''
+from conf.conf_manager import ConfManager
+from modules.__init__ import choose_capture_window
 
 
 def main():
-    with open('Scripts/Loads.json', 'r') as LoadsJson:
-        data = json.load(LoadsJson)
+    """
+    defines the runtime platform
+    """
 
-    if len(sys.argv) == 1:
-        data['Platform'] = "Windows"
-        with open('Scripts/Loads.json', 'w') as wJson:
-            json.dump(data, wJson, indent=4)
+    conf = ConfManager.get('conf.json')
 
-    elif len(sys.argv) == 2:
-        if sys.argv[1] == 'linux-client':
-            data['Platform'] = "Linux"
-            with open('Scripts/Loads.json', 'w') as wJson:
-                json.dump(data, wJson, indent=4)
+    if len(sys.argv) == 2 and sys.argv[1] == 'linux':
+        conf['platform'] = 'linux'
+    else:
+        conf['platform'] = 'windows'
 
-    WindowSelectCharacter()
+    ConfManager.set(conf, 'conf.json')
+
+    choose_capture_window()
 
 
 if __name__ == '__main__':
+    print("Start in 1 Seconds...")
+
     main()
