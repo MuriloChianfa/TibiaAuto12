@@ -66,40 +66,40 @@ class root:
 
         # regions Buttons
 
-        self.root.addButton('Healer Friend', OpenHealerFriend, [92, 23], [23, 56])
-        self.root.addButton('Color Change', OpenColorChange, [92, 23], [23, 108])
-        self.root.addButton('Ammo Restack', OpenAmmoRestack, [92, 23], [23, 135])
-        self.root.addButton('Auto Looter', OpenAutoLooter, [92, 23], [23, 160])
+        self.root.addButton('Healer Friend', OpenHealerFriend, [92, 23], [23, 56]).configure(state='disabled')
+        self.root.addButton('Color Change', OpenColorChange, [92, 23], [23, 108]).configure(state='disabled')
+        self.root.addButton('Ammo Restack', OpenAmmoRestack, [92, 23], [23, 135]).configure(state='disabled')
+        self.root.addButton('Auto Looter', OpenAutoLooter, [92, 23], [23, 160]).configure(state='disabled')
 
-        self.root.addButton('Food Eater', OpenFoodEater, [92, 23], [23, 210])
-        self.root.addButton('Auto Grouping', OpenAutoGrouping, [92, 23], [23, 236])
-        self.root.addButton('Sort Loot', OpenSortLoot, [92, 23], [23, 262])
-        self.root.addButton('Auto Banker', OpenAutoBanker, [92, 23], [23, 288])
-        self.root.addButton('Auto Seller', OpenAutoSeller, [92, 23], [23, 340])
-        self.root.addButton('FPS Changer', OpenFPSChanger, [92, 23], [23, 366])
+        self.root.addButton('Food Eater', OpenFoodEater, [92, 23], [23, 210]).configure(state='disabled')
+        self.root.addButton('Auto Grouping', OpenAutoGrouping, [92, 23], [23, 236]).configure(state='disabled')
+        self.root.addButton('Sort Loot', OpenSortLoot, [92, 23], [23, 262]).configure(state='disabled')
+        self.root.addButton('Auto Banker', OpenAutoBanker, [92, 23], [23, 288]).configure(state='disabled')
+        self.root.addButton('Auto Seller', OpenAutoSeller, [92, 23], [23, 340]).configure(state='disabled')
+        self.root.addButton('FPS Changer', OpenFPSChanger, [92, 23], [23, 366]).configure(state='disabled')
 
         self.root.addButton('Auto Life', OpenAutoHeal, [92, 23], [147, 56])
         self.root.addButton('Auto Hur', OpenAutoHur, [92, 23], [245, 56])
         self.root.addButton('Auto Mana', OpenAutoMana, [92, 23], [147, 83])
-        self.root.addButton('Auto Fish', OpenAutoFish, [92, 23], [245, 83])
+        self.root.addButton('Auto Fish', OpenAutoFish, [92, 23], [245, 83]).configure(state='disabled')
         self.root.addButton('Auto Amulet', OpenAutoSSA, [92, 23], [147, 108])
         self.root.addButton('Auto Ring', OpenAutoRing, [92, 23], [245, 108])
-        self.root.addButton('Timed Spells', OpenTimedSpells, [92, 23], [147, 135])
-        self.root.addButton('Auto Login', OpenAutoLogin, [92, 23], [245, 135])
+        self.root.addButton('Timed Spells', OpenTimedSpells, [92, 23], [147, 135]).configure(state='disabled')
+        self.root.addButton('Auto Login', OpenAutoLogin, [92, 23], [245, 135]).configure(state='disabled')
 
-        self.root.addButton('Creature Info', OpenCreatureInfo, [92, 23], [147, 188])
-        self.root.addButton('Monsters', OpenMonsters, [92, 23], [245, 188])
+        self.root.addButton('Creature Info', OpenCreatureInfo, [92, 23], [147, 188]).configure(state='disabled')
+        self.root.addButton('Monsters', OpenMonsters, [92, 23], [245, 188]).configure(state='disabled')
 
-        self.root.addButton('Show Map', OpenShowMap, [92, 23], [147, 290])
+        self.root.addButton('Show Map', OpenShowMap, [92, 23], [147, 290]).configure(state='disabled')
         self.root.addButton('Cave Bot', OpenCaveBot, [92, 23], [245, 290])
 
-        self.root.addButton('Load Config', OpenLoadConfig, [92, 23], [147, 340])
-        self.root.addButton('Save Config', OpenSaveConfig, [92, 23], [245, 340])
-        self.root.addButton('Adjust Config', OpenAdjustConfig, [92, 23], [147, 366])
-        self.root.addButton('Modules', OpenModules, [92, 23], [245, 366])
-        self.root.addButton('Python Scripts', OpenPythonScripts, [92, 23], [245, 392])
+        self.root.addButton('Load Config', OpenLoadConfig, [92, 23], [147, 340]).configure(state='disabled')
+        self.root.addButton('Save Config', OpenSaveConfig, [92, 23], [245, 340]).configure(state='disabled')
+        self.root.addButton('Adjust Config', OpenAdjustConfig, [92, 23], [147, 366]).configure(state='disabled')
+        self.root.addButton('Modules', OpenModules, [92, 23], [245, 366]).configure(state='disabled')
+        self.root.addButton('Python Scripts', OpenPythonScripts, [92, 23], [245, 392]).configure(state='disabled')
 
-        self.root.addButton('General Options', OpenGeneralOptions, [213, 23], [134, 426])
+        self.root.addButton('General Options', OpenGeneralOptions, [213, 23], [134, 426]).configure(state='disabled')
 
         def Exit():
             print("Exiting...")
