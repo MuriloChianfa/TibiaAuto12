@@ -2,12 +2,16 @@
 Food eater module
 """
 
+from time import sleep
+
 from conf.Hotkeys import Hotkey
 
 from core.GUI import *
 from core.GUIManager import *
 from core.GUISetter import GUISetter, check_gui
 from core.ThreadManager import ThreadManager
+
+from engine.ScanFood import scan_food
 
 
 class FoodEater:
@@ -16,13 +20,14 @@ class FoodEater:
 
     gui_changes = []
 
-    def __init__(self, root, MOUSE_OPTION):
+    def __init__(self, root, stats_positions, MOUSE_OPTION):
         self.root = root
         self.window = GUI('FoodEater', 'Module: Food Eater')
         self.window.DefaultWindow('FoodEater', [306, 191], [1.2, 2.29])
         self.Setter = GUISetter("FoodEaterLoader")
         self.SendToClient = Hotkey(MOUSE_OPTION)
         self.ThreadManager = ThreadManager("ThreadFoodEater")
+        self.stats_positions = stats_positions
 
         self.gui_vars()
         self.gui()
@@ -60,7 +65,10 @@ class FoodEater:
 
     def execute(self):
         while FoodEater.enabled:
-            print('Hotkey to eat food: ', self.food_hotkey.get())
+            if scan_food(self.stats_positions):
+                self.SendToClient.Press(self.food_hotkey.get())
+                print("Starving... pressing: ", self.food_hotkey.get())
+                sleep(0.5)
 
     def destroy(self):
         check_gui(FoodEater.gui_changes, self.init_check_print, self.check_print.get(), 'CheckPrint')
@@ -96,8 +104,8 @@ class FoodEater:
         if not FoodEater.enabled:
             self.enabled_button = self.window.addButton('FoodEater: OFF', self.trigger, [287, 23], [11, 132])
         else:
-            self.enabled_button = self.window.addButton('FoodEater: ON', self.trigger, [287, 23], [11, 132]) \
-                .configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
+            self.enabled_button = self.window.addButton('FoodEater: ON', self.trigger, [287, 23], [11, 132])
+            self.enabled_button.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
         self.ok_button = self.window.addButton('Ok', self.destroy, [73, 21], [115, 161])
 

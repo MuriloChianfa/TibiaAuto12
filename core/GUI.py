@@ -203,6 +203,9 @@ class GUI:
     def After(self, Time, Function):
         return self.windowID.after(Time, Function)
 
+    def deiconify(self):
+        return self.windowID.deiconify()
+
     @staticmethod
     def openImage(image, size):
         ImageID = Image.open(image)

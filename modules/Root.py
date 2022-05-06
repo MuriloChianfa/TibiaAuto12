@@ -61,6 +61,7 @@ class root:
     def __init__(self, CharName, LoadedJson):
         self.root = GUI('root', 'TibiaAuto V12')
         self.root.MainWindow('Main', [357, 530], [2, 2.36])
+        self.root.deiconify()
 
         self.root.addMinimalLabel(f'Logged as: {CharName}', [14, 14])
 
@@ -292,7 +293,7 @@ def OpenCreatureInfo():
 
 
 def OpenFoodEater():
-    FoodEater(root, MOUSE_OPTION)
+    FoodEater(root, StatsPositions, MOUSE_OPTION)
 
 
 def OpenFPSChanger():

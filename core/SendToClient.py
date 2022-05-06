@@ -15,6 +15,8 @@ import win32gui
 import win32api
 import win32con
 
+from time import sleep
+
 from conf.HexMapKeys import KeyToHex
 from conf.conf_manager import ConfManager
 
@@ -81,8 +83,10 @@ class SendToClient:
 
     def PressHotkey(self, Option,  Key):
         win32api.keybd_event(KeyToHex.get(Option, ""), 0, 0, 0)
+        sleep(.05)
         win32api.SendMessage(self.hwnd, win32con.WM_KEYDOWN, KeyToHex.get(Key, ""), 0)
         win32api.SendMessage(self.hwnd, win32con.WM_KEYUP, KeyToHex.get(Key, ""), 0)
+        sleep(.05)
         win32api.keybd_event(KeyToHex.get(Option, ""), 0, win32con.KEYEVENTF_KEYUP, 0)
 
     '''
