@@ -19,7 +19,7 @@ from modules.AutoSSA import AutoSSA
 from modules.CaveBot import CaveBot
 # from modules.ColorChange import ColorChange
 # from modules.CreatureInfo import CreatureInfo
-# from modules.FoodEater import FoodEater
+from modules.FoodEater import FoodEater
 # from modules.FPSChanger import FPSChanger
 # from modules.GeneralOptions import GeneralOptions
 # from modules.HealerFriend import HealerFriend
@@ -71,7 +71,7 @@ class root:
         self.root.addButton('Ammo Restack', OpenAmmoRestack, [92, 23], [23, 135]).configure(state='disabled')
         self.root.addButton('Auto Looter', OpenAutoLooter, [92, 23], [23, 160]).configure(state='disabled')
 
-        self.root.addButton('Food Eater', OpenFoodEater, [92, 23], [23, 210]).configure(state='disabled')
+        self.root.addButton('Food Eater', OpenFoodEater, [92, 23], [23, 210])
         self.root.addButton('Auto Grouping', OpenAutoGrouping, [92, 23], [23, 236]).configure(state='disabled')
         self.root.addButton('Sort Loot', OpenSortLoot, [92, 23], [23, 262]).configure(state='disabled')
         self.root.addButton('Auto Banker', OpenAutoBanker, [92, 23], [23, 288]).configure(state='disabled')
@@ -103,7 +103,7 @@ class root:
 
         def Exit():
             print("Exiting...")
-            self.root.destroyWindow()
+            raise SystemExit
 
         self.root.addButton('Exit', Exit, [92, 23], [10, 498])
 
@@ -201,6 +201,7 @@ class root:
 
         SetVariablesFromLoadedJson()
 
+        self.root.Protocol(Exit)
         self.root.loop()
 
 
@@ -291,8 +292,7 @@ def OpenCreatureInfo():
 
 
 def OpenFoodEater():
-    print("FoodEater In Development...")
-    # FoodEater(root)
+    FoodEater(root, MOUSE_OPTION)
 
 
 def OpenFPSChanger():

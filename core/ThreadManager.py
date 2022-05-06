@@ -51,6 +51,9 @@ class ThreadManager:
         Event.set()
         TheThread = self.ThreadHandler(Target=self.Target, Qqueue=Queue, Name=self.Name)
 
+        # This thread dies when main thread
+        TheThread.daemon = True
+
         TheThread.start()
         ActivatedThreads.append((TheThread, str(self.Name)))
 

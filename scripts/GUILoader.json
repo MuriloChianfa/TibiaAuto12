@@ -51,6 +51,10 @@
       "BellowThan": 30,
       "CheckStageOne": true
     },
+    "FoodEaterLoader": {
+      "CheckPrint": false,
+      "HotkeyFood": "Shift + F12"
+    },
     "RingLoader": {
       "CheckPrint": false,
       "CheckBuff": false,

@@ -65,7 +65,15 @@ class GUI:
         self.windowID.attributes("-transparentcolor", "black")
 
     def loop(self):
-        self.windowID.mainloop()
+        try:
+            self.windowID.mainloop()
+        except KeyboardInterrupt:
+            print('Received SIGINT')
+        except SystemExit:
+            print('Received SIGTERM')
+        finally:
+            self.windowID.destroy()
+            raise SystemExit
 
     def Protocol(self, Function):
         return self.windowID.protocol("WM_DELETE_WINDOW", Function)

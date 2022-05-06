@@ -6,6 +6,11 @@ def GetData():
     return ConfManager.get('GUILoader.json')
 
 
+def check_gui(gui_changes, init, get, name):
+    if get != init:
+        gui_changes.append((name, get))
+
+
 class GUISetter:
     def __init__(self, Locate):
         self.Locate = Locate
