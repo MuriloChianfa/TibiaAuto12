@@ -91,21 +91,14 @@ class ChooseConfig:
             start_configuration = time.time()
             Directory = os.getcwd()
 
-            shutil.copyfile(Directory + '\\Scripts' + '\\Json.json',
-                            os.path.join(Directory + '\\Scripts' + '\\' + NameCreateJson.get() + '.json'))
+            shutil.copyfile(Directory + '\\scripts' + '\\Json.json',
+                            os.path.join(Directory + '\\scripts' + '\\' + NameCreateJson.get() + '.json'))
 
             TibiaAuto = pygetwindow.getWindowsWithTitle("Choose your config")[0]
             TibiaAuto.minimize()
 
-            pyautogui.PAUSE = 0.005
-
-            time.sleep(.8)
-
             with open(preferences_path, 'r') as LoadedJson:
                 preferences = json.load(LoadedJson)
-
-            time.sleep(.5)
-            time.sleep(.5)
 
             try:
                 HealthLocation = GetHealthPosition()

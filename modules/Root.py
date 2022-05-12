@@ -29,7 +29,7 @@ from modules.FoodEater import FoodEater
 # from modules.PythonScripts import PythonScripts
 # from modules.SaveConfig import SaveConfig
 # from modules.SortLoot import SortLoot
-# from modules.TimedSpells import TimedSpells
+from modules.TimedSpells import TimedSpells
 
 
 SETTED_VARIABLES = False
@@ -54,7 +54,6 @@ ItemsPath = None
 ChestsPath = None
 ContainersNamePath = None
 CavebotScriptsPath = None
-
 
 
 class root:
@@ -85,7 +84,7 @@ class root:
         self.root.addButton('Auto Fish', OpenAutoFish, [92, 23], [245, 83]).configure(state='disabled')
         self.root.addButton('Auto Amulet', OpenAutoSSA, [92, 23], [147, 108])
         self.root.addButton('Auto Ring', OpenAutoRing, [92, 23], [245, 108])
-        self.root.addButton('Timed Spells', OpenTimedSpells, [92, 23], [147, 135]).configure(state='disabled')
+        self.root.addButton('Timed Spells', OpenTimedSpells, [92, 23], [147, 135])
         self.root.addButton('Auto Login', OpenAutoLogin, [92, 23], [245, 135]).configure(state='disabled')
 
         self.root.addButton('Creature Info', OpenCreatureInfo, [92, 23], [147, 188]).configure(state='disabled')
@@ -342,7 +341,6 @@ def OpenSortLoot():
 
 
 def OpenTimedSpells():
-    print("TimedSpells In Development...")
-    # TimedSpells(root)
+    TimedSpells(root, MOUSE_OPTION)
 
 # endregion

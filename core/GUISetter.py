@@ -49,6 +49,14 @@ class Variables:
 
         return Variable, InitiatedVariable
 
+    # For Usage This:
+    # Variable, Initiated = self.Setter.Variables.Int('')
+    def array(self, name):
+        initiated_array = SetVariables(self.Locate).GetVar(name)
+        array = initiated_array
+
+        return array, initiated_array
+
 
 class SetVariables:
     def __init__(self, Locate):

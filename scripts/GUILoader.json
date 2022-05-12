@@ -55,6 +55,18 @@
       "CheckPrint": false,
       "HotkeyFood": "Shift + F12"
     },
+    "TimedSpellsLoader": {
+      "CheckPrint": false,
+      "InstantExecute": false,
+      "Hotkey": "Shift + F12",
+      "CastEvery": "",
+      "Spells": [
+        [
+          "Shift + F12",
+          12
+        ]
+      ]
+    },
     "RingLoader": {
       "CheckPrint": false,
       "CheckBuff": false,

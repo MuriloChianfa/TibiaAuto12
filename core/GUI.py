@@ -1,6 +1,6 @@
 import pyautogui
 import tkinter as tk
-from tkinter import SUNKEN, RAISED
+from tkinter import SUNKEN, RAISED, ttk
 from PIL import Image, ImageTk
 
 from core.Defaults import *
@@ -130,6 +130,27 @@ class GUI:
                            fg='white')
         labelID.place(x=position[0], y=position[1])
         return labelID
+
+    def addList(self, columns, height, sizes, position):
+        style = ttk.Style()
+        style.theme_use('winnative')
+        style.configure('Treeview.Heading', background="gray")
+
+        frame = tk.Frame(self.windowID, height=sizes[1], width=sizes[0])
+        frame.place(x=position[0], y=position[1])
+
+        table = ttk.Treeview(self.windowID, columns=columns, height=height, show='headings')
+        table.place(x=position[0], y=position[1])
+
+        return table
+
+    def addScrollbar(self):
+        from tkinter import VERTICAL, RIGHT, Y
+
+        sb = tk.Scrollbar(self.windowID, orient=VERTICAL)
+        sb.pack(side=RIGHT, fill=Y)
+
+        return sb
 
     def addMinimalLabel(self, textOfLabel, position, h=16):
         labelID = tk.Label(self.windowID,

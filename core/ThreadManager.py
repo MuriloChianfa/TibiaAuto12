@@ -73,7 +73,7 @@ class ThreadManager:
     # This Function Is Not Ready To Use !!!
     def KillThread(self):
         for i in range(len(ActivatedThreads)):
-            if ActivatedThreads[i][1] == self.Name:
+            if 1 not in ActivatedThreads[i] and ActivatedThreads[i][1] == self.Name:
                 ActivatedThreads.remove(ActivatedThreads[i])
         Queue.put('Kill')
         # print(f"{self.Name} Killed")

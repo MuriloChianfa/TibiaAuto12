@@ -11,21 +11,9 @@
 
 # Needed Python and Libs to Run
 
-- [![Python 3.8.2](https://img.shields.io/badge/python-3.8.2-blue.svg)](https://www.python.org/downloads/release/python-382/)
+- [![Python 3.10.1](https://img.shields.io/badge/python-3.10.1-blue.svg)](https://www.python.org/downloads/release/python-3101/)
 
-- Install [pywin32](http://www.qarevolution.com/5-step-install-pywin32-using-pip/) with: `pip install pywin32`
-
-- Install [pygetwindow](https://pypi.org/project/PyGetWindow/) with: `pip install pygetwindow`
-
-- Install [opencv](https://pypi.org/project/opencv-python/) with: `pip install opencv-python`
-
-- Install [numpy](https://pypi.org/project/numpy/) with: `pip install numpy`
-
-- Install [pyautogui](https://pypi.org/project/PyAutoGUI/) with: `pip install pyautogui`
-
-- Install [Pillow](https://pypi.org/project/Pillow/2.2.2/) with: `pip install Pillow`
-
-- Install [keyboard](https://pypi.org/project/keyboard/) with: `pip install keyboard`
+- python -m pip install -r requirements.txt
 
 # Features Status
 
@@ -44,7 +32,7 @@
 - [Cave Bot](#Cave-Bot-Module) : :warning: :heavy_check_mark:
 - [Color Change]() : :warning:
 - [Creature Info]() : :warning:
-- [Food Eater]() : :warning:
+- [Food Eater]() : :heavy_check_mark:
 - [FPS Changer]() : :warning:
 - [General Options]() : :warning:
 - [Healer Friends]() : :warning:
