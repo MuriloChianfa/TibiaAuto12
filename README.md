@@ -13,7 +13,9 @@
 
 - [![Python 3.10.1](https://img.shields.io/badge/python-3.10.1-blue.svg)](https://www.python.org/downloads/release/python-3101/)
 
-- python -m pip install -r requirements.txt
+- ```bash
+  python -m pip install -r requirements.txt
+  ```
 
 # Features Status
 
@@ -41,7 +43,7 @@
 - [Python Scripts]() : :warning:
 - [Save Config]() : :warning:
 - [Sort Loot]() : :warning:
-- [Timed Spells]() : :warning:
+- [Timed Spells]() : :heavy_check_mark:
 - [Show Map]() : :warning:
 
 # How To Use
