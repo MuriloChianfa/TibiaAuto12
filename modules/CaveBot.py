@@ -2,6 +2,7 @@ import os
 import json
 import time
 import shutil
+from tkinter import RAISED, SUNKEN
 
 from conf.MarksConf import *
 from conf.Constants import Monsters, Priority, Hotkeys, AttackModes
@@ -16,8 +17,8 @@ from engine.CaveBot.CaveBotController import CaveBotController
 GUIChanges = []
 
 EnabledCaveBot = False
-ThreadStarted = False
 LoadedScript = False
+ThreadStarted = False
 
 
 class CaveBot:
@@ -31,18 +32,17 @@ class CaveBot:
             global EnabledCaveBot
             if not EnabledCaveBot:
                 EnabledCaveBot = True
-                ButtonEnabled.configure(text='CaveBot: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
+                ButtonEnabled.configure(
+                    text='CaveBot: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 CheckingButtons()
-                if not ThreadStarted:
-                    self.ThreadManager.NewThread(ScanCaveBot)
-                    self.ThreadManager.NewThread(ScanForPause)
-                else:
-                    self.ThreadManager.UnPauseThread()
+                self.ThreadManager.NewThread(ScanCaveBot)
+                self.ThreadManager.NewThread(ScanForPause)
             else:
                 EnabledCaveBot = False
                 CheckingButtons()
-                ButtonEnabled.configure(text='CaveBot: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
-                self.ThreadManager.PauseThread()
+                ButtonEnabled.configure(
+                    text='CaveBot: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
+                self.ThreadManager.StopThread()
 
         def ScanCaveBot():
             ScriptName = Script.get()
@@ -78,27 +78,34 @@ class CaveBot:
                 if keyboard.is_pressed("page_up"):
                     SetCaveBot()
 
-        CheckDebugging, InitiatedDebugging = self.Setter.Variables.Bool('Debugging')
+        CheckDebugging, InitiatedDebugging = self.Setter.Variables.Bool(
+            'Debugging')
 
-        CheckHotkeyPause, InitiatedHotkeyPause = self.Setter.Variables.Bool('HotkeyPause')
-        HotkeyToPause, InitiatedHotkeyToPause = self.Setter.Variables.Str('HotkeyToPause')
+        CheckHotkeyPause, InitiatedHotkeyPause = self.Setter.Variables.Bool(
+            'HotkeyPause')
+        HotkeyToPause, InitiatedHotkeyToPause = self.Setter.Variables.Str(
+            'HotkeyToPause')
 
         Script, InitiatedScript = self.Setter.Variables.Str('Script')
 
         global EnabledCaveBot
         if not EnabledCaveBot:
-            ButtonEnabled = self.CaveBot.addButton('CaveBot: OFF', SetCaveBot, [810, 26], [10, 570])
+            ButtonEnabled = self.CaveBot.addButton(
+                'CaveBot: OFF', SetCaveBot, [810, 26], [10, 570])
         else:
-            ButtonEnabled = self.CaveBot.addButton('CaveBot: ON', SetCaveBot, [810, 26], [10, 570])
+            ButtonEnabled = self.CaveBot.addButton(
+                'CaveBot: ON', SetCaveBot, [810, 26], [10, 570])
 
-        CheckboxDebugging = self.CaveBot.addCheck(CheckDebugging, [22, 511], InitiatedDebugging, "Enable Cavebot Debugging")
+        CheckboxDebugging = self.CaveBot.addCheck(
+            CheckDebugging, [22, 511], InitiatedDebugging, "Enable Cavebot Debugging")
 
         CheckboxHotkeyPause = self.CaveBot.addCheck(CheckHotkeyPause, [22, 542], InitiatedHotkeyPause,
                                                     'Enable Hotkey To Break a  Cavebot')
         CheckboxHotkeyPause.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                       selectcolor=rgb((114, 94, 48)))
 
-        ButtonHotkeyPause = self.CaveBot.addOption(HotkeyToPause, Hotkeys, [232, 542], 8)
+        ButtonHotkeyPause = self.CaveBot.addOption(
+            HotkeyToPause, Hotkeys, [232, 542], 8)
 
         # region Functions Walker
 
@@ -113,10 +120,12 @@ class CaveBot:
         def SetResearchMap():
             if not ResearchMap.get():
                 ResearchMap.set(True)
-                ButtonResearchMap.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
+                ButtonResearchMap.configure(
+                    relief=SUNKEN, bg=rgb((158, 46, 34)))
             else:
                 ResearchMap.set(False)
-                ButtonResearchMap.configure(relief=RAISED, bg=rgb((127, 17, 8)))
+                ButtonResearchMap.configure(
+                    relief=RAISED, bg=rgb((127, 17, 8)))
 
         def RemoveWalker():
             global LoadedScript
@@ -167,7 +176,8 @@ class CaveBot:
             print(len(DataMark))
 
             if DataMark[0]['status'] == "NotConfigured":
-                DataMark.insert(0, {"mark": MarkToAdd, "type": TypeToAdd, "status": True})
+                DataMark.insert(
+                    0, {"mark": MarkToAdd, "type": TypeToAdd, "status": True})
                 del DataMark[1]
                 with open('Scripts/' + Script.get() + '.json', 'w') as wJson:
                     json.dump(DataMark, wJson, indent=4)
@@ -177,7 +187,8 @@ class CaveBot:
                 for j in range(len(DataMark)):
                     if DataMark[j]['status']:
 
-                        DataMark.insert(j + 1, {"mark": MarkToAdd, "type": TypeToAdd, "status": False})
+                        DataMark.insert(
+                            j + 1, {"mark": MarkToAdd, "type": TypeToAdd, "status": False})
                         with open('Scripts/' + Script.get() + '.json', 'w') as wJson:
                             json.dump(DataMark, wJson, indent=4)
                         DataMark[j]['status'] = False
@@ -203,7 +214,8 @@ class CaveBot:
                 PreviousMarkData = DataMark[index - 1]['mark']
             PreviousWaypoint.configure(text=PreviousMarkData)
 
-            PreviousImage.configure(image=ImageMarks[MarkDecoder.get(PreviousMarkData) - 1])
+            PreviousImage.configure(
+                image=ImageMarks[MarkDecoder.get(PreviousMarkData) - 1])
 
             if DataMark[index] == DataMark[0]:
                 PreviousTypeData = DataMark[-1]['type']
@@ -214,8 +226,10 @@ class CaveBot:
         def LoadCurrent(DataMark, index):
             CurrentMarkData = DataMark[index]['mark']
             CurrentWaypoint.configure(text=CurrentMarkData)
-            CurrentImage.configure(image=ImageMarks[MarkDecoder.get(CurrentMarkData) - 1])
-            CurrentType.configure(text=TypeDecoder.get(DataMark[index]['type']))
+            CurrentImage.configure(
+                image=ImageMarks[MarkDecoder.get(CurrentMarkData) - 1])
+            CurrentType.configure(
+                text=TypeDecoder.get(DataMark[index]['type']))
 
         def LoadNext(DataMark, index):
             if DataMark[index] == DataMark[-1]:
@@ -224,7 +238,8 @@ class CaveBot:
                 NextMarkData = DataMark[index + 1]['mark']
             NextWaypoint.configure(text=NextMarkData)
 
-            NextImage.configure(image=ImageMarks[MarkDecoder.get(NextMarkData) - 1])
+            NextImage.configure(
+                image=ImageMarks[MarkDecoder.get(NextMarkData) - 1])
 
             if DataMark[index] == DataMark[-1]:
                 NextTypeData = DataMark[0]['type']
@@ -362,7 +377,8 @@ class CaveBot:
         def SetLoadAutoSeller():
             if not LoadAutoSeller.get():
                 LoadAutoSeller.set(True)
-                ButtonAutoSeller.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
+                ButtonAutoSeller.configure(
+                    relief=SUNKEN, bg=rgb((158, 46, 34)))
             else:
                 LoadAutoSeller.set(False)
                 ButtonAutoSeller.configure(relief=RAISED, bg=rgb((127, 17, 8)))
@@ -370,7 +386,8 @@ class CaveBot:
         def SetLoadAutoBanker():
             if not LoadAutoBanker.get():
                 LoadAutoBanker.set(True)
-                ButtonAutoBanker.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
+                ButtonAutoBanker.configure(
+                    relief=SUNKEN, bg=rgb((158, 46, 34)))
             else:
                 LoadAutoBanker.set(False)
                 ButtonAutoBanker.configure(relief=RAISED, bg=rgb((127, 17, 8)))
@@ -391,77 +408,123 @@ class CaveBot:
 
         def Destroy():
             CheckingGUI(InitiatedDebugging, CheckDebugging.get(), 'Debugging')
-            CheckingGUI(InitiatedHotkeyPause, CheckHotkeyPause.get(), 'HotkeyPause')
-            CheckingGUI(InitiatedHotkeyToPause, HotkeyToPause.get(), 'HotkeyToPause')
+            CheckingGUI(InitiatedHotkeyPause,
+                        CheckHotkeyPause.get(), 'HotkeyPause')
+            CheckingGUI(InitiatedHotkeyToPause,
+                        HotkeyToPause.get(), 'HotkeyToPause')
             CheckingGUI(InitiatedPriorityOne, PriorityOne.get(), 'PriorityOne')
             CheckingGUI(InitiatedPriorityTwo, PriorityTwo.get(), 'PriorityTwo')
-            CheckingGUI(InitiatedPriorityThree, PriorityThree.get(), 'PriorityThree')
-            CheckingGUI(InitiatedPriorityFour, PriorityFour.get(), 'PriorityFour')
-            CheckingGUI(InitiatedSelectedMonster, SelectedMonster.get(), 'SelectedMonster')
-            CheckingGUI(InitiatedSelectedMonster2, SelectedMonster2.get(), 'SelectedMonster2')
-            CheckingGUI(InitiatedSelectedMonster3, SelectedMonster3.get(), 'SelectedMonster3')
-            CheckingGUI(InitiatedSelectedMonster4, SelectedMonster4.get(), 'SelectedMonster4')
-            CheckingGUI(InitiatedSelectedAttackMode, SelectedAttackMode.get(), 'SelectedAttackMode')
+            CheckingGUI(InitiatedPriorityThree,
+                        PriorityThree.get(), 'PriorityThree')
+            CheckingGUI(InitiatedPriorityFour,
+                        PriorityFour.get(), 'PriorityFour')
+            CheckingGUI(InitiatedSelectedMonster,
+                        SelectedMonster.get(), 'SelectedMonster')
+            CheckingGUI(InitiatedSelectedMonster2,
+                        SelectedMonster2.get(), 'SelectedMonster2')
+            CheckingGUI(InitiatedSelectedMonster3,
+                        SelectedMonster3.get(), 'SelectedMonster3')
+            CheckingGUI(InitiatedSelectedMonster4,
+                        SelectedMonster4.get(), 'SelectedMonster4')
+            CheckingGUI(InitiatedSelectedAttackMode,
+                        SelectedAttackMode.get(), 'SelectedAttackMode')
             CheckingGUI(InitiatedAttackOne, CheckAttackOne.get(), 'AttackOne')
             CheckingGUI(InitiatedAttackTwo, CheckAttackTwo.get(), 'AttackTwo')
-            CheckingGUI(InitiatedAttackThree, CheckAttackThree.get(), 'AttackThree')
-            CheckingGUI(InitiatedAttackFour, CheckAttackFour.get(), 'AttackFour')
+            CheckingGUI(InitiatedAttackThree,
+                        CheckAttackThree.get(), 'AttackThree')
+            CheckingGUI(InitiatedAttackFour,
+                        CheckAttackFour.get(), 'AttackFour')
             CheckingGUI(InitiatedFollow, CheckFollow.get(), 'Follow')
-            CheckingGUI(InitiatedCantAttack, CheckCantAttack.get(), 'CantAttack')
-            CheckingGUI(InitiatedAttackPlayers, CheckAttackPlayers.get(), 'AttackPlayers')
-            CheckingGUI(InitiatedPlayerSeen, CheckPlayerSeen.get(), 'PlayerSeen')
-            CheckingGUI(InitiatedAttackingYou, CheckAttackingYou.get(), 'AttackingYou')
-            CheckingGUI(InitiatedForceAttack, CheckForceAttack.get(), 'ForceAttack')
-            CheckingGUI(InitiatedSuspendAfter, SuspendAfter.get(), 'SuspendAfter')
-            CheckingGUI(InitiatedMonstersRange, MonstersRange.get(), 'MonstersRange')
-            CheckingGUI(InitiatedCavebotMode, RadioCavebotMode.get(), 'CavebotMode')
+            CheckingGUI(InitiatedCantAttack,
+                        CheckCantAttack.get(), 'CantAttack')
+            CheckingGUI(InitiatedAttackPlayers,
+                        CheckAttackPlayers.get(), 'AttackPlayers')
+            CheckingGUI(InitiatedPlayerSeen,
+                        CheckPlayerSeen.get(), 'PlayerSeen')
+            CheckingGUI(InitiatedAttackingYou,
+                        CheckAttackingYou.get(), 'AttackingYou')
+            CheckingGUI(InitiatedForceAttack,
+                        CheckForceAttack.get(), 'ForceAttack')
+            CheckingGUI(InitiatedSuspendAfter,
+                        SuspendAfter.get(), 'SuspendAfter')
+            CheckingGUI(InitiatedMonstersRange,
+                        MonstersRange.get(), 'MonstersRange')
+            CheckingGUI(InitiatedCavebotMode,
+                        RadioCavebotMode.get(), 'CavebotMode')
             CheckingGUI(InitiatedRadius, Radius.get(), 'Radius')
             CheckingGUI(InitiatedDelay, Delay.get(), 'Delay')
-            CheckingGUI(InitiatedEnableWalking, CheckEnableWalking.get(), 'EnableWalking')
+            CheckingGUI(InitiatedEnableWalking,
+                        CheckEnableWalking.get(), 'EnableWalking')
             CheckingGUI(InitiatedTypeValue, RadioTypeValue.get(), 'TypeValue')
             CheckingGUI(InitiatedStand, Stand.get(), 'Stand')
             CheckingGUI(InitiatedResearchMap, ResearchMap.get(), 'ResearchMap')
             CheckingGUI(InitiatedMarkValue, RadioMarkValue.get(), 'MarkValue')
             CheckingGUI(InitiatedDropItems, CheckDropItems.get(), 'DropItems')
-            CheckingGUI(InitiatedLoadAutoSeller, LoadAutoSeller.get(), 'LoadAutoSeller')
-            CheckingGUI(InitiatedLoadAutoBanker, LoadAutoBanker.get(), 'LoadAutoBanker')
-            CheckingGUI(InitiatedLoadSortLoot, LoadSortLoot.get(), 'LoadSortLoot')
-            CheckingGUI(InitiatedCapBelowThan, CapBelowThan.get(), 'CapBelowThan')
+            CheckingGUI(InitiatedLoadAutoSeller,
+                        LoadAutoSeller.get(), 'LoadAutoSeller')
+            CheckingGUI(InitiatedLoadAutoBanker,
+                        LoadAutoBanker.get(), 'LoadAutoBanker')
+            CheckingGUI(InitiatedLoadSortLoot,
+                        LoadSortLoot.get(), 'LoadSortLoot')
+            CheckingGUI(InitiatedCapBelowThan,
+                        CapBelowThan.get(), 'CapBelowThan')
             CheckingGUI(InitiatedScript, Script.get(), 'Script')
-            CheckingGUI(InitiatedWalkForDebug, CheckWalkForDebug.get(), 'WalkForDebug')
+            CheckingGUI(InitiatedWalkForDebug,
+                        CheckWalkForDebug.get(), 'WalkForDebug')
 
             if len(GUIChanges) != 0:
                 for EachChange in range(len(GUIChanges)):
-                    self.Setter.SetVariables.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+                    self.Setter.SetVariables.SetVar(
+                        GUIChanges[EachChange][0], GUIChanges[EachChange][1])
 
             self.CaveBot.destroyWindow()
 
         # region Variables MonsterAttacking
 
-        PriorityOne, InitiatedPriorityOne = self.Setter.Variables.Int('PriorityOne')
-        PriorityTwo, InitiatedPriorityTwo = self.Setter.Variables.Int('PriorityTwo')
-        PriorityThree, InitiatedPriorityThree = self.Setter.Variables.Int('PriorityThree')
-        PriorityFour, InitiatedPriorityFour = self.Setter.Variables.Int('PriorityFour')
+        PriorityOne, InitiatedPriorityOne = self.Setter.Variables.Int(
+            'PriorityOne')
+        PriorityTwo, InitiatedPriorityTwo = self.Setter.Variables.Int(
+            'PriorityTwo')
+        PriorityThree, InitiatedPriorityThree = self.Setter.Variables.Int(
+            'PriorityThree')
+        PriorityFour, InitiatedPriorityFour = self.Setter.Variables.Int(
+            'PriorityFour')
 
-        SelectedMonster, InitiatedSelectedMonster = self.Setter.Variables.Str('SelectedMonster')
-        SelectedMonster2, InitiatedSelectedMonster2 = self.Setter.Variables.Str('SelectedMonster2')
-        SelectedMonster3, InitiatedSelectedMonster3 = self.Setter.Variables.Str('SelectedMonster3')
-        SelectedMonster4, InitiatedSelectedMonster4 = self.Setter.Variables.Str('SelectedMonster4')
+        SelectedMonster, InitiatedSelectedMonster = self.Setter.Variables.Str(
+            'SelectedMonster')
+        SelectedMonster2, InitiatedSelectedMonster2 = self.Setter.Variables.Str(
+            'SelectedMonster2')
+        SelectedMonster3, InitiatedSelectedMonster3 = self.Setter.Variables.Str(
+            'SelectedMonster3')
+        SelectedMonster4, InitiatedSelectedMonster4 = self.Setter.Variables.Str(
+            'SelectedMonster4')
 
-        SelectedAttackMode, InitiatedSelectedAttackMode = self.Setter.Variables.Str('SelectedAttackMode')
-        CheckAttackOne, InitiatedAttackOne = self.Setter.Variables.Bool('AttackOne')
-        CheckAttackTwo, InitiatedAttackTwo = self.Setter.Variables.Bool('AttackTwo')
-        CheckAttackThree, InitiatedAttackThree = self.Setter.Variables.Bool('AttackThree')
-        CheckAttackFour, InitiatedAttackFour = self.Setter.Variables.Bool('AttackFour')
+        SelectedAttackMode, InitiatedSelectedAttackMode = self.Setter.Variables.Str(
+            'SelectedAttackMode')
+        CheckAttackOne, InitiatedAttackOne = self.Setter.Variables.Bool(
+            'AttackOne')
+        CheckAttackTwo, InitiatedAttackTwo = self.Setter.Variables.Bool(
+            'AttackTwo')
+        CheckAttackThree, InitiatedAttackThree = self.Setter.Variables.Bool(
+            'AttackThree')
+        CheckAttackFour, InitiatedAttackFour = self.Setter.Variables.Bool(
+            'AttackFour')
 
         CheckFollow, InitiatedFollow = self.Setter.Variables.Bool('Follow')
-        CheckCantAttack, InitiatedCantAttack = self.Setter.Variables.Bool('CantAttack')
-        CheckAttackPlayers, InitiatedAttackPlayers = self.Setter.Variables.Bool('AttackPlayers')
-        CheckPlayerSeen, InitiatedPlayerSeen = self.Setter.Variables.Bool('PlayerSeen')
-        CheckAttackingYou, InitiatedAttackingYou = self.Setter.Variables.Bool('AttackingYou')
-        CheckForceAttack, InitiatedForceAttack = self.Setter.Variables.Bool('ForceAttack')
-        SuspendAfter, InitiatedSuspendAfter = self.Setter.Variables.Str('SuspendAfter')
-        MonstersRange, InitiatedMonstersRange = self.Setter.Variables.Str('MonstersRange')
+        CheckCantAttack, InitiatedCantAttack = self.Setter.Variables.Bool(
+            'CantAttack')
+        CheckAttackPlayers, InitiatedAttackPlayers = self.Setter.Variables.Bool(
+            'AttackPlayers')
+        CheckPlayerSeen, InitiatedPlayerSeen = self.Setter.Variables.Bool(
+            'PlayerSeen')
+        CheckAttackingYou, InitiatedAttackingYou = self.Setter.Variables.Bool(
+            'AttackingYou')
+        CheckForceAttack, InitiatedForceAttack = self.Setter.Variables.Bool(
+            'ForceAttack')
+        SuspendAfter, InitiatedSuspendAfter = self.Setter.Variables.Str(
+            'SuspendAfter')
+        MonstersRange, InitiatedMonstersRange = self.Setter.Variables.Str(
+            'MonstersRange')
 
         # endregion
 
@@ -470,38 +533,50 @@ class CaveBot:
         BackImage = 'images/Fundo.png'
         Back = self.CaveBot.openImage(BackImage, [20, 20])
 
-        RadioCavebotMode, InitiatedCavebotMode = self.Setter.Variables.Int('CavebotMode')
+        RadioCavebotMode, InitiatedCavebotMode = self.Setter.Variables.Int(
+            'CavebotMode')
 
         Radius, InitiatedRadius = self.Setter.Variables.Int('Radius')
         Delay, InitiatedDelay = self.Setter.Variables.Int('Delay')
         Stand, InitiatedStand = self.Setter.Variables.Int('Stand')
 
-        ResearchMap, InitiatedResearchMap = self.Setter.Variables.Bool('ResearchMap')
+        ResearchMap, InitiatedResearchMap = self.Setter.Variables.Bool(
+            'ResearchMap')
 
-        CheckWalkForDebug, InitiatedWalkForDebug = self.Setter.Variables.Bool('WalkForDebug')
+        CheckWalkForDebug, InitiatedWalkForDebug = self.Setter.Variables.Bool(
+            'WalkForDebug')
 
         for i in range(len(NameMarks)):
-            ImageMark = Image.open('images/MapSettings/' + NameMarks[i] + '.png')
+            ImageMark = Image.open(
+                'images/MapSettings/' + NameMarks[i] + '.png')
             ImageMark = ImageMark.resize((20, 20), Image.ANTIALIAS)
             ImageMark = ImageTk.PhotoImage(ImageMark)
             ImageMarks.append(ImageMark)
 
-        RadioMarkValue, InitiatedMarkValue = self.Setter.Variables.Int('MarkValue')
-        RadioTypeValue, InitiatedTypeValue = self.Setter.Variables.Int('TypeValue')
+        RadioMarkValue, InitiatedMarkValue = self.Setter.Variables.Int(
+            'MarkValue')
+        RadioTypeValue, InitiatedTypeValue = self.Setter.Variables.Int(
+            'TypeValue')
 
-        CheckEnableWalking, InitiatedEnableWalking = self.Setter.Variables.Bool('EnableWalking')
+        CheckEnableWalking, InitiatedEnableWalking = self.Setter.Variables.Bool(
+            'EnableWalking')
 
         # endregion
 
         # region Variables DepotWalker
 
-        CheckDropItems, InitiatedDropItems = self.Setter.Variables.Bool('DropItems')
+        CheckDropItems, InitiatedDropItems = self.Setter.Variables.Bool(
+            'DropItems')
 
-        LoadAutoSeller, InitiatedLoadAutoSeller = self.Setter.Variables.Bool('LoadAutoSeller')
-        LoadAutoBanker, InitiatedLoadAutoBanker = self.Setter.Variables.Bool('LoadAutoBanker')
-        LoadSortLoot, InitiatedLoadSortLoot = self.Setter.Variables.Bool('LoadSortLoot')
+        LoadAutoSeller, InitiatedLoadAutoSeller = self.Setter.Variables.Bool(
+            'LoadAutoSeller')
+        LoadAutoBanker, InitiatedLoadAutoBanker = self.Setter.Variables.Bool(
+            'LoadAutoBanker')
+        LoadSortLoot, InitiatedLoadSortLoot = self.Setter.Variables.Bool(
+            'LoadSortLoot')
 
-        CapBelowThan, InitiatedCapBelowThan = self.Setter.Variables.Str('CapBelowThan')
+        CapBelowThan, InitiatedCapBelowThan = self.Setter.Variables.Str(
+            'CapBelowThan')
 
         # endregion
 
@@ -509,25 +584,39 @@ class CaveBot:
 
         # region GUI MonsterAttacking
 
-        OptionAttackMode = self.CaveBot.addOption(SelectedAttackMode, AttackModes, [103, 328], 10)
+        OptionAttackMode = self.CaveBot.addOption(
+            SelectedAttackMode, AttackModes, [103, 328], 10)
 
-        CheckboxAttackOne = self.CaveBot.addCheck(CheckAttackOne, [25, 40], InitiatedAttackOne, 'Monster One')
-        OptionMonstersOne = self.CaveBot.addOption(SelectedMonster, Monsters, [155, 40], 16)
-        PriorityMonstersOne = self.CaveBot.addOption(PriorityOne, Priority, [300, 40])
+        CheckboxAttackOne = self.CaveBot.addCheck(
+            CheckAttackOne, [25, 40], InitiatedAttackOne, 'Monster One')
+        OptionMonstersOne = self.CaveBot.addOption(
+            SelectedMonster, Monsters, [155, 40], 16)
+        PriorityMonstersOne = self.CaveBot.addOption(
+            PriorityOne, Priority, [300, 40])
 
-        CheckboxAttackTwo = self.CaveBot.addCheck(CheckAttackTwo, [25, 80], InitiatedAttackTwo, 'Monster Two')
-        OptionMonstersTwo = self.CaveBot.addOption(SelectedMonster2, Monsters, [155, 80], 16)
-        PriorityMonstersTwo = self.CaveBot.addOption(PriorityTwo, Priority, [300, 80])
+        CheckboxAttackTwo = self.CaveBot.addCheck(
+            CheckAttackTwo, [25, 80], InitiatedAttackTwo, 'Monster Two')
+        OptionMonstersTwo = self.CaveBot.addOption(
+            SelectedMonster2, Monsters, [155, 80], 16)
+        PriorityMonstersTwo = self.CaveBot.addOption(
+            PriorityTwo, Priority, [300, 80])
 
-        CheckboxAttackThree = self.CaveBot.addCheck(CheckAttackThree, [25, 120], InitiatedAttackThree, 'Monster Three')
-        OptionMonstersThree = self.CaveBot.addOption(SelectedMonster3, Monsters, [155, 120], 16)
-        PriorityMonstersThree = self.CaveBot.addOption(PriorityThree, Priority, [300, 120])
+        CheckboxAttackThree = self.CaveBot.addCheck(
+            CheckAttackThree, [25, 120], InitiatedAttackThree, 'Monster Three')
+        OptionMonstersThree = self.CaveBot.addOption(
+            SelectedMonster3, Monsters, [155, 120], 16)
+        PriorityMonstersThree = self.CaveBot.addOption(
+            PriorityThree, Priority, [300, 120])
 
-        CheckboxAttackFour = self.CaveBot.addCheck(CheckAttackFour, [25, 160], InitiatedAttackFour, 'Monster Four')
-        OptionMonstersFour = self.CaveBot.addOption(SelectedMonster4, Monsters, [155, 160], 16)
-        PriorityMonstersFour = self.CaveBot.addOption(PriorityFour, Priority, [300, 160])
+        CheckboxAttackFour = self.CaveBot.addCheck(
+            CheckAttackFour, [25, 160], InitiatedAttackFour, 'Monster Four')
+        OptionMonstersFour = self.CaveBot.addOption(
+            SelectedMonster4, Monsters, [155, 160], 16)
+        PriorityMonstersFour = self.CaveBot.addOption(
+            PriorityFour, Priority, [300, 160])
 
-        CheckBoxFollow = self.CaveBot.addCheck(CheckFollow, [20, 200], InitiatedFollow, 'Auto Follow Mode')
+        CheckBoxFollow = self.CaveBot.addCheck(
+            CheckFollow, [20, 200], InitiatedFollow, 'Auto Follow Mode')
         CheckBoxCantAttack = self.CaveBot.addCheck(CheckCantAttack, [20, 220], InitiatedCantAttack,
                                                    "Suspend When Can't Attack")
         CheckBoxAttackPlayers = self.CaveBot.addCheck(CheckAttackPlayers, [20, 240], InitiatedAttackPlayers,
@@ -539,13 +628,16 @@ class CaveBot:
         CheckBoxForceAttack = self.CaveBot.addCheck(CheckForceAttack, [195, 220], InitiatedForceAttack,
                                                     'Force Attack When Attacked')
 
-        LabelSuspendAfter = self.CaveBot.addLabel('Suspend After Unreachable:', [100, 280])
-        LabelMonstersRange = self.CaveBot.addLabel('Consider Monsters In Range:', [100, 300])
+        LabelSuspendAfter = self.CaveBot.addLabel(
+            'Suspend After Unreachable:', [100, 280])
+        LabelMonstersRange = self.CaveBot.addLabel(
+            'Consider Monsters In Range:', [100, 300])
         LabelAttackMode = self.CaveBot.addLabel('Attack Mode:', [20, 331])
 
         EntrySuspendAfter = self.CaveBot.addEntry([270, 280], SuspendAfter, 5)
         SuspendAfter.trace("w", ValidateSuspendAfter)
-        EntryMonstersRange = self.CaveBot.addEntry([270, 300], MonstersRange, 5)
+        EntryMonstersRange = self.CaveBot.addEntry(
+            [270, 300], MonstersRange, 5)
         MonstersRange.trace("w", ValidateMonstersRange)
 
         # endregion
@@ -556,44 +648,72 @@ class CaveBot:
 
         self.CaveBot.addLabel("Script Name:", [430, 160])
         EntryCurrentScript = self.CaveBot.addEntry([440, 185], Script, 22)
-        ButtonLoadScript = self.CaveBot.addButton('Load Script', LoadScript, [110, 30], [590, 176])
-        ButtonSaveScript = self.CaveBot.addButton('Save Script', SaveScript, [100, 30], [710, 176])
+        ButtonLoadScript = self.CaveBot.addButton(
+            'Load Script', LoadScript, [110, 30], [590, 176])
+        ButtonSaveScript = self.CaveBot.addButton(
+            'Save Script', SaveScript, [100, 30], [710, 176])
 
         self.CaveBot.addLabel('Marks:', [431, 210])
 
-        RadioImage1 = self.CaveBot.addRadioImage('', RadioMarkValue, 1, [470, 230], CheckMarkClick, ImageMarks[0])
-        RadioImage2 = self.CaveBot.addRadioImage('', RadioMarkValue, 2, [510, 230], CheckMarkClick, ImageMarks[1])
-        RadioImage3 = self.CaveBot.addRadioImage('', RadioMarkValue, 3, [550, 230], CheckMarkClick, ImageMarks[2])
-        RadioImage4 = self.CaveBot.addRadioImage('', RadioMarkValue, 4, [590, 230], CheckMarkClick, ImageMarks[3])
-        RadioImage5 = self.CaveBot.addRadioImage('', RadioMarkValue, 5, [630, 230], CheckMarkClick, ImageMarks[4])
-        RadioImage6 = self.CaveBot.addRadioImage('', RadioMarkValue, 6, [670, 230], CheckMarkClick, ImageMarks[5])
-        RadioImage7 = self.CaveBot.addRadioImage('', RadioMarkValue, 7, [710, 230], CheckMarkClick, ImageMarks[6])
-        RadioImage8 = self.CaveBot.addRadioImage('', RadioMarkValue, 8, [470, 260], CheckMarkClick, ImageMarks[7])
-        RadioImage9 = self.CaveBot.addRadioImage('', RadioMarkValue, 9, [510, 260], CheckMarkClick, ImageMarks[8])
-        RadioImage10 = self.CaveBot.addRadioImage('', RadioMarkValue, 10, [550, 260], CheckMarkClick, ImageMarks[9])
-        RadioImage11 = self.CaveBot.addRadioImage('', RadioMarkValue, 11, [590, 260], CheckMarkClick, ImageMarks[10])
-        RadioImage12 = self.CaveBot.addRadioImage('', RadioMarkValue, 12, [630, 260], CheckMarkClick, ImageMarks[11])
-        RadioImage13 = self.CaveBot.addRadioImage('', RadioMarkValue, 13, [670, 260], CheckMarkClick, ImageMarks[12])
-        RadioImage14 = self.CaveBot.addRadioImage('', RadioMarkValue, 14, [710, 260], CheckMarkClick, ImageMarks[13])
-        RadioImage15 = self.CaveBot.addRadioImage('', RadioMarkValue, 15, [470, 290], CheckMarkClick, ImageMarks[14])
-        RadioImage16 = self.CaveBot.addRadioImage('', RadioMarkValue, 16, [510, 290], CheckMarkClick, ImageMarks[15])
-        RadioImage17 = self.CaveBot.addRadioImage('', RadioMarkValue, 17, [550, 290], CheckMarkClick, ImageMarks[16])
-        RadioImage18 = self.CaveBot.addRadioImage('', RadioMarkValue, 18, [590, 290], CheckMarkClick, ImageMarks[17])
-        RadioImage19 = self.CaveBot.addRadioImage('', RadioMarkValue, 19, [630, 290], CheckMarkClick, ImageMarks[18])
-        RadioImage20 = self.CaveBot.addRadioImage('', RadioMarkValue, 20, [670, 290], CheckMarkClick, ImageMarks[19])
+        RadioImage1 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 1, [470, 230], CheckMarkClick, ImageMarks[0])
+        RadioImage2 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 2, [510, 230], CheckMarkClick, ImageMarks[1])
+        RadioImage3 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 3, [550, 230], CheckMarkClick, ImageMarks[2])
+        RadioImage4 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 4, [590, 230], CheckMarkClick, ImageMarks[3])
+        RadioImage5 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 5, [630, 230], CheckMarkClick, ImageMarks[4])
+        RadioImage6 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 6, [670, 230], CheckMarkClick, ImageMarks[5])
+        RadioImage7 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 7, [710, 230], CheckMarkClick, ImageMarks[6])
+        RadioImage8 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 8, [470, 260], CheckMarkClick, ImageMarks[7])
+        RadioImage9 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 9, [510, 260], CheckMarkClick, ImageMarks[8])
+        RadioImage10 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 10, [550, 260], CheckMarkClick, ImageMarks[9])
+        RadioImage11 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 11, [590, 260], CheckMarkClick, ImageMarks[10])
+        RadioImage12 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 12, [630, 260], CheckMarkClick, ImageMarks[11])
+        RadioImage13 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 13, [670, 260], CheckMarkClick, ImageMarks[12])
+        RadioImage14 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 14, [710, 260], CheckMarkClick, ImageMarks[13])
+        RadioImage15 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 15, [470, 290], CheckMarkClick, ImageMarks[14])
+        RadioImage16 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 16, [510, 290], CheckMarkClick, ImageMarks[15])
+        RadioImage17 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 17, [550, 290], CheckMarkClick, ImageMarks[16])
+        RadioImage18 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 18, [590, 290], CheckMarkClick, ImageMarks[17])
+        RadioImage19 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 19, [630, 290], CheckMarkClick, ImageMarks[18])
+        RadioImage20 = self.CaveBot.addRadioImage(
+            '', RadioMarkValue, 20, [670, 290], CheckMarkClick, ImageMarks[19])
 
         self.CaveBot.addLabel('Type Of Waypoint:', [470, 325])
 
-        RadioWalk = self.CaveBot.addRadio('Walk', RadioTypeValue, 1, [580, 324])
-        RadioRope = self.CaveBot.addRadio('Rope', RadioTypeValue, 2, [635, 324])
-        RadioShovel = self.CaveBot.addRadio('Shovel', RadioTypeValue, 3, [690, 324])
+        RadioWalk = self.CaveBot.addRadio(
+            'Walk', RadioTypeValue, 1, [580, 324])
+        RadioRope = self.CaveBot.addRadio(
+            'Rope', RadioTypeValue, 2, [635, 324])
+        RadioShovel = self.CaveBot.addRadio(
+            'Shovel', RadioTypeValue, 3, [690, 324])
 
-        ButtonRemoveWalker = self.CaveBot.addButton("Remove", RemoveWalker, [70, 21], [615, 355])
-        ButtonAddWalker = self.CaveBot.addButton("Add", AddWalker, [50, 21], [555, 355])
+        ButtonRemoveWalker = self.CaveBot.addButton(
+            "Remove", RemoveWalker, [70, 21], [615, 355])
+        ButtonAddWalker = self.CaveBot.addButton(
+            "Add", AddWalker, [50, 21], [555, 355])
 
         self.CaveBot.addLabel('Waypoints In Current Script:', [431, 385])
 
-        ButtonResetMarks = self.CaveBot.addButton('Reset Marks', ResetMarks, [100, 24], [701, 385])
+        ButtonResetMarks = self.CaveBot.addButton(
+            'Reset Marks', ResetMarks, [100, 24], [701, 385])
 
         self.CaveBot.addLabel("PreviousWaypoint:", [431, 410])
         self.CaveBot.addLabel("CurrentWaypoint:", [570, 410])
@@ -615,31 +735,40 @@ class CaveBot:
         CurrentType = self.CaveBot.addLabel("", [612, 480])
         NextType = self.CaveBot.addLabel("", [752, 480])
 
-        ButtonPreviousWaypoint = self.CaveBot.addButton('<<<', SelectPreviousWaypoint, [30, 21], [430, 456])
-        ButtonNextWaypoint = self.CaveBot.addButton('>>>', SelectNextWaypoint, [30, 21], [786, 456])
+        ButtonPreviousWaypoint = self.CaveBot.addButton(
+            '<<<', SelectPreviousWaypoint, [30, 21], [430, 456])
+        ButtonNextWaypoint = self.CaveBot.addButton(
+            '>>>', SelectNextWaypoint, [30, 21], [786, 456])
 
         CheckboxWalkForDebug = self.CaveBot.addCheck(CheckWalkForDebug, [431, 497], InitiatedWalkForDebug,
                                                      "Enable Walk For Refresh Map (RECOMMENDED)")
 
-        self.CaveBot.addLabel('Stand Still After Reaching Waypoint Per:', [431, 520])
+        self.CaveBot.addLabel(
+            'Stand Still After Reaching Waypoint Per:', [431, 520])
 
         EntryStand = self.CaveBot.addEntry([653, 521], Stand, 2)
         Stand.trace("w", ValidateStand)
 
-        ButtonResearchMap = self.CaveBot.addButton('Auto Research Map', SetResearchMap, [130, 37], [684, 519])
+        ButtonResearchMap = self.CaveBot.addButton(
+            'Auto Research Map', SetResearchMap, [130, 37], [684, 519])
 
         # endregion
 
         # region GUI DepotWalker
 
-        CheckboxDropItems = self.CaveBot.addCheck(CheckDropItems, [425, 28], InitiatedDropItems, 'Drop Items Instead Of Deposit')
-        LabelGoDepot = self.CaveBot.addLabel('Go To Depot When Cap Below Than:', [480, 50])
+        CheckboxDropItems = self.CaveBot.addCheck(
+            CheckDropItems, [425, 28], InitiatedDropItems, 'Drop Items Instead Of Deposit')
+        LabelGoDepot = self.CaveBot.addLabel(
+            'Go To Depot When Cap Below Than:', [480, 50])
 
         EntryCapBelowThan = self.CaveBot.addEntry([680, 50], CapBelowThan, 5)
 
-        ButtonAutoSeller = self.CaveBot.addButton('Load AutoSeller', SetLoadAutoSeller, [110, 28], [450, 80])
-        ButtonAutoBanker = self.CaveBot.addButton('Load AutoBanker', SetLoadAutoBanker, [120, 28], [570, 80])
-        ButtonSortLoot = self.CaveBot.addButton('Load SortLoot', SetLoadSortLoot, [100, 28], [700, 80])
+        ButtonAutoSeller = self.CaveBot.addButton(
+            'Load AutoSeller', SetLoadAutoSeller, [110, 28], [450, 80])
+        ButtonAutoBanker = self.CaveBot.addButton(
+            'Load AutoBanker', SetLoadAutoBanker, [120, 28], [570, 80])
+        ButtonSortLoot = self.CaveBot.addButton(
+            'Load SortLoot', SetLoadSortLoot, [100, 28], [700, 80])
 
         # endregion
 
@@ -680,7 +809,7 @@ class CaveBot:
                 Disable(ButtonAutoSeller)
                 Disable(ButtonAutoBanker)
                 Disable(ButtonSortLoot)
-                
+
                 Disable(CheckboxEnableWalking)
                 Disable(EntryCurrentScript)
 
@@ -798,21 +927,29 @@ class CaveBot:
                     Enable(ButtonSortLoot)
 
                 if ResearchMap.get():
-                    ButtonResearchMap.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
+                    ButtonResearchMap.configure(
+                        relief=SUNKEN, bg=rgb((158, 46, 34)))
                 else:
-                    ButtonResearchMap.configure(relief=RAISED, bg=rgb((127, 17, 8)))
+                    ButtonResearchMap.configure(
+                        relief=RAISED, bg=rgb((127, 17, 8)))
                 if LoadAutoSeller.get():
-                    ButtonAutoSeller.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
+                    ButtonAutoSeller.configure(
+                        relief=SUNKEN, bg=rgb((158, 46, 34)))
                 else:
-                    ButtonAutoSeller.configure(relief=RAISED, bg=rgb((127, 17, 8)))
+                    ButtonAutoSeller.configure(
+                        relief=RAISED, bg=rgb((127, 17, 8)))
                 if LoadAutoBanker.get():
-                    ButtonAutoBanker.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
+                    ButtonAutoBanker.configure(
+                        relief=SUNKEN, bg=rgb((158, 46, 34)))
                 else:
-                    ButtonAutoBanker.configure(relief=RAISED, bg=rgb((127, 17, 8)))
+                    ButtonAutoBanker.configure(
+                        relief=RAISED, bg=rgb((127, 17, 8)))
                 if LoadSortLoot.get():
-                    ButtonSortLoot.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
+                    ButtonSortLoot.configure(
+                        relief=SUNKEN, bg=rgb((158, 46, 34)))
                 else:
-                    ButtonSortLoot.configure(relief=RAISED, bg=rgb((127, 17, 8)))
+                    ButtonSortLoot.configure(
+                        relief=RAISED, bg=rgb((127, 17, 8)))
                 if CheckEnableWalking.get():
                     Enable(EntryCurrentScript)
 
@@ -863,7 +1000,7 @@ class CaveBot:
 
                     Enable(EntryStand)
                     Enable(CheckboxWalkForDebug)
-                    
+
             ExecGUITrigger()
 
         def ConstantVerify():

@@ -1,9 +1,11 @@
 import pyautogui
 import tkinter as tk
-from tkinter import SUNKEN, RAISED, ttk
+from tkinter import ttk
 from PIL import Image, ImageTk
 
 from core.Defaults import *
+
+MainWindow = None
 
 
 class GUI:
@@ -12,6 +14,8 @@ class GUI:
         self.name = name
 
     def MainWindow(self, BackgroundImage, sizes, positions):
+        global MainWindow
+
         self.windowID = tk.Tk()
         w = sizes[0]
         h = sizes[1]
@@ -24,11 +28,12 @@ class GUI:
         self.windowID.resizable(width=False, height=False)
         self.windowID.configure(background='#000', takefocus=True)
         self.windowID.iconbitmap('images/icon.ico')
-        image = Image.open('images/Modules/' + BackgroundImage + '.png')
+        image = Image.open(f'images/Modules/{BackgroundImage}.png')
         photo = ImageTk.PhotoImage(image)
         label = tk.Label(self.windowID, image=photo, bg='#000')
         label.image = photo
         label.pack()
+        MainWindow = self.windowID
 
     def DefaultWindow(self, BackgroundImage, sizes, positions):
         self.windowID = tk.Toplevel()
@@ -57,7 +62,8 @@ class GUI:
         self.windowID.grab_set()
         self.windowID.resizable(width=False, height=False)
         self.windowID.geometry('130x130')
-        self.windowID.image = tk.PhotoImage(file='images/BackgroundImages/' + BackgroundImage + '.png')
+        self.windowID.image = tk.PhotoImage(
+            file='images/BackgroundImages/' + BackgroundImage + '.png')
         label = tk.Label(self.windowID, image=self.windowID.image, bg='black')
         label.place(x=0, y=0)
         self.windowID.overrideredirect(True)
@@ -139,7 +145,8 @@ class GUI:
         frame = tk.Frame(self.windowID, height=sizes[1], width=sizes[0])
         frame.place(x=position[0], y=position[1])
 
-        table = ttk.Treeview(self.windowID, columns=columns, height=height, show='headings')
+        table = ttk.Treeview(self.windowID, columns=columns,
+                             height=height, show='headings')
         table.place(x=position[0], y=position[1])
 
         return table
@@ -179,14 +186,11 @@ class GUI:
         entryID.place(x=position[0], y=position[1])
         return entryID
 
-    def addOption(self, variable, options, position, width=4):
-        optionID = tk.OptionMenu(self.windowID, variable, *options)
-        optionID['bg'] = rgb((114, 0, 0))
-        optionID['fg'] = 'white'
-        optionID['activebackground'] = rgb((103, 13, 5))
-        optionID["highlightthickness"] = 0
-        optionID['width'] = width
-        optionID['cursor'] = "hand2"
+    def addOption(self, variable, options, position, width=4, command=None):
+        optionID = tk.OptionMenu(
+            self.windowID, variable, *options, command=command)
+        optionID.config(bg=rgb((114, 0, 0)), fg='white', activebackground=rgb(
+            (103, 13, 5)), highlightthickness=0, width=width, cursor='hand2', )
         optionID.place(x=position[0], y=position[1])
         return optionID
 
@@ -223,6 +227,10 @@ class GUI:
 
     def After(self, Time, Function):
         return self.windowID.after(Time, Function)
+
+    def ExitGUI():
+        MainWindow.destroy()
+        raise SystemExit
 
     def deiconify(self):
         return self.windowID.deiconify()

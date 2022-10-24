@@ -1,19 +1,22 @@
-import numpy as np
+import time
 import cv2
-from PIL import Image, ImageOps
+import multiprocessing as mp
+import numpy as np
+from datetime import datetime
+from tkinter import messagebox
+from PIL import ImageOps
+
+from core.GUI import *
 
 from conf.conf_manager import ConfManager
 
+platform = ConfManager.get('conf.json')['platform']
 
-data = ConfManager.get('conf.json')
-
-if data['platform'] == "windows":
+if platform == "windows":
     from ctypes import windll
     import win32ui
     import win32gui
-
-    hwnd = data['hwnd']
-elif data['platform'] == "linux":
+elif platform == "linux":
     import os
     from core.LinuxClient import Execute, FindAnotherWindow, FindWindow
 
@@ -24,58 +27,58 @@ elif data['platform'] == "linux":
 
 
 class Hooker:
-    if data['platform'] == 'windows':
+    if platform == 'windows':
         def __init__(self):
-            self.hwnd = hwnd
-            self.win32gui = win32gui
-            self.win32ui = win32ui
+            self.hwnd = ConfManager.get('conf.json')['hwnd']
+            while win32gui.IsIconic(self.hwnd):
+                time.sleep(1)
             self.dll = windll.user32
-            self.hwndDC = self.win32gui.GetWindowDC(self.hwnd)
-            self.mfcDC = self.win32ui.CreateDCFromHandle(self.hwndDC)
+            try:
+                self.hwndDC = win32gui.GetWindowDC(self.hwnd)
+            except:
+                messagebox.showerror(
+                    'Tibia window not detected!', 'Please open a Tibia instance or focus the existing window again.')
+                GUI.ExitGUI()
+            self.mfcDC = win32ui.CreateDCFromHandle(self.hwndDC)
             self.saveDC = self.mfcDC.CreateCompatibleDC()
-            self.saveBitMap = self.win32ui.CreateBitmap()
-            self.left, self.top, self.right, self.bot = self.win32gui.GetClientRect(self.hwnd)
+            self.saveBitMap = win32ui.CreateBitmap()
+            self.left, self.top, self.right, self.bot = win32gui.GetClientRect(
+                self.hwnd)
             self.left = self.left + 8
             self.top = self.top + 8
             self.right = self.right + 8
             self.bot = self.bot + 8
             self.w = self.right - self.left
             self.h = self.bot - self.top
-            self.saveBitMap.CreateCompatibleBitmap(self.mfcDC, self.w, self.h)
+            self.saveBitMap.CreateCompatibleBitmap(
+                self.mfcDC, self.w, self.h)
             self.saveDC.SelectObject(self.saveBitMap)
-            self.result = self.dll.PrintWindow(self.hwnd, self.saveDC.GetSafeHdc(), 1)
+            self.targetWindowIsFocused = self.dll.PrintWindow(
+                self.hwnd, self.saveDC.GetSafeHdc(), 1)
 
             self.bmpinfo = self.saveBitMap.GetInfo()
             self.bmpstr = self.saveBitMap.GetBitmapBits(True)
 
-            self.TakedImage = Image.frombuffer(
+            self.TakenImage = Image.frombuffer(
                 'RGB',
                 (self.bmpinfo['bmWidth'], self.bmpinfo['bmHeight']),
                 self.bmpstr, 'raw', 'BGRX', 0, 1)
 
-            self.win32gui.DeleteObject(self.saveBitMap.GetHandle())
+            win32gui.DeleteObject(self.saveBitMap.GetHandle())
             self.saveDC.DeleteDC()
             self.mfcDC.DeleteDC()
-            self.win32gui.ReleaseDC(self.hwnd, self.hwndDC)
+            win32gui.ReleaseDC(self.hwnd, self.hwndDC)
 
-    elif data['platform'] == 'linux':
-        def __init__(self, FileName="images/tmp_screen.png"):
-            Execute(["scrot", "-u", FileName])
-            self.TakedImage = cv2.imread(FileName)
+    elif platform == 'linux':
+        def __init__(self, Filename="images/tmp_screen.png"):
+            Execute(["scrot", "-u", Filename])
+            self.TakenImage = cv2.imread(Filename)
 
-            if self.TakedImage is not None:
-                self.result = 1
+            if self.TakenImage is not None:
+                self.targetWindowIsFocused = 1
 
     def HookWindow(self):
-        if self.result == 1:
-            return self.TakedImage
-        else:
-            self.win32gui.SetForegroundWindow(self.hwnd)
-            self.TakedImage = Hooker().HookWindow()
-            if self.result == 1:
-                return self.TakedImage
-            else:
-                return print('Debugged From HookWindow')
+        return self.TakenImage
 
 
 '''
@@ -88,14 +91,17 @@ def TakeImage(Region=None):
     Except = True
     while Except:
         try:
-            TakedImage = Hooker().HookWindow()
+            TakenImage = Hooker().HookWindow()
             if Region is not None:
-                TakedImage = TakedImage.crop(
+                TakenImage = TakenImage.crop(
                     (Region[0], Region[1], Region[0] + (Region[2] - Region[0]), Region[1] + (Region[3] - Region[1])))
-                return TakedImage
+                Except = False
+                return TakenImage
             else:
-                return TakedImage
+                Except = False
+                return TakenImage
         except Exception as Ex:
+            print('Ex', Ex)
             # print("Debugged From TakeImage: ", Ex)
             Except = True
             pass
@@ -117,9 +123,9 @@ def TakeImage(Region=None):
 
 
 def LocateImage(image, Region=None, Precision=0.8):
-    TakedImage = TakeImage(Region)
+    TakenImage = TakeImage(Region)
 
-    img_rgb = np.array(TakedImage)
+    img_rgb = np.array(TakenImage)
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(image, 0)
 
@@ -140,9 +146,9 @@ def LocateImage(image, Region=None, Precision=0.8):
 
 
 def LocateCenterImage(image, Region=None, Precision=0.8):
-    TakedImage = TakeImage(Region)
+    TakenImage = TakeImage(Region)
 
-    img_rgb = np.array(TakedImage)
+    img_rgb = np.array(TakenImage)
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(image, 0)
 
@@ -169,10 +175,10 @@ def LocateCenterImage(image, Region=None, Precision=0.8):
 
 
 def LocateAllImages(image, Region=None, Precision=0.8):
-    TakedImage = TakeImage(Region)
+    TakenImage = TakeImage(Region)
 
-    TakedImage = np.array(TakedImage)
-    img_gray = cv2.cvtColor(TakedImage, cv2.COLOR_BGR2GRAY)
+    TakenImage = np.array(TakenImage)
+    img_gray = cv2.cvtColor(TakenImage, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(image, 0)
 
     w, h = template.shape[::-1]
@@ -210,8 +216,8 @@ def LocateBoolRGBImage(image, Region=None, Precision=0.9):
 
 
 def PixelMatchesColor(X, Y, expectedRGBColor):
-    TakedImage = TakeImage(Region=(X, Y, X + 1, Y + 1))
-    rgb = TakedImage.getpixel((0, 0))
+    TakenImage = TakeImage(Region=(X, Y, X + 1, Y + 1))
+    rgb = TakenImage.getpixel((0, 0))
     if rgb == expectedRGBColor:
         return True
     else:
@@ -221,15 +227,15 @@ def PixelMatchesColor(X, Y, expectedRGBColor):
 '''
     When Called, It Save The Image On Folder And Name Passed Per Argument, Examples:
     
-    1°: SaveImage('TakedImage.png') == Save The Image In Current Directory,
+    1°: SaveImage('TakenImage.png') == Save The Image In Current Directory,
     2°: SaveImage('images/Foods/Cheese.png', (1234, 435, 1280, 460)) == Save The Image On Passed Folder,
     And Crop Then In X: 1234 Up Until 1280 And Y: 435 Up Until 460.
 '''
 
 
 def SaveImage(Name, Region=None):
-    TakedImage = TakeImage(Region)
-    return TakedImage.save(Name)
+    TakenImage = TakeImage(Region)
+    return TakenImage.save(Name)
 
 
 def GetImageSize(needleImage):

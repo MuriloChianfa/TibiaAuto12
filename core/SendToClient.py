@@ -69,8 +69,10 @@ class SendToClient:
     '''
 
     def Press(self, Key):
-        win32api.SendMessage(self.hwnd, win32con.WM_KEYDOWN, KeyToHex.get(Key, ""), 0)
-        win32api.SendMessage(self.hwnd, win32con.WM_KEYUP, KeyToHex.get(Key, ""), 0)
+        win32api.SendMessage(self.hwnd, win32con.WM_KEYDOWN,
+                             KeyToHex.get(Key, ""), 0)
+        win32api.SendMessage(self.hwnd, win32con.WM_KEYUP,
+                             KeyToHex.get(Key, ""), 0)
 
     '''
         Send One Press HotKey For Client
@@ -84,10 +86,13 @@ class SendToClient:
     def PressHotkey(self, Option,  Key):
         win32api.keybd_event(KeyToHex.get(Option, ""), 0, 0, 0)
         sleep(.05)
-        win32api.SendMessage(self.hwnd, win32con.WM_KEYDOWN, KeyToHex.get(Key, ""), 0)
-        win32api.SendMessage(self.hwnd, win32con.WM_KEYUP, KeyToHex.get(Key, ""), 0)
+        win32api.SendMessage(self.hwnd, win32con.WM_KEYDOWN,
+                             KeyToHex.get(Key, ""), 0)
+        win32api.SendMessage(self.hwnd, win32con.WM_KEYUP,
+                             KeyToHex.get(Key, ""), 0)
         sleep(.05)
-        win32api.keybd_event(KeyToHex.get(Option, ""), 0, win32con.KEYEVENTF_KEYUP, 0)
+        win32api.keybd_event(KeyToHex.get(Option, ""), 0,
+                             win32con.KEYEVENTF_KEYUP, 0)
 
     '''
         Here He Send One Mouse Click At One Position Received From Arg
@@ -100,17 +105,35 @@ class SendToClient:
 
     def LeftClick(self, Position):
         ClientPosition = win32gui.ScreenToClient(self.hwnd, Position)
-        PositionToClick = win32api.MAKELONG(ClientPosition[0], ClientPosition[1])
-        win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, 0, PositionToClick)
-        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, PositionToClick)
-        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, PositionToClick)
+        PositionToClick = win32api.MAKELONG(
+            ClientPosition[0], ClientPosition[1])
+        win32api.PostMessage(
+            self.hwnd, win32con.WM_MOUSEMOVE, 0, PositionToClick)
+        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONDOWN,
+                             win32con.MK_LBUTTON, PositionToClick)
+        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONUP,
+                             win32con.MK_LBUTTON, PositionToClick)
 
     def RightClick(self, Position):
         ClientPosition = win32gui.ScreenToClient(self.hwnd, Position)
-        PositionToClick = win32api.MAKELONG(ClientPosition[0], ClientPosition[1])
-        win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, 0, PositionToClick)
-        win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONDOWN, win32con.MK_RBUTTON, PositionToClick)
-        win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONUP, win32con.MK_RBUTTON, PositionToClick)
+        PositionToClick = win32api.MAKELONG(
+            ClientPosition[0], ClientPosition[1])
+        win32api.PostMessage(
+            self.hwnd, win32con.WM_MOUSEMOVE, 0, PositionToClick)
+        win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONDOWN,
+                             win32con.MK_RBUTTON, PositionToClick)
+        win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONUP,
+                             win32con.MK_RBUTTON, PositionToClick)
+
+    def RawRightClick(self, Position):
+        if (self.IsFocused()):
+            (previousCursorX, previousCursorY) = win32api.GetCursorPos()
+            win32api.SetCursorPos((Position[0], Position[1] + 24))
+            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN,
+                                 Position[0], Position[1] + 24, 0, 0)
+            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP,
+                                 Position[0], Position[1] + 24, 0, 0)
+            win32api.SetCursorPos((previousCursorX, previousCursorY))
 
     '''
         Usage Just For Tibia...
@@ -125,21 +148,27 @@ class SendToClient:
         FromPosition = win32api.MAKELONG(ClientFrom[0], ClientFrom[1])
         ClientTo = win32gui.ScreenToClient(self.hwnd, To)
         ToPosition = win32api.MAKELONG(ClientTo[0], ClientTo[1])
-        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, FromPosition)
+        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONDOWN,
+                             win32con.MK_LBUTTON, FromPosition)
         win32api.SendMessage(self.hwnd, win32con.WM_MOUSEMOVE, 0, ToPosition)
-        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, ToPosition)
+        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONUP,
+                             win32con.MK_LBUTTON, ToPosition)
 
     def UseOn(self, From, To):
         ClientFrom = win32gui.ScreenToClient(self.hwnd, From)
         FromPosition = win32api.MAKELONG(ClientFrom[0], ClientFrom[1])
         win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, 0, FromPosition)
-        win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONDOWN, win32con.MK_RBUTTON, FromPosition)
-        win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONUP, win32con.MK_RBUTTON, FromPosition)
+        win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONDOWN,
+                             win32con.MK_RBUTTON, FromPosition)
+        win32api.SendMessage(self.hwnd, win32con.WM_RBUTTONUP,
+                             win32con.MK_RBUTTON, FromPosition)
         ClientTo = win32gui.ScreenToClient(self.hwnd, To)
         ToPosition = win32api.MAKELONG(ClientTo[0], ClientTo[1])
         win32api.PostMessage(self.hwnd, win32con.WM_MOUSEMOVE, 0, ToPosition)
-        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, ToPosition)
-        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, ToPosition)
+        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONDOWN,
+                             win32con.MK_LBUTTON, ToPosition)
+        win32api.SendMessage(self.hwnd, win32con.WM_LBUTTONUP,
+                             win32con.MK_LBUTTON, ToPosition)
 
     @staticmethod
     def MainWindowSize():

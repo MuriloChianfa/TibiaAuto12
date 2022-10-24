@@ -14,7 +14,7 @@ from tkinter import CENTER, VERTICAL
 
 from core.ThreadManager import ThreadManager
 
-from engine.ScanFood import scan_food
+from engine.Scanners.ScanFood import scan_food
 
 
 class TimedSpells:
@@ -43,11 +43,13 @@ class TimedSpells:
     def trigger(self):
         if TimedSpells.enabled:
             TimedSpells.enabled = False
-            self.enabled_button.configure(text='TimedSpells: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
+            self.enabled_button.configure(
+                text='TimedSpells: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
             self.pause()
         else:
             TimedSpells.enabled = True
-            self.enabled_button.configure(text='TimedSpells: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
+            self.enabled_button.configure(
+                text='TimedSpells: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
             self.run()
 
         self.check()
@@ -66,7 +68,7 @@ class TimedSpells:
         print('TimedSpells: ON')
 
     def pause(self):
-        self.ThreadManager.PauseThread()
+        self.ThreadManager.StopThread()
         print('TimedSpells: OFF')
 
     def execute(self):
@@ -96,9 +98,12 @@ class TimedSpells:
             sleep(1)
 
     def destroy(self):
-        check_gui(TimedSpells.gui_changes, self.init_check_print, self.check_print.get(), 'CheckPrint')
-        check_gui(TimedSpells.gui_changes, self.init_instant, self.check_instant.get(), 'InstantExecute')
-        check_gui(TimedSpells.gui_changes, self.init_food_hotkey, self.food_hotkey.get(), 'Hotkey')
+        check_gui(TimedSpells.gui_changes, self.init_check_print,
+                  self.check_print.get(), 'CheckPrint')
+        check_gui(TimedSpells.gui_changes, self.init_instant,
+                  self.check_instant.get(), 'InstantExecute')
+        check_gui(TimedSpells.gui_changes, self.init_food_hotkey,
+                  self.food_hotkey.get(), 'Hotkey')
 
         spells = []
 
@@ -121,10 +126,14 @@ class TimedSpells:
         self.window.destroyWindow()
 
     def gui_vars(self):
-        self.check_print, self.init_check_print = self.Setter.Variables.Bool('CheckPrint')
-        self.check_instant, self.init_instant = self.Setter.Variables.Bool('InstantExecute')
-        self.food_hotkey, self.init_food_hotkey = self.Setter.Variables.Str('Hotkey')
-        self.cast_every, self.init_cast_every = self.Setter.Variables.Str('CastEvery')
+        self.check_print, self.init_check_print = self.Setter.Variables.Bool(
+            'CheckPrint')
+        self.check_instant, self.init_instant = self.Setter.Variables.Bool(
+            'InstantExecute')
+        self.food_hotkey, self.init_food_hotkey = self.Setter.Variables.Str(
+            'Hotkey')
+        self.cast_every, self.init_cast_every = self.Setter.Variables.Str(
+            'CastEvery')
         self.spells, self.init_spells = self.Setter.Variables.array('Spells')
 
     def validate_cast_every(self, *args):
@@ -162,17 +171,22 @@ class TimedSpells:
 
     def gui(self):
         self.label = self.window.addLabel('Hotkey to press', [40, 45])
-        self.hotkey_button = self.window.addOption(self.food_hotkey, self.SendToClient.Hotkeys, [145, 40], 10)
+        self.hotkey_button = self.window.addOption(
+            self.food_hotkey, self.SendToClient.Hotkeys, [145, 40], 10)
 
         self.label2 = self.window.addLabel('Cast every', [40, 75])
         self.label3 = self.window.addLabel('seconds', [230, 75])
-        self.entry_cast_every = self.window.addEntry([145, 75], self.cast_every, 12)
+        self.entry_cast_every = self.window.addEntry(
+            [145, 75], self.cast_every, 12)
         self.cast_every.trace("w", self.validate_cast_every)
 
-        self.add_button = self.window.addButton('Add', self.add_item, [75, 23], [70, 110])
-        self.remove_button = self.window.addButton('Remove', self.remove_item, [75, 23], [170, 110])
+        self.add_button = self.window.addButton(
+            'Add', self.add_item, [75, 23], [70, 110])
+        self.remove_button = self.window.addButton(
+            'Remove', self.remove_item, [75, 23], [170, 110])
 
-        self.table = self.window.addList(('hotkey', 'time'), 8, [230, 100], [40, 150])
+        self.table = self.window.addList(
+            ('hotkey', 'time'), 8, [230, 100], [40, 150])
 
         self.table.column('hotkey', width=115)
         self.table.column('time', anchor=CENTER, width=115)
@@ -202,12 +216,15 @@ class TimedSpells:
                                             selectcolor=rgb((114, 94, 48)))
 
         if not TimedSpells.enabled:
-            self.enabled_button = self.window.addButton('TimedSpells: OFF', self.trigger, [287, 23], [11, 411])
+            self.enabled_button = self.window.addButton(
+                'TimedSpells: OFF', self.trigger, [287, 23], [11, 411])
         else:
-            self.enabled_button = self.window.addButton('TimedSpells: ON', self.trigger, [287, 23], [11, 411])
+            self.enabled_button = self.window.addButton(
+                'TimedSpells: ON', self.trigger, [287, 23], [11, 411])
             self.enabled_button.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        self.ok_button = self.window.addButton('Ok', self.destroy, [73, 21], [115, 440])
+        self.ok_button = self.window.addButton(
+            'Ok', self.destroy, [73, 21], [115, 440])
 
     def check(self):
         if TimedSpells.enabled:
