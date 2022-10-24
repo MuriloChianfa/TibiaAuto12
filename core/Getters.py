@@ -1,6 +1,7 @@
-from core.HookWindow import LocateCenterImage, LocateImage
+from core.HookWindow import LocateCenterImage, LocateImage, TakeImage
 
 BattlePositions = [0, 0, 0, 0]
+MainContainerPositions = [0, 0, 0, 0]
 MapPositions = [0, 0, 0, 0]
 StatsPositions = [0, 0, 0, 0]
 GameWindow = [0, 0, 0, 0]
@@ -8,16 +9,24 @@ Player = [0, 0]
 SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 SQMsSizes = [0, 0]
 
+SavedTakenImage = []
+
+
+def GetClientScreenshot():
+    TakeImage().save('screen.jpg')
+
 
 def GetAccountNamePosition():
-    AccountName = LocateCenterImage('images/TibiaSettings/AccountName.png', Precision=0.9)
+    AccountName = LocateCenterImage(
+        'images/TibiaSettings/AccountName.png', Precision=0.9)
     if AccountName[0] != 0 and AccountName[1] != 0:
         return AccountName[0], AccountName[1]
     return 0, 0
 
 
 def GetBattlePosition():
-    BattlePositions[0], BattlePositions[1] = LocateCenterImage('images/TibiaSettings/BattleList.png', Precision=0.85)
+    BattlePositions[0], BattlePositions[1] = LocateCenterImage(
+        'images/TibiaSettings/BattleList.png', Precision=0.85)
     if BattlePositions[0] == 0 and BattlePositions[1] == 0:
         return 0, 0, 0, 0
 
@@ -31,28 +40,34 @@ def GetBattlePosition():
 
 
 def GetHealthPosition():
-    HealthPositions = LocateCenterImage('images/PlayerSettings/health.png', Precision=0.8)
+    HealthPositions = LocateCenterImage(
+        'images/PlayerSettings/health.png', Precision=0.8)
     if HealthPositions[0] != 0 and HealthPositions[1] != 0:
         return HealthPositions[0], HealthPositions[1]
     return 0, 0
 
 
 def GetManaPosition():
-    ManaPositions = LocateCenterImage('images/PlayerSettings/mana.png', Precision=0.8)
+    ManaPositions = LocateCenterImage(
+        'images/PlayerSettings/mana.png', Precision=0.8)
     if ManaPositions[0] != 0 and ManaPositions[1] != 0:
         return ManaPositions[0], ManaPositions[1]
 
 
 def GetMapPosition():
-    top_right = LocateImage("images/MapSettings/MapSettings.png", Precision=0.8)
+    top_right = LocateImage(
+        "images/MapSettings/MapSettings.png", Precision=0.8)
     map_size = 110  # 110px square
-    MapPositions[0], MapPositions[1] = top_right[0] - map_size + 4, top_right[1] + 1
-    MapPositions[2], MapPositions[3] = top_right[0] - 1, top_right[1] + map_size - 1
+    MapPositions[0], MapPositions[1] = top_right[0] - \
+        map_size + 4, top_right[1] + 1
+    MapPositions[2], MapPositions[3] = top_right[0] - \
+        1, top_right[1] + map_size - 1
     if top_right[0] != -1:
         print(f"MiniMap Start [X: {MapPositions[0]}, Y: {MapPositions[1]}]")
         print(f"MiniMap End [X: {MapPositions[2]}, Y: {MapPositions[3]}]")
         print("")
-        print(f"Size of MiniMap [X: {MapPositions[2] - MapPositions[0]}, Y: {MapPositions[3] - MapPositions[1]}]")
+        print(
+            f"Size of MiniMap [X: {MapPositions[2] - MapPositions[0]}, Y: {MapPositions[3] - MapPositions[1]}]")
         return MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3]
 
     print("Error To Get Map Positions")
@@ -60,7 +75,8 @@ def GetMapPosition():
 
 
 def GetStatsPosition():
-    StatsPositions[0], StatsPositions[1] = LocateImage('images/TibiaSettings/Stop.png', Precision=0.8)
+    StatsPositions[0], StatsPositions[1] = LocateImage(
+        'images/TibiaSettings/Stop.png', Precision=0.8)
     if StatsPositions[0] != 0 and StatsPositions[1] != 0:
         StatsPositions[0] = StatsPositions[0] - 117
         StatsPositions[1] = StatsPositions[1] + 1
@@ -71,13 +87,31 @@ def GetStatsPosition():
     return 0, 0, 0, 0
 
 
+def GetMainContainerPosition(name='Bag'):
+    main_container_position = LocateImage(
+        f'images/Items/ContainersName/{name}.png', Precision=.9)
+    print('main_container_position', main_container_position)
+    MainContainerPositions[0], MainContainerPositions[1] = main_container_position[0], main_container_position[1]
+    if main_container_position[0] != -1:
+        print(
+            f"Main Container Start [X: {MainContainerPositions[0]}, Y: {MainContainerPositions[1]}]")
+        print("")
+        return MainContainerPositions[0], MainContainerPositions[1]
+
+    print("Error To Get Container Positions")
+    return -1, -1
+
+
 def GetPlayerPosition():
-    LeftGameWindow = LocateImage("images/PlayerSettings/LeftOption1.png", Precision=0.75)
+    LeftGameWindow = LocateImage(
+        "images/PlayerSettings/LeftOption1.png", Precision=0.75)
     if LeftGameWindow[0] == 0 and LeftGameWindow[1] == 0:
-        LeftGameWindow = LocateImage("images/PlayerSettings/LeftOption2.png", Precision=0.75)
+        LeftGameWindow = LocateImage(
+            "images/PlayerSettings/LeftOption2.png", Precision=0.75)
 
     if LeftGameWindow[0] == 0 and LeftGameWindow[1] == 0:
-        LeftGameWindow = LocateImage("images/PlayerSettings/LeftOption3.png", Precision=0.75)
+        LeftGameWindow = LocateImage(
+            "images/PlayerSettings/LeftOption3.png", Precision=0.75)
 
     try:
         GameWindow[0] = int(LeftGameWindow[0])
@@ -85,21 +119,26 @@ def GetPlayerPosition():
     except Exception as errno:
         return 0, 0, 0, 0, 0, 0
 
-    RightGameWindow = LocateImage("images/PlayerSettings/RightOption1.png", Precision=0.75)
+    RightGameWindow = LocateImage(
+        "images/PlayerSettings/RightOption1.png", Precision=0.75)
     if RightGameWindow[0] == 0 and RightGameWindow[1] == 0:
-        RightGameWindow = LocateImage("images/PlayerSettings/RightOption2.png", Precision=0.75)
+        RightGameWindow = LocateImage(
+            "images/PlayerSettings/RightOption2.png", Precision=0.75)
 
     if RightGameWindow[0] == 0 and RightGameWindow[1] == 0:
-        RightGameWindow = LocateImage("images/PlayerSettings/RightOption3.png", Precision=0.75)
+        RightGameWindow = LocateImage(
+            "images/PlayerSettings/RightOption3.png", Precision=0.75)
 
     if RightGameWindow[0] == 0 and RightGameWindow[1] == 0:
-        RightGameWindow = LocateImage("images/PlayerSettings/RightOption4.png", Precision=0.75)
+        RightGameWindow = LocateImage(
+            "images/PlayerSettings/RightOption4.png", Precision=0.75)
     try:
         GameWindow[2] = int(RightGameWindow[0])
     except Exception as errno:
         return 0, 0, 0, 0, 0, 0
 
-    ButtomGameWindow = LocateImage("images/PlayerSettings/EndLocation.png", Precision=0.7)
+    ButtomGameWindow = LocateImage(
+        "images/PlayerSettings/EndLocation.png", Precision=0.7)
     if ButtomGameWindow[0] == 0 and ButtomGameWindow[1] == 0:
         return 0, 0, 0, 0, 0, 0
     else:
@@ -126,7 +165,8 @@ def SetSQMs():
     if GameWindow[0] and GameWindow[1] != 0:
         SQMsSizes[0] = int((GameWindow[2] - GameWindow[0]) / 15)
         SQMsSizes[1] = int((GameWindow[3] - GameWindow[1]) / 11)
-        print(f"Size of Your SQM [Width: {SQMsSizes[0]}px, Height: {SQMsSizes[1]}px]")
+        print(
+            f"Size of Your SQM [Width: {SQMsSizes[0]}px, Height: {SQMsSizes[1]}px]")
         print('')
     else:
         print("Reconfiguring The Player Position")
@@ -155,8 +195,8 @@ def SetSQMs():
         SQMs[16] = Player[0] + SQMsSizes[0]
         SQMs[17] = Player[1] - SQMsSizes[1]
         return SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], \
-               SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[11], SQMs[12], SQMs[13], \
-               SQMs[14], SQMs[15], SQMs[16], SQMs[17]
+            SQMs[7], SQMs[8], SQMs[9], SQMs[10], SQMs[11], SQMs[12], SQMs[13], \
+            SQMs[14], SQMs[15], SQMs[16], SQMs[17]
 
     print("Setting Player Position...")
     Player[0], Player[1], GameWindow[0], GameWindow[1], GameWindow[2], GameWindow[

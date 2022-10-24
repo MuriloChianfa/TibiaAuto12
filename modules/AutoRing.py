@@ -1,4 +1,5 @@
 import time
+from tkinter import RAISED, SUNKEN
 import keyboard
 import pygetwindow
 
@@ -10,7 +11,7 @@ from core.GUIManager import *
 from core.GUISetter import GUISetter
 from core.ThreadManager import ThreadManager
 
-from engine.ScanRing import ScanRing
+from engine.Scanners.ScanRing import ScanRing
 
 GUIChanges = []
 
@@ -33,30 +34,29 @@ class AutoRing:
         self.SendToClient = Hotkey(MOUSE_OPTION)
         self.ThreadManager = ThreadManager("ThreadAutoRing")
 
-        def SetAutoRing():
+        def ToggleState():
             global EnabledAutoRing
             if not EnabledAutoRing:
                 EnabledAutoRing = True
-                ButtonEnabled.configure(text='AutoRing: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
+                ButtonEnabled.configure(
+                    text='AutoRing: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
                 print("AutoRing: ON")
                 global Ring
                 Ring = NameRing.get()
                 Checking()
                 CheckingButtons()
                 time.sleep(0.03)
-                if not ThreadStarted:
-                    self.ThreadManager.NewThread(ScanAutoRing)
-                else:
-                    self.ThreadManager.UnPauseThread()
+                self.ThreadManager.NewThread(Scan)
             else:
                 EnabledAutoRing = False
                 print('AutoRing: OFF')
-                ButtonEnabled.configure(text='AutoRing: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
+                ButtonEnabled.configure(
+                    text='AutoRing: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
                 Checking()
                 CheckingButtons()
-                self.ThreadManager.PauseThread()
+                self.ThreadManager.StopThread()
 
-        def ScanAutoRing():
+        def Scan():
             global Ring
             Ring = NameRing.get()
             if CheckLifeBellowThan.get():
@@ -66,13 +66,14 @@ class AutoRing:
                     while EnabledAutoRing and EnabledAutoHeal:
                         NoHasRing = ScanRing(RingPositions)
 
-                        from Modules.AutoHeal import Life
+                        from .Modules import Life
                         if NoHasRing and Life <= BellowThan:
                             Execute()
                 else:
-                    from engine.ScanStages import ScanStages
+                    from engine.Scanners.ScanStages import ScanStages
                     while EnabledAutoRing:
-                        Life = ScanStages('Life From AutoRing').ScanStages(HealthLocation, LifeColor, LifeColorFull)
+                        Life = ScanStages('Life From AutoRing').ScanStages(
+                            HealthLocation, LifeColor, LifeColorFull)
 
                         if Life is None:
                             Life = 0
@@ -91,7 +92,8 @@ class AutoRing:
         def Execute():
             if RadioButton.get() == 0:
                 self.SendToClient.Press(HotkeyRing.get())
-                print("Pressed ", HotkeyRing.get(), " To Reallocated Your Ring")
+                print("Pressed ", HotkeyRing.get(),
+                      " To Reallocated Your Ring")
                 time.sleep(1)
             elif RadioButton.get() == 1:
                 try:
@@ -110,10 +112,12 @@ class AutoRing:
                         else:
                             MousePosition = [0, 0]
 
-                        self.SendToClient.DragTo([X, Y], [RingPositions[0] + 16, RingPositions[1] + 16])
+                        self.SendToClient.DragTo(
+                            [X, Y], [RingPositions[0] + 16, RingPositions[1] + 16])
 
                         if MOUSE_OPTION == 1:
-                            self.SendToClient.MoveTo(MousePosition[0], MousePosition[1])
+                            self.SendToClient.MoveTo(
+                                MousePosition[0], MousePosition[1])
 
                         print("Ring Reallocated On: X =", RingPositions[0] + 16, "Y =", RingPositions[1] + 16,
                               "From: X =",
@@ -127,7 +131,8 @@ class AutoRing:
             global WaitingForClick, Ring
             WaitingForClick = True
             Ring = NameRing.get()
-            AutoRingWindow = pygetwindow.getWindowsWithTitle("Module: Auto Ring")[0]
+            AutoRingWindow = pygetwindow.getWindowsWithTitle("Module: Auto Ring")[
+                0]
             TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
             AutoRingWindowX = self.AutoRing.PositionOfWindow('X')
             AutoRingWindowY = self.AutoRing.PositionOfWindow('Y')
@@ -142,7 +147,8 @@ class AutoRing:
                     sX, sY = GetPosition()
                     time.sleep(0.03)
                     from core.HookWindow import SaveImage
-                    SaveImage(ItemsPath + 'Rings/' + Ring + '.png', Region=(sX - 6, sY - 28, sX + 6, sY - 16))
+                    SaveImage(ItemsPath + 'Rings/' + Ring + '.png',
+                              Region=(sX - 6, sY - 28, sX + 6, sY - 16))
                     WaitingForClick = False
                     Invisible.destroyWindow()
                     TibiaAuto.maximize()
@@ -163,7 +169,8 @@ class AutoRing:
         def ReturnGetPosition():
             global WaitingForClick
             WaitingForClick = True
-            AutoRingWindow = pygetwindow.getWindowsWithTitle("Module: Auto Ring")[0]
+            AutoRingWindow = pygetwindow.getWindowsWithTitle("Module: Auto Ring")[
+                0]
             TibiaAuto = pygetwindow.getWindowsWithTitle("TibiaAuto V12")[0]
             AutoRingWindowX = self.AutoRing.PositionOfWindow('X')
             AutoRingWindowY = self.AutoRing.PositionOfWindow('Y')
@@ -204,19 +211,27 @@ class AutoRing:
                 else:
                     TextEntryY.set(s[:MaxLen])
 
-        VarCheckPrint, InitiatedCheckPrint = self.Setter.Variables.Bool('CheckPrint')
-        VarCheckBuff, InitiatedCheckBuff = self.Setter.Variables.Bool('CheckBuff')
+        VarCheckPrint, InitiatedCheckPrint = self.Setter.Variables.Bool(
+            'CheckPrint')
+        VarCheckBuff, InitiatedCheckBuff = self.Setter.Variables.Bool(
+            'CheckBuff')
 
-        RadioButton, InitiatedRadioButton = self.Setter.Variables.Int('RadioButton')
+        RadioButton, InitiatedRadioButton = self.Setter.Variables.Int(
+            'RadioButton')
 
         NameRing, InitiatedNameRing = self.Setter.Variables.Str('NameRing')
-        HotkeyRing, InitiatedHotkeyRing = self.Setter.Variables.Str('HotkeyRing')
+        HotkeyRing, InitiatedHotkeyRing = self.Setter.Variables.Str(
+            'HotkeyRing')
 
-        TextEntryX, InitiatedTextEntryX = self.Setter.Variables.Str('TextEntryX')
-        TextEntryY, InitiatedTextEntryY = self.Setter.Variables.Str('TextEntryY')
+        TextEntryX, InitiatedTextEntryX = self.Setter.Variables.Str(
+            'TextEntryX')
+        TextEntryY, InitiatedTextEntryY = self.Setter.Variables.Str(
+            'TextEntryY')
 
-        CheckLifeBellowThan, InitiatedLifeBellowThan = self.Setter.Variables.Bool('LifeBellowThan')
-        LifeBellowThan, InitiatedBellowThan = self.Setter.Variables.Int('BellowThan')
+        CheckLifeBellowThan, InitiatedLifeBellowThan = self.Setter.Variables.Bool(
+            'LifeBellowThan')
+        LifeBellowThan, InitiatedBellowThan = self.Setter.Variables.Int(
+            'BellowThan')
 
         def CheckingGUI(Init, Get, Name):
             if Get != Init:
@@ -230,12 +245,15 @@ class AutoRing:
             CheckingGUI(InitiatedHotkeyRing, HotkeyRing.get(), 'HotkeyRing')
             CheckingGUI(InitiatedTextEntryX, TextEntryX.get(), 'TextEntryX')
             CheckingGUI(InitiatedTextEntryY, TextEntryY.get(), 'TextEntryY')
-            CheckingGUI(InitiatedLifeBellowThan, CheckLifeBellowThan.get(), 'LifeBellowThan')
-            CheckingGUI(InitiatedBellowThan, LifeBellowThan.get(), 'BellowThan')
+            CheckingGUI(InitiatedLifeBellowThan,
+                        CheckLifeBellowThan.get(), 'LifeBellowThan')
+            CheckingGUI(InitiatedBellowThan,
+                        LifeBellowThan.get(), 'BellowThan')
 
             if len(GUIChanges) != 0:
                 for EachChange in range(len(GUIChanges)):
-                    self.Setter.SetVariables.SetVar(GUIChanges[EachChange][0], GUIChanges[EachChange][1])
+                    self.Setter.SetVariables.SetVar(
+                        GUIChanges[EachChange][0], GUIChanges[EachChange][1])
 
             self.AutoRing.destroyWindow()
 
@@ -243,15 +261,21 @@ class AutoRing:
 
         global EnabledAutoRing
         if not EnabledAutoRing:
-            ButtonEnabled = self.AutoRing.addButton('AutoRing: OFF', SetAutoRing, [287, 23], [11, 336])
+            ButtonEnabled = self.AutoRing.addButton(
+                'AutoRing: OFF', ToggleState, [287, 23], [11, 336])
         else:
-            ButtonEnabled = self.AutoRing.addButton('AutoRing: ON', SetAutoRing, [287, 23], [11, 336])
+            ButtonEnabled = self.AutoRing.addButton(
+                'AutoRing: ON', ToggleState, [287, 23], [11, 336])
             ButtonEnabled.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        CheckPrint = self.AutoRing.addCheck(VarCheckPrint, [11, 285], InitiatedCheckPrint, "Print on Tibia's screen")
-        CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
-        CheckBuff = self.AutoRing.addCheck(VarCheckBuff, [11, 305], InitiatedCheckBuff, "Don't Buff")
-        CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)), selectcolor=rgb((114, 94, 48)))
+        CheckPrint = self.AutoRing.addCheck(
+            VarCheckPrint, [11, 285], InitiatedCheckPrint, "Print on Tibia's screen")
+        CheckPrint.configure(bg=rgb((114, 94, 48)), activebackground=rgb(
+            (114, 94, 48)), selectcolor=rgb((114, 94, 48)))
+        CheckBuff = self.AutoRing.addCheck(
+            VarCheckBuff, [11, 305], InitiatedCheckBuff, "Don't Buff")
+        CheckBuff.configure(bg=rgb((114, 94, 48)), activebackground=rgb(
+            (114, 94, 48)), selectcolor=rgb((114, 94, 48)))
 
         BackImage = 'images/Fundo.png'
         Back = self.AutoRing.openImage(BackImage, [150, 45])
@@ -260,7 +284,8 @@ class AutoRing:
         RingName = []
         for NameOfCurrentRing in Rings:
             CurrentRingName = ItemsPath + 'Rings/' + NameOfCurrentRing + '.png'
-            CurrentRingImage = self.AutoRing.openImage(CurrentRingName, [64, 64])
+            CurrentRingImage = self.AutoRing.openImage(
+                CurrentRingName, [64, 64])
 
             RingImages.append(CurrentRingImage)
             RingName.append(NameOfCurrentRing)
@@ -270,7 +295,8 @@ class AutoRing:
         def UpdateImg():
             for XRing in Rings:
                 if NameRing.get() == XRing:
-                    self.AutoRing.addImage(RingImages[RingName.index(XRing)], [28, 43])
+                    self.AutoRing.addImage(
+                        RingImages[RingName.index(XRing)], [28, 43])
 
             global Ring
             Ring = NameRing.get()
@@ -280,21 +306,27 @@ class AutoRing:
         WidthScreen, HeightScreen = self.SendToClient.MainWindowSize()
 
         RingLabel = self.AutoRing.addLabel('Select Name Of Ring', [135, 55])
-        OptionNameRing = self.AutoRing.addOption(NameRing, Rings, [120, 80], width=21)
+        OptionNameRing = self.AutoRing.addOption(
+            NameRing, Rings, [120, 80], width=21)
 
-        ButtonAddNewRing = self.AutoRing.addButton('Add New Ring', AddNewAmulet, [167, 24], [120, 115])
+        ButtonAddNewRing = self.AutoRing.addButton(
+            'Add New Ring', AddNewAmulet, [167, 24], [120, 115])
 
-        ButtonRecapture = self.AutoRing.addButton('Recapture', Recapture, [88, 24], [22, 115])
+        ButtonRecapture = self.AutoRing.addButton(
+            'Recapture', Recapture, [88, 24], [22, 115])
 
         DescLabel = self.AutoRing.addLabel('', [150, 140])
 
-        RButton1 = self.AutoRing.addRadio('Hotkey', RadioButton, 0, [22, 155], CheckClick)
-        RButton2 = self.AutoRing.addRadio('Position', RadioButton, 1, [22, 175], CheckClick)
+        RButton1 = self.AutoRing.addRadio(
+            'Hotkey', RadioButton, 0, [22, 155], CheckClick)
+        RButton2 = self.AutoRing.addRadio(
+            'Position', RadioButton, 1, [22, 175], CheckClick)
 
         CheckBoxLifeBellowThan = self.AutoRing.addCheck(CheckLifeBellowThan, [60, 210], InitiatedLifeBellowThan,
                                                         'Use Only If Life Is Bellow Than')
         LabelLifeBellowThan = self.AutoRing.addLabel('Life <= ', [90, 245])
-        PercentageLifeBellowThan = self.AutoRing.addOption(LifeBellowThan, Percentage, [140, 240])
+        PercentageLifeBellowThan = self.AutoRing.addOption(
+            LifeBellowThan, Percentage, [140, 240])
 
         def Checking():
             global FoundedImg, Ring
@@ -302,7 +334,8 @@ class AutoRing:
                 DescLabel.configure(text='Hotkey To Press')
                 self.AutoRing.addImage(Back, [130, 165])
                 FoundedImg = False
-                HotkeyOption = self.AutoRing.addOption(HotkeyRing, self.SendToClient.Hotkeys, [145, 170], 10)
+                HotkeyOption = self.AutoRing.addOption(
+                    HotkeyRing, self.SendToClient.Hotkeys, [145, 170], 10)
                 if EnabledAutoRing:
                     Disable(HotkeyOption)
                 else:
@@ -312,13 +345,16 @@ class AutoRing:
                 self.AutoRing.addImage(Back, [120, 165])
                 FoundedImg = False
 
-                ButtonGetPosition = self.AutoRing.addButton('GetPosition', ReturnGetPosition, [80, 29], [195, 173])
+                ButtonGetPosition = self.AutoRing.addButton(
+                    'GetPosition', ReturnGetPosition, [80, 29], [195, 173])
 
                 LabelX = self.AutoRing.addLabel('X:', [135, 165])
-                EntryX = self.AutoRing.addEntry([150, 165], TextEntryX, width=4)
+                EntryX = self.AutoRing.addEntry(
+                    [150, 165], TextEntryX, width=4)
                 TextEntryX.trace("w", ValidateEntryX)
                 LabelY = self.AutoRing.addLabel('Y:', [135, 185])
-                EntryY = self.AutoRing.addEntry([150, 185], TextEntryY, width=4)
+                EntryY = self.AutoRing.addEntry(
+                    [150, 185], TextEntryY, width=4)
                 TextEntryY.trace("w", ValidateEntryY)
                 if EnabledAutoRing:
                     Disable(ButtonGetPosition)

@@ -11,7 +11,7 @@ from core.GUIManager import *
 from core.GUISetter import GUISetter, check_gui
 from core.ThreadManager import ThreadManager
 
-from engine.ScanFood import scan_food
+from engine.Scanners.ScanFood import scan_food
 
 
 class FoodEater:
@@ -41,11 +41,13 @@ class FoodEater:
     def trigger(self):
         if FoodEater.enabled:
             FoodEater.enabled = False
-            self.enabled_button.configure(text='FoodEater: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
+            self.enabled_button.configure(
+                text='FoodEater: OFF', relief=RAISED, bg=rgb((127, 17, 8)))
             self.pause()
         else:
             FoodEater.enabled = True
-            self.enabled_button.configure(text='FoodEater: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
+            self.enabled_button.configure(
+                text='FoodEater: ON', relief=SUNKEN, bg=rgb((158, 46, 34)))
             self.run()
 
         self.check()
@@ -60,7 +62,7 @@ class FoodEater:
         print('FoodEater: ON')
 
     def pause(self):
-        self.ThreadManager.PauseThread()
+        self.ThreadManager.StopThread()
         print('FoodEater: OFF')
 
     def execute(self):
@@ -71,8 +73,10 @@ class FoodEater:
                 sleep(0.5)
 
     def destroy(self):
-        check_gui(FoodEater.gui_changes, self.init_check_print, self.check_print.get(), 'CheckPrint')
-        check_gui(FoodEater.gui_changes, self.init_food_hotkey, self.food_hotkey.get(), 'HotkeyFood')
+        check_gui(FoodEater.gui_changes, self.init_check_print,
+                  self.check_print.get(), 'CheckPrint')
+        check_gui(FoodEater.gui_changes, self.init_food_hotkey,
+                  self.food_hotkey.get(), 'HotkeyFood')
 
         if len(FoodEater.gui_changes) != 0:
             for each_change in range(len(FoodEater.gui_changes)):
@@ -88,26 +92,32 @@ class FoodEater:
         self.window.destroyWindow()
 
     def gui_vars(self):
-        self.check_print, self.init_check_print = self.Setter.Variables.Bool('CheckPrint')
-        self.food_hotkey, self.init_food_hotkey = self.Setter.Variables.Str('HotkeyFood')
+        self.check_print, self.init_check_print = self.Setter.Variables.Bool(
+            'CheckPrint')
+        self.food_hotkey, self.init_food_hotkey = self.Setter.Variables.Str(
+            'HotkeyFood')
 
     def gui(self):
         self.label = self.window.addLabel('Hotkey To Press', [110, 24])
 
-        self.hotkey_button = self.window.addOption(self.food_hotkey, self.SendToClient.Hotkeys, [105, 50], 10)
+        self.hotkey_button = self.window.addOption(
+            self.food_hotkey, self.SendToClient.Hotkeys, [105, 50], 10)
 
         self.check_print_button = self.window.addCheck(self.check_print, [11, 100], self.init_check_print,
                                                        "Print on Tibia's screen")
         self.check_print_button.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
-                       selectcolor=rgb((114, 94, 48)))
+                                          selectcolor=rgb((114, 94, 48)))
 
         if not FoodEater.enabled:
-            self.enabled_button = self.window.addButton('FoodEater: OFF', self.trigger, [287, 23], [11, 132])
+            self.enabled_button = self.window.addButton(
+                'FoodEater: OFF', self.trigger, [287, 23], [11, 132])
         else:
-            self.enabled_button = self.window.addButton('FoodEater: ON', self.trigger, [287, 23], [11, 132])
+            self.enabled_button = self.window.addButton(
+                'FoodEater: ON', self.trigger, [287, 23], [11, 132])
             self.enabled_button.configure(relief=SUNKEN, bg=rgb((158, 46, 34)))
 
-        self.ok_button = self.window.addButton('Ok', self.destroy, [73, 21], [115, 161])
+        self.ok_button = self.window.addButton(
+            'Ok', self.destroy, [73, 21], [115, 161])
 
     def check(self):
         if FoodEater.enabled:

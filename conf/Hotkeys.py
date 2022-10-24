@@ -74,6 +74,10 @@ class Hotkey:
     def RightClick(self, X, Y):
         Position = X, Y
         self.SendToClient.RightClick(Position)
+    
+    def RawRightClick(self, X, Y):
+        Position = X, Y
+        self.SendToClient.RawRightClick(Position)
 
     def MoveTo(self, X, Y):
         self.SendToClient.MoveTo(X, Y)

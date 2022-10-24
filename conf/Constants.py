@@ -4,6 +4,45 @@ MainPath = "images"
 Percentage = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]
 Priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+# Auto healing types
+HealingType = ["Life", "Mana"]
+
+# Containers
+Containers = [
+    "Backpack",
+    "Bag",
+    "Basket",
+    "BeachBackpack",
+    "BlueBackpack",
+    "BrocadeBag",
+    "BuggyBackpack",
+    "CamouflageBackpack",
+    "CrownBackpack",
+    "DeeplingBackpack",
+    "DemonBackpack",
+    "DragonBackpack",
+    "ExpeditionBackpack",
+    "FurBackpack",
+    "FurBag",
+    "GloothBackpack",
+    "GoldenBackpack",
+    "GreenBackpack",
+    "GreenBag",
+    "GreyBackpack",
+    "JewelledBackpack",
+    "MinotaurBackpack",
+    "OrangeBackpack",
+    "PirateBackpack",
+    "PirateBag",
+    "Present",
+    "PurpleBackpack",
+    "RedBackpack",
+    "RedBag",
+    "ShoppingBag",
+    "StampedParcel",
+    "YellowBackpack"
+]
+
 # RGB Of Life Color Pixel For Analyze In ScanStages.py
 LifeColorFull = [194, 74, 74]
 LifeColor = [219, 79, 79]

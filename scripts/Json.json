@@ -40,6 +40,15 @@
         ]
     },
     "Boxes": {
+        "MainContainerBox": [
+            {
+                "x": 0,
+                "y": 0,
+                "w": 156,
+                "h": 198,
+                "Stats": false
+            }
+        ],        
         "StatusBarBox": [
             {
                 "x": 0,
