@@ -23,7 +23,7 @@ class ChooseConfig:
     windows are now created from GUI.py on 'core' folder.
     """
 
-    def __init__(self, selected_window_name):
+    def __init__(self, selected_window_name, hwnd):
         self.window = GUI('ChooseConfig', 'Choose your config')
         self.window.MainWindow('Config', [414, 202], [2, 2.36])
 
@@ -37,10 +37,10 @@ class ChooseConfig:
             """
             When This Function Is Called, He Takes A Name From EntryBox, 
             To Do Some Checks In The File.
-            
+
             If The File Already Exist, He Just Throws You For Root Window
             Because You Already Configure Your File.
-            
+
             Else He Creates One File With The Name Got And Starts The Configuration
             """
 
@@ -70,7 +70,7 @@ class ChooseConfig:
                 else:
                     os.remove(preferences_path)
                     bootstrap()
-                
+
                 return
 
             '''
@@ -94,16 +94,20 @@ class ChooseConfig:
             shutil.copyfile(Directory + '\\scripts' + '\\Json.json',
                             os.path.join(Directory + '\\scripts' + '\\' + NameCreateJson.get() + '.json'))
 
-            TibiaAuto = pygetwindow.getWindowsWithTitle("Choose your config")[0]
+            TibiaAuto = pygetwindow.getWindowsWithTitle(
+                "Choose your config")[0]
             TibiaAuto.minimize()
 
             with open(preferences_path, 'r') as LoadedJson:
                 preferences = json.load(LoadedJson)
 
+            GetClientScreenshot()
+
             try:
                 HealthLocation = GetHealthPosition()
                 print('')
-                print(f"Health Location [X: {HealthLocation[0]} Y: {HealthLocation[1]}]")
+                print(
+                    f"Health Location [X: {HealthLocation[0]} Y: {HealthLocation[1]}]")
                 preferences['Positions']['LifePosition'][0]['x'] = HealthLocation[0]
                 preferences['Positions']['LifePosition'][0]['y'] = HealthLocation[1]
                 preferences['Positions']['LifePosition'][0]['Stats'] = True
@@ -122,7 +126,8 @@ class ChooseConfig:
             try:
                 ManaLocation = GetManaPosition()
                 print('')
-                print(f"Mana Location [X: {ManaLocation[0]} Y: {ManaLocation[1]}]")
+                print(
+                    f"Mana Location [X: {ManaLocation[0]} Y: {ManaLocation[1]}]")
                 print('')
                 preferences['Positions']['ManaPosition'][0]['x'] = ManaLocation[0]
                 preferences['Positions']['ManaPosition'][0]['y'] = ManaLocation[1]
@@ -140,17 +145,23 @@ class ChooseConfig:
                 pass
 
             try:
-                BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition()
+                BattlePositions[0], BattlePositions[1], BattlePositions[2], BattlePositions[3] = GetBattlePosition(
+                )
                 if BattlePositions[0] and BattlePositions[1] and BattlePositions[2] and BattlePositions[3] != 0:
-                    print(f"Battle Location [X: {BattlePositions[0]} Y: {BattlePositions[1]}]")
+                    print(
+                        f"Battle Location [X: {BattlePositions[0]} Y: {BattlePositions[1]}]")
                     preferences['Positions']['BattlePosition'][0]['x'] = BattlePositions[0]
                     preferences['Positions']['BattlePosition'][0]['y'] = BattlePositions[1]
                     preferences['Positions']['BattlePosition'][0]['Stats'] = True
                     time.sleep(.4)
-                    preferences['Boxes']['BattleBox'][0]['x'] = int(BattlePositions[0])
-                    preferences['Boxes']['BattleBox'][0]['y'] = int(BattlePositions[1])
-                    preferences['Boxes']['BattleBox'][0]['w'] = int(BattlePositions[2])
-                    preferences['Boxes']['BattleBox'][0]['h'] = int(BattlePositions[3])
+                    preferences['Boxes']['BattleBox'][0]['x'] = int(
+                        BattlePositions[0])
+                    preferences['Boxes']['BattleBox'][0]['y'] = int(
+                        BattlePositions[1])
+                    preferences['Boxes']['BattleBox'][0]['w'] = int(
+                        BattlePositions[2])
+                    preferences['Boxes']['BattleBox'][0]['h'] = int(
+                        BattlePositions[3])
                     preferences['Boxes']['BattleBox'][0]['Stats'] = True
                     with open(preferences_path, 'w') as wJson:
                         json.dump(preferences, wJson, indent=4)
@@ -167,16 +178,23 @@ class ChooseConfig:
                 pass
 
             try:
-                StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition()
+                StatsPositions[0], StatsPositions[1], StatsPositions[2], StatsPositions[3] = GetStatsPosition(
+                )
                 print('')
-                print(f"Status Bar Start [X: {StatsPositions[0]}, Y: {StatsPositions[1]}]")
-                print(f"Status Bar End [X: {StatsPositions[2]}, Y: {StatsPositions[3]}]")
+                print(
+                    f"Status Bar Start [X: {StatsPositions[0]}, Y: {StatsPositions[1]}]")
+                print(
+                    f"Status Bar End [X: {StatsPositions[2]}, Y: {StatsPositions[3]}]")
                 print('')
                 time.sleep(.2)
-                preferences['Boxes']['StatusBarBox'][0]['x'] = int(StatsPositions[0])
-                preferences['Boxes']['StatusBarBox'][0]['y'] = int(StatsPositions[1])
-                preferences['Boxes']['StatusBarBox'][0]['w'] = int(StatsPositions[2])
-                preferences['Boxes']['StatusBarBox'][0]['h'] = int(StatsPositions[3])
+                preferences['Boxes']['StatusBarBox'][0]['x'] = int(
+                    StatsPositions[0])
+                preferences['Boxes']['StatusBarBox'][0]['y'] = int(
+                    StatsPositions[1])
+                preferences['Boxes']['StatusBarBox'][0]['w'] = int(
+                    StatsPositions[2])
+                preferences['Boxes']['StatusBarBox'][0]['h'] = int(
+                    StatsPositions[3])
                 preferences['Boxes']['StatusBarBox'][0]['Stats'] = True
                 with open(preferences_path, 'w') as wJson:
                     json.dump(preferences, wJson, indent=4)
@@ -194,8 +212,10 @@ class ChooseConfig:
                 RingPositions[0], RingPositions[1] = StatsPositions[0], StatsPositions[1] - 58
                 RingPositions[2] = RingPositions[0] + items_square - 1
                 RingPositions[3] = RingPositions[1] + items_square - 1
-                print(f"Ring's Square Start [X: {RingPositions[0]}, Y: {RingPositions[1]}]")
-                print(f"Ring's Square End [X: {RingPositions[2]}, Y: {RingPositions[3]}]")
+                print(
+                    f"Ring's Square Start [X: {RingPositions[0]}, Y: {RingPositions[1]}]")
+                print(
+                    f"Ring's Square End [X: {RingPositions[2]}, Y: {RingPositions[3]}]")
                 print('')
                 time.sleep(.2)
                 preferences['Boxes']['RingBox'][0]['x'] = int(RingPositions[0])
@@ -219,14 +239,20 @@ class ChooseConfig:
                 AmuletPositions[0], AmuletPositions[1] = StatsPositions[0], StatsPositions[1] - 130
                 AmuletPositions[2] = AmuletPositions[0] + items_square - 1
                 AmuletPositions[3] = AmuletPositions[1] + items_square - 1
-                print(f"Amulet's Square Start [X: {AmuletPositions[0]}, Y: {AmuletPositions[1]}]")
-                print(f"Amulet's Square End [X: {AmuletPositions[2]}, Y: {AmuletPositions[3]}]")
+                print(
+                    f"Amulet's Square Start [X: {AmuletPositions[0]}, Y: {AmuletPositions[1]}]")
+                print(
+                    f"Amulet's Square End [X: {AmuletPositions[2]}, Y: {AmuletPositions[3]}]")
                 print('')
                 time.sleep(.2)
-                preferences['Boxes']['AmuletBox'][0]['x'] = int(AmuletPositions[0])
-                preferences['Boxes']['AmuletBox'][0]['y'] = int(AmuletPositions[1])
-                preferences['Boxes']['AmuletBox'][0]['w'] = int(AmuletPositions[2])
-                preferences['Boxes']['AmuletBox'][0]['h'] = int(AmuletPositions[3])
+                preferences['Boxes']['AmuletBox'][0]['x'] = int(
+                    AmuletPositions[0])
+                preferences['Boxes']['AmuletBox'][0]['y'] = int(
+                    AmuletPositions[1])
+                preferences['Boxes']['AmuletBox'][0]['w'] = int(
+                    AmuletPositions[2])
+                preferences['Boxes']['AmuletBox'][0]['h'] = int(
+                    AmuletPositions[3])
                 preferences['Boxes']['AmuletBox'][0]['Stats'] = True
                 with open(preferences_path, 'w') as wJson:
                     json.dump(preferences, wJson, indent=4)
@@ -241,7 +267,8 @@ class ChooseConfig:
                 pass
 
             try:
-                MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition()
+                MapPositions[0], MapPositions[1], MapPositions[2], MapPositions[3] = GetMapPosition(
+                )
                 time.sleep(.2)
                 preferences['Boxes']['MapBox'][0]['x'] = int(MapPositions[0])
                 preferences['Boxes']['MapBox'][0]['y'] = int(MapPositions[1])
@@ -266,17 +293,23 @@ class ChooseConfig:
                 print('')
                 print(f"Player Position [X: {Player[0]}, Y: {Player[1]}]")
                 print('')
-                print(f"Game Window Start [X: {GameWindow[0]}, Y: {GameWindow[1]}]")
-                print(f"Game Window End [X: {GameWindow[2]}, Y: {GameWindow[3]}]")
+                print(
+                    f"Game Window Start [X: {GameWindow[0]}, Y: {GameWindow[1]}]")
+                print(
+                    f"Game Window End [X: {GameWindow[2]}, Y: {GameWindow[3]}]")
                 print('')
                 time.sleep(.2)
                 preferences['Positions']['PlayerPosition'][0]['x'] = Player[0]
                 preferences['Positions']['PlayerPosition'][0]['y'] = Player[1]
                 preferences['Positions']['PlayerPosition'][0]['Stats'] = True
-                preferences['Boxes']['GameWindowBox'][0]['x'] = int(GameWindow[0])
-                preferences['Boxes']['GameWindowBox'][0]['y'] = int(GameWindow[1])
-                preferences['Boxes']['GameWindowBox'][0]['w'] = int(GameWindow[2])
-                preferences['Boxes']['GameWindowBox'][0]['h'] = int(GameWindow[3])
+                preferences['Boxes']['GameWindowBox'][0]['x'] = int(
+                    GameWindow[0])
+                preferences['Boxes']['GameWindowBox'][0]['y'] = int(
+                    GameWindow[1])
+                preferences['Boxes']['GameWindowBox'][0]['w'] = int(
+                    GameWindow[2])
+                preferences['Boxes']['GameWindowBox'][0]['h'] = int(
+                    GameWindow[3])
                 preferences['Boxes']['GameWindowBox'][0]['Stats'] = True
                 with open(preferences_path, 'w') as wJson:
                     json.dump(preferences, wJson, indent=4)
@@ -294,7 +327,7 @@ class ChooseConfig:
 
             try:
                 SQMs[0], SQMs[1], SQMs[2], SQMs[3], SQMs[4], SQMs[5], SQMs[6], SQMs[7], SQMs[8], SQMs[9], SQMs[10], \
-                SQMs[
+                    SQMs[
                     11], SQMs[12], SQMs[13], SQMs[14], SQMs[15], SQMs[16], SQMs[17] = SetSQMs()
                 time.sleep(0.1)
                 print(f"1° SQM Location [X: {SQMs[0]}, Y: {SQMs[1]}]")
@@ -389,15 +422,18 @@ class ChooseConfig:
             if len(number_of_exceptions) != 0:
                 print("\nSome Errors Occurred... Opening The Manual Config.")
 
-                print("Unfortunately, You Will Have To Manually Configure The Following Errors:\n")
+                print(
+                    "Unfortunately, You Will Have To Manually Configure The Following Errors:\n")
 
                 time.sleep(.3)
                 self.window.destroyWindow()
                 time.sleep(.1)
 
                 def ManualConfig(ErrorName):
-                    ManualConfiguration = GUI('ManualConfiguration', 'Manual Configuration')
-                    ManualConfiguration.MainWindow('Config', [414, 202], [2, 2.36])
+                    ManualConfiguration = GUI(
+                        'ManualConfiguration', 'Manual Configuration')
+                    ManualConfiguration.MainWindow(
+                        'Config', [414, 202], [2, 2.36])
 
                     def Solving():
                         ManualConfiguration.destroyWindow()
@@ -406,16 +442,20 @@ class ChooseConfig:
                     '''LabelError = ManualConfiguration.addLabel("Solving Manually: " + ErrorName, [85, 31])
                     LabelError.configure(font=24)'''
 
-                    ManualConfiguration.addMinimalLabel("One Error Was Occured In: " + ErrorName, [35, 31], 10)
-                    ManualConfiguration.addMinimalLabel("... But This Option Is In Development.", [35, 51])
+                    ManualConfiguration.addMinimalLabel(
+                        "One Error Was Occured In: " + ErrorName, [35, 31], 10)
+                    ManualConfiguration.addMinimalLabel(
+                        "... But This Option Is In Development.", [35, 51])
 
-                    ManualConfiguration.addButton('Ok', Solving, [75, 23], [310, 166])
+                    ManualConfiguration.addButton(
+                        'Ok', Solving, [75, 23], [310, 166])
 
                     ManualConfiguration.Protocol(Solving)
                     ManualConfiguration.loop()
 
                 for i in range(len(number_of_exceptions)):
-                    print("Error[" + str(i + 1) + "] =", number_of_exceptions[i])
+                    print("Error[" + str(i + 1) + "] =",
+                          number_of_exceptions[i])
 
                 for i in range(len(number_of_exceptions)):
                     ManualConfig(number_of_exceptions[i])
@@ -430,6 +470,7 @@ class ChooseConfig:
 
             conf['configured'] = True
             conf['preferences_name'] = preferences_name
+            conf['hwnd'] = hwnd
             ConfManager.set(conf, 'conf.json')
 
             end_configuration = time.time() - start_configuration
@@ -473,38 +514,42 @@ class ChooseConfig:
 
         self.window.addLabel('Name Of The Json Conf', [24, 35])
 
-        LabelSelectOP1 = self.window.addLabel('Select Your Mouse And Keyboard Option', [30, 76])
+        LabelSelectOP1 = self.window.addLabel(
+            'Select Your Mouse And Keyboard Option', [30, 76])
         LabelSelectOP1.configure(bg=rgb((114, 94, 48)), fg='black')
 
         RadioMouseMoviment = self.window.addRadio('{Global} Movement Mouse On Focused Window', MouseMode, 1,
-                                                        [10, 95])
+                                                  [10, 95])
         RadioMouseMoviment.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                      selectcolor=rgb((114, 94, 48)))
         RadioSenderMouse = self.window.addRadio("{OTServer} Send Mouse Events To Tibia's Window", MouseMode, 0,
-                                                      [10, 114])
+                                                [10, 114])
         RadioSenderMouse.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                    selectcolor=rgb((114, 94, 48)))
 
-        LabelSelectOP2 = self.window.addLabel('Select Your Hook Mode', [30, 136])
+        LabelSelectOP2 = self.window.addLabel(
+            'Select Your Hook Mode', [30, 136])
         LabelSelectOP2.configure(bg=rgb((114, 94, 48)), fg='black')
 
-        RadioHookWindow = self.window.addRadio("{Global} Hook Directly OBS Screen", HookMode, 1, [10, 155])
+        RadioHookWindow = self.window.addRadio(
+            "{Global} Hook Directly OBS Screen", HookMode, 1, [10, 155])
         RadioHookWindow.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                   selectcolor=rgb((114, 94, 48)))
 
-        LabelSelectOP3 = self.window.addLabel('Select The Items Mode', [280, 76])
+        LabelSelectOP3 = self.window.addLabel(
+            'Select The Items Mode', [280, 76])
         LabelSelectOP3.configure(bg=rgb((114, 94, 48)), fg='black')
 
         RadioFrames = self.window.addRadio('Frames', ItemsMode, "Frames",
-                                                 [310, 95])
+                                           [310, 95])
         RadioFrames.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                               selectcolor=rgb((114, 94, 48)))
         RadioCorners = self.window.addRadio("Corners", ItemsMode, "Corners",
-                                                  [310, 114])
+                                            [310, 114])
         RadioCorners.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                                selectcolor=rgb((114, 94, 48)))
         RadioNone = self.window.addRadio("None", ItemsMode, "None",
-                                               [310, 133])
+                                         [310, 133])
         RadioNone.configure(bg=rgb((114, 94, 48)), activebackground=rgb((114, 94, 48)),
                             selectcolor=rgb((114, 94, 48)))
 

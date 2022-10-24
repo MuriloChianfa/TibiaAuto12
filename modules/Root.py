@@ -1,35 +1,38 @@
 import json
 
 from core.GUI import *
+from core.ThreadManager import ThreadManager
+from engine.Scanners.ScanBars import ScanBars
+# from core.GUISetter import GUISetter, GetData
 
-# from modules.AdjustConfig import AdjustConfig
-# from modules.AmmoRestack import AmmoRestack
-# from modules.ShowMap import ShowMap
-# from modules.AutoBanker import AutoBanker
-# from modules.AutoFish import AutoFish
-# from modules.AutoGrouping import AutoGrouping
-from modules.AutoHeal import AutoHeal
-from modules.AutoHur import AutoHur
-# from modules.AutoLogin import AutoLogin
-# from modules.AutoLooter import AutoLooter
-from modules.AutoMana import AutoMana
-from modules.AutoRing import AutoRing
-# from modules.AutoSeller import AutoSeller
-from modules.AutoSSA import AutoSSA
-from modules.CaveBot import CaveBot
-# from modules.ColorChange import ColorChange
-# from modules.CreatureInfo import CreatureInfo
-from modules.FoodEater import FoodEater
-# from modules.FPSChanger import FPSChanger
-# from modules.GeneralOptions import GeneralOptions
-# from modules.HealerFriend import HealerFriend
-# from modules.LoadConfig import LoadConfig
-# from modules.Modules import Modules
-# from modules.Monsters import Monsters
-# from modules.PythonScripts import PythonScripts
-# from modules.SaveConfig import SaveConfig
-# from modules.SortLoot import SortLoot
-from modules.TimedSpells import TimedSpells
+# from modules.AdjustConfig import AdjustConfig as AdjustConfigModule
+# from modules.AmmoRestack import AmmoRestack as AmmoRestackModule
+# from modules.ShowMap import ShowMap as ShowMapModule
+# from modules.AutoBanker import AutoBanker as AutoBankerModule
+# from modules.AutoFish import AutoFish as AutoFishModule
+# from modules.AutoGrouping import AutoGrouping as AutoGroupingModule
+from modules.AutoExchangeGold import AutoExchangeGold as AutoExchangeGoldModule
+from modules.AutoHeal import AutoHeal as AutoHealModule
+from modules.AutoHur import AutoHur as AutoHurModule
+# from modules.AutoLogin import AutoLogin as AutoLoginModule
+# from modules.AutoLooter import AutoLooter as AutoLooterModule
+from modules.AutoRing import AutoRing as AutoRingModule
+# from modules.AutoSeller import AutoSeller as AutoSellerModule
+from modules.AutoSSA import AutoSSA as AutoSSAModule
+from modules.CaveBot import CaveBot as CaveBotModule
+# from modules.ColorChange import ColorChange as ColorChangeModule
+# from modules.CreatureInfo import CreatureInfo as CreatureInfoModule
+from modules.FoodEater import FoodEater as FoodEaterModule
+# from modules.FPSChanger import FPSChanger as FPSChangerModule
+# from modules.GeneralOptions import GeneralOptions as GeneralOptionsModule
+# from modules.HealerFriend import HealerFriend as HealerFriendModule
+# from modules.LoadConfig import LoadConfig as LoadConfigModule
+# from modules.Modules import Modules as ModulesModule
+# from modules.Monsters import Monsters as MonstersModule
+# from modules.PythonScripts import PythonScripts as PythonScriptsModule
+# from modules.SaveConfig import SaveConfig as SaveConfigModule
+# from modules.SortLoot import SortLoot as SortLootModule
+from modules.TimedSpells import TimedSpells as TimedSpellsModule
 
 
 SETTED_VARIABLES = False
@@ -46,6 +49,7 @@ MapPositions = [0, 0, 0, 0]
 RingPositions = [0, 0, 0, 0]
 StatsPositions = [0, 0, 0, 0]
 HealthLocation = [0, 0]
+MainContainerPositions = [0, 0, 0, 0]
 BattlePositions = [0, 0, 0, 0]
 AmuletPositions = [0, 0, 0, 0]
 SQMs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -55,9 +59,43 @@ ChestsPath = None
 ContainersNamePath = None
 CavebotScriptsPath = None
 
+ScanningHPMP = False
+ModulesWatchingHPMP = []
+
+Life = 100
+Mana = 100
+
 
 class root:
     def __init__(self, CharName, LoadedJson):
+        self.ThreadManager = ThreadManager("ThreadRoot")
+
+        def SetScanningHPMP(module_name, set_to='off'):
+            global ScanningHPMP
+            global ModulesWatchingHPMP
+
+            if set_to == 'on':
+                print(f'Module {module_name} started watching HP/MP')
+
+                if ScanningHPMP == False:
+                    self.ThreadManager.NewThread(ScanHPMP)
+                ModulesWatchingHPMP.append(module_name)
+
+                ScanningHPMP = True
+            else:
+                print(f"Module {module_name} is no longer watching HP/MP")
+
+                if len(ModulesWatchingHPMP) == 1:
+                    self.ThreadManager.StopThread()
+                ModulesWatchingHPMP.remove(module_name)
+
+                ScanningHPMP = False
+
+        def ScanHPMP():
+            global Life, Mana
+            while ScanningHPMP:
+                Life, Mana = ScanBars(HealthLocation, ManaLocation)
+
         self.root = GUI('root', 'TibiaAuto V12')
         self.root.MainWindow('Main', [357, 530], [2, 2.36])
         self.root.deiconify()
@@ -65,41 +103,64 @@ class root:
         self.root.addMinimalLabel(f'Logged as: {CharName}', [14, 14])
 
         # regions Buttons
-
-        self.root.addButton('Healer Friend', OpenHealerFriend, [92, 23], [23, 56]).configure(state='disabled')
-        self.root.addButton('Color Change', OpenColorChange, [92, 23], [23, 108]).configure(state='disabled')
-        self.root.addButton('Ammo Restack', OpenAmmoRestack, [92, 23], [23, 135]).configure(state='disabled')
-        self.root.addButton('Auto Looter', OpenAutoLooter, [92, 23], [23, 160]).configure(state='disabled')
+        self.root.addButton('Healer Friend', OpenHealerFriend, [
+                            92, 23], [23, 56]).configure(state='disabled')
+        self.root.addButton('Color Change', OpenColorChange, [92, 23], [
+                            23, 108]).configure(state='disabled')
+        self.root.addButton('Ammo Restack', OpenAmmoRestack, [92, 23], [
+                            23, 135]).configure(state='disabled')
+        self.root.addButton('Auto Looter', OpenAutoLooter, [92, 23], [
+                            23, 160]).configure(state='disabled')
 
         self.root.addButton('Food Eater', OpenFoodEater, [92, 23], [23, 210])
-        self.root.addButton('Auto Grouping', OpenAutoGrouping, [92, 23], [23, 236]).configure(state='disabled')
-        self.root.addButton('Sort Loot', OpenSortLoot, [92, 23], [23, 262]).configure(state='disabled')
-        self.root.addButton('Auto Banker', OpenAutoBanker, [92, 23], [23, 288]).configure(state='disabled')
-        self.root.addButton('Auto Seller', OpenAutoSeller, [92, 23], [23, 340]).configure(state='disabled')
-        self.root.addButton('FPS Changer', OpenFPSChanger, [92, 23], [23, 366]).configure(state='disabled')
+        self.root.addButton('Auto Grouping', OpenAutoGrouping, [92, 23], [
+                            23, 236]).configure(state='disabled')
+        self.root.addButton('Sort Loot', OpenSortLoot, [92, 23], [
+                            23, 262]).configure(state='disabled')
+        self.root.addButton('Auto Banker', OpenAutoBanker, [92, 23], [
+                            23, 288]).configure(state='disabled')
+        self.root.addButton('Auto Seller', OpenAutoSeller, [92, 23], [
+                            23, 340]).configure(state='disabled')
+        self.root.addButton('FPS Changer', OpenFPSChanger, [92, 23], [
+                            23, 366]).configure(state='disabled')
 
-        self.root.addButton('Auto Life', OpenAutoHeal, [92, 23], [147, 56])
-        self.root.addButton('Auto Hur', OpenAutoHur, [92, 23], [245, 56])
-        self.root.addButton('Auto Mana', OpenAutoMana, [92, 23], [147, 83])
-        self.root.addButton('Auto Fish', OpenAutoFish, [92, 23], [245, 83]).configure(state='disabled')
+        self.root.addButton('Auto Heal', lambda: OpenAutoHeal(
+            SetScanningHPMP), [92, 23], [147, 56])
+        self.root.addButton('Auto Hur', lambda: OpenAutoHur(
+            SetScanningHPMP), [92, 23], [245, 56])
+        self.root.addButton('Auto Gold', OpenAutoExchangeGold, [
+                            92, 23], [147, 83])
+        self.root.addButton('Auto Fish', OpenAutoFish, [92, 23], [
+                            245, 83]).configure(state='disabled')
         self.root.addButton('Auto Amulet', OpenAutoSSA, [92, 23], [147, 108])
         self.root.addButton('Auto Ring', OpenAutoRing, [92, 23], [245, 108])
-        self.root.addButton('Timed Spells', OpenTimedSpells, [92, 23], [147, 135])
-        self.root.addButton('Auto Login', OpenAutoLogin, [92, 23], [245, 135]).configure(state='disabled')
+        self.root.addButton('Timed Spells', OpenTimedSpells, [
+                            92, 23], [147, 135])
+        self.root.addButton('Auto Login', OpenAutoLogin, [92, 23], [
+                            245, 135]).configure(state='disabled')
 
-        self.root.addButton('Creature Info', OpenCreatureInfo, [92, 23], [147, 188]).configure(state='disabled')
-        self.root.addButton('Monsters', OpenMonsters, [92, 23], [245, 188]).configure(state='disabled')
+        self.root.addButton('Creature Info', OpenCreatureInfo, [92, 23], [
+                            147, 188]).configure(state='disabled')
+        self.root.addButton('Monsters', OpenMonsters, [92, 23], [
+                            245, 188]).configure(state='disabled')
 
-        self.root.addButton('Show Map', OpenShowMap, [92, 23], [147, 290]).configure(state='disabled')
+        self.root.addButton('Show Map', OpenShowMap, [92, 23], [
+                            147, 290]).configure(state='disabled')
         self.root.addButton('Cave Bot', OpenCaveBot, [92, 23], [245, 290])
 
-        self.root.addButton('Load Config', OpenLoadConfig, [92, 23], [147, 340]).configure(state='disabled')
-        self.root.addButton('Save Config', OpenSaveConfig, [92, 23], [245, 340]).configure(state='disabled')
-        self.root.addButton('Adjust Config', OpenAdjustConfig, [92, 23], [147, 366]).configure(state='disabled')
-        self.root.addButton('Modules', OpenModules, [92, 23], [245, 366]).configure(state='disabled')
-        self.root.addButton('Python Scripts', OpenPythonScripts, [92, 23], [245, 392]).configure(state='disabled')
+        self.root.addButton('Load Config', OpenLoadConfig, [92, 23], [
+                            147, 340]).configure(state='disabled')
+        self.root.addButton('Save Config', OpenSaveConfig, [92, 23], [
+                            245, 340]).configure(state='disabled')
+        self.root.addButton('Adjust Config', OpenAdjustConfig, [92, 23], [
+                            147, 366]).configure(state='disabled')
+        self.root.addButton('Modules', OpenModules, [92, 23], [
+                            245, 366]).configure(state='disabled')
+        self.root.addButton('Python Scripts', OpenPythonScripts, [
+                            92, 23], [245, 392]).configure(state='disabled')
 
-        self.root.addButton('General Options', OpenGeneralOptions, [213, 23], [134, 426]).configure(state='disabled')
+        self.root.addButton('General Options', OpenGeneralOptions, [
+                            213, 23], [134, 426]).configure(state='disabled')
 
         def Exit():
             print("Exiting...")
@@ -135,6 +196,11 @@ class root:
                 if data['Positions']['ManaPosition'][0]['Stats']:
                     ManaLocation[0] = data['Positions']['ManaPosition'][0]['x']
                     ManaLocation[1] = data['Positions']['ManaPosition'][0]['y']
+                if data['Boxes']['MainContainerBox'][0]['Stats']:
+                    MainContainerPositions[0] = data['Boxes']['MainContainerBox'][0]['x']
+                    MainContainerPositions[1] = data['Boxes']['MainContainerBox'][0]['y']
+                    MainContainerPositions[2] = data['Boxes']['MainContainerBox'][0]['w']
+                    MainContainerPositions[3] = data['Boxes']['MainContainerBox'][0]['h']
                 if data['Boxes']['BattleBox'][0]['Stats']:
                     BattlePositions[0] = data['Boxes']['BattleBox'][0]['x'] - 3
                     BattlePositions[1] = data['Boxes']['BattleBox'][0]['y'] - 3
@@ -168,9 +234,9 @@ class root:
                     Player[0] = data['Positions']['PlayerPosition'][0]['x']
                     Player[1] = data['Positions']['PlayerPosition'][0]['y']
                 if data['SQM']['SQM1'][0]['Stats'] and data['SQM']['SQM2'][0]['Stats'] and data['SQM']['SQM3'][0][
-                    'Stats'] and data['SQM']['SQM4'][0]['Stats'] and data['SQM']['SQM5'][0]['Stats'] and data['SQM'][
-                    'SQM6'][0]['Stats'] and data['SQM']['SQM7'][0]['Stats'] and data['SQM']['SQM8'][0][
-                    'Stats'] and data['SQM']['SQM9'][0]['Stats']:
+                        'Stats'] and data['SQM']['SQM4'][0]['Stats'] and data['SQM']['SQM5'][0]['Stats'] and data['SQM'][
+                        'SQM6'][0]['Stats'] and data['SQM']['SQM7'][0]['Stats'] and data['SQM']['SQM8'][0][
+                        'Stats'] and data['SQM']['SQM9'][0]['Stats']:
                     SQMs[0] = data['SQM']['SQM1'][0]['x']
                     SQMs[1] = data['SQM']['SQM1'][0]['y']
                     SQMs[2] = data['SQM']['SQM2'][0]['x']
@@ -242,12 +308,16 @@ def OpenAutoGrouping():
     # AutoGrouping(root)
 
 
-def OpenAutoHeal():
-    AutoHeal(HealthLocation, MOUSE_OPTION)
+def OpenAutoExchangeGold():
+    AutoExchangeGoldModule(MainContainerPositions, MOUSE_OPTION)
 
 
-def OpenAutoHur():
-    AutoHur(StatsPositions, MOUSE_OPTION)
+def OpenAutoHeal(set_scanning_hpmp):
+    AutoHealModule(set_scanning_hpmp, MOUSE_OPTION)
+
+
+def OpenAutoHur(set_scanning_hpmp):
+    AutoHurModule(StatsPositions, set_scanning_hpmp, MOUSE_OPTION)
 
 
 def OpenAutoLogin():
@@ -260,12 +330,9 @@ def OpenAutoLooter():
     # AutoLooter(Player, SQMs)
 
 
-def OpenAutoMana():
-    AutoMana(ManaLocation, MOUSE_OPTION)
-
-
 def OpenAutoRing():
-    AutoRing(root, RingPositions, HealthLocation, MOUSE_OPTION, ItemsPath)
+    AutoRingModule(root, RingPositions, HealthLocation,
+                   MOUSE_OPTION, ItemsPath)
 
 
 def OpenAutoSeller():
@@ -274,11 +341,12 @@ def OpenAutoSeller():
 
 
 def OpenAutoSSA():
-    AutoSSA(root, AmuletPositions, HealthLocation, MOUSE_OPTION, ItemsPath)
+    AutoSSAModule(root, AmuletPositions, HealthLocation,
+                  MOUSE_OPTION, ItemsPath)
 
 
 def OpenCaveBot():
-    CaveBot(MapPositions, BattlePositions, SQMs, MOUSE_OPTION)
+    CaveBotModule(MapPositions, BattlePositions, SQMs, MOUSE_OPTION)
 
 
 def OpenColorChange():
@@ -292,7 +360,7 @@ def OpenCreatureInfo():
 
 
 def OpenFoodEater():
-    FoodEater(root, StatsPositions, MOUSE_OPTION)
+    FoodEaterModule(root, StatsPositions, MOUSE_OPTION)
 
 
 def OpenFPSChanger():
@@ -341,6 +409,6 @@ def OpenSortLoot():
 
 
 def OpenTimedSpells():
-    TimedSpells(root, MOUSE_OPTION)
+    TimedSpellsModule(root, MOUSE_OPTION)
 
 # endregion
