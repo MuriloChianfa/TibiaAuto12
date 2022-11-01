@@ -1,11 +1,14 @@
 {
   "Loaders": {
-    "HealthLoader": {
+    "HealLoader": {
       "CheckPrint": false,
       "CheckBuff": false,
       "LifeCheckStageOne": true,
       "LifeCheckStageTwo": true,
       "LifeCheckStageThree": false,
+      "LifeCheckStageFour": false,
+      "LifeCheckStageFive": false,
+      "LifeCheckStageSix": false,
       "CheckCureStats": false,
       "CheckParalyze": false,
       "CheckPoison": false,
@@ -13,30 +16,37 @@
       "CheckElectrify": false,
       "CheckMort": false,
       "CheckBlood": false,
-      "LifePercentageStageOne": 85,
-      "LifeHotkeyStageOne": "F1",
-      "LifePercentageStageTwo": 60,
-      "LifeHotkeyStageTwo": "F2",
-      "LifePercentageStageThree": 55,
-      "LifeHotkeyStageThree": "F2",
+      "TypeStageOne": "Life",
+      "LifePercentageStageOne": 75,
+      "LifeHotkeyStageOne": "F12",
+      "TypeStageTwo": "Mana",
+      "LifePercentageStageTwo": 80,
+      "LifeHotkeyStageTwo": "F9",
+      "TypeStageThree": "Life",
+      "LifePercentageStageThree": 75,
+      "LifeHotkeyStageThree": "F12",
+      "TypeStageFour": "Life",
+      "LifePercentageStageFour": 90,
+      "LifeHotkeyStageFour": "F11",
+      "TypeStageFive": "Life",
+      "LifePercentageStageFive": 95,
+      "LifeHotkeyStageFive": "F11",
+      "TypeStageSix": "Life",
+      "LifePercentageStageSix": 70,
+      "LifeHotkeyStageSix": "Ctrl + F3",
       "HotkeyStageTwo": "Ctrl + F1"
     },
-    "ManaLoader": {
+    "ExchangeGoldLoader": {
       "CheckPrint": false,
-      "CheckBuff": false,
-      "ManaCheckStageOne": true,
-      "ManaCheckStageTwo": false,
-      "ManaPercentageStageOne": 70,
-      "ManaHotkeyStageOne": "F3",
-      "ManaPercentageStageTwo": 45,
-      "ManaHotkeyStageTwo": "F3",
-      "CheckLowMana": false
+      "MainContainerName": "Bag"
     },
     "HurLoader": {
       "CheckPrint": false,
       "CheckBuff": false,
-      "HotkeyHur": "F6",
-      "CheckLowMana": false,
+      "CheckPZ": true,
+      "HotkeyHur": "F3",
+      "CheckLowMana": true,
+      "ManaLessThan": 80,
       "CheckStageOne": true
     },
     "AmuletLoader": {

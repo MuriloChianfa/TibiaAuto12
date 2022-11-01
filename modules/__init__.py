@@ -1,10 +1,7 @@
 """
 starts the selection page to choose window of capture
 """
-
-import time
 import os
-import threading
 
 from core.GUI import *
 from conf.conf_manager import ConfManager
@@ -67,21 +64,37 @@ def choose_capture_window():
         if conf['preferences_name'] is None:
             conf['preferences_name'] = 'NewConfig.json'
 
-        conf['hwnd'] = list(titles.keys())[list(titles.values()).index(selected_window.get())]
+        conf['hwnd'] = list(titles.keys())[list(
+            titles.values()).index(selected_window.get())]
         ConfManager.set(conf, 'conf.json')
 
         window.destroy()
 
         if not conf['configured']:
-            ChooseConfig(selected_window.get())
+            ChooseConfig(selected_window.get(), conf['hwnd'])
             return
 
         root(selected_window.get(), conf['preferences_name'])
 
-    selected_window = tk.StringVar()
-    selected_window.set(list(titles.values())[1])
+    sorted_windows = {}
 
-    select_window_list = tk.OptionMenu(window, selected_window, *list(titles.values()))
+    for el in titles.items():
+        if(el[0] == conf['hwnd']):
+            sorted_windows.update({el[0]: el[1]})
+
+    for el in titles.items():
+        if(el[1].upper().__contains__('TIBIA')):
+            sorted_windows.update({el[0]: el[1]})
+
+    sorted_windows.update(titles.items())
+
+    selected_window = tk.StringVar()
+    selected_window.set(list(sorted_windows.values())[0])
+
+    select_window_list = tk.OptionMenu(
+        window, selected_window, *list(sorted_windows.values()),
+
+    )
     select_window_list.configure(anchor='w')
     select_window_list.pack()
     select_window_list.place(w=230, h=24, x=15, y=17)
