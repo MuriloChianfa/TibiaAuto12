@@ -66,7 +66,7 @@ class AutoRing:
                     while EnabledAutoRing and EnabledAutoHeal:
                         NoHasRing = ScanRing(RingPositions)
 
-                        from Modules.AutoHeal import Life
+                        from modules.AutoHeal import Life
                         if NoHasRing and Life <= BellowThan:
                             Execute()
                 else:
