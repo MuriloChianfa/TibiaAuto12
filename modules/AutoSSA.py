@@ -66,7 +66,7 @@ class AutoSSA:
                     while EnabledAutoSSA and EnabledAutoHeal:
                         NoHasAmulet = ScanAmulet(AmuletPositions, Amulet, Amulets[Amulet]["Precision"])
 
-                        from Modules.AutoHeal import Life
+                        from modules.AutoHeal import Life
                         if NoHasAmulet and Life <= BellowThan:
                             Execute()
                 else:
